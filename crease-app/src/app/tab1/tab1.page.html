@@ -1,0 +1,15 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Tab 1
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div style="display: flex; align-items: center;">
+    <button style="padding: 10px" (click)="decrease()">-</button>
+    <div style="font-size: 20px; margin: 0 8px">{{number}}</div>
+    <button style="padding: 10px" (click)="increase()">+</button>
+  </div>
+</ion-content>
