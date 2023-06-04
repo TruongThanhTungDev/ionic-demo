@@ -1,3 +1,11 @@
 <div>
-  Login page
+  <div style="margin-bottom: 6px">
+    <label>Tên đăng nhập</label>
+    <input type="text" [(ngModel)]="username">
+  </div>
+  <div style="margin-bottom: 6px">
+    <label>Mật khẩu</label>
+    <input type="password" [(ngModel)]="password">
+  </div>
+  <button (click)="login()">Đăng nhập</button>
 </div>
