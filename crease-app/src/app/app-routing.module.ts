@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-
+import { UserRouteAccessService } from './use-router-service';
 const routes: Routes = [
   {
     path: '',
+    canActivate: [UserRouteAccessService],
     loadChildren: () =>
       import('./component/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
