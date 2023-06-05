@@ -11,7 +11,7 @@ import { DanhMucService } from 'src/app/danhmuc.services';
 export class Login {
   username: any;
   password: any;
-
+  language = 'vi';
   constructor(private baseApi: DanhMucService, private router: Router) {}
 
   login() {
@@ -29,5 +29,8 @@ export class Login {
           }
         }
       });
+  }
+  changeLanguage(e: any): void {
+    this.language = e;
   }
 }
