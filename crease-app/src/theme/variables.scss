@@ -4,7 +4,7 @@
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
-  --ion-color-primary: #3880ff;
+  --ion-color-primary: #006eb9;
   --ion-color-primary-rgb: 56, 128, 255;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
@@ -76,6 +76,17 @@
   --ion-color-light-tint: #f5f6f9;
 }
 
+html.ios {
+  --ion-default-font: Montserrat, Helvetica Neue, Arial, sans-serif !important;
+}
+html.md {
+  --ion-default-font: Montserrat, Helvetica Neue, Arial, sans-serif !important;
+}
+
+html {
+  --ion-font-family: var(--ion-default-font);
+}
+
 @media (prefers-color-scheme: dark) {
   /*
    * Dark Colors
@@ -83,7 +94,7 @@
    */
 
   body {
-    --ion-color-primary: #428cff;
+    --ion-color-primary: #006eb9;
     --ion-color-primary-rgb: 66, 140, 255;
     --ion-color-primary-contrast: #ffffff;
     --ion-color-primary-contrast-rgb: 255, 255, 255;
@@ -153,10 +164,10 @@
    */
 
   .ios body {
-    --ion-background-color: #000000;
+    --ion-background-color: #fffffff;
     --ion-background-color-rgb: 0, 0, 0;
 
-    --ion-text-color: #ffffff;
+    --ion-text-color: #2e2d2d;
     --ion-text-color-rgb: 255, 255, 255;
 
     --ion-color-step-50: #0d0d0d;
@@ -196,10 +207,10 @@
    */
 
   .md body {
-    --ion-background-color: #121212;
+    --ion-background-color: #ffffff;
     --ion-background-color-rgb: 18, 18, 18;
 
-    --ion-text-color: #ffffff;
+    --ion-text-color: #2e2d2d;
     --ion-text-color-rgb: 255, 255, 255;
 
     --ion-border-color: #222222;

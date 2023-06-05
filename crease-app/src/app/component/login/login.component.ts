@@ -16,15 +16,17 @@ export class Login {
 
   login() {
     const payload = {
-      username: this.username,
-      password: this.password,
+      userName: this.username,
+      passWord: this.password,
     };
     this.baseApi
       .postOption('/api/v1/account/login', payload, '')
       .subscribe((res: HttpResponse<any>) => {
         if (res.status === 200) {
-          localStorage.setItem('authenticationToken', res.body.RESULT);
-          this.router.navigate(['/']);
+          if (res.body.code === 200) {
+            localStorage.setItem('authenticationToken', res.body.RESULT);
+            this.router.navigate(['/']);
+          }
         }
       });
   }
