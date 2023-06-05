@@ -23,7 +23,7 @@ export class Login {
       .postOption('/api/v1/account/login', payload, '')
       .subscribe((res: HttpResponse<any>) => {
         if (res.status === 200) {
-          if (res.body.code === 200) {
+          if (res.body.CODE === 200) {
             localStorage.setItem('authenticationToken', res.body.RESULT);
             this.router.navigate(['/']);
           }
