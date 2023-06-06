@@ -17,3 +17,15 @@ input::placeholder {
 .cursor-pointer {
   cursor: pointer;
 }
+/* custom button */
+.btn {
+  border-radius: 3px !important;
+}
+
+/* line clamp */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}

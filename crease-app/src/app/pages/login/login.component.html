@@ -1,4 +1,4 @@
-<div class="vh-100 overflow-hidden p-3">
+<div class="vh-100 p-3">
   <div class="mb-5 w-100 row">
     <img class="col-2" src="assets/img/logo-header.png" alt="header">
     <div class="dropdown col-10 d-flex justify-content-end px-0">
@@ -38,16 +38,18 @@
               <i class="fa-solid fa-user" style="color: #2c5fb6"></i>
             </span>
             <input type="text" name="username" [(ngModel)]="username" placeholder=" Tên tài khoản"
-              class="form-control form-control-lg border border-primary" style="height:2.5rem ;border: 0!important;">
+              class="form-control form-control-lg border border-primary" style="height:2.5rem ;border: 0!important;"
+              [autocomplete]="false">
           </div>
 
           <!-- Password input -->
           <div class="input-group mb-2">
             <span class="input-group-text bg-white" id="basic-addon1" style="border: 0">
-              <i class="fa-solid fa-user" style="color: #2c5fb6"></i>
+              <i class="fa-solid fa-lock" style="color: #2c5fb6"></i>
             </span>
             <input type="password" name="password" [(ngModel)]="password" placeholder=" Mật khẩu"
-              class="form-control form-control-lg border border-primary" style="height:2.5rem ;border: 0!important;">
+              class="form-control form-control-lg border border-primary" style="height:2.5rem ;border: 0!important;"
+              [autocomplete]="false">
           </div>
           <div class="text-underline fw-bold text-center mb-4 cursor-pointer link-underline-primary"
             style="color: #2c5fb6">

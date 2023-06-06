@@ -1,4 +1,6 @@
 $new-primary: #2c5fb6;
+$content: #ecf7ff;
+$sub-content: #99c5e3;
 // button
 .btn-primary {
   background-color: $new-primary !important;
@@ -7,8 +9,16 @@ $new-primary: #2c5fb6;
 .text-primary {
   color: $new-primary !important;
 }
-
+.text-content {
+  color: $content !important;
+}
+.text-sub-content {
+  color: $sub-content !important;
+}
 // background
 .bg-primary {
   background-color: $new-primary !important;
+}
+.bg-content {
+  background-color: $content;
 }

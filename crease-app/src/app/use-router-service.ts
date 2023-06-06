@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
+import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 @Injectable({ providedIn: 'root' })
 export class UserRouteAccessService implements CanActivate {
-  constructor(private router: Router) {}
+  constructor(
+    private localStorage: LocalStorageService,
+    private sessionStorage: SessionStorageService,
+    private router: Router
+  ) {}
 
   canActivate(): boolean {
     // const authorities = route.data['authorities'];
@@ -15,7 +20,7 @@ export class UserRouteAccessService implements CanActivate {
   }
 
   checkLogin(): boolean {
-    const token = localStorage.getItem('authenticationToken');
+    const token = this.localStorage.retrieve('authenticationToken');
     if (!token) return false;
     return true;
   }

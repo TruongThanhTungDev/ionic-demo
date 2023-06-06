@@ -1,0 +1,16 @@
+<div>
+  <div class="bg-primary py-3 px-4 text-white d-flex header-container justify-content-between w-100 align-items-center">
+    <div class="bg-content rounded-circle">
+      <i class="fa-solid fa-bars text-primary p-2" style="font-size: 20px;"></i>
+    </div>
+    <div class="dropdown bg-content rounded-circle border" data-bs-toggle="dropdown">
+      <i class="fa-solid fa-user p-2" style="color: #2c5fb6"></i>
+      <ul class="dropdown-menu">
+        <li class="dropdown-item" (click)="logout()">Đăng xuất</li>
+      </ul>
+    </div>
+  </div>
+  <div class="p-4 overflow-auto" style="height: calc(100vh + 68px);">
+    <router-outlet></router-outlet>
+  </div>
+</div>

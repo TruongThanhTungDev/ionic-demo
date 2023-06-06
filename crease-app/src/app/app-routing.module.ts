@@ -1,14 +1,19 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { UserRouteAccessService } from './use-router-service';
+import { LayoutComponent } from './layouts/layout.component';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
+  {
+    path: '',
     canActivate: [UserRouteAccessService],
+    component: LayoutComponent,
     loadChildren: () =>
-      import('./pages/dashboard/dashboard.module').then(
-        (m) => m.DashboardModule
-      ),
+      import('./layouts/layout.module').then((m) => m.LayoutModule),
   },
   {
     path: 'login',
