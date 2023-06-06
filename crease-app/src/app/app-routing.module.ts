@@ -6,14 +6,14 @@ const routes: Routes = [
     path: '',
     canActivate: [UserRouteAccessService],
     loadChildren: () =>
-      import('./component/dashboard/dashboard.module').then(
+      import('./pages/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
       ),
   },
   {
     path: 'login',
     loadChildren: () =>
-      import('./component/login/login.module').then((m) => m.LoginModule),
+      import('./pages/login/login.module').then((m) => m.LoginModule),
   },
 ];
 @NgModule({

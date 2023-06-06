@@ -1,5 +1,5 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DanhMucService } from 'src/app/danhmuc.services';
 
@@ -8,11 +8,16 @@ import { DanhMucService } from 'src/app/danhmuc.services';
   templateUrl: 'login.component.html',
   styleUrls: [],
 })
-export class Login {
+export class Login implements OnInit {
   username: any;
   password: any;
   language = 'vi';
   constructor(private baseApi: DanhMucService, private router: Router) {}
+
+  ngOnInit() {
+    this.username = '';
+    this.password = '';
+  }
 
   login() {
     const payload = {

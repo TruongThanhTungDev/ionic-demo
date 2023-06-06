@@ -2,13 +2,13 @@
   <div class="mb-5 w-100 row">
     <img class="col-2" src="assets/img/logo-header.png" alt="header">
     <div class="dropdown col-10 d-flex justify-content-end px-0">
-      <div class="dropdown-toggle d-flex align-items-center px-3 rounded-pill" style="background-color: #2C5FB6;"
+      <div class="dropdown-toggle d-flex align-items-center py-1 px-2 rounded-pill" style="background-color: #2C5FB6;"
         type="button" id="langue-sub" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         <div class="text-uppercase text-white" style="margin-right: 6px;">{{ language }}</div>
         <img *ngIf="language === 'vi'" src="assets/img/vietnam-lang.png" class="img-lang ml-2 mr-2 rounded-circle"
-          width="30" height="30">
+          width="20" height="20">
         <img *ngIf="language === 'en'" src="assets/img/english_flag.png" class="img-lang ml-2 mr-2 rounded-circle"
-          width="30" height="30">
+          width="20" height="20">
       </div>
       <ul class="dropdown-menu" aria-labelledby="langue-sub">
         <li (click)="changeLanguage('vi')">
@@ -33,15 +33,17 @@
       <div>
         <form id="formLogin" #formLogin="ngForm" (ngSubmit)="login()">
           <!-- User input -->
-          <div class="form-group form-outline mb-4">
+          <div class="input-group mb-4">
+            <span class="input-group-text bg-white" id="basic-addon1" style="border: 0">@</span>
             <input type="text" name="username" [(ngModel)]="username" placeholder=" Tên tài khoản"
-              class="form-control form-control-lg border border-primary" style="height:2.5rem ;">
+              class="form-control form-control-lg border border-primary" style="height:2.5rem ;border: 0!important;">
           </div>
 
           <!-- Password input -->
-          <div class="form-group form-outline mb-2">
+          <div class="input-group mb-2">
+            <span class="input-group-text bg-white" id="basic-addon1" style="border: 0">@</span>
             <input type="password" name="password" [(ngModel)]="password" placeholder=" Mật khẩu"
-              class="form-control form-control-lg border border-primary" style="height:2.5rem ;">
+              class="form-control form-control-lg border border-primary" style="height:2.5rem ;border: 0!important;">
           </div>
           <div class="text-underline fw-bold text-center text-primary mb-4 cursor-pointer link-underline-primary">
             Không đăng nhập được?
