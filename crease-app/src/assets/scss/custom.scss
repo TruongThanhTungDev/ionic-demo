@@ -6,6 +6,10 @@ input::placeholder {
   border: 1px solid #3f8acd !important;
   border-radius: 3px !important;
 }
+.form-control:focus {
+  border: none !important;
+  outline: none !important;
+}
 .input-group {
   border: 1px solid #dee2e6 !important;
 }
