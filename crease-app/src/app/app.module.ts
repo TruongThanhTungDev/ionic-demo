@@ -10,6 +10,7 @@ import { LayoutComponent } from './layouts/layout.component';
 import { HeadersInterceptor } from './header.intercepter';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [AppComponent, LayoutComponent],
@@ -20,6 +21,7 @@ import { ToastrModule } from 'ngx-toastr';
     ToastrModule.forRoot(),
     AppRoutingModule,
     NgxWebstorageModule.forRoot({ prefix: '', separator: '' }),
+    NgxSpinnerModule,
   ],
   providers: [
     {

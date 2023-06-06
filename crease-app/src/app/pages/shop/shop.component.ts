@@ -4,6 +4,7 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 import { HttpResponse } from '@angular/common/http';
 import { NotificationService } from 'src/app/plugins/notification.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'shop-component',
@@ -19,7 +20,8 @@ export class ShopComponent implements OnInit {
     private dmService: DanhMucService,
     private localStorage: LocalStorageService,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -32,6 +34,7 @@ export class ShopComponent implements OnInit {
       filter: this.filterData(),
       sort: ['id', 'asc'],
     };
+    this.spinner.show();
     this.dmService.query(payload, this.REQUEST_URL).subscribe(
       (res: HttpResponse<any>) => {
         if (res.body.CODE === 200) {
@@ -39,10 +42,12 @@ export class ShopComponent implements OnInit {
         } else {
           this.notificationService.showError(res.body.MESSAGE, 'Fail');
         }
+        this.spinner.hide();
       },
       () => {
         this.notificationService.showError('Đã có lỗi xảy ra', 'Fail');
         console.error();
+        this.spinner.hide();
       }
     );
   }

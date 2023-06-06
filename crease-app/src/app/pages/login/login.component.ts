@@ -1,6 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 
@@ -16,7 +17,8 @@ export class Login implements OnInit {
   constructor(
     private baseApi: DanhMucService,
     private router: Router,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -30,9 +32,9 @@ export class Login implements OnInit {
       userName: this.username,
       passWord: this.password,
     };
-    this.baseApi
-      .postOption(payload, '/api/v1/account/login', '')
-      .subscribe((res: HttpResponse<any>) => {
+    this.spinner.show();
+    this.baseApi.postOption(payload, '/api/v1/account/login', '').subscribe(
+      (res: HttpResponse<any>) => {
         if (res.status === 200) {
           if (res.body.CODE === 200) {
             this.localStorage.store('authenticationToken', res.body.RESULT);
@@ -40,9 +42,14 @@ export class Login implements OnInit {
             if (res.body.RESULT.role === 'admin') {
               this.router.navigate(['/shop']);
             }
+            this.spinner.hide();
           }
         }
-      });
+      },
+      () => {
+        this.spinner.hide();
+      }
+    );
   }
   changeLanguage(e: any): void {
     this.language = e;
