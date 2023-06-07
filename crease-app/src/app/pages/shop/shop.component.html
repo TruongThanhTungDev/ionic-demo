@@ -1,6 +1,6 @@
 <div class="overflow-x-hidden h-100">
   <div class="d-flex w-100 mb-3">
-    <button class="btn" style="background-color: #46C851; margin-right: 3px;">
+    <button class="btn" style="background-color: #46C851; margin-right: 3px;" (click)="addShop()">
       <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
     </button>
     <div class="input-group ml-3 border-primary" style="border-radius: 3px;">
@@ -19,14 +19,14 @@
           {{ item.code && item.code.length > 3 ? item.code.slice(0,3) : item.code }}
         </div>
         <div class="text-primary mb-3" (click)="selectRow(item)">
-          <div class="line-clamp-1" style="font-size: 16px; font-weight: 800;">{{ item.name }}</div>
-          <div>{{ item.code }}</div>
+          <div class="line-clamp-1" style="font-size: 16px; font-weight: 800;" [title]="item.name">{{ item.name }}</div>
+          <div class="line-clamp-1" [title]="item.code">{{ item.code }}</div>
         </div>
         <div class="d-flex w-100 justify-content-between align-items-center">
           <button *ngIf="item.status === 1" class="btn btn-sm btn-success">Hoạt động</button>
           <button *ngIf="item.status === 0" class="btn btn-sm btn-danger">Khóa</button>
           <div class="d-flex">
-            <i class="fa-solid fa-pen text-primary" style="margin-right: 10px;" (click)="editShop()"
+            <i class="fa-solid fa-pen text-primary" style="margin-right: 10px;" (click)="editShop(item)"
               title="Chỉnh sửa"></i>
             <i class="fa-solid fa-trash-can text-danger" (click)="openDeleteShop(item, true)" title="Xóa"></i>
             <ion-alert [isOpen]="isOpenDeleteShop" header="BẠN CÓ THẬT SỰ MUỐN XÓA BẢN GHI NÀY?"
@@ -42,4 +42,6 @@
       <h5 class="text-sub-content">Không có cửa hàng nào!</h5>
     </div>
   </ng-template>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+    (didDismiss)="setOpen(false)"></ion-toast>
 </div>

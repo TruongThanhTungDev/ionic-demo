@@ -1,16 +1,41 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header style="background-color: rgba(0, 110, 185, 0.9)!important;">
+  <ion-toolbar class="new-toolbar-background">
     <ion-buttons slot="start">
-      <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
+      <ion-button color="medium" (click)="cancel()" style="--color: white!important">Hủy</ion-button>
     </ion-buttons>
-    <ion-title>Welcome</ion-title>
+    <ion-title>{{ title }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+      <ion-button (click)="saveInfo()" [strong]="true">Lưu thông tin</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
-  <ion-item>
-    <ion-input labelPlacement="stacked" label="Enter your name" [(ngModel)]="name" placeholder="Your name"></ion-input>
-  </ion-item>
+  <div class="form-floating mb-3">
+    <input type="text" [(ngModel)]="code" class="form-control" id="idShop">
+    <label for="idShop">
+      Mã cửa hàng
+      <label class="text-danger">*</label>
+    </label>
+  </div>
+  <div class="form-floating mb-3">
+    <input type="text" [(ngModel)]="name" class="form-control" id="shopname">
+    <label for="shopname">Tên cửa hàng <label class="text-danger">*</label></label>
+  </div>
+  <div class="form-floating mb-3">
+    <input type="text" [(ngModel)]="url" class="form-control" id="url">
+    <label for="url">URL</label>
+  </div>
+  <div class="form-floating mb-3">
+    <input type="text" [(ngModel)]="note" class="form-control" id="note">
+    <label for="note">Ghi chú</label>
+  </div>
+  <div class="form-floating">
+    <select class="form-select" [(ngModel)]="status" id="floatingSelect">
+      <option [value]="1">Hoạt động</option>
+      <option [value]="0">Khóa</option>
+    </select>
+    <label for="floatingSelect">Trạng thái</label>
+  </div>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+    (didDismiss)="setOpen(false)"></ion-toast>
 </ion-content>

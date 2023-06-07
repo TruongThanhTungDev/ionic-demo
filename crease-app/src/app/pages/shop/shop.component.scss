@@ -14,3 +14,6 @@
   color: white;
   text-transform: uppercase;
 }
+.sc-ion-alert-md-h {
+  --backdrop-opacity: var(--ion-backdrop-opacity, 0.15) !important;
+}

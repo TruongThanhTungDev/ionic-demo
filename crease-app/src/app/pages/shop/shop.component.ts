@@ -22,6 +22,8 @@ export class ShopComponent implements OnInit {
   ftTen = '';
   isOpenDeleteShop = false;
   shopSeleted: any;
+  isToastOpen: any;
+  messageToast: any;
   constructor(
     private dmService: DanhMucService,
     private localStorage: LocalStorageService,
@@ -48,29 +50,32 @@ export class ShopComponent implements OnInit {
   ngOnInit() {
     this.loadData();
   }
-  public loadData() {
+  public async loadData() {
     const payload = {
       page: 0,
       size: 1000,
       filter: this.filterData(),
       sort: ['id', 'asc'],
     };
-    this.spinner.show();
+    await this.isLoading();
     this.dmService.query(payload, this.REQUEST_URL).subscribe(
       (res: HttpResponse<any>) => {
         if (res.body.CODE === 200) {
           this.data = res.body.RESULT.content;
           this.resetData();
+          this.loading.dismiss();
         } else {
-          this.notificationService.showError(res.body.MESSAGE, 'Fail');
+          this.isToastOpen = true;
+          this.messageToast = 'Lấy danh sách cửa hàng thất bại';
           this.data = [];
+          this.loading.dismiss();
         }
-        this.spinner.hide();
       },
       () => {
-        this.notificationService.showError('Đã có lỗi xảy ra', 'Fail');
+        this.isToastOpen = true;
+        this.messageToast = 'Lấy danh sách cửa hàng thất bại';
         console.error();
-        this.spinner.hide();
+        this.loading.dismiss();
         this.data = [];
       }
     );
@@ -97,24 +102,70 @@ export class ShopComponent implements OnInit {
     this.shopSeleted = item;
   }
   deleteShop(entity: any) {
+    this.isLoading();
     this.dmService
       .delete(entity.id, this.REQUEST_URL + OPERATIONS.DELETE)
       .subscribe(
         (res: HttpResponse<any>) => {
           if (res.body.CODE === 200) {
             this.loadData();
+            this.isToastOpen = true;
+            this.messageToast = 'Xóa cửa hàng thành công';
+            this.loading.dismiss();
           } else {
+            this.isToastOpen = true;
+            this.messageToast = 'Xóa cửa hàng thất bại';
+            this.loading.dismiss();
           }
         },
         () => {
+          this.isToastOpen = true;
+          this.loading.dismiss();
           console.error();
+          this.messageToast = 'Xóa cửa hàng thất bại';
         }
       );
   }
-  async editShop() {
+  async editShop(item: any) {
     const modal = await this.modal.create({
       component: ThemSuaShop,
+      componentProps: {
+        title: 'Xử lý thông tin cửa hàng',
+        data: item,
+        type: 'edit',
+      },
     });
     modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.loadData();
+    }
+  }
+  async addShop() {
+    const modal = await this.modal.create({
+      component: ThemSuaShop,
+      componentProps: {
+        title: 'Tạo cửa hàng',
+        data: null,
+        type: 'add',
+      },
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.loadData();
+    }
+  }
+  public async isLoading() {
+    const isLoading = await this.loading.create({
+      spinner: 'circles',
+      keyboardClose: true,
+      message: 'Đang tải',
+      translucent: true,
+    });
+    return await isLoading.present();
+  }
+  setOpen(isOpen: boolean) {
+    this.isToastOpen = isOpen;
   }
 }

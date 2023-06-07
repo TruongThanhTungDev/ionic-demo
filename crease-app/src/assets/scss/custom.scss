@@ -29,3 +29,9 @@ input::placeholder {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
 }
+
+/* ionic custom */
+.new-toolbar-background {
+  --background: rgba(0, 110, 185, 0.9) !important;
+  --color: white;
+}
