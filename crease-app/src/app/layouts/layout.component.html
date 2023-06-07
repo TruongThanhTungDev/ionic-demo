@@ -1,7 +1,10 @@
 <ion-menu contentId="main-content">
   <ion-header>
     <ion-toolbar>
-      <ion-title>Menu Content</ion-title>
+      <ion-title (click)="toHomePage()">
+        <img src="../../assets/img/logo-header.png" alt="">
+        <img src="../../assets/img/logo-text.png" alt="">
+      </ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">This is the menu content.</ion-content>
@@ -18,5 +21,7 @@
       </ul>
     </div>
   </ion-header>
-  <ion-content class="ion-padding"> <router-outlet></router-outlet> </ion-content>
+  <ion-content class="ion-padding">
+    <router-outlet></router-outlet>
+  </ion-content>
 </div>

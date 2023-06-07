@@ -12,4 +12,7 @@ export class LayoutComponent implements OnInit {
   logout() {
     this.router.navigate(['/login']);
   }
+  toHomePage() {
+    this.router.navigate(['/shop']);
+  }
 }

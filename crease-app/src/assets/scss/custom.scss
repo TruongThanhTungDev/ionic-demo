@@ -4,7 +4,7 @@ input::placeholder {
 }
 .form-control {
   border: 1px solid #3f8acd !important;
-  border-radius: 3px !important;
+  border-radius: 6px !important;
 }
 .form-control:focus {
   border: none !important;
@@ -12,6 +12,7 @@ input::placeholder {
 }
 .input-group {
   border: 1px solid #dee2e6 !important;
+  border-radius: 6px;
 }
 // pointer
 .cursor-pointer {
@@ -19,7 +20,7 @@ input::placeholder {
 }
 /* custom button */
 .btn {
-  border-radius: 3px !important;
+  border-radius: 6px !important;
 }
 
 /* line clamp */
