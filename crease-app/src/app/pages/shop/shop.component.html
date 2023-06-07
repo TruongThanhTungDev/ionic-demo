@@ -1,9 +1,9 @@
-<div>
+<div class="overflow-x-hidden h-100">
   <div class="d-flex w-100 mb-3">
     <button class="btn" style="background-color: #46C851; margin-right: 3px;">
       <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
     </button>
-    <div class="input-group ml-3 border-primary">
+    <div class="input-group ml-3 border-primary" style="border-radius: 3px;">
       <span class="input-group-text bg-white" style="border: 0">
         <i class="fa-solid fa-magnifying-glass text-sub-content" style="color: #2c5fb6">
         </i>
@@ -12,13 +12,13 @@
         [(ngModel)]="ftTen" (keyup.enter)="loadData()">
     </div>
   </div>
-  <div class="d-flex p-0 row">
-    <div class="col-6" *ngFor="let item of data" (click)="selectRow(item)">
+  <div *ngIf="data; else elseBlock" class="d-flex p-0 row">
+    <div class="col-6" *ngFor="let item of data">
       <div class="p-2 card-shop mb-3">
-        <div class="card-shop-name bg-primary py-4 mb-2">
+        <div class="card-shop-name bg-primary py-4 mb-2" (click)="selectRow(item)">
           {{ item.code && item.code.length > 3 ? item.code.slice(0,3) : item.code }}
         </div>
-        <div class="text-primary mb-3 ">
+        <div class="text-primary mb-3" (click)="selectRow(item)">
           <div class="line-clamp-1" style="font-size: 16px; font-weight: 800;">{{ item.name }}</div>
           <div>{{ item.code }}</div>
         </div>
@@ -26,11 +26,20 @@
           <button *ngIf="item.status === 1" class="btn btn-sm btn-success">Hoạt động</button>
           <button *ngIf="item.status === 0" class="btn btn-sm btn-danger">Khóa</button>
           <div class="d-flex">
-            <i class="fa-solid fa-pen text-primary" style="margin-right: 10px;" title="Chỉnh sửa"></i>
-            <i class="fa-solid fa-trash-can text-danger" title="Xóa"></i>
+            <i class="fa-solid fa-pen text-primary" style="margin-right: 10px;" (click)="editShop()"
+              title="Chỉnh sửa"></i>
+            <i class="fa-solid fa-trash-can text-danger" (click)="openDeleteShop(item, true)" title="Xóa"></i>
+            <ion-alert [isOpen]="isOpenDeleteShop" header="BẠN CÓ THẬT SỰ MUỐN XÓA BẢN GHI NÀY?"
+              [buttons]="actionForDelete" (didDismiss)="openDeleteShop(null, false)"></ion-alert>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <ng-template class="position-relative h-100" #elseBlock>
+    <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+      <i class="fa-solid fa-store-slash text-sub-content mb-3" style="font-size: 100px"></i>
+      <h5 class="text-sub-content">Không có cửa hàng nào!</h5>
+    </div>
+  </ng-template>
 </div>

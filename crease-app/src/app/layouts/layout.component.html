@@ -1,16 +1,22 @@
-<div>
-  <div class="bg-primary py-3 px-4 text-white d-flex header-container justify-content-between w-100 align-items-center">
-    <div class="bg-content rounded-circle">
-      <i class="fa-solid fa-bars text-primary p-2" style="font-size: 20px;"></i>
-    </div>
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu Content</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">This is the menu content.</ion-content>
+</ion-menu>
+<div class="ion-page" id="main-content">
+  <ion-header class="py-3 px-4 text-white d-flex header-container justify-content-between w-100 align-items-center">
+    <ion-menu-toggle class="bg-content" style="padding: 6px 10px; border-radius: 50%;">
+      <i class="fa-solid fa-bars text-primary" style="font-size: 20px;"></i>
+    </ion-menu-toggle>
     <div class="dropdown bg-content rounded-circle border" data-bs-toggle="dropdown">
       <i class="fa-solid fa-user p-2" style="color: #2c5fb6"></i>
       <ul class="dropdown-menu">
         <li class="dropdown-item" (click)="logout()">Đăng xuất</li>
       </ul>
     </div>
-  </div>
-  <div class="p-4 overflow-auto" style="height: calc(100vh + 68px);">
-    <router-outlet></router-outlet>
-  </div>
+  </ion-header>
+  <ion-content class="ion-padding"> <router-outlet></router-outlet> </ion-content>
 </div>
