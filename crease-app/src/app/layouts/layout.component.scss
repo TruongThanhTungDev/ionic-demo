@@ -7,3 +7,23 @@
   --background: #ffffff !important;
   --color: #2e2e2e !important;
 }
+:host(.ion-color:not(.item-fill-solid):not(.item-fill-outline)) .item-native {
+  --border-width: 0;
+  --border-bottom-color: transparent;
+}
+.border-item {
+  position: relative;
+  border-left: 1px dashed #80b9d9;
+}
+.border-item::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  top: 50%;
+  left: 0;
+  border-top: 1px dashed #80b9d9;
+  z-index: 1;
+}
+.text-menu {
+  color: #006bb9;
+}

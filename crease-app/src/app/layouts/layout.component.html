@@ -1,19 +1,56 @@
-<ion-menu contentId="main-content">
+<ion-menu contentId="main-content" auto-hide="true">
   <ion-header>
     <ion-toolbar class="menu-header">
-      <ion-title (click)="toHomePage()">
+      <ion-title routerLink="/shop">
         <img src="../../assets/img/logo-header.png" alt="">
         <img src="../../assets/img/logo-text.png" alt="">
       </ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-content class="ion-padding">This is the menu content.</ion-content>
+  <ion-content class="ion-padding">
+    <ion-accordion-group *ngIf="isShowMenu">
+      <div *ngFor="let menu of listMenu">
+        <ion-accordion *ngIf="menu.items.length; else elseBlock" [value]="menu.title">
+          <ion-item slot="header" color="white" class="text-menu" [lines]="false">
+            <i [ngClass]="menu.icon" class="col-3 " style="margin-right: 8px; font-size: 28px"></i>
+            <ion-label class="line-clamp-1  col-9" style="font-weight: 600;">{{menu.title}}</ion-label>
+          </ion-item>
+          <div slot="content">
+            <ion-list style="margin-left: 8px">
+              <ion-item *ngFor="let item of menu.items" class="border-item text-menu" [routerLink]="item.path"
+                routerLinkActive="active">
+                <ion-label class="line-clamp-1 " style="font-size: 14px">{{item.title}}</ion-label>
+              </ion-item>
+            </ion-list>
+          </div>
+        </ion-accordion>
+        <ng-template #elseBlock>
+          <ion-item slot="header" class="text-menu" style="font-weight: 600;" style="--border-color: #006BB9!important"
+            [routerLink]="menu.path" routerLinkActive="active">
+            <i [ngClass]="menu.icon" class="col-3 " style="font-size: 28px"></i>
+            <ion-label class="line-clamp-1  col-9" style="font-weight: 600;">{{menu.title}}</ion-label>
+          </ion-item>
+        </ng-template>
+      </div>
+    </ion-accordion-group>
+  </ion-content>
+  <ion-footer [translucent]="true">
+    <ion-toolbar>
+      <ion-title class="text-menu" style="font-weight: 600;" routerLink="/shop">
+        <i class="fa-solid fa-arrow-left" style="font-size:20px;margin-right: 6px"></i>
+        <ion-label>Danh sách cửa hàng</ion-label>
+      </ion-title>
+    </ion-toolbar>
+  </ion-footer>
 </ion-menu>
 <div class="ion-page" id="main-content">
   <ion-header class="py-3 px-4 text-white d-flex header-container justify-content-between w-100 align-items-center">
-    <ion-menu-toggle class="bg-content" style="padding: 6px 10px; border-radius: 50%;">
-      <i class="fa-solid fa-bars text-primary" style="font-size: 20px;"></i>
-    </ion-menu-toggle>
+    <div>
+      <ion-menu-toggle class="bg-content" style="padding: 8px 10px; border-radius: 50%;">
+        <i class="fa-solid fa-bars text-primary" style="font-size: 20px;"></i>
+      </ion-menu-toggle>
+      <ion-label class="fw-bold" style="margin-left: 6px;">{{titleHeader}}</ion-label>
+    </div>
     <div class="dropdown bg-content rounded-circle border" data-bs-toggle="dropdown">
       <i class="fa-solid fa-user p-2" style="color: #2c5fb6"></i>
       <ul class="dropdown-menu">
