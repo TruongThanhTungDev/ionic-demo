@@ -6,18 +6,23 @@
       </button>
       <button class="btn btn-danger">
         <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
-        Trash
+        Xóa
       </button>
     </div>
     <div>
-      <ion-card>
+      <ion-card *ngFor="let entity of listEntity, index as i" color="dark">
         <ion-card-content>
           <div class="d-flex align-items-center mb-3">
-            <div class="col-2" style="margin-right: 6px">
-              <button type="button" class="btn btn-sm btn-primary fw-bold">Admin</button>
+            <div class="col-3" style="margin-right: 6px">
+              <button *ngIf="entity.role === roleUser.ADMIN" type="button"
+                class="btn btn-sm btn-primary fw-bold">Admin</button>
+              <button *ngIf="entity.role === roleUser.USER" type="button"
+                class="btn btn-sm btn-warning text-white fw-bold">User</button>
+              <button *ngIf="entity.role === roleUser.MARKETING" type="button"
+                class="btn btn-sm btn-secondary fw-bold">Marketing</button>
             </div>
             <div class="col-10">
-              <p>Nguyễn Trịnh Minh Tuấn - 0123456789</p>
+              <div class="line-clamp-1" title="">{{entity.fullName}} - {{entity.phone}}</div>
             </div>
           </div>
           <div>
@@ -26,10 +31,10 @@
               <div class="col-4">Email</div>
               <div class="col-4">Địa chỉ</div>
             </div>
-            <div class="row fw-bold">
-              <div class="col-4 line-clamp-1">Tài khoản</div>
-              <div class="col-4 line-clamp-1">Email</div>
-              <div class="col-4 line-clamp-1">Địa chỉ</div>
+            <div class="row">
+              <div class="col-4 line-clamp-1" title="">{{ entity.userName }}</div>
+              <div class="col-4 line-clamp-1" title="">{{ entity.email }}</div>
+              <div class="col-4 line-clamp-1" title="">{{ entity.address }}</div>
             </div>
           </div>
         </ion-card-content>

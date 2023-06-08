@@ -11,22 +11,24 @@
     <ion-accordion-group *ngIf="isShowMenu">
       <div *ngFor="let menu of listMenu">
         <ion-accordion *ngIf="menu.items.length; else elseBlock" [value]="menu.title">
-          <ion-item slot="header" color="white" class="text-menu" [lines]="false">
+          <ion-item slot="header" color="white" class="text-menu" [lines]="false"
+            style="--background: transparent;    --border-color: none">
             <i [ngClass]="menu.icon" class="col-3 " style="margin-right: 8px; font-size: 28px"></i>
             <ion-label class="line-clamp-1  col-9" style="font-weight: 600;">{{menu.title}}</ion-label>
           </ion-item>
           <div slot="content">
-            <ion-list style="margin-left: 8px">
+            <ion-list style="margin-left: 8px" style="background: transparent;">
               <ion-item *ngFor="let item of menu.items" class="border-item text-menu" [routerLink]="item.path"
-                routerLinkActive="active">
+                routerLinkActive="active" style="--background: transparent; --border-color: none">
                 <ion-label class="line-clamp-1 " style="font-size: 14px">{{item.title}}</ion-label>
               </ion-item>
             </ion-list>
           </div>
         </ion-accordion>
         <ng-template #elseBlock>
-          <ion-item slot="header" class="text-menu" style="font-weight: 600;" style="--border-color: #006BB9!important"
-            [routerLink]="menu.path" routerLinkActive="active">
+          <ion-item slot="header" class="text-menu" style="font-weight: 600;"
+            style="--border-color: #006BB9!important; --background: transparent;" [routerLink]="menu.path"
+            routerLinkActive="active">
             <i [ngClass]="menu.icon" class="col-3 " style="font-size: 28px"></i>
             <ion-label class="line-clamp-1  col-9" style="font-weight: 600;">{{menu.title}}</ion-label>
           </ion-item>
@@ -35,7 +37,7 @@
     </ion-accordion-group>
   </ion-content>
   <ion-footer [translucent]="true">
-    <ion-toolbar>
+    <ion-toolbar style="--background: transparent">
       <ion-title class="text-menu" style="font-weight: 600;" routerLink="/shop">
         <i class="fa-solid fa-arrow-left" style="font-size:20px;margin-right: 6px"></i>
         <ion-label>Danh sách cửa hàng</ion-label>

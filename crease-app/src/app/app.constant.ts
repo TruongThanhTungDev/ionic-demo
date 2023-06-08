@@ -14,3 +14,9 @@ export const ENV = {
   domainLocal: 'http://localhost:8080',
   domainTest: 'https://adsxanhtech-test.store',
 };
+
+export const ROLE = {
+  ADMIN: 'admin',
+  MARKETING: 'marketing',
+  USER: 'user',
+};
