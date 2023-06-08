@@ -15,11 +15,11 @@
           <div class="d-flex align-items-center mb-3">
             <div class="col-3" style="margin-right: 6px">
               <button *ngIf="entity.role === roleUser.ADMIN" type="button"
-                class="btn btn-sm btn-primary fw-bold">Admin</button>
+                class="btn btn-sm btn-primary fw-bold w-100">Admin</button>
               <button *ngIf="entity.role === roleUser.USER" type="button"
-                class="btn btn-sm btn-warning text-white fw-bold">User</button>
+                class="btn btn-sm btn-warning text-white fw-bold w-100">User</button>
               <button *ngIf="entity.role === roleUser.MARKETING" type="button"
-                class="btn btn-sm btn-secondary fw-bold">Marketing</button>
+                class="btn btn-sm btn-secondary fw-bold w-100">Marketing</button>
             </div>
             <div class="col-10">
               <div class="line-clamp-1" title="">{{entity.fullName}} - {{entity.phone}}</div>
