@@ -1,6 +1,10 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { LoadingController, ModalController } from '@ionic/angular';
+import {
+  ActionSheetController,
+  LoadingController,
+  ModalController,
+} from '@ionic/angular';
 import { DanhMucService } from 'src/app/danhmuc.services';
 @Component({
   selector: 'them-sua-shop',
@@ -21,7 +25,8 @@ export class ThemSuaShop implements OnInit {
   constructor(
     private modal: ModalController,
     private dmService: DanhMucService,
-    private loading: LoadingController
+    private loading: LoadingController,
+    private actionSheetCtrl: ActionSheetController
   ) {}
 
   ngOnInit(): void {
@@ -102,8 +107,27 @@ export class ThemSuaShop implements OnInit {
   setOpen(isOpen: boolean) {
     this.isToastOpen = isOpen;
   }
-  cancel() {
-    this.modal.dismiss(null, 'cancel');
+  async cancel() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Bạn có chắc muốn thoát không?',
+      buttons: [
+        {
+          text: 'Đồng ý',
+          role: 'confirm',
+        },
+        {
+          text: 'Hủy',
+          role: 'cancel',
+        },
+      ],
+    });
+
+    actionSheet.present();
+
+    const { role } = await actionSheet.onWillDismiss();
+    if (role === 'confirm') {
+      this.modal.dismiss();
+    }
   }
 
   confirm() {

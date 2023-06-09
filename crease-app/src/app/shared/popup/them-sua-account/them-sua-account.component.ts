@@ -1,11 +1,16 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { LoadingController, ModalController } from '@ionic/angular';
+import {
+  ActionSheetController,
+  LoadingController,
+  ModalController,
+} from '@ionic/angular';
 import { DanhMucService } from 'src/app/danhmuc.services';
 
 @Component({
   selector: 'them-sua-account-component',
   templateUrl: './them-sua-account.component.html',
+  styleUrls: ['./them-sua-account.component.scss'],
 })
 export class ThemSuaAccount implements OnInit {
   @Input() data: any;
@@ -27,13 +32,16 @@ export class ThemSuaAccount implements OnInit {
   messageToast: any;
   listShop: any = [];
   listSelect: any = [];
+  presentingElement: any;
   constructor(
     private modal: ModalController,
     private loading: LoadingController,
-    private dmService: DanhMucService
+    private dmService: DanhMucService,
+    private actionSheetCtrl: ActionSheetController
   ) {}
 
   async ngOnInit() {
+    this.presentingElement = document.querySelector('.ion-page');
     await this.loadData();
     if (this.type === 'edit') {
       this.id = this.data.id;
@@ -102,14 +110,15 @@ export class ThemSuaAccount implements OnInit {
                 } else {
                   this.loading.dismiss();
                   this.isToastOpen = true;
-                  this.messageToast = 'Tạo tài khoản thành công';
-                  this.cancel();
+                  this.messageToast = res.body.MESSAGE
+                    ? res.body.MESSAGE
+                    : 'Tạo tài khoản thất bại';
                 }
               },
               () => {
                 this.loading.dismiss();
                 this.isToastOpen = true;
-                this.messageToast = 'Tạo tài khoản thành công';
+                this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
                 this.cancel();
                 console.error();
               }
@@ -140,14 +149,16 @@ export class ThemSuaAccount implements OnInit {
                   this.confirm();
                 } else {
                   this.isToastOpen = true;
-                  this.messageToast = 'Cập nhật tài khoản thất bại';
+                  this.messageToast = res.body.MESSAGE
+                    ? res.body.MESSAGE
+                    : 'Cập nhật tài khoản thất bại';
                   this.loading.dismiss();
-                  this.cancel();
+                  // this.cancel();
                 }
               },
               () => {
                 this.isToastOpen = true;
-                this.messageToast = 'Cập nhật tài khoản thất bại';
+                this.messageToast = 'Có lỗi xảy ra vui lòng thử lại';
                 this.loading.dismiss();
                 console.error();
               }
@@ -192,8 +203,27 @@ export class ThemSuaAccount implements OnInit {
   setOpen(isOpen: boolean) {
     this.isToastOpen = isOpen;
   }
-  cancel() {
-    this.modal.dismiss(null, 'cancel');
+  async cancel() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Bạn có chắc muốn thoát không?',
+      buttons: [
+        {
+          text: 'Đồng ý',
+          role: 'confirm',
+        },
+        {
+          text: 'Hủy',
+          role: 'cancel',
+        },
+      ],
+    });
+
+    actionSheet.present();
+
+    const { role } = await actionSheet.onWillDismiss();
+    if (role === 'confirm') {
+      this.modal.dismiss();
+    }
   }
 
   confirm() {

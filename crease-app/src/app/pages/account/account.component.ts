@@ -3,7 +3,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
-import { ROLE } from 'src/app/app.constant';
+import { OPERATIONS, ROLE } from 'src/app/app.constant';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { ThemSuaAccount } from 'src/app/shared/popup/them-sua-account/them-sua-account.component';
 @Component({
@@ -37,6 +37,22 @@ export class AccountComponent implements OnInit, AfterViewInit {
   isShowSelectDelete = false;
   messageToast: any;
   selectedAccount: any;
+  isOpenDeleteAccount = false;
+  isOpenFilterModal = false;
+  public actionDeleteAccount = [
+    {
+      text: 'Hủy',
+      role: 'cancel',
+      handler: () => {},
+    },
+    {
+      text: 'Đồng ý',
+      role: 'confirm',
+      handler: () => {
+        this.deleteAccount(this.selectedAccount);
+      },
+    },
+  ];
   constructor(
     private dmService: DanhMucService,
     private localStorage: LocalStorageService,
@@ -158,12 +174,64 @@ export class AccountComponent implements OnInit, AfterViewInit {
   }
   showListDelete() {
     this.isShowSelectDelete = !this.isShowSelectDelete;
+    if (!this.isShowSelectDelete) this.selectedAccount = null;
   }
   selecteItem(item: any) {
-    if (this.selectedAccount) {
+    if (this.selectedAccount && this.selectedAccount.id === item.id) {
       this.selectedAccount = null;
     } else {
       this.selectedAccount = item;
     }
+  }
+  openDeleteAccount(isOpen: boolean) {
+    this.isOpenDeleteAccount = isOpen;
+  }
+  async deleteAccount(entity: any) {
+    await this.isLoading();
+    this.dmService
+      .delete(entity.id, this.REQUEST_URL + OPERATIONS.DELETE)
+      .subscribe(
+        (res: HttpResponse<any>) => {
+          if (res.body.CODE === 200) {
+            this.loading.dismiss();
+            this.isToastOpen = true;
+            this.messageToast = 'Xóa tài khoản thành công';
+            this.loadData();
+          } else {
+            this.messageToast = 'Xóa tài khoản thất bại';
+            this.isToastOpen = true;
+            this.loading.dismiss();
+          }
+        },
+        () => {
+          this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
+          this.isToastOpen = true;
+          this.loading.dismiss();
+          console.error();
+        }
+      );
+  }
+  openModalFilter(isOpen: boolean) {
+    this.isOpenFilterModal = isOpen;
+    if (!isOpen) {
+      this.resetData();
+    }
+  }
+  async getFilter() {
+    await this.loadData();
+    this.isOpenFilterModal = false;
+  }
+  resetData() {
+    this.FtDiaChi = '';
+    this.FtEmail = '';
+    this.FtGhiChu = '';
+    this.FtHoTen = '';
+    this.FtPhanQuyen = '';
+    this.FtSdt = '';
+    this.FtTaiKhoan = '';
+  }
+  changePagination(e: any) {
+    this.page = e;
+    this.loadData();
   }
 }

@@ -7,9 +7,15 @@ import { ShopComponent } from '../pages/shop/shop.component';
 import { Dashboard } from '../pages/dashboard/dashboard.component';
 import { AccountComponent } from '../pages/account/account.component';
 import { WorkComponent } from '../pages/work/work.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, RouterModule.forChild(LayoutRoutes)],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule.forChild(LayoutRoutes),
+    NgxPaginationModule,
+  ],
   declarations: [ShopComponent, Dashboard, AccountComponent, WorkComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

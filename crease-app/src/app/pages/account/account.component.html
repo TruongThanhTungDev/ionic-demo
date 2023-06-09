@@ -11,7 +11,8 @@
       <ng-template #elseBtn>
         <div class="btn-group" role="group" aria-label="Basic example">
           <button type="button" class="btn btn-danger" [disabled]="!selectedAccount"
-            style="border-top-right-radius: 0!important;border-bottom-right-radius: 0!important">
+            style="border-top-right-radius: 0!important;border-bottom-right-radius: 0!important"
+            (click)="openDeleteAccount(true)">
             <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
             Xóa
           </button>
@@ -22,54 +23,64 @@
         </div>
       </ng-template>
     </div>
-    <div *ngIf="listEntity && listEntity.length; else elseBlock">
-      <ion-card *ngFor="let entity of listEntity, index as i" style="--background: white"
-        (click)="isShowSelectDelete ? selecteItem(entity) : editInfoUser(entity)">
-        <ion-card-content>
-          <div class="d-flex align-items-center mb-3">
-            <div class="col-3" style="margin-right: 6px">
-              <button *ngIf="entity.role === roleUser.ADMIN" type="button"
-                class="btn btn-sm btn-primary fw-bold w-100">Admin</button>
-              <button *ngIf="entity.role === roleUser.USER" type="button"
-                class="btn btn-sm btn-warning text-white fw-bold w-100">User</button>
-              <button *ngIf="entity.role === roleUser.MARKETING" type="button"
-                class="btn btn-sm btn-secondary fw-bold w-100">Marketing</button>
-            </div>
-            <div class="col-9">
-              <div class="d-flex">
-                <span class="line-clamp-1">{{entity.fullName}}</span>
-                <span class="mx-2">{{ !entity.fullName || !entity.phone ? '' : ' - ' }}</span>
-                <span class="line-clamp-1">{{entity.phone}}</span>
+    <div *ngIf="listEntity && listEntity.length; else elseBlock" class="position-relative">
+      <div class="position-relative"
+        *ngFor="let entity of listEntity | paginate: { itemsPerPage: 10, currentPage: page, totalItems }">
+        <div *ngIf="isShowSelectDelete" class="checkbox-in-card-container form-check">
+          <input class="form-check-input checkbox-in-card" type="checkbox"
+            [checked]="selectedAccount && selectedAccount.id === entity.id" (change)="selecteItem(entity)">
+        </div>
+        <ion-card color="dark" [class]="selectedAccount && selectedAccount.id === entity.id ? 'card-active' : ''"
+          (click)="isShowSelectDelete ? selecteItem(entity) : editInfoUser(entity)">
+          <ion-card-content [class]="selectedAccount && selectedAccount.id === entity.id ? 'text-white' : 'text-dark'">
+            <div class="d-flex align-items-center mb-3">
+              <div class="col-3" style="margin-right: 6px">
+                <button *ngIf="entity.role === roleUser.ADMIN" type="button"
+                  class="btn btn-sm btn-primary fw-bold w-100">Admin</button>
+                <button *ngIf="entity.role === roleUser.USER" type="button"
+                  class="btn btn-sm btn-warning text-white fw-bold w-100">User</button>
+                <button *ngIf="entity.role === roleUser.MARKETING" type="button"
+                  class="btn btn-sm btn-secondary fw-bold w-100">Marketing</button>
+              </div>
+              <div class="col-9">
+                <div class="d-flex justify-content-center">
+                  <span class="line-clamp-1">{{entity.fullName}}</span>
+                  <span class="mx-2">{{ !entity.fullName || !entity.phone ? '' : ' - ' }}</span>
+                  <span class="line-clamp-1">{{entity.phone}}</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div>
-            <div class="row fw-bold">
-              <div class="col-4">Tài khoản</div>
-              <div class="col-4">Email</div>
-              <div class="col-4">Địa chỉ</div>
+            <div>
+              <div class="row fw-bold">
+                <div class="col-4">Tài khoản</div>
+                <div class="col-4">Email</div>
+                <div class="col-4">Địa chỉ</div>
+              </div>
+              <div class="row">
+                <div class="col-4 line-clamp-1" title="">{{ entity.userName }}</div>
+                <div class="col-4 line-clamp-1" title="">{{ entity.email }}</div>
+                <div class="col-4 line-clamp-1" title="">{{ entity.address }}</div>
+              </div>
             </div>
-            <div class="row">
-              <div class="col-4 line-clamp-1" title="">{{ entity.userName }}</div>
-              <div class="col-4 line-clamp-1" title="">{{ entity.email }}</div>
-              <div class="col-4 line-clamp-1" title="">{{ entity.address }}</div>
-            </div>
-          </div>
-        </ion-card-content>
-      </ion-card>
+          </ion-card-content>
+        </ion-card>
+        <ion-alert [isOpen]="isOpenDeleteAccount" header="BẠN CÓ THẬT SỰ MUỐN XÓA BẢN GHI NÀY?"
+          [buttons]="actionDeleteAccount" (didDismiss)="openDeleteAccount(false)"></ion-alert>
+      </div>
     </div>
-    <ng-template class="position-relative" #elseBlock>
+    <ng-template #elseBlock>
       <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
         <i class="fa-solid fa-users-slash text-sub-content mb-3" style="font-size: 100px"></i>
         <h5 class="text-sub-content">Không có dữ liệu!</h5>
       </div>
     </ng-template>
+    <pagination-controls previousLabel="" nextLabel="" (pageChange)="changePagination($event)"></pagination-controls>
   </ion-content>
   <ion-footer [translucent]="true">
     <ion-toolbar class="footer-container">
-      <ion-segment color="light" value="account">
+      <ion-segment color="dark" value="account">
         <ion-segment-button value="account" routerLink="/account">
-          <ion-label class="fw-bold">Nhân viên</ion-label>
+          <ion-label class="fw-bold text-white">Nhân viên</ion-label>
         </ion-segment-button>
         <ion-segment-button value="work" routerLink="/work">
           <ion-label class="fw-bold">Chấm công</ion-label>
@@ -77,6 +88,87 @@
       </ion-segment>
     </ion-toolbar>
   </ion-footer>
+  <div class="dropdown position-absolute" style="bottom: 5rem; right: 1rem;">
+    <button id="open-filter" class="btn btn-primary rounded-pill " type="button" (click)="openModalFilter(true)">
+      <i class="fa-solid fa-filter"></i>
+      Thêm lọc
+    </button>
+  </div>
   <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
     (didDismiss)="setOpen(false)"></ion-toast>
+  <ion-modal [isOpen]="isOpenFilterModal" class="modal-filter" (didDismiss)="openModalFilter(false)">
+    <ion-header>
+      <ion-toolbar class="text-white fw-bold" style="--background: rgba(0, 110, 185, 0.9)!important;">
+        <ion-title>
+          <i class="fa-solid fa-filter"></i>
+          Thêm lọc
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="form-floating mb-3">
+        <input type="text" [(ngModel)]="FtTaiKhoan" class="form-control" placeholder="Tài khoản">
+        <label style="top: 3px">
+          Tài khoản
+        </label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="text" [(ngModel)]="FtHoTen" class="form-control" placeholder="Họ và tên">
+        <label style="top: 3px">
+          Họ và tên
+        </label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="text" [(ngModel)]="FtEmail" class="form-control" placeholder="Email">
+        <label style="top: 3px">
+          Email
+        </label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="text" [(ngModel)]="FtSdt" class="form-control" placeholder="Số điện thoại">
+        <label style="top: 3px">
+          Số điện thoại
+        </label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="text" [(ngModel)]="FtDiaChi" class="form-control" placeholder="Địa chỉ">
+        <label style="top: 3px">
+          Địa chỉ
+        </label>
+      </div>
+      <label>Phân quyền</label>
+      <div>
+        <div class="form-check form-check-inline">
+          <input [(ngModel)]="FtPhanQuyen" class="form-check-input" type="radio" name="inlineRadioOptions"
+            id="inlineRadio1" value="">
+          <label class="form-check-label" for="inlineRadio1">Tất cả</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input [(ngModel)]="FtPhanQuyen" class="form-check-input" type="radio" name="inlineRadioOptions"
+            id="inlineRadio1" value="admin">
+          <label class="form-check-label" for="inlineRadio1">Admin</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input [(ngModel)]="FtPhanQuyen" class="form-check-input" type="radio" name="inlineRadioOptions"
+            id="inlineRadio2" value="user">
+          <label class="form-check-label" for="inlineRadio2">User</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input [(ngModel)]="FtPhanQuyen" class="form-check-input" type="radio" name="inlineRadioOptions"
+            id="inlineRadio3" value="marketing">
+          <label class="form-check-label" for="inlineRadio3">Marketing</label>
+        </div>
+      </div>
+    </ion-content>
+    <ion-footer style="background-color: rgba(0, 110, 185, 0.9)!important;">
+      <ion-toolbar class="new-toolbar-background">
+        <ion-buttons slot="start">
+          <ion-button (click)="openModalFilter(false)" style="--color: white!important">Hủy</ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button (click)="getFilter()" [strong]="true">Lọc</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </ion-modal>
 </ion-app>

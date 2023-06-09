@@ -28,8 +28,6 @@ export class ShopComponent implements OnInit {
     private dmService: DanhMucService,
     private localStorage: LocalStorageService,
     private router: Router,
-    private notificationService: NotificationService,
-    private spinner: NgxSpinnerService,
     private loading: LoadingController,
     private modal: ModalController
   ) {}

@@ -16,6 +16,21 @@ input::placeholder {
   border: 1px solid #dee2e6 !important;
   border-radius: 6px;
 }
+
+/* -------------Custom checkbox------------ */
+.checkbox-in-card {
+  width: 25px !important;
+  height: 25px !important;
+  box-shadow: 2px 2px 5px 0px #919191bf;
+}
+.checkbox-in-card-container {
+  position: absolute;
+  right: 0;
+  top: -1rem;
+  z-index: 10;
+}
+/* ------------------------- */
+
 // pointer
 .cursor-pointer {
   cursor: pointer;
@@ -45,4 +60,39 @@ input::placeholder {
   box-shadow: 0px -4px 4px rgba(0, 0, 0, 0.25);
   --color: white;
   --font-weight: 600;
+}
+
+/* -------------Card------------ */
+.card-selected {
+  --background: #919191 !important;
+}
+.card-active {
+  background: #3dc2ff !important;
+}
+/* ------------------------- */
+/*----------Sheet------------*/
+.action-sheet-title {
+  color: black !important;
+  font-weight: 600;
+}
+.action-sheet-confirm {
+  color: #cf3c4f !important;
+}
+.action-sheet-cancel {
+  color: #006eb9 !important;
+}
+/*----------Sheet------------*/
+
+/*---------Modal-------------*/
+.modal-filter {
+  --width: 65% !important;
+  --min-width: 250px !important;
+  --height: 60% !important;
+  --border-radius: 6px !important;
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Ngx Pagination */
+.ngx-pagination {
+  padding: 0 !important;
 }
