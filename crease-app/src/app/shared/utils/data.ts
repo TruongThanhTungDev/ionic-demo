@@ -119,6 +119,9 @@ export const ROUTES = [
         class: '',
         role: 'user',
         params: '',
+        data: {
+          code: 'work',
+        },
       },
       {
         path: '/account',
@@ -127,6 +130,9 @@ export const ROUTES = [
         class: '',
         role: 'user',
         params: { shopCode: 'KHBOM' },
+        data: {
+          code: 'account',
+        },
       },
     ],
   },

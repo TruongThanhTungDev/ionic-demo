@@ -1,0 +1,17 @@
+<ion-app>
+  <ion-content class="ion-padding">
+    Chấm công
+  </ion-content>
+  <ion-footer [translucent]="true">
+    <ion-toolbar class="footer-container">
+      <ion-segment color="light" value="work">
+        <ion-segment-button value="account" routerLink="/account">
+          <ion-label class="fw-bold">Nhân viên</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="work" routerLink="/work">
+          <ion-label class="fw-bold">Chấm công</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  </ion-footer>
+</ion-app>

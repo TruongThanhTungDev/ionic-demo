@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 import { ROLE } from 'src/app/app.constant';
+import { LoadingController, ModalController } from '@ionic/angular';
+import { ThemSuaAccount } from 'src/app/shared/popup/them-sua-account/them-sua-account.component';
 @Component({
   selector: 'account-component',
   templateUrl: './account.component.html',
@@ -31,10 +33,15 @@ export class AccountComponent implements OnInit, AfterViewInit {
   FtPhanQuyen = '';
   FtGhiChu = '';
   shopCode = '';
+  isToastOpen: any;
+  isShowSelectDelete = false;
+  messageToast: any;
+  selectedAccount: any;
   constructor(
     private dmService: DanhMucService,
     private localStorage: LocalStorageService,
-    private route: ActivatedRoute
+    private loading: LoadingController,
+    private modal: ModalController
   ) {
     this.info = this.localStorage.retrieve('authenticationtoken');
     this.shopCode = this.localStorage.retrieve('shop').code;
@@ -48,7 +55,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
     return ROLE;
   }
   ngAfterViewInit(): void {}
-  public loadData() {
+  public async loadData() {
     if (this.info.role !== 'admin') return;
     const params = {
       sort: [this.sort, this.sortType ? 'desc' : 'asc'],
@@ -56,6 +63,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
       size: this.itemsPerPage,
       filter: this.filter(),
     };
+    await this.isLoading();
     this.dmService.query(params, this.REQUEST_URL).subscribe(
       (res: HttpResponse<any>) => {
         if (res.body) {
@@ -68,12 +76,17 @@ export class AccountComponent implements OnInit, AfterViewInit {
               this.page = 1;
               this.loadData();
             }
+            this.loading.dismiss();
           } else {
+            this.loading.dismiss();
           }
         } else {
+          this.listEntity = [];
+          this.loading.dismiss();
         }
       },
       () => {
+        this.loading.dismiss();
         console.error();
       }
     );
@@ -100,5 +113,57 @@ export class AccountComponent implements OnInit, AfterViewInit {
     if (FtPhanQuyen) comparesArray.push(`role=="*${FtPhanQuyen.trim()}*"`);
     if (FtSdt) comparesArray.push(`phone=="*${FtSdt.trim()}*"`);
     return comparesArray.join(';');
+  }
+  setOpen(isOpen: boolean) {
+    this.isToastOpen = isOpen;
+  }
+  public async isLoading() {
+    const isLoading = await this.loading.create({
+      spinner: 'circles',
+      keyboardClose: true,
+      message: 'Đang tải',
+      translucent: true,
+    });
+    return await isLoading.present();
+  }
+  async addUser() {
+    const modal = await this.modal.create({
+      component: ThemSuaAccount,
+      componentProps: {
+        title: 'Tạo tài khoản',
+        data: null,
+        type: 'add',
+      },
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.loadData();
+    }
+  }
+  async editInfoUser(info: any) {
+    const modal = await this.modal.create({
+      component: ThemSuaAccount,
+      componentProps: {
+        title: 'Xử lý thông tin tài khoản',
+        data: info,
+        type: 'edit',
+      },
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.loadData();
+    }
+  }
+  showListDelete() {
+    this.isShowSelectDelete = !this.isShowSelectDelete;
+  }
+  selecteItem(item: any) {
+    if (this.selectedAccount) {
+      this.selectedAccount = null;
+    } else {
+      this.selectedAccount = item;
+    }
   }
 }

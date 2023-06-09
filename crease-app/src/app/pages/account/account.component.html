@@ -1,16 +1,30 @@
 <ion-app>
   <ion-content class="ion-padding">
     <div>
-      <button class="btn" style="background-color: #46C851; margin-right: 3px;">
+      <button class="btn" style="background-color: #46C851; margin-right: 3px;" (click)="addUser()">
         <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
       </button>
-      <button class="btn btn-danger">
-        <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
-        Xóa
+      <button *ngIf="!isShowSelectDelete; else elseBtn" class="btn btn-primary" (click)="showListDelete()">
+        <i class="fa-solid fa-pen" style="color: #ffffff;"></i>
+        Sửa
       </button>
+      <ng-template #elseBtn>
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button type="button" class="btn btn-danger" [disabled]="!selectedAccount"
+            style="border-top-right-radius: 0!important;border-bottom-right-radius: 0!important">
+            <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
+            Xóa
+          </button>
+          <button type="button" class="btn btn-danger" (click)="showListDelete()"
+            style="border-top-left-radius: 0!important;border-bottom-left-radius: 0!important">
+            <i class="fa-solid fa-x" style="color: #ffffff;"></i>
+          </button>
+        </div>
+      </ng-template>
     </div>
-    <div>
-      <ion-card *ngFor="let entity of listEntity, index as i" color="dark">
+    <div *ngIf="listEntity && listEntity.length; else elseBlock">
+      <ion-card *ngFor="let entity of listEntity, index as i" style="--background: white"
+        (click)="isShowSelectDelete ? selecteItem(entity) : editInfoUser(entity)">
         <ion-card-content>
           <div class="d-flex align-items-center mb-3">
             <div class="col-3" style="margin-right: 6px">
@@ -21,8 +35,12 @@
               <button *ngIf="entity.role === roleUser.MARKETING" type="button"
                 class="btn btn-sm btn-secondary fw-bold w-100">Marketing</button>
             </div>
-            <div class="col-10">
-              <div class="line-clamp-1" title="">{{entity.fullName}} - {{entity.phone}}</div>
+            <div class="col-9">
+              <div class="d-flex">
+                <span class="line-clamp-1">{{entity.fullName}}</span>
+                <span class="mx-2">{{ !entity.fullName || !entity.phone ? '' : ' - ' }}</span>
+                <span class="line-clamp-1">{{entity.phone}}</span>
+              </div>
             </div>
           </div>
           <div>
@@ -40,5 +58,25 @@
         </ion-card-content>
       </ion-card>
     </div>
+    <ng-template class="position-relative" #elseBlock>
+      <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <i class="fa-solid fa-users-slash text-sub-content mb-3" style="font-size: 100px"></i>
+        <h5 class="text-sub-content">Không có dữ liệu!</h5>
+      </div>
+    </ng-template>
   </ion-content>
+  <ion-footer [translucent]="true">
+    <ion-toolbar class="footer-container">
+      <ion-segment color="light" value="account">
+        <ion-segment-button value="account" routerLink="/account">
+          <ion-label class="fw-bold">Nhân viên</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="work" routerLink="/work">
+          <ion-label class="fw-bold">Chấm công</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  </ion-footer>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+    (didDismiss)="setOpen(false)"></ion-toast>
 </ion-app>

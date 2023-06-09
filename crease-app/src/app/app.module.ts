@@ -14,9 +14,11 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ThemSuaShop } from './shared/popup/them-sua-shop/them-sua-shop.component';
-
+import { NgxPaginationModule } from 'ngx-pagination';
+import { ThemSuaAccount } from './shared/popup/them-sua-account/them-sua-account.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 @NgModule({
-  declarations: [AppComponent, LayoutComponent, ThemSuaShop],
+  declarations: [AppComponent, LayoutComponent, ThemSuaShop, ThemSuaAccount],
   imports: [
     HttpClientModule,
     BrowserModule,
@@ -27,6 +29,8 @@ import { ThemSuaShop } from './shared/popup/them-sua-shop/them-sua-shop.componen
     AppRoutingModule,
     NgxWebstorageModule.forRoot({ prefix: '', separator: '' }),
     NgxSpinnerModule,
+    NgxPaginationModule,
+    NgSelectModule,
   ],
   providers: [
     {

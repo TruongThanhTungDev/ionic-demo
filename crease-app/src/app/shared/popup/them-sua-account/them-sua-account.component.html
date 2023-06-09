@@ -1,0 +1,88 @@
+<ion-header style="background-color: rgba(0, 110, 185, 0.9)!important;">
+  <ion-toolbar class="new-toolbar-background">
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()" style="--color: white!important">Hủy</ion-button>
+    </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="saveInfo()" [strong]="true">Lưu thông tin</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="text-primary mb-3 border-bottom">
+    <h5 class="fw-bold">Thông tin tài khoản</h5>
+    <div class="form-floating mb-3">
+      <input type="text" [(ngModel)]="fullName" class="form-control" id="name" placeholder="Họ và tên">
+      <label for="name" style="top: 3px">
+        Họ và tên
+      </label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" [(ngModel)]="userName" class="form-control" id="username" placeholder="Tên tài khoản">
+      <label for="username" style="top: 2.5px">
+        Tên tài khoản
+      </label>
+    </div>
+    <div class="form-floating mb-3">
+      <input [type]="isShowPassword ? 'text' : 'password'" [(ngModel)]="passWord" class="form-control" id="password"
+        placeholder="Mật khẩu">
+      <label for="password" style="top: 3px">
+        Mật khẩu
+      </label>
+      <div class="position-absolute" style="right:1rem; top: 30%" (click)="showPassword()">
+        <i *ngIf="isShowPassword" class="fa-solid fa-eye-slash" style="color: #a89a00;"></i>
+        <i *ngIf="!isShowPassword" class="fa-solid fa-eye" style="color: #a89a00;"></i>
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      <input [type]="isShowPassword ? 'text' : 'password'" [(ngModel)]="confirmPassword" class="form-control"
+        id="cfpass" placeholder="Nhập lại mật khẩu">
+      <label for="cfpass" style="top: 2.5px">
+        Nhập lại mật khẩu
+      </label>
+      <div class="position-absolute" style="right:1rem; top: 30%" (click)="showPassword()">
+        <i *ngIf="isShowPassword" class="fa-solid fa-eye-slash" style="color: #a89a00;"></i>
+        <i *ngIf="!isShowPassword" class="fa-solid fa-eye" style="color: #a89a00;"></i>
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" [(ngModel)]="email" class="form-control" id="email" placeholder="Email">
+      <label for="email" style="top: 2.5px">
+        Email
+      </label>
+    </div>
+  </div>
+  <div class="text-primary">
+    <h5 class="fw-bold">Thông tin người dùng</h5>
+    <div class="form-floating mb-3">
+      <input type="number" [(ngModel)]="phone" class="form-control" id="idShop" placeholder="Số điện thoại">
+      <label for="idShop" style="top: 2.5px">
+        Số điện thoại
+      </label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" [(ngModel)]="address" class="form-control" id="address" placeholder="Địa chỉ">
+      <label for="address" style="top: 2.5px">
+        Địa chỉ
+      </label>
+    </div>
+    <div class="form-floating mb-3">
+      <select [(ngModel)]="role" class="form-select" id="floatingSelect">
+        <option value=""></option>
+        <option value="user">User</option>
+        <option value="marketing">Marketing</option>
+        <option value="admin">Admin</option>
+      </select>
+      <label for="floatingSelect">Phân quyền</label>
+    </div>
+    <div class="form-floating mb-3">
+      <ng-select [(ngModel)]="listSelect" name="listSelect" [multiple]="true" [clearable]="true"
+        placeholder="Danh sách shop">
+        <ng-option *ngFor="let obj of listShop" [value]="obj.code">{{obj.code}} - {{obj.name}}</ng-option>
+      </ng-select>
+    </div>
+  </div>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+    (didDismiss)="setOpen(false)"></ion-toast>
+</ion-content>
