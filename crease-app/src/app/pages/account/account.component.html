@@ -1,6 +1,6 @@
 <ion-app>
   <ion-content class="ion-padding">
-    <ion-refresher slot="fixed" [pullFactor]="0.5" [pullMin]="100" [pullMax]="200" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <div>
@@ -92,7 +92,7 @@
   <div class="dropdown position-absolute" style="bottom: 5rem; right: 1rem;">
     <button id="open-filter" class="btn btn-primary rounded-pill " type="button" (click)="openModalFilter(true)">
       <i class="fa-solid fa-filter"></i>
-      Thêm lọc
+      Lọc
     </button>
   </div>
   <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
@@ -102,7 +102,7 @@
       <ion-toolbar class="text-white fw-bold" style="--background: rgba(0, 110, 185, 0.9)!important;">
         <ion-title>
           <i class="fa-solid fa-filter"></i>
-          Thêm lọc
+          Lọc
         </ion-title>
       </ion-toolbar>
     </ion-header>
