@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ROUTES } from '../shared/utils/data';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Location } from '@angular/common';
+import { Store, select } from '@ngrx/store';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -10,10 +11,13 @@ import { Location } from '@angular/common';
 })
 export class LayoutComponent implements OnInit {
   location: Location;
+  isChange: any;
+  customTitle: any;
   constructor(
     private router: Router,
     private local: LocalStorageService,
-    location: Location
+    location: Location,
+    private store: Store<any>
   ) {
     this.location = location;
   }
@@ -65,11 +69,25 @@ export class LayoutComponent implements OnInit {
     }
     return 'Bảng điều khiển';
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.subscribe((state) => {
+      this.isChange = state.common.isBackHeader;
+      this.customTitle = state.common.titleCustom;
+    });
+  }
   logout() {
     this.router.navigate(['/login']);
   }
   toHomePage() {
     this.router.navigate(['/shop']);
+  }
+  handleBackHeader() {
+    this.store.dispatch({
+      type: 'CHANGE_HEADER',
+      payload: {
+        title: '',
+        state: false,
+      },
+    });
   }
 }

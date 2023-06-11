@@ -17,6 +17,10 @@ import { ThemSuaShop } from './shared/popup/them-sua-shop/them-sua-shop.componen
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ThemSuaAccount } from './shared/popup/them-sua-account/them-sua-account.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
+import { commonReducer } from './shared/store/common/common.reducers';
 @NgModule({
   declarations: [AppComponent, LayoutComponent, ThemSuaShop, ThemSuaAccount],
   imports: [
@@ -31,6 +35,14 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgxSpinnerModule,
     NgxPaginationModule,
     NgSelectModule,
+    StoreModule.forRoot({
+      common: commonReducer,
+    }),
+    StoreModule.forFeature('common', commonReducer),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
   ],
   providers: [
     {

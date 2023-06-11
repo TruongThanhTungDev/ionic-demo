@@ -47,13 +47,22 @@
 </ion-menu>
 <div class="ion-page" id="main-content">
   <ion-header class="py-3 px-4 text-white d-flex header-container justify-content-between w-100 align-items-center">
-    <div>
+    <div *ngIf="!isChange; else elseButton">
       <ion-menu-toggle class="bg-content" style="padding: 8px 10px; border-radius: 50%;">
         <i class="fa-solid fa-bars text-primary" style="font-size: 20px;"></i>
       </ion-menu-toggle>
       <ion-label class="fw-bold" style="margin-left: 6px;">{{titleHeader}}</ion-label>
     </div>
-    <div class="dropdown bg-content rounded-circle border" data-bs-toggle="dropdown">
+    <ng-template #elseButton>
+      <div>
+        <button class="bg-content rounded-circle" (click)="handleBackHeader()">
+          <i class="fa-solid fa-arrow-left"
+            style=" padding: 8px 8px;font-size:20px;margin-right: 6px;color: #2c5fb6"></i>
+        </button>
+        <ion-label style="margin-left: 6px;" class="fw-bold">{{ customTitle }}</ion-label>
+      </div>
+    </ng-template>
+    <div class=" dropdown bg-content rounded-circle border" data-bs-toggle="dropdown">
       <i class="fa-solid fa-user p-2" style="color: #2c5fb6"></i>
       <ul class="dropdown-menu">
         <li class="dropdown-item" (click)="logout()">Đăng xuất</li>

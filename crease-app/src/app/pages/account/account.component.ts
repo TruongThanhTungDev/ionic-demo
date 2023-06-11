@@ -1,17 +1,26 @@
 import { HttpResponse } from '@angular/common/http';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 import { OPERATIONS, ROLE } from 'src/app/app.constant';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { ThemSuaAccount } from 'src/app/shared/popup/them-sua-account/them-sua-account.component';
+import { Store, select } from '@ngrx/store';
+import { isBackHeader } from 'src/app/shared/store/common/common.selector';
+import { map, Observable } from 'rxjs';
 @Component({
   selector: 'account-component',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss'],
 })
-export class AccountComponent implements OnInit, AfterViewInit {
+export class AccountComponent implements OnInit, AfterViewInit, OnChanges {
   itemsPerPage = 10;
   page = 1;
   totalItems = 0;
@@ -39,6 +48,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
   selectedAccount: any;
   isOpenDeleteAccount = false;
   isOpenFilterModal = false;
+  isBackHeader: any;
   public actionDeleteAccount = [
     {
       text: 'Hủy',
@@ -57,7 +67,8 @@ export class AccountComponent implements OnInit, AfterViewInit {
     private dmService: DanhMucService,
     private localStorage: LocalStorageService,
     private loading: LoadingController,
-    private modal: ModalController
+    private modal: ModalController,
+    private store: Store<any>
   ) {
     this.info = this.localStorage.retrieve('authenticationtoken');
     this.shopCode = this.localStorage.retrieve('shop').code;
@@ -66,7 +77,16 @@ export class AccountComponent implements OnInit, AfterViewInit {
     if (this.shopCode) {
       this.loadData();
     }
+    this.store.subscribe((state) => {
+      this.isBackHeader = state.common.isBackHeader;
+      this.selectedAccount = null;
+    });
   }
+  // get isBackHeader() {
+  //   const rs = this.store.select(isBackHeader);
+  //   console.log('rs :>> ', rs);
+  //   return this.store.select(isBackHeader);
+  // }
   get roleUser() {
     return ROLE;
   }
@@ -107,7 +127,12 @@ export class AccountComponent implements OnInit, AfterViewInit {
       }
     );
   }
-
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['isBackHeader']) {
+      // Xử lý khi giá trị 'value' thay đổi
+      console.log('1 :>> ', 1);
+    }
+  }
   private filter(): string {
     const comparesArray: string[] = [];
     const {
@@ -173,8 +198,15 @@ export class AccountComponent implements OnInit, AfterViewInit {
     }
   }
   showListDelete() {
-    this.isShowSelectDelete = !this.isShowSelectDelete;
+    // this.isShowSelectDelete = !this.isShowSelectDelete;
     if (!this.isShowSelectDelete) this.selectedAccount = null;
+    this.store.dispatch({
+      type: 'CHANGE_HEADER',
+      payload: {
+        title: 'Chọn mục',
+        state: true,
+      },
+    });
   }
   selecteItem(item: any) {
     if (this.selectedAccount && this.selectedAccount.id === item.id) {
@@ -233,5 +265,18 @@ export class AccountComponent implements OnInit, AfterViewInit {
   changePagination(e: any) {
     this.page = e;
     this.loadData();
+  }
+  searchUser(e: any) {
+    this.FtHoTen = e.target.value;
+    this.loadData();
+  }
+  reset() {
+    this.FtHoTen = '';
+    this.loadData();
+  }
+  async handleRefresh(event: any) {
+    this.resetData();
+    await this.loadData();
+    event.target.complete();
   }
 }

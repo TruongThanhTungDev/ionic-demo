@@ -1,24 +1,24 @@
 <ion-app>
   <ion-content class="ion-padding">
+    <ion-refresher slot="fixed" [pullFactor]="0.5" [pullMin]="100" [pullMax]="200" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <div>
-      <button class="btn" style="background-color: #46C851; margin-right: 3px;" (click)="addUser()">
-        <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
-      </button>
-      <button *ngIf="!isShowSelectDelete; else elseBtn" class="btn btn-primary" (click)="showListDelete()">
-        <i class="fa-solid fa-pen" style="color: #ffffff;"></i>
-        Sửa
-      </button>
+      <div *ngIf="!isBackHeader; else elseBtn" class="row align-items-center justify-content-center">
+        <button class="btn col-1" style="background-color: #46C851;" (click)="addUser()">
+          <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
+        </button>
+        <button class="btn btn-primary col-3 mx-2 h-100" (click)="showListDelete()">
+          Chọn
+        </button>
+        <ion-searchbar class="col-7 p-0 search-bar" placeholder="Tìm kiếm" (keyup.enter)="searchUser($event)"
+          (ionClear)="reset()"></ion-searchbar>
+      </div>
       <ng-template #elseBtn>
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-danger" [disabled]="!selectedAccount"
-            style="border-top-right-radius: 0!important;border-bottom-right-radius: 0!important"
-            (click)="openDeleteAccount(true)">
+          <button type="button" class="btn btn-danger" [disabled]="!selectedAccount" (click)="openDeleteAccount(true)">
             <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
             Xóa
-          </button>
-          <button type="button" class="btn btn-danger" (click)="showListDelete()"
-            style="border-top-left-radius: 0!important;border-bottom-left-radius: 0!important">
-            <i class="fa-solid fa-x" style="color: #ffffff;"></i>
           </button>
         </div>
       </ng-template>
@@ -26,12 +26,12 @@
     <div *ngIf="listEntity && listEntity.length; else elseBlock" class="position-relative">
       <div class="position-relative"
         *ngFor="let entity of listEntity | paginate: { itemsPerPage: 10, currentPage: page, totalItems }">
-        <div *ngIf="isShowSelectDelete" class="checkbox-in-card-container form-check">
+        <div *ngIf="isBackHeader" class="checkbox-in-card-container form-check">
           <input class="form-check-input checkbox-in-card" type="checkbox"
             [checked]="selectedAccount && selectedAccount.id === entity.id" (change)="selecteItem(entity)">
         </div>
         <ion-card color="dark" [class]="selectedAccount && selectedAccount.id === entity.id ? 'card-active' : ''"
-          (click)="isShowSelectDelete ? selecteItem(entity) : editInfoUser(entity)">
+          (click)="isBackHeader ? selecteItem(entity) : editInfoUser(entity)">
           <ion-card-content [class]="selectedAccount && selectedAccount.id === entity.id ? 'text-white' : 'text-dark'">
             <div class="d-flex align-items-center mb-3">
               <div class="col-3" style="margin-right: 6px">
@@ -74,7 +74,8 @@
         <h5 class="text-sub-content">Không có dữ liệu!</h5>
       </div>
     </ng-template>
-    <pagination-controls previousLabel="" nextLabel="" (pageChange)="changePagination($event)"></pagination-controls>
+    <pagination-controls *ngIf="listEntity && listEntity.length" previousLabel="" nextLabel=""
+      (pageChange)="changePagination($event)"></pagination-controls>
   </ion-content>
   <ion-footer [translucent]="true">
     <ion-toolbar class="footer-container">

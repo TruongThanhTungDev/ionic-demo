@@ -19,14 +19,14 @@ input::placeholder {
 
 /* -------------Custom checkbox------------ */
 .checkbox-in-card {
-  width: 25px !important;
-  height: 25px !important;
+  width: 17px !important;
+  height: 17px !important;
   box-shadow: 2px 2px 5px 0px #919191bf;
 }
 .checkbox-in-card-container {
   position: absolute;
-  right: 0;
-  top: -1rem;
+  right: 1rem;
+  top: 0.5rem;
   z-index: 10;
 }
 /* ------------------------- */
@@ -98,4 +98,15 @@ input::placeholder {
   li {
     border-radius: 6px !important;
   }
+}
+
+/*--------Ionic search bar----------*/
+.search-bar {
+  --border-radius: 6px !important;
+  --border: 1px solid #3f8acd !important;
+  --color: #000000 !important;
+}
+.searchbar-input-container {
+  border: 1px solid #3f8acd !important;
+  border-radius: 6px !important;
 }
