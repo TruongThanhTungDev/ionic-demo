@@ -1,6 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 import * as dayjs from 'dayjs';
 import * as moment from 'moment';
 import { LocalStorageService } from 'ngx-webstorage';
@@ -23,6 +24,9 @@ export class WorkComponent implements OnInit {
   totalOrder = '';
   successOrder = '';
   processedOrder = '';
+  messageToast = '';
+  isToastOpen = false;
+  isOpenDatePicker = false;
   REQUEST_URL = '/api/v1/work';
   plugins = new Plugin();
   isOpenFilterModal = false;
@@ -33,7 +37,8 @@ export class WorkComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private localStorage: LocalStorageService,
-    private dmService: DanhMucService
+    private dmService: DanhMucService,
+    private loading: LoadingController
   ) {
     this.info = this.localStorage.retrieve('authenticationtoken');
     this.shopCode = localStorage.retrieve('shop')
@@ -67,39 +72,57 @@ export class WorkComponent implements OnInit {
       )
       .subscribe(
         (res: HttpResponse<any>) => {
-          this.listData = res.body.RESULT;
+          if (res.status === 200) {
+            this.listData = res.body.RESULT;
+            this.loading.dismiss();
+          } else {
+            this.isToastOpen = true;
+            this.loading.dismiss();
+            this.messageToast = 'Không có dữ liệu!';
+          }
         },
         () => {
           console.error();
+          this.isToastOpen = true;
+          this.loading.dismiss();
+          this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
         }
       );
   }
-  loadDataAdmin() {
-    var date = JSON.parse(JSON.stringify(this.dateRange));
-    let startDate = moment(date.startDate).format('YYYYMMDD') + '000000';
-    let endDate = moment(date.endDate).format('YYYYMMDD') + '235959';
+  async loadDataAdmin() {
     const params = {
       sort: ['id', 'desc'],
       page: 0,
       size: 100000,
       filter: this.filterData(),
     };
+    await this.isLoading();
     this.dmService.query(params, this.REQUEST_URL).subscribe(
       (res: HttpResponse<any>) => {
         if (res.body) {
           if (res.body.CODE === 200) {
             this.listData = res.body.RESULT.content;
             this.totalItems = res.body.RESULT.totalPages;
+            this.loading.dismiss();
           } else {
             this.listData = [];
+            this.isToastOpen = true;
+            this.loading.dismiss();
+            this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
           }
         } else {
           this.listData = [];
+          this.isToastOpen = true;
+          this.loading.dismiss();
+          this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
         }
       },
       () => {
         this.listData = [];
         console.error();
+        this.isToastOpen = true;
+        this.loading.dismiss();
+        this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
       }
     );
   }
@@ -131,5 +154,36 @@ export class WorkComponent implements OnInit {
   async getFilter() {
     await this.loadDataAdmin();
     this.isOpenFilterModal = false;
+  }
+  async handleRefresh(event: any) {
+    this.resetData();
+    await this.checkLoadData();
+    event.target.complete();
+  }
+  refreshData() {
+    this.resetData();
+    this.checkLoadData();
+  }
+  resetData() {
+    this.fullName = '';
+    this.userName = '';
+    this.totalOrder = '';
+    this.successOrder = '';
+    this.processedOrder = '';
+  }
+  setOpenToast(open: boolean) {
+    this.isToastOpen = open;
+  }
+  public async isLoading() {
+    const isLoading = await this.loading.create({
+      spinner: 'circles',
+      keyboardClose: true,
+      message: 'Đang tải',
+      translucent: true,
+    });
+    return await isLoading.present();
+  }
+  showDatePicker() {
+    this.isOpenDatePicker = true;
   }
 }

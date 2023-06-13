@@ -8,6 +8,7 @@ import { Dashboard } from '../pages/dashboard/dashboard.component';
 import { AccountComponent } from '../pages/account/account.component';
 import { WorkComponent } from '../pages/work/work.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { DatePickerComponent } from '../shared/component/datepicker/datepicker.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,13 @@ import { NgxPaginationModule } from 'ngx-pagination';
     RouterModule.forChild(LayoutRoutes),
     NgxPaginationModule,
   ],
-  declarations: [ShopComponent, Dashboard, AccountComponent, WorkComponent],
+  declarations: [
+    ShopComponent,
+    Dashboard,
+    AccountComponent,
+    WorkComponent,
+    DatePickerComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LayoutModule {}
