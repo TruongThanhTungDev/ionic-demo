@@ -4,41 +4,11 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <div class="mb-3 d-flex align-items-center">
-      <button class="btn btn-primary" (click)="refreshData()">
+      <button class="btn btn-primary col-4" (click)="refreshData()">
         <i class="fa fa-refresh"></i>
         Làm mới
       </button>
-      <datepicker-component></datepicker-component>
-      <!-- <div class="dropdown" style="margin-left: 4px;">
-        <input type="text" class="dropdown-toggle form-control" data-bs-toggle="dropdown" aria-expanded="false"
-          readonly>
-        <ul class="dropdown-menu">
-          <li class="dropdown-item">
-            Hôm nay
-          </li>
-          <li class="dropdown-item">
-            Hôm qua
-          </li>
-          <li class="dropdown-item">
-            7 Ngày qua
-          </li>
-          <li class="dropdown-item">
-            30 Ngày qua
-          </li>
-          <li class="dropdown-item">
-            Tháng này
-          </li>
-          <li class="dropdown-item">
-            Tháng trước
-          </li>
-          <li class="dropdown-item">
-            3 Tháng trước
-          </li>
-          <li class="dropdown-item">
-            Tùy chọn
-          </li>
-        </ul>
-      </div> -->
+      <datepicker-component (filterDate)="filterDate($event)"></datepicker-component>
     </div>
     <div *ngIf=" listData && listData.length; else elseBlock" class="position-relative">
       <div class="position-relative" *ngFor="let item of listData">
@@ -88,8 +58,6 @@
     <ng-template #elseBlock>
 
     </ng-template>
-    <!-- <pagination-controls *ngIf="listData && listData.length" previousLabel="" nextLabel=""
-      (pageChange)="changePagination($event)"></pagination-controls> -->
   </ion-content>
   <ion-footer [translucent]="true">
     <ion-toolbar class="footer-container">

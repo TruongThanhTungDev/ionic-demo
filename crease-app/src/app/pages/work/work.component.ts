@@ -161,6 +161,10 @@ export class WorkComponent implements OnInit {
     event.target.complete();
   }
   refreshData() {
+    this.dateRange = {
+      startDate: dayjs().startOf('month'),
+      endDate: dayjs().endOf('month'),
+    };
     this.resetData();
     this.checkLoadData();
   }
@@ -185,5 +189,10 @@ export class WorkComponent implements OnInit {
   }
   showDatePicker() {
     this.isOpenDatePicker = true;
+  }
+  filterDate(event: any) {
+    this.dateRange.startDate = event.startDate;
+    this.dateRange.endDate = event.endDate;
+    this.checkLoadData();
   }
 }
