@@ -173,7 +173,7 @@ export const ROUTES = [
     show: true,
     items: [
       {
-        path: '/costType',
+        path: '/cost-type',
         title: 'Loại chi phí',
         icon: 'nc-basket',
         class: '',

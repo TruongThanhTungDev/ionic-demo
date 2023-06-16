@@ -10,6 +10,8 @@ import { WorkComponent } from '../pages/work/work.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePickerComponent } from '../shared/component/datepicker/datepicker.component';
 import { ProgressDateComponent } from '../shared/component/progressDate/progress-date.component';
+import { LoaiChiPhiComponent } from '../pages/loai-chi-phi/loai-chi-phi.component';
+import { SideBarComponent } from '../shared/component/sidebar/sidebar.component';
 
 @NgModule({
   imports: [
@@ -23,8 +25,10 @@ import { ProgressDateComponent } from '../shared/component/progressDate/progress
     Dashboard,
     AccountComponent,
     WorkComponent,
+    LoaiChiPhiComponent,
     DatePickerComponent,
     ProgressDateComponent,
+    SideBarComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

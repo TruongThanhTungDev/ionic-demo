@@ -3,6 +3,7 @@ import { ShopComponent } from '../pages/shop/shop.component';
 import { Dashboard } from '../pages/dashboard/dashboard.component';
 import { AccountComponent } from '../pages/account/account.component';
 import { WorkComponent } from '../pages/work/work.component';
+import { LoaiChiPhiComponent } from '../pages/loai-chi-phi/loai-chi-phi.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -26,5 +27,9 @@ export const LayoutRoutes: Routes = [
     data: {
       code: 'work',
     },
+  },
+  {
+    path: 'cost-type',
+    component: LoaiChiPhiComponent,
   },
 ];
