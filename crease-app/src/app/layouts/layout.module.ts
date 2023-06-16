@@ -9,6 +9,7 @@ import { AccountComponent } from '../pages/account/account.component';
 import { WorkComponent } from '../pages/work/work.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePickerComponent } from '../shared/component/datepicker/datepicker.component';
+import { ProgressDateComponent } from '../shared/component/progressDate/progress-date.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { DatePickerComponent } from '../shared/component/datepicker/datepicker.c
     AccountComponent,
     WorkComponent,
     DatePickerComponent,
+    ProgressDateComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
