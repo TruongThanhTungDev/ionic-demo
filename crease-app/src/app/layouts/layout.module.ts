@@ -12,6 +12,7 @@ import { DatePickerComponent } from '../shared/component/datepicker/datepicker.c
 import { ProgressDateComponent } from '../shared/component/progressDate/progress-date.component';
 import { LoaiChiPhiComponent } from '../pages/loai-chi-phi/loai-chi-phi.component';
 import { SideBarComponent } from '../shared/component/sidebar/sidebar.component';
+import { CauHinhUtmComponent } from '../pages/cau-hinh-utm/cau-hinh-utm-component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { SideBarComponent } from '../shared/component/sidebar/sidebar.component'
     AccountComponent,
     WorkComponent,
     LoaiChiPhiComponent,
+    CauHinhUtmComponent,
     DatePickerComponent,
     ProgressDateComponent,
     SideBarComponent,
