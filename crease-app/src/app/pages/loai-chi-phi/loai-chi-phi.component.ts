@@ -15,16 +15,9 @@ import { OPERATIONS } from 'src/app/app.constant';
 export class LoaiChiPhiComponent implements OnInit {
   REQUEST_URL = '/api/v1/costtype';
   listData: any;
-  listCostType = [];
   info: any;
-  shopCode: any;
-  dateRange = {
-    startDate: moment().startOf('month'),
-    endDate: moment().endOf('month'),
-  };
   selectedItem: any;
   isToastOpen: any;
-  isShowSelectDelete = false;
   messageToast: any;
   isOpenDeleteAccount = false;
   isOpenFilterModal = false;
@@ -51,9 +44,6 @@ export class LoaiChiPhiComponent implements OnInit {
     private modal: ModalController
   ) {
     this.info = this.localStorage.retrieve('authenticationtoken');
-    if (this.info.role === 'admin') {
-      this.shopCode = this.localStorage.retrieve('shop').code;
-    }
     this.store.subscribe((state) => {
       this.isBackHeader = state.common.isBackHeader;
       this.selectedItem = null;
@@ -104,7 +94,6 @@ export class LoaiChiPhiComponent implements OnInit {
     this.isOpenDeleteAccount = isOpen;
   }
   showListDelete() {
-    if (!this.isShowSelectDelete) this.selectedItem = null;
     this.store.dispatch({
       type: 'CHANGE_HEADER',
       payload: {

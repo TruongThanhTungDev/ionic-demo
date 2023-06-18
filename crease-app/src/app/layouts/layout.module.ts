@@ -13,6 +13,7 @@ import { ProgressDateComponent } from '../shared/component/progressDate/progress
 import { LoaiChiPhiComponent } from '../pages/loai-chi-phi/loai-chi-phi.component';
 import { SideBarComponent } from '../shared/component/sidebar/sidebar.component';
 import { CauHinhUtmComponent } from '../pages/cau-hinh-utm/cau-hinh-utm-component';
+import { CostRecordComponent } from '../pages/ban-ghi-chi-phi/ban-ghi-chi-phi.component';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { CauHinhUtmComponent } from '../pages/cau-hinh-utm/cau-hinh-utm-componen
     WorkComponent,
     LoaiChiPhiComponent,
     CauHinhUtmComponent,
+    CostRecordComponent,
     DatePickerComponent,
     ProgressDateComponent,
     SideBarComponent,

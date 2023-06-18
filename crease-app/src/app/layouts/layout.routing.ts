@@ -5,6 +5,7 @@ import { AccountComponent } from '../pages/account/account.component';
 import { WorkComponent } from '../pages/work/work.component';
 import { LoaiChiPhiComponent } from '../pages/loai-chi-phi/loai-chi-phi.component';
 import { CauHinhUtmComponent } from '../pages/cau-hinh-utm/cau-hinh-utm-component';
+import { CostRecordComponent } from '../pages/ban-ghi-chi-phi/ban-ghi-chi-phi.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -36,5 +37,9 @@ export const LayoutRoutes: Routes = [
   {
     path: 'utm-medium',
     component: CauHinhUtmComponent,
+  },
+  {
+    path: 'cost',
+    component: CostRecordComponent,
   },
 ];

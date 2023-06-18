@@ -1,0 +1,37 @@
+<ion-app>
+  <ion-refresher slot="fixed" (ionRefresh)="loadData()">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-content class="ion-padding">
+    <div>
+      <div *ngIf="!isBackHeader; else elseBtn">
+        <button class="btn" style="background-color: #46C851;" (click)="addCostRecord()">
+          <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
+        </button>
+        <button class="btn btn-success mx-2 h-100" (click)="showListDelete()">
+          Chọn
+        </button>
+      </div>
+      <ng-template #elseBtn>
+        <button type="button" class="btn btn-danger" [disabled]="!selectedItem" (click)="openDeleteModal(true)">
+          <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
+          Xóa
+        </button>
+      </ng-template>
+    </div>
+    <div *ngIf="listData && !listData.length; else elseBlock" class="position-relative">
+      <div *ngFor="let item of listData" class="position-relative">
+        <div class="checkbox-in-card-container form-check">
+          <input class="form-check-input checkbox-in-card" type="checkbox"
+            [checked]="selectedItem && selectedItem.id === item.id" (change)="selectItem(item)">
+        </div>
+      </div>
+    </div>
+    <ng-template #elseBlock>
+      <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <i class="fa-solid fa-not-equal text-sub-content mb-3" style="font-size: 100px"></i>
+        <h5 class="text-sub-content">Không có dữ liệu!</h5>
+      </div>
+    </ng-template>
+  </ion-content>
+</ion-app>
