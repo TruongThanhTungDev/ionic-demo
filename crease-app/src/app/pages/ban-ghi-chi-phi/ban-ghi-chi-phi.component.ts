@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
+import * as moment from 'moment';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 
@@ -9,6 +10,7 @@ import { DanhMucService } from 'src/app/danhmuc.services';
   templateUrl: './ban-ghi-chi-phi.component.html',
 })
 export class CostRecordComponent implements OnInit {
+  REQUEST_URL = '/api/v1/cost';
   listData: any;
   selectedItem: any;
   isToastOpen: any;
@@ -17,6 +19,10 @@ export class CostRecordComponent implements OnInit {
   isOpenDeleteModal = false;
   isOpenFilterModal = false;
   isBackHeader: any;
+  dateRange = {
+    startDate: moment().startOf('month'),
+    endDate: moment().endOf('month'),
+  };
   public actionDeleteAccount = [
     {
       text: 'Hủy',
@@ -48,9 +54,13 @@ export class CostRecordComponent implements OnInit {
   }
   async loadData() {}
 
+  filterDate(e: any) {}
+
   addCostRecord() {}
 
   deleteItem(item: any) {}
+
+  editInfoCost(item: any) {}
   showListDelete() {
     if (!this.isShowSelectDelete) this.selectedItem = null;
     this.store.dispatch({
@@ -71,4 +81,5 @@ export class CostRecordComponent implements OnInit {
       this.selectedItem = item;
     }
   }
+  openModalFilter(open: boolean) {}
 }
