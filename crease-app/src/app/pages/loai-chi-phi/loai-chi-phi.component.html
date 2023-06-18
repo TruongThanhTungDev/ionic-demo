@@ -1,4 +1,7 @@
 <ion-app>
+  <ion-refresher slot="fixed" (ionRefresh)="loadData()">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-content class="ion-padding">
     <div>
       <div *ngIf="!isBackHeader; else elseBtn">

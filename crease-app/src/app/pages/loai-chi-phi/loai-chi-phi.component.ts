@@ -60,14 +60,6 @@ export class LoaiChiPhiComponent implements OnInit {
     });
   }
   ngOnInit() {
-    this.dmService.getOption(null, '/api/v1/costtype', '/getAll').subscribe(
-      (res: HttpResponse<any>) => {
-        this.listCostType = res.body.RESULT;
-      },
-      () => {
-        console.error();
-      }
-    );
     this.loadData();
   }
 

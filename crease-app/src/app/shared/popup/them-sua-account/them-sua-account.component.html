@@ -1,7 +1,9 @@
 <ion-header style="background-color: rgba(0, 110, 185, 0.9)!important;">
   <ion-toolbar class="new-toolbar-background">
     <ion-buttons slot="start">
-      <ion-button color="medium" (click)="cancel()" style="--color: white!important">Hủy</ion-button>
+      <button class="bg-content rounded-circle" (click)="cancel()">
+        <i class="fa-solid fa-arrow-left" style=" padding: 8px 8px;font-size:20px;margin-right: 6px;color: #2c5fb6"></i>
+      </button>
     </ion-buttons>
     <ion-title>{{ title }}</ion-title>
     <ion-buttons slot="end">
