@@ -21,7 +21,7 @@
     </div>
     <div *ngIf="listData && listData.length; else elseBlock" class="position-relative">
       <div *ngFor="let item of listData" class="position-relative">
-        <div class="checkbox-in-card-container form-check">
+        <div *ngIf="isBackHeader" class="checkbox-in-card-container form-check">
           <input class="form-check-input checkbox-in-card" type="checkbox"
             [checked]="selectedItem && selectedItem.id === item.id" (change)="selectItem(item)">
         </div>
