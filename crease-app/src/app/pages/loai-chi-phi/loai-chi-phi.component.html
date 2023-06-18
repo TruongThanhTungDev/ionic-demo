@@ -1,10 +1,61 @@
 <ion-app>
   <ion-content class="ion-padding">
     <div>
-      <button class="btn text-white" style="margin-right: 4px; background-color: #46C851">
-        <i class="fa fa-plus"></i>
-      </button>
-      <button type="button" class="btn btn-success">Chọn mục</button>
+      <div *ngIf="!isBackHeader; else elseBtn">
+        <button class="btn" style="background-color: #46C851;" (click)="addCost()">
+          <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
+        </button>
+        <button class="btn btn-success mx-2 h-100" (click)="showListDelete()">
+          Chọn
+        </button>
+      </div>
+      <ng-template #elseBtn>
+        <button type="button" class="btn btn-danger" [disabled]="!selectedItem" (click)="openDeleteAccount(true)">
+          <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
+          Xóa
+        </button>
+      </ng-template>
     </div>
+    <div *ngIf="listData && listData.length; else elseBlock" class="position-relative">
+      <div *ngFor="let item of listData" class="position-relative">
+        <div class="checkbox-in-card-container form-check">
+          <input class="form-check-input checkbox-in-card" type="checkbox"
+            [checked]="selectedItem && selectedItem.id === item.id" (change)="selectItem(item)">
+        </div>
+        <ion-card [class]="selectedItem && selectedItem.id === item.id ? 'card-active' : ''"
+          (click)="isBackHeader ? selectItem(item) : editInfoCost(item)">
+          <ion-card-content class="row">
+            <div class="col-6 text-primary">
+              <button *ngIf="item.status === 1" class="btn btn-green fw-bold btn-sm mb-3">Kích hoạt</button>
+              <button *ngIf="item.status === 0" class="btn btn-danger fw-bold btn-sm mb-3">Khóa</button>
+              <div [class]="selectedItem && selectedItem.id === item.id ? 'text-white' : ''">
+                <h2 class="fw-bold">{{item.name}}</h2>
+                <p>{{item.code}}</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-1">
+                <div class="fw-bold">Khung áp dụng</div>
+                <p>{{item.priodName ? item.priodName : ''}}</p>
+              </div>
+              <div>
+                <div class="fw-bold">Lấy theo số lượng đơn hàng</div>
+                <p>{{item.isCountOrderName ? item.isCountOrderName : ''}}</p>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+        <ion-alert [isOpen]="isOpenDeleteAccount" header="BẠN CÓ THẬT SỰ MUỐN XÓA BẢN GHI NÀY?"
+          [buttons]="actionDeleteAccount" (didDismiss)="openDeleteAccount(false)"></ion-alert>
+      </div>
+    </div>
+    <ng-template #elseBlock>
+      <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <i class="fa-solid fa-not-equal text-sub-content mb-3" style="font-size: 100px"></i>
+        <h5 class="text-sub-content">Không có dữ liệu!</h5>
+      </div>
+    </ng-template>
+    <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+      (didDismiss)="setOpen(false)"></ion-toast>
   </ion-content>
 </ion-app>

@@ -196,7 +196,6 @@ export class AccountComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
   showListDelete() {
-    // this.isShowSelectDelete = !this.isShowSelectDelete;
     if (!this.isShowSelectDelete) this.selectedAccount = null;
     this.store.dispatch({
       type: 'CHANGE_HEADER',
@@ -206,7 +205,7 @@ export class AccountComponent implements OnInit, AfterViewInit, OnChanges {
       },
     });
   }
-  selecteItem(item: any) {
+  selectItem(item: any) {
     if (this.selectedAccount && this.selectedAccount.id === item.id) {
       this.selectedAccount = null;
     } else {
