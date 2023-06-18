@@ -20,8 +20,8 @@
         </button>
       </ng-template>
     </div>
-    <div class="position-relative">
-      <div class="position-relative">
+    <div *ngIf="listData && listData.length; else elseBlock" class="position-relative">
+      <div *ngFor="let item of listData" class="position-relative">
         <div *ngIf="isBackHeader" class="checkbox-in-card-container form-check">
           <input class="form-check-input checkbox-in-card" type="checkbox">
         </div>
@@ -29,14 +29,14 @@
           <ion-card-content>
             <div class="row mb-3 text-primary">
               <div class="col-5">
-                <button class="btn btn-success fw-bold w-100" style="font-size: 12px;">Chi phí marketing</button>
+                <button class="btn btn-success fw-bold w-100" style="font-size: 12px;">{{item.costName}}</button>
               </div>
               <div class="col-7">
                 <small>
                   Tên bản ghi
                 </small>
                 <div class="fw-bold">
-                  AAA
+                  {{ item.name }}
                 </div>
               </div>
             </div>
@@ -46,13 +46,13 @@
                   <div class="fw-bold">
                     Từ ngày
                   </div>
-                  <p>10/04/2023</p>
+                  <p>{{item.fromDate}}</p>
                 </div>
                 <div>
                   <div class="fw-bold">
                     Số đơn
                   </div>
-                  <p>200</p>
+                  <p>{{plugins.formatNumber(item.numOfOrder)}}</p>
                 </div>
               </div>
               <div class="col-5">
@@ -60,13 +60,13 @@
                   <div class="fw-bold">
                     Đến ngày
                   </div>
-                  <p>10/04/2023</p>
+                  <p>{{item.toDate}}</p>
                 </div>
                 <div>
                   <div class="fw-bold">
                     Chi phí theo ngày
                   </div>
-                  <p>200</p>
+                  <p>{{ plugins.formatNumber(item.costPerDay) }}</p>
                 </div>
               </div>
               <div style="position: absolute;top: 15%;left: 25%;">
@@ -76,22 +76,23 @@
                 <div>
                   Tổng chi phí
                 </div>
-                <button class="btn btn-warning text-white fw-bold">239.915đ</button>
+                <button class="btn btn-sm btn-warning text-white fw-bold">{{ plugins.formatNumber(item.totalCost)
+                  }}đ</button>
               </div>
               <small class="position-absolute" style="right: 0; bottom: 0;width: fit-content; ">
-                10/04/2023
+                {{item.code}}
               </small>
             </div>
           </ion-card-content>
         </ion-card>
       </div>
     </div>
-    <!-- <ng-template #elseBlock>
+    <ng-template #elseBlock>
       <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
         <i class="fa-solid fa-not-equal text-sub-content mb-3" style="font-size: 100px"></i>
         <h5 class="text-sub-content">Không có dữ liệu!</h5>
       </div>
-    </ng-template> -->
+    </ng-template>
   </ion-content>
   <ion-footer [translucent]="true">
     <ion-toolbar class="footer-container">
