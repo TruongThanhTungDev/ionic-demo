@@ -15,7 +15,7 @@ export class LayoutComponent implements OnInit {
   customTitle: any;
   shop: any;
   shopInfo: any;
-  listMenu: any;
+  // listMenu: any;
   constructor(
     private router: Router,
     private local: LocalStorageService,
@@ -41,12 +41,9 @@ export class LayoutComponent implements OnInit {
   get infoShop() {
     return this.local.retrieve('shop');
   }
-  // get listMenu() {
-  //   if (this.info.role === 'admin') {
-  //     return ROUTES
-  //   } else if(this.info.role === 'user') {}
-
-  // }
+  get listMenu() {
+    return ROUTES;
+  }
   get isShowMenu() {
     return (
       (this.info.role === 'admin' && this.infoShop) ||
@@ -96,30 +93,20 @@ export class LayoutComponent implements OnInit {
       this.isChange = state.common.isBackHeader;
       this.customTitle = state.common.titleCustom;
       this.shopInfo = state.common.shopInfo;
-      if (this.shopInfo || this.isMarketing) {
-        this.setMenu();
-      }
+      // if (this.shopInfo && this.isAdmin) {
+      //   this.setMenu();
+      // } else {
+      //   this.listMenu = state.common.listMenu;
+      // }
     });
   }
 
-  setMenu() {
-    if (this.isAdmin) {
-      this.listMenu = ROUTES;
-    } else if (this.isUser) {
-      console.log('2 :>> ', 2);
-      this.listMenu = MENU_USER;
-    } else {
-      console.log('1 :>> ', 1);
-      this.listMenu = MENU_MKT;
-    }
-  }
+  // setMenu() {
+  //   this.listMenu = ROUTES;
+  // }
 
   logout() {
     this.router.navigate(['/login']);
-    this.store.dispatch({
-      type: 'SET_SHOP_INFO',
-      payload: null,
-    });
   }
   toHomePage() {
     this.router.navigate(['/shop']);

@@ -365,6 +365,7 @@ export const MENU_MKT = [
     icon: 'nc-icon nc-single-copy-04',
     class: 'border-bottom ',
     role: 'marketing',
+    show: true,
     params: { shopCode: 'KHBOM' },
     items: [],
   },
@@ -416,6 +417,7 @@ export const MENU_USER = [
     class: '',
     role: 'user',
     params: '',
+    show: true,
     items: [],
   },
 ];

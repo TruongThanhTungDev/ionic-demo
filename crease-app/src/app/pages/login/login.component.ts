@@ -2,9 +2,11 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
+import { Store } from '@ngrx/store';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
+import { MENU_MKT, MENU_USER } from 'src/app/shared/utils/data';
 
 @Component({
   selector: 'login-page',
@@ -21,13 +23,21 @@ export class Login implements OnInit {
     private baseApi: DanhMucService,
     private router: Router,
     private localStorage: LocalStorageService,
-    private loading: LoadingController
+    private loading: LoadingController,
+    private store: Store<any>
   ) {}
 
   ngOnInit() {
     this.username = '';
     this.password = '';
     this.localStorage.clear();
+    this.store.dispatch({
+      type: 'RESET_DATA',
+      payload: {
+        shop: null,
+        listMenu: null,
+      },
+    });
   }
 
   async login() {
@@ -45,8 +55,16 @@ export class Login implements OnInit {
             if (res.body.RESULT.role === 'admin') {
               this.router.navigate(['/shop']);
             } else if (res.body.RESULT.role === 'marketing') {
+              this.store.dispatch({
+                type: 'SET_MENU',
+                payload: MENU_MKT,
+              });
               this.router.navigate(['/utm-medium']);
             } else {
+              this.store.dispatch({
+                type: 'SET_MENU',
+                payload: MENU_USER,
+              });
               this.router.navigate(['/work']);
             }
             this.loading.dismiss();

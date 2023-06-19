@@ -28,6 +28,13 @@ export function commonReducer(state = initialState, action: any) {
         shopInfo: action.payload,
       };
     }
+    case 'RESET_DATA': {
+      return {
+        ...state,
+        shopInfo: action.payload.shop,
+        listMenu: action.payload.listMenu,
+      };
+    }
     default: {
       return state;
     }
