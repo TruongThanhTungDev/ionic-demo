@@ -1,33 +1,55 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { MENU_MKT, MENU_USER, ROUTES } from '../shared/utils/data';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Location } from '@angular/common';
 import { Store, select } from '@ngrx/store';
+import { DanhMucService } from '../danhmuc.services';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent implements OnInit, AfterViewInit, OnChanges {
   location: Location;
   isChange: any;
   customTitle: any;
   shop: any;
   shopInfo: any;
-  // listMenu: any;
+  shopCode: any;
+  info: any;
+  listMenu: any;
   constructor(
     private router: Router,
-    private local: LocalStorageService,
+    private localStorage: LocalStorageService,
     location: Location,
-    private store: Store<any>
+    private store: Store<any>,
+    private dmService: DanhMucService
   ) {
     this.location = location;
-    this.shop = this.local.retrieve('shop');
-    // this.setMenu();
+    this.shop = this.localStorage.retrieve('shop');
+    this.info = this.localStorage.retrieve('authenticationToken');
+    this.shopCode = this.localStorage.retrieve('shopCode');
+    this.setMenu();
+    this.dmService.getClickEvent().subscribe(() => {
+      this.shop = this.localStorage.retrieve('shop');
+      this.shopCode = this.localStorage.retrieve('shopCode');
+      if (this.shopCode) {
+        this.setMenu();
+        this.loadData(this.listMenu);
+      }
+    });
   }
-  get info() {
-    return this.local.retrieve('authenticationToken');
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.shopCode) {
+      console.log('1 :>> ', 1);
+    }
   }
   get isAdmin() {
     return this.info.role === 'admin';
@@ -39,10 +61,7 @@ export class LayoutComponent implements OnInit {
     return this.info.role === 'user';
   }
   get infoShop() {
-    return this.local.retrieve('shop');
-  }
-  get listMenu() {
-    return ROUTES;
+    return this.localStorage.retrieve('shop');
   }
   get isShowMenu() {
     return (
@@ -93,20 +112,24 @@ export class LayoutComponent implements OnInit {
       this.isChange = state.common.isBackHeader;
       this.customTitle = state.common.titleCustom;
       this.shopInfo = state.common.shopInfo;
-      // if (this.shopInfo && this.isAdmin) {
-      //   this.setMenu();
-      // } else {
-      //   this.listMenu = state.common.listMenu;
-      // }
     });
   }
 
-  // setMenu() {
-  //   this.listMenu = ROUTES;
-  // }
+  ngAfterViewInit(): void {}
+
+  setMenu() {
+    if (this.isAdmin) {
+      this.listMenu = this.shopCode ? ROUTES : [];
+    } else if (this.isMarketing) {
+      this.listMenu = MENU_MKT;
+    } else if (this.isUser) {
+      this.listMenu = MENU_USER;
+    }
+  }
 
   logout() {
     this.router.navigate(['/login']);
+    this.localStorage.clear();
   }
   toHomePage() {
     this.router.navigate(['/shop']);
@@ -118,6 +141,20 @@ export class LayoutComponent implements OnInit {
         title: '',
         state: false,
       },
+    });
+  }
+  loadData(list: any): void {
+    list.forEach((e: any) => {
+      if (e.params) {
+        e.params.shopCode = this.shopCode;
+      }
+      if (e.items.length > 0) {
+        for (let i = 0; i < e.items.length; i++) {
+          if (e.items[i].params) {
+            e.items[i].params.shopCode = this.shopCode;
+          }
+        }
+      }
     });
   }
 }
