@@ -200,7 +200,7 @@ export class AccountComponent implements OnInit, AfterViewInit, OnChanges {
     this.store.dispatch({
       type: 'CHANGE_HEADER',
       payload: {
-        title: 'Chọn mục',
+        title: 'Hủy',
         state: true,
       },
     });

@@ -2,9 +2,11 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
+import * as dayjs from 'dayjs';
 import * as moment from 'moment';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
+import { ThemSuaCostRecord } from 'src/app/shared/popup/them-sua-ban-ghi-chi-phi/them-sua-ban-ghi-chi-phi-component';
 import { Plugin } from 'src/app/shared/utils/plugins';
 
 @Component({
@@ -12,9 +14,15 @@ import { Plugin } from 'src/app/shared/utils/plugins';
   templateUrl: './ban-ghi-chi-phi.component.html',
 })
 export class CostRecordComponent implements OnInit {
+  name = '';
+  code = '';
+  itemsPerPage = 10;
+  page = 1;
+  totalItems = 0;
   REQUEST_URL = '/api/v1/cost';
   costType: any;
   shopCode = '';
+  listCostType: any;
   listData: any;
   info: any;
   selectedItem: any;
@@ -26,8 +34,8 @@ export class CostRecordComponent implements OnInit {
   isBackHeader: any;
   plugins = new Plugin();
   dateRange = {
-    startDate: moment().startOf('month'),
-    endDate: moment().endOf('month'),
+    startDate: moment().utc().startOf('month'),
+    endDate: moment().utc().endOf('month'),
   };
   public actionDeleteAccount = [
     {
@@ -60,14 +68,25 @@ export class CostRecordComponent implements OnInit {
     if (this.info.role === 'admin') {
       this.shopCode = this.localStorage.retrieve('shop').code;
     }
+    this.getListCostType();
     this.loadData();
+  }
+  getListCostType() {
+    this.dmService.getOption(null, '/api/v1/costtype', '/getAll').subscribe(
+      (res: HttpResponse<any>) => {
+        this.listCostType = res.body.RESULT;
+      },
+      () => {
+        console.error();
+      }
+    );
   }
   async loadData() {
     var date = JSON.parse(JSON.stringify(this.dateRange));
     date.endDate = date.endDate.replace('23:59:59', '00:00:00');
     const payload = {
-      page: 0,
-      size: 10000,
+      page: this.page - 1,
+      size: this.itemsPerPage,
       filter: this.searchData(),
       sort: ['id', 'asc'],
     };
@@ -89,6 +108,7 @@ export class CostRecordComponent implements OnInit {
               };
             })
             .sort((a: any, b: any) => b.id - a.id);
+          this.totalItems = res.body ? res.body.RESULT.totalElements : 0;
         } else {
           this.loading.dismiss();
           this.isToastOpen = true;
@@ -106,7 +126,7 @@ export class CostRecordComponent implements OnInit {
   }
   searchData() {
     // this.spinner.show();
-    var date = JSON.parse(JSON.stringify(this.dateRange));
+    var date = this.dateRange;
     let startDate = moment(date.startDate, 'YYYYMMDD').format('YYYYMMDD');
     let endDate = moment(date.endDate, 'YYYYMMDD').format('YYYYMMDD');
     const filter = [];
@@ -119,19 +139,54 @@ export class CostRecordComponent implements OnInit {
     if (endDate) filter.push(`toDate<=${endDate}`);
     return filter.join(';');
   }
-  filterDate(e: any) {}
-
-  addCostRecord() {}
+  filterDate(e: any) {
+    this.dateRange.startDate = moment(e.startDate, 'YYYY-MM-DD');
+    this.dateRange.endDate = moment(e.endDate, 'YYYY-MM-DD');
+    this.loadData();
+  }
+  getFilter() {
+    this.isOpenFilterModal = false;
+    this.loadData();
+  }
+  async addCostRecord() {
+    const modal = await this.modal.create({
+      component: ThemSuaCostRecord,
+      componentProps: {
+        title: 'Thêm mới bản ghi chi phí',
+        data: null,
+        type: 'add',
+      },
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.loadData();
+    }
+  }
 
   deleteItem(item: any) {}
 
-  editInfoCost(item: any) {}
+  async editInfoCost(item: any) {
+    const modal = await this.modal.create({
+      component: ThemSuaCostRecord,
+      componentProps: {
+        title: 'Xử lý bản ghi chi phí',
+        data: item,
+        type: 'edit',
+      },
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.loadData();
+    }
+  }
   showListDelete() {
     if (!this.isShowSelectDelete) this.selectedItem = null;
     this.store.dispatch({
       type: 'CHANGE_HEADER',
       payload: {
-        title: 'Chọn mục',
+        title: 'Hủy',
         state: true,
       },
     });
@@ -146,7 +201,9 @@ export class CostRecordComponent implements OnInit {
       this.selectedItem = item;
     }
   }
-  openModalFilter(open: boolean) {}
+  openModalFilter(open: boolean) {
+    this.isOpenFilterModal = open;
+  }
 
   public async isLoading() {
     const isLoading = await this.loading.create({
@@ -156,5 +213,22 @@ export class CostRecordComponent implements OnInit {
       translucent: true,
     });
     return await isLoading.present();
+  }
+  changePagination(e: any) {
+    this.page = e;
+    this.loadData();
+  }
+  setOpen(open: boolean) {
+    this.isToastOpen = open;
+  }
+  resetData() {
+    this.name = '';
+    this.code = '';
+    this.costType = '';
+  }
+  async handleRefresh(event: any) {
+    this.resetData();
+    await this.loadData();
+    event.target.complete();
   }
 }

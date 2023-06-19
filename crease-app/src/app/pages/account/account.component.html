@@ -30,7 +30,7 @@
           <input class="form-check-input checkbox-in-card" type="checkbox"
             [checked]="selectedAccount && selectedAccount.id === entity.id" (change)="selectItem(entity)">
         </div>
-        <ion-card color="dark" [class]="selectedAccount && selectedAccount.id === entity.id ? 'card-active' : ''"
+        <ion-card [class]="selectedAccount && selectedAccount.id === entity.id ? 'card-active' : ''"
           (click)="isBackHeader ? selectItem(entity) : editInfoUser(entity)">
           <ion-card-content [class]="selectedAccount && selectedAccount.id === entity.id ? 'text-white' : 'text-dark'">
             <div class="d-flex align-items-center mb-3">
@@ -80,7 +80,7 @@
   <ion-footer [translucent]="true">
     <ion-toolbar class="footer-container">
       <ion-segment color="dark" value="account">
-        <ion-segment-button value="account" routerLink="/account">
+        <ion-segment-button value="account" routerLink="/account" style="background: #035287">
           <ion-label class="fw-bold text-white">Nhân viên</ion-label>
         </ion-segment-button>
         <ion-segment-button value="work" routerLink="/work">

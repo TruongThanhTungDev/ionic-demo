@@ -97,7 +97,7 @@ export class LoaiChiPhiComponent implements OnInit {
     this.store.dispatch({
       type: 'CHANGE_HEADER',
       payload: {
-        title: 'Chọn mục',
+        title: 'Hủy',
         state: true,
       },
     });

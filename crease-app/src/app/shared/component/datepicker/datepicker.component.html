@@ -1,6 +1,11 @@
 <div class="dropdown" style="margin-left: 4px;">
-  <input type="text" [value]="date" class="dropdown-toggle form-control" data-bs-toggle="dropdown" aria-expanded="false"
-    readonly>
+  <div class="position-relative">
+    <input type="text" [value]="date" class="dropdown-toggle form-control text-primary" data-bs-toggle="dropdown"
+      style="padding-left: 30px;" aria-expanded="false" readonly>
+    <label class="position-absolute text-primary" style="top: 50%; left: 10px; transform: translateY(-50%);">
+      <i class="fa fa-calendar"></i>
+    </label>
+  </div>
 
   <ul class="dropdown-menu">
     <li *ngFor="let date of range" class="dropdown-item"

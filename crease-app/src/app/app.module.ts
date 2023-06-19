@@ -22,6 +22,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { commonReducer } from './shared/store/common/common.reducers';
 import { ThemSuaCostTypeComponent } from './shared/popup/them-sua-loai-chi-phi/them-sua-loai-chi-phi.component';
+import { ThemSuaCostRecord } from './shared/popup/them-sua-ban-ghi-chi-phi/them-sua-ban-ghi-chi-phi-component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +30,7 @@ import { ThemSuaCostTypeComponent } from './shared/popup/them-sua-loai-chi-phi/t
     ThemSuaShop,
     ThemSuaAccount,
     ThemSuaCostTypeComponent,
+    ThemSuaCostRecord,
   ],
   imports: [
     HttpClientModule,
