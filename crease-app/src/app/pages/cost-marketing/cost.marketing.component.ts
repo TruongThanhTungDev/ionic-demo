@@ -146,7 +146,7 @@ export class CostMarketingComponent implements OnInit {
     let startDate = moment(date.startDate, 'YYYYMMDD').format('YYYYMMDD');
     let endDate = moment(date.endDate, 'YYYYMMDD').format('YYYYMMDD');
     const filter = [];
-    filter.push('id>0');
+    filter.push("id>0;costType.code=='CPMKT'");
     filter.push(`shopCode==${this.shopCode}`);
     if (this.costType) {
       filter.push(`costType.id==${this.costType}`);
