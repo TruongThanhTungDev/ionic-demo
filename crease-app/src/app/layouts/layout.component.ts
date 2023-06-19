@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ROUTES } from '../shared/utils/data';
+import { MENU_MKT, MENU_USER, ROUTES } from '../shared/utils/data';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Location } from '@angular/common';
 import { Store, select } from '@ngrx/store';
@@ -13,6 +13,8 @@ export class LayoutComponent implements OnInit {
   location: Location;
   isChange: any;
   customTitle: any;
+  shop: any;
+  listMenu: any;
   constructor(
     private router: Router,
     private local: LocalStorageService,
@@ -20,6 +22,8 @@ export class LayoutComponent implements OnInit {
     private store: Store<any>
   ) {
     this.location = location;
+    this.shop = this.local.retrieve('shop');
+    this.setMenu();
   }
   get info() {
     return this.local.retrieve('authenticationToken');
@@ -27,11 +31,17 @@ export class LayoutComponent implements OnInit {
   get infoShop() {
     return this.local.retrieve('shop');
   }
-  get listMenu() {
-    return ROUTES;
-  }
+  // get listMenu() {
+  //   if (this.info.role === 'admin') {
+  //     return ROUTES
+  //   } else if(this.info.role === 'user') {}
+
+  // }
   get isShowMenu() {
-    return this.info.role === 'admin' && this.infoShop;
+    return (
+      (this.info.role === 'admin' && this.infoShop) ||
+      this.info.role === 'marketing'
+    );
   }
   get titleHeader() {
     var title = this.location.prepareExternalUrl(this.location.path());
@@ -75,6 +85,18 @@ export class LayoutComponent implements OnInit {
       this.customTitle = state.common.titleCustom;
     });
   }
+
+  setMenu() {
+    if (this.info.role === 'admin') {
+      this.listMenu = ROUTES;
+    } else if (this.info.role === 'user') {
+      console.log('1 :>> ', 1);
+      this.listMenu = MENU_USER;
+    } else {
+      this.listMenu = MENU_MKT;
+    }
+  }
+
   logout() {
     this.router.navigate(['/login']);
   }

@@ -357,3 +357,65 @@ export const ROUTES = [
     ],
   },
 ];
+
+export const MENU_MKT = [
+  {
+    path: '/utm-medium',
+    title: 'Cấu hình utm',
+    icon: 'nc-icon nc-single-copy-04',
+    class: 'border-bottom ',
+    role: 'marketing',
+    params: { shopCode: 'KHBOM' },
+    items: [],
+  },
+  {
+    path: '/notF',
+    title: 'Thu chi',
+    icon: 'fa fa-laptop',
+    class: '',
+    role: '',
+    params: '',
+    show: true,
+    items: [
+      {
+        path: '/cost-marketing',
+        title: 'Chi phí marketing',
+        icon: 'nc-basket',
+        class: '',
+        role: 'marketing',
+        params: '',
+      },
+    ],
+  },
+  {
+    path: '/notF',
+    title: 'Báo cáo',
+    icon: '	fa fa-pie-chart',
+    class: '',
+    role: '',
+    params: '',
+    show: true,
+    items: [
+      {
+        path: '/utm-statistic',
+        title: 'Hiệu suất Marketing',
+        icon: 'nc-basket',
+        class: '',
+        role: 'marketing',
+        params: '',
+      },
+    ],
+  },
+];
+
+export const MENU_USER = [
+  {
+    path: '/work',
+    title: 'Chấm công',
+    icon: 'nc-icon nc-tap-01',
+    class: '',
+    role: 'user',
+    params: '',
+    items: [],
+  },
+];
