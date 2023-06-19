@@ -33,7 +33,9 @@ export class CostRecordComponent implements OnInit {
   isOpenDeleteModal = false;
   isOpenFilterModal = false;
   isBackHeader: any;
+  shopList: any;
   plugins = new Plugin();
+  SHOP_URL = '/api/v1/shop';
   dateRange = {
     startDate: moment().utc().startOf('month'),
     endDate: moment().utc().endOf('month'),
@@ -71,6 +73,17 @@ export class CostRecordComponent implements OnInit {
     }
     this.getListCostType();
     this.loadData();
+    this.loadShopList();
+  }
+  public loadShopList() {
+    this.dmService.getOption(null, this.SHOP_URL, '/getAll').subscribe(
+      (res: HttpResponse<any>) => {
+        this.shopList = res.body.RESULT;
+      },
+      () => {
+        console.error();
+      }
+    );
   }
   getListCostType() {
     this.dmService.getOption(null, '/api/v1/costtype', '/getAll').subscribe(
@@ -258,5 +271,9 @@ export class CostRecordComponent implements OnInit {
     this.resetData();
     await this.loadData();
     event.target.complete();
+  }
+  changeShop(shop: any) {
+    this.shopCode = shop.code;
+    this.loadData();
   }
 }

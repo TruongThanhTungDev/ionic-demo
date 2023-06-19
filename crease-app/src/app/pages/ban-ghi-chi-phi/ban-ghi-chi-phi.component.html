@@ -4,13 +4,21 @@
   </ion-refresher>
   <ion-content class="ion-padding">
     <div>
-      <div *ngIf="!isBackHeader; else elseBtn">
+      <div *ngIf="!isBackHeader; else elseBtn" class="d-flex">
         <button class="btn" style="background-color: #46C851;" (click)="addCostRecord()">
           <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
         </button>
         <button class="btn btn-success mx-2 h-100" (click)="showListDelete()">
           Chọn
         </button>
+        <div *ngIf="info.role !== 'admin'" class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ shopCode ? shopCode : 'Chọn cửa hàng' }}
+          </button>
+          <ul class="dropdown-menu">
+            <li *ngFor="let item of shopList" class="dropdown-item" (click)="changeShop(item)">{{ item.name }}</li>
+          </ul>
+        </div>
       </div>
       <ng-template #elseBtn>
         <button type="button" class="btn btn-danger" [disabled]="!selectedItem" (click)="openDeleteModal(true)">
