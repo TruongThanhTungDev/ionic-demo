@@ -14,6 +14,7 @@ export class LayoutComponent implements OnInit {
   isChange: any;
   customTitle: any;
   shop: any;
+  shopInfo: any;
   listMenu: any;
   constructor(
     private router: Router,
@@ -23,10 +24,19 @@ export class LayoutComponent implements OnInit {
   ) {
     this.location = location;
     this.shop = this.local.retrieve('shop');
-    this.setMenu();
+    // this.setMenu();
   }
   get info() {
     return this.local.retrieve('authenticationToken');
+  }
+  get isAdmin() {
+    return this.info.role === 'admin';
+  }
+  get isMarketing() {
+    return this.info.role === 'marketing';
+  }
+  get isUser() {
+    return this.info.role === 'user';
   }
   get infoShop() {
     return this.local.retrieve('shop');
@@ -40,7 +50,8 @@ export class LayoutComponent implements OnInit {
   get isShowMenu() {
     return (
       (this.info.role === 'admin' && this.infoShop) ||
-      this.info.role === 'marketing'
+      this.info.role === 'marketing' ||
+      this.info.role === 'user'
     );
   }
   get titleHeader() {
@@ -61,6 +72,7 @@ export class LayoutComponent implements OnInit {
       { ma: '/shop', title: 'Danh sách cửa hàng' },
       { ma: '/cost-marketing', title: 'Chi phí Marketing' },
       { ma: '/utm-statistic', title: 'Thống kê UTM' },
+      { ma: '/utm-medium', title: 'Cấu hình UTM' },
       { ma: '/statiscal-revenue', title: 'Thống kê doanh thu' },
       { ma: '/statiscal-cost', title: 'Thống kê chi phí' },
       { ma: '/statistic-performance-sale', title: 'Thống kê hiệu suất sale' },
@@ -83,22 +95,31 @@ export class LayoutComponent implements OnInit {
     this.store.subscribe((state) => {
       this.isChange = state.common.isBackHeader;
       this.customTitle = state.common.titleCustom;
+      this.shopInfo = state.common.shopInfo;
+      if (this.shopInfo || this.isMarketing) {
+        this.setMenu();
+      }
     });
   }
 
   setMenu() {
-    if (this.info.role === 'admin') {
+    if (this.isAdmin) {
       this.listMenu = ROUTES;
-    } else if (this.info.role === 'user') {
-      console.log('1 :>> ', 1);
+    } else if (this.isUser) {
+      console.log('2 :>> ', 2);
       this.listMenu = MENU_USER;
     } else {
+      console.log('1 :>> ', 1);
       this.listMenu = MENU_MKT;
     }
   }
 
   logout() {
     this.router.navigate(['/login']);
+    this.store.dispatch({
+      type: 'SET_SHOP_INFO',
+      payload: null,
+    });
   }
   toHomePage() {
     this.router.navigate(['/shop']);

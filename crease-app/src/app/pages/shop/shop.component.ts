@@ -9,6 +9,7 @@ import { LoadingController } from '@ionic/angular';
 import { OPERATIONS } from 'src/app/app.constant';
 import { ModalController } from '@ionic/angular';
 import { ThemSuaShop } from 'src/app/shared/popup/them-sua-shop/them-sua-shop.component';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'shop-component',
@@ -29,7 +30,8 @@ export class ShopComponent implements OnInit {
     private localStorage: LocalStorageService,
     private router: Router,
     private loading: LoadingController,
-    private modal: ModalController
+    private modal: ModalController,
+    private store: Store<any>
   ) {}
   public actionForDelete = [
     {
@@ -89,6 +91,10 @@ export class ShopComponent implements OnInit {
   }
   public selectRow(item: any) {
     this.localStorage.store('shop', item);
+    this.store.dispatch({
+      type: 'SET_SHOP_INFO',
+      payload: item,
+    });
     this.router.navigate(['/dashboard']);
     this.dmService.sendClickEvent();
   }

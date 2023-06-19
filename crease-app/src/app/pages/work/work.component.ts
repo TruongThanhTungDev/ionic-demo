@@ -60,10 +60,11 @@ export class WorkComponent implements OnInit {
     }
   }
 
-  public loadData() {
+  public async loadData() {
     var date = JSON.parse(JSON.stringify(this.dateRange));
     let startDate = moment(date.startDate).format('YYYYMMDD') + '000000';
     let endDate = moment(date.endDate).format('YYYYMMDD') + '235959';
+    await this.isLoading();
     this.dmService
       .getOption(
         null,

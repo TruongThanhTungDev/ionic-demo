@@ -3,6 +3,8 @@ import { CommonState } from './common.states';
 const initialState: CommonState = {
   isBackHeader: false,
   titleCustom: '',
+  listMenu: [],
+  shopInfo: null,
 };
 
 export function commonReducer(state = initialState, action: any) {
@@ -12,6 +14,18 @@ export function commonReducer(state = initialState, action: any) {
         ...state,
         isBackHeader: action.payload.state,
         titleCustom: action.payload.title,
+      };
+    }
+    case 'SET_MENU': {
+      return {
+        ...state,
+        listMenu: action.payload,
+      };
+    }
+    case 'SET_SHOP_INFO': {
+      return {
+        ...state,
+        shopInfo: action.payload,
       };
     }
     default: {

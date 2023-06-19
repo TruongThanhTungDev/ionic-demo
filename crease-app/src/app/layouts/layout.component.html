@@ -9,7 +9,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <ion-accordion-group *ngIf="isShowMenu">
+      <ion-accordion-group>
         <div *ngFor="let menu of listMenu">
           <ion-accordion *ngIf="menu.items.length; else elseBlock" [value]="menu.title">
             <ion-item slot="header" color="white" class="text-menu" [lines]="false"
@@ -41,7 +41,7 @@
         </div>
       </ion-accordion-group>
     </ion-content>
-    <ion-footer [translucent]="true">
+    <ion-footer [translucent]="true" *ngIf="isAdmin">
       <ion-toolbar style="--background: transparent">
         <ion-menu-toggle auto-hide="false">
           <ion-title class="text-menu" style="font-weight: 600;" routerLink="/shop">
