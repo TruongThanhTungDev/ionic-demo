@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import * as dayjs from 'dayjs';
 import * as moment from 'moment';
 import { LocalStorageService } from 'ngx-webstorage';
+import { OPERATIONS } from 'src/app/app.constant';
 import { DanhMucService } from 'src/app/danhmuc.services';
 import { ThemSuaCostRecord } from 'src/app/shared/popup/them-sua-ban-ghi-chi-phi/them-sua-ban-ghi-chi-phi-component';
 import { Plugin } from 'src/app/shared/utils/plugins';
@@ -47,7 +48,7 @@ export class CostRecordComponent implements OnInit {
       text: 'Đồng ý',
       role: 'confirm',
       handler: () => {
-        this.deleteItem(this.selectedItem);
+        this.deleteItem();
       },
     },
   ];
@@ -155,6 +156,7 @@ export class CostRecordComponent implements OnInit {
         title: 'Thêm mới bản ghi chi phí',
         data: null,
         type: 'add',
+        shopCode: this.shopCode,
       },
     });
     modal.present();
@@ -164,7 +166,33 @@ export class CostRecordComponent implements OnInit {
     }
   }
 
-  deleteItem(item: any) {}
+  async deleteItem() {
+    await this.isLoading();
+    this.dmService
+      .delete(this.selectedItem.id, this.REQUEST_URL + OPERATIONS.DELETE)
+      .subscribe(
+        (res: HttpResponse<any>) => {
+          if (res.body.CODE === 200) {
+            this.isToastOpen = true;
+            this.messageToast = 'Xóa bản ghi chi phí thành công';
+            this.loading.dismiss();
+            setTimeout(() => {
+              this.loadData();
+            }, 100);
+          } else {
+            this.isToastOpen = true;
+            this.messageToast = 'Xóa bản ghi chi phí thất bại';
+            this.loading.dismiss();
+          }
+        },
+        () => {
+          this.isToastOpen = true;
+          this.messageToast = 'Xóa bản ghi chi phí thất bại';
+          this.loading.dismiss();
+          console.error();
+        }
+      );
+  }
 
   async editInfoCost(item: any) {
     const modal = await this.modal.create({

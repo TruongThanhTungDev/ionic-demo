@@ -88,6 +88,8 @@
             </div>
           </ion-card-content>
         </ion-card>
+        <ion-alert [isOpen]="isOpenDeleteModal" header="BẠN CÓ THẬT SỰ MUỐN XÓA BẢN GHI NÀY?"
+          [buttons]="actionDeleteAccount" (didDismiss)="openDeleteModal(false)"></ion-alert>
       </div>
     </div>
     <ng-template #elseBlock>
