@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
@@ -10,7 +11,7 @@ import { Plugin } from 'src/app/plugins/plugins';
   selector: 'costMarketing-cmp',
   templateUrl: './cost-marketing.component.html',
 })
-export class CostMarketingComponent {
+export class CostMarketingComponent implements OnInit {
   itemsPerPage = 10;
   page = 1;
   totalItems = 0;
@@ -20,6 +21,8 @@ export class CostMarketingComponent {
   code = '';
   info: any;
   listData: any;
+  shopList: any;
+  listCostType: any;
   selectedItem: any;
   isToastOpen: any;
   isShowSelectDelete = false;
@@ -28,6 +31,8 @@ export class CostMarketingComponent {
   isOpenFilterModal = false;
   isBackHeader: any;
   plugins = new Plugin();
+  SHOP_URL = '/api/v1/shop';
+  REQUEST_URL = '/api/v1/cost';
   dateRange = {
     startDate: moment().utc().startOf('month'),
     endDate: moment().utc().endOf('month'),
@@ -57,7 +62,77 @@ export class CostMarketingComponent {
       this.selectedItem = null;
     });
   }
-  async loadData() {}
+  ngOnInit() {
+    if (this.info.role === 'admin') {
+      this.shopCode = this.localStorage.retrieve('shop').code;
+    }
+    this.getListCostType();
+    this.loadData();
+    this.loadShopList();
+  }
+  async loadData() {
+    var date = JSON.parse(JSON.stringify(this.dateRange));
+    date.endDate = date.endDate.replace('23:59:59', '00:00:00');
+    const payload = {
+      page: this.page - 1,
+      size: this.itemsPerPage,
+      filter: this.searchData(),
+      sort: ['id', 'asc'],
+    };
+    await this.isLoading();
+    this.dmService.query(payload, `${this.REQUEST_URL}`).subscribe(
+      (res: HttpResponse<any>) => {
+        if (res.status === 200) {
+          this.loading.dismiss();
+          this.listData = res.body.RESULT.content
+            .map((item: any) => {
+              return {
+                ...item,
+                costName: item.costType ? item.costType.name : '',
+                costId: item.costType ? item.costType.id : '',
+                fromDate: moment(item.fromDate, 'YYYYMMDD').format(
+                  'DD/MM/YYYY'
+                ),
+                toDate: moment(item.toDate, 'YYYYMMDD').format('DD/MM/YYYY'),
+              };
+            })
+            .sort((a: any, b: any) => b.id - a.id);
+          this.totalItems = res.body ? res.body.RESULT.totalElements : 0;
+        } else {
+          this.loading.dismiss();
+          this.isToastOpen = true;
+          this.messageToast = res.body.MESSAGE
+            ? res.body.MESSAGE
+            : 'Có lỗi xảy ra vui lòng thử lại';
+        }
+      },
+      () => {
+        this.isToastOpen = true;
+        this.messageToast = 'Có lỗi xảy ra vui lòng thử lại';
+        this.loading.dismiss();
+      }
+    );
+  }
+  loadShopList() {
+    this.dmService.getOption(null, this.SHOP_URL, '/getAll').subscribe(
+      (res: HttpResponse<any>) => {
+        this.shopList = res.body.RESULT;
+      },
+      () => {
+        console.error();
+      }
+    );
+  }
+  getListCostType() {
+    this.dmService.getOption(null, '/api/v1/costtype', '/getAll').subscribe(
+      (res: HttpResponse<any>) => {
+        this.listCostType = res.body.RESULT;
+      },
+      () => {
+        console.error();
+      }
+    );
+  }
 
   async addCostMarketing() {}
 

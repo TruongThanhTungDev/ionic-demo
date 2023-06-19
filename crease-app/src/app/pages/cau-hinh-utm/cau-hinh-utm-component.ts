@@ -1,5 +1,5 @@
 import { HttpResponse } from '@angular/common/http';
-import {  OnInit, Component, } from '@angular/core';
+import { OnInit, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
@@ -33,10 +33,10 @@ export class CauHinhUtmComponent implements OnInit {
   isOpenFilterModal = false;
   isBackHeader: any;
   nhanvienid = '';
-  nhanvien="";
-  code:any;
-  note:any;
-   
+  nhanvien = '';
+  code: any;
+  note: any;
+
   public actionDeleteAccount = [
     {
       text: 'Hủy',
@@ -71,10 +71,10 @@ export class CauHinhUtmComponent implements OnInit {
     this.loadData();
   }
   filterSearch() {
-    let filter = []
-    filter.push("id>0")
-    if(this.code) filter.push(`code==*${this.code}*`)
-    return filter.join(';')
+    let filter = [];
+    filter.push('id>0');
+    if (this.code) filter.push(`code==*${this.code}*`);
+    return filter.join(';');
   }
   async loadData() {
     if (this.info.role !== 'admin') return;
@@ -82,7 +82,7 @@ export class CauHinhUtmComponent implements OnInit {
       sort: [this.sort, this.sortType ? 'desc' : 'asc'],
       page: this.page - 1,
       size: this.itemsPerPage,
-      filter: this.filterSearch()
+      filter: this.filterSearch(),
     };
     await this.isLoading();
     this.dmService.getOption(params, this.REQUEST_URL, '/search').subscribe(
@@ -90,13 +90,15 @@ export class CauHinhUtmComponent implements OnInit {
         if (res.status === 200) {
           this.totalItems = res.body ? res.body.RESULT.totalElements : 0;
           this.listData = res.body.RESULT.content;
-          this.listData.forEach((unitItem:any) => {
+          this.listData.forEach((unitItem: any) => {
             unitItem.nhanvien = unitItem.account
-              ? unitItem.account.fullName + "(" + unitItem.account.userName + ")"
-              : "";
-              this.code=unitItem.code;
-              this.note=unitItem.note;   
-          })
+              ? unitItem.account.fullName +
+                '(' +
+                unitItem.account.userName +
+                ')'
+              : '';
+            this.note = unitItem.note;
+          });
           this.loading.dismiss();
         } else {
           this.loading.dismiss();
@@ -133,7 +135,7 @@ export class CauHinhUtmComponent implements OnInit {
       },
     });
   }
-  async addUtm(){
+  async addUtm() {
     const modal = await this.modal.create({
       component: ThemSuaUtmComponent,
       componentProps: {
@@ -210,5 +212,4 @@ export class CauHinhUtmComponent implements OnInit {
     this.code = e.target.value;
     this.loadData();
   }
-   
 }
