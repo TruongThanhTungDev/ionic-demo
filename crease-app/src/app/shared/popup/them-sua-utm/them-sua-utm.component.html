@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar class="new-toolbar-background">
+    <ion-buttons slot="start">
+      <button class="bg-content rounded-circle" (click)="cancel()">
+        <i class="fa-solid fa-arrow-left" style=" padding: 8px 8px;font-size:20px;margin-right: 6px;color: #2c5fb6"></i>
+      </button>
+    </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="saveInfo()" [strong]="true">Lưu thông tin</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="text-primary mb-3">
+    <h5 class="fw-bold">Thông tin UTM</h5>
+    <div class="form-floating mb-3">
+      <input type="text" [(ngModel)]="name" disabled class="form-control" id="name" placeholder="Nhân viên">
+      <label for="name" style="top: 3px">
+        Nhân viên
+      </label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" [(ngModel)]="code" class="form-control" id="code" placeholder="Mã UTM">
+      <label for="code" style="top: 3px">
+        Mã UTM
+      </label>
+    </div>
+     <div class="form-floating mb-3">
+      <input type="text" [(ngModel)]="note" class="form-control" id="note" placeholder="Ghi chú">
+      <label for="note" style="top: 3px">
+        Ghi chú
+      </label>
+    </div>   
+  </div>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+    (didDismiss)="setOpen(false)"></ion-toast>
+</ion-content> 
