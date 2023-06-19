@@ -6,6 +6,7 @@ import { WorkComponent } from '../pages/work/work.component';
 import { LoaiChiPhiComponent } from '../pages/loai-chi-phi/loai-chi-phi.component';
 import { CauHinhUtmComponent } from '../pages/cau-hinh-utm/cau-hinh-utm-component';
 import { CostRecordComponent } from '../pages/ban-ghi-chi-phi/ban-ghi-chi-phi.component';
+import { CostMarketingComponent } from '../pages/cost-marketing/cost.marketing.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -41,5 +42,9 @@ export const LayoutRoutes: Routes = [
   {
     path: 'cost',
     component: CostRecordComponent,
+  },
+  {
+    path: 'cost-marketing',
+    component: CostMarketingComponent,
   },
 ];

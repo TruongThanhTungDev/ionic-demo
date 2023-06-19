@@ -1,0 +1,20 @@
+<ion-app>
+  <ion-content class="ion-padding">
+    aa
+  </ion-content>
+  <ion-footer [translucent]="true">
+    <ion-toolbar class="footer-container">
+      <ion-segment color="dark" value="costmkt">
+        <ion-segment-button value="costType" routerLink="/cost-type" style="font-size: 10px;">
+          <ion-label class="fw-bold">Loại chi phí</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="cost" routerLink="/cost" style="font-size: 10px;">
+          <ion-label class="fw-bold">Bản ghi chi phí</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="costmkt" routerLink="/cost-marketing" style="font-size: 10px; background: #035287">
+          <ion-label class="fw-bold text-white">Chi phí marketing</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  </ion-footer>
+</ion-app>

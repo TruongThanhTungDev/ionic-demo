@@ -14,6 +14,7 @@ import { LoaiChiPhiComponent } from '../pages/loai-chi-phi/loai-chi-phi.componen
 import { SideBarComponent } from '../shared/component/sidebar/sidebar.component';
 import { CauHinhUtmComponent } from '../pages/cau-hinh-utm/cau-hinh-utm-component';
 import { CostRecordComponent } from '../pages/ban-ghi-chi-phi/ban-ghi-chi-phi.component';
+import { CostMarketingComponent } from '../pages/cost-marketing/cost.marketing.component';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { CostRecordComponent } from '../pages/ban-ghi-chi-phi/ban-ghi-chi-phi.co
     DatePickerComponent,
     ProgressDateComponent,
     SideBarComponent,
+    CostMarketingComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
