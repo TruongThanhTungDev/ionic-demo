@@ -91,6 +91,7 @@ export class ShopComponent implements OnInit {
   }
   public selectRow(item: any) {
     this.localStorage.store('shop', item);
+    this.localStorage.store('shopCode', item.code);
     this.store.dispatch({
       type: 'SET_SHOP_INFO',
       payload: item,

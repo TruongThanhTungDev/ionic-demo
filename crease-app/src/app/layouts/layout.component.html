@@ -11,7 +11,7 @@
     <ion-content class="ion-padding">
       <ion-accordion-group>
         <div *ngFor="let menu of listMenu">
-          <ion-accordion *ngIf="menu.items && menu.items.length; else elseMenu" [value]="menu.title">
+          <ion-accordion *ngIf="menu.items.length; else elseMenu" [value]="menu.title">
             <ion-item slot="header" color="white" class="text-menu" [lines]="false"
               style="--background: transparent;    --border-color: none">
               <i [ngClass]="menu.icon" class="col-3 " style="margin-right: 8px; font-size: 28px"></i>
@@ -70,7 +70,10 @@
       <div class=" dropdown bg-content rounded-circle border" data-bs-toggle="dropdown">
         <i class="fa-solid fa-user p-2" style="color: #2c5fb6"></i>
         <ul class="dropdown-menu">
-          <li class="dropdown-item" (click)="logout()">Đăng xuất</li>
+          <li class="dropdown-item" (click)="logout()">
+            <i class="fa-solid fa-right-from-bracket" style="margin-right: 4px;"></i>
+            Đăng xuất
+          </li>
         </ul>
       </div>
     </ion-header>

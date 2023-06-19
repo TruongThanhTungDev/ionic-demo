@@ -2,7 +2,7 @@ export const ROUTES = [
   {
     path: '/dashboard',
     title: 'Dashboard',
-    icon: '	fa fa-cube',
+    icon: 'fa fa-cube',
     class: '',
     role: '',
     params: '',
@@ -361,8 +361,8 @@ export const ROUTES = [
 export const MENU_MKT = [
   {
     path: '/utm-medium',
-    title: 'Cấu hình utm',
-    icon: 'nc-icon nc-single-copy-04',
+    title: 'Cấu hình UTM',
+    icon: 'fa fa-cog',
     class: 'border-bottom ',
     role: 'marketing',
     show: true,
@@ -413,7 +413,7 @@ export const MENU_USER = [
   {
     path: '/work',
     title: 'Chấm công',
-    icon: 'nc-icon nc-tap-01',
+    icon: 'fa fa-laptop',
     class: '',
     role: 'user',
     params: '',
