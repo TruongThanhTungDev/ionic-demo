@@ -34,7 +34,7 @@
         <div>
           <form id="formLogin" #formLogin="ngForm" (ngSubmit)="login()">
             <!-- User input -->
-            <div class="input-group mb-4">
+            <div class="input-group mb-4" [ngClass]="isValidUsername ? 'border-danger' : 'border-primary'">
               <span class="input-group-text bg-white" id="basic-addon1" style="border: 0">
                 <i class="fa-solid fa-user" style="color: #2c5fb6"></i>
               </span>
@@ -44,16 +44,21 @@
             </div>
 
             <!-- Password input -->
-            <div class="input-group mb-2">
+            <div class="input-group mb-2 border-primary"
+              [ngClass]="isValidPassword ? 'border-danger' : 'border-primary'">
               <span class="input-group-text bg-white" id="basic-addon1" style="border: 0">
                 <i class="fa-solid fa-lock" style="color: #2c5fb6"></i>
               </span>
-              <input type="password" name="password" [(ngModel)]="password" placeholder=" Mật khẩu"
-                class="form-control form-control-lg border border-primary" style="height:2.5rem ;border: 0!important;"
-                [autocomplete]="false">
+              <input [type]="isShowPassword ? 'text' : 'password'" name="password" [(ngModel)]="password"
+                placeholder=" Mật khẩu" class="form-control form-control-lg border border-primary"
+                style="height:2.5rem ;border: 0!important;" [autocomplete]="false">
+              <div class="position-absolute" style="right:1rem; top: 30%" (click)="showPassword()">
+                <i *ngIf="isShowPassword" class="fa-solid fa-eye-slash" style="color: #a89a00;"></i>
+                <i *ngIf="!isShowPassword" class="fa-solid fa-eye" style="color: #a89a00;"></i>
+              </div>
             </div>
             <div class="text-underline fw-bold text-center mb-4 cursor-pointer link-underline-primary"
-              style="color: #2c5fb6">
+              style="color: #2c5fb6" (click)="forgotPassword()">
               Không đăng nhập được?
             </div>
             <!-- Submit button -->

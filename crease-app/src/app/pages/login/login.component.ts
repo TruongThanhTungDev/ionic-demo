@@ -17,6 +17,9 @@ export class Login implements OnInit {
   username: any;
   password: any;
   language = 'vi';
+  isShowPassword = false;
+  isValidUsername = false;
+  isValidPassword = false;
   isToastOpen: any;
   messageToast: any;
   constructor(
@@ -26,7 +29,28 @@ export class Login implements OnInit {
     private loading: LoadingController,
     private store: Store<any>
   ) {}
-
+  get isValid() {
+    if (!this.username.trim() && !this.password) {
+      this.isToastOpen = true;
+      this.messageToast = 'Vui lòng nhập thông tin đăng nhập';
+      this.isValidUsername = true;
+      this.isValidPassword = true;
+      return false;
+    } else if (!this.username.trim()) {
+      this.isToastOpen = true;
+      this.messageToast = 'Vui lòng nhập Tên đăng nhập';
+      this.isValidUsername = true;
+      return false;
+    } else if (!this.password) {
+      this.isToastOpen = true;
+      this.messageToast = 'Vui lòng nhập Mật khẩu';
+      this.isValidPassword = true;
+      return false;
+    }
+    this.isValidUsername = false;
+    this.isValidPassword = false;
+    return true;
+  }
   ngOnInit() {
     this.username = '';
     this.password = '';
@@ -41,50 +65,52 @@ export class Login implements OnInit {
   }
 
   async login() {
-    const payload = {
-      userName: this.username,
-      passWord: this.password,
-    };
-    await this.isLoading();
-    this.baseApi.postOption(payload, '/api/v1/account/login', '').subscribe(
-      (res: HttpResponse<any>) => {
-        if (res.status === 200) {
-          if (res.body.CODE === 200) {
-            this.localStorage.store('authenticationToken', res.body.RESULT);
-            this.localStorage.store('check_work_active', false);
-            if (res.body.RESULT.role === 'admin') {
-              this.router.navigate(['/shop']);
-            } else if (res.body.RESULT.role === 'marketing') {
-              this.store.dispatch({
-                type: 'SET_MENU',
-                payload: MENU_MKT,
-              });
-              this.router.navigate(['/utm-medium']);
+    if (this.isValid) {
+      const payload = {
+        userName: this.username,
+        passWord: this.password,
+      };
+      await this.isLoading();
+      this.baseApi.postOption(payload, '/api/v1/account/login', '').subscribe(
+        (res: HttpResponse<any>) => {
+          if (res.status === 200) {
+            if (res.body.CODE === 200) {
+              this.localStorage.store('authenticationToken', res.body.RESULT);
+              this.localStorage.store('check_work_active', false);
+              if (res.body.RESULT.role === 'admin') {
+                this.router.navigate(['/shop']);
+              } else if (res.body.RESULT.role === 'marketing') {
+                this.store.dispatch({
+                  type: 'SET_MENU',
+                  payload: MENU_MKT,
+                });
+                this.router.navigate(['/utm-medium']);
+              } else {
+                this.store.dispatch({
+                  type: 'SET_MENU',
+                  payload: MENU_USER,
+                });
+                this.router.navigate(['/work']);
+              }
+              this.loading.dismiss();
+              this.isToastOpen = true;
+              this.messageToast = `Đăng nhập thành công với quyền ${res.body.RESULT.role}`;
             } else {
-              this.store.dispatch({
-                type: 'SET_MENU',
-                payload: MENU_USER,
-              });
-              this.router.navigate(['/work']);
+              this.loading.dismiss();
+              this.isToastOpen = true;
+              this.messageToast = res.body.MESSAGE
+                ? res.body.MESSAGE
+                : 'Đăng nhập thất bại';
             }
-            this.loading.dismiss();
-            this.isToastOpen = true;
-            this.messageToast = `Đăng nhập thành công với quyền ${res.body.RESULT.role}`;
-          } else {
-            this.loading.dismiss();
-            this.isToastOpen = true;
-            this.messageToast = res.body.MESSAGE
-              ? res.body.MESSAGE
-              : 'Đăng nhập thất bại';
           }
+        },
+        () => {
+          this.loading.dismiss();
+          this.isToastOpen = true;
+          this.messageToast = 'Đăng nhập thất bại';
         }
-      },
-      () => {
-        this.loading.dismiss();
-        this.isToastOpen = true;
-        this.messageToast = 'Đăng nhập thất bại';
-      }
-    );
+      );
+    }
   }
   changeLanguage(e: any): void {
     this.language = e;
@@ -102,5 +128,12 @@ export class Login implements OnInit {
       translucent: true,
     });
     return await isLoading.present();
+  }
+  showPassword() {
+    this.isShowPassword = !this.isShowPassword;
+  }
+  forgotPassword() {
+    this.isToastOpen = true;
+    this.messageToast = 'Tính năng này chưa được phát triển';
   }
 }
