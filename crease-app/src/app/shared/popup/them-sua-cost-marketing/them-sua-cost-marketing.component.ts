@@ -22,7 +22,7 @@ export class ThemSuaCostMarketing implements OnInit {
   isToastOpen = false;
   messageToast: any;
   costPerDay: any;
-  numOfDay: any;
+  numOfDay = 1;
   numOfOrder: any;
   shopCode: any;
   totalCost: any;
