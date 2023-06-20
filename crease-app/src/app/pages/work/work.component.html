@@ -12,12 +12,20 @@
     </div>
     <div *ngIf=" listData && listData.length; else elseBlock" class="position-relative">
       <div class="position-relative" *ngFor="let item of listData">
-        <small class="checkbox-in-card-container form-check">
-          {{plugins.formatDate(item.timeIn) }}
-        </small>
-        <ion-card>
+        <ion-card class="position-relative">
+          <div class="text-12px check-in">
+            <div class="check-in-dot"></div>
+            {{formatDate(item.timeIn) }}
+          </div>
+          <div *ngIf="item.timeOut" class="text-12px check-out">
+            <div class="check-out-dot"></div>
+            {{item.timeOut ? formatDate(item.timeOut) : '' }}
+          </div>
+          <div class="text-12px date-check fst-italic">
+            {{plugins.formatDate(item.timeIn) }}
+          </div>
           <ion-card-content class="text-dark">
-            <div class="d-flex align-items-center mb-5">
+            <div class="d-flex align-items-center my-3">
               <ion-avatar style="height: 50px; width: 50px">
                 <img width="30" height="30" alt="Silhouette of a person's head"
                   src="https://ionicframework.com/docs/img/demos/avatar.svg" />
@@ -27,7 +35,12 @@
                 ({{item.account ?
                 item.account.userName : ''}})</div>
             </div>
-            <progress-date [start]="item.timeIn" [end]="item.timeOut"></progress-date>
+            <!-- <progress-date [start]="item.timeIn" [end]="item.timeOut"></progress-date> -->
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-label="Example with label"
+                [style.width.%]="item.percentCompletedOrder" aria-valuemin="0" aria-valuemax="100">
+                {{item.percentCompletedOrder}}%</div>
+            </div>
             <div class="row mt-3 mb-1" style="font-size: 12px">
               <div class="col-4 fw-bold">
                 Đơn giao
