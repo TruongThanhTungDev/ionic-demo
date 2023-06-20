@@ -1,0 +1,53 @@
+<div class="dropdown" style="margin-left: 4px;">
+  <input type="text" [value]="date" class="dropdown-toggle form-control text-primary" data-bs-toggle="dropdown"
+    style="padding-left: 30px;" aria-expanded="false" readonly>
+  <label class="position-absolute text-primary" style="top: 50%; left: 10px; transform: translateY(-50%);">
+    <i class="fa fa-calendar"></i>
+  </label>
+
+  <ul class="dropdown-menu">
+    <li *ngFor="let date of range" class="dropdown-item"
+      [ngClass]="dateRange.startDate === date.startDate && dateRange.endDate === date.endDate ? 'bg-primary text-white' : ''"
+      (click)="setDate(date.startDate, date.endDate)">
+      {{ date.name }}
+    </li>
+    <li class="dropdown-item" (click)="openModalFilter(true)">
+      Tùy chọn
+    </li>
+  </ul>
+  <ion-modal [isOpen]="isOpenFilterModal" class="modal-filter-date-picker" (didDismiss)="openModalFilter(false)">
+    <ion-header>
+      <ion-toolbar class="text-white fw-bold" style="--background: rgba(0, 110, 185, 0.9)!important;">
+        <ion-title>
+          <i class="fa-solid fa-calendar"></i>
+          Tùy chọn
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-segment value="from" class="mb-3">
+        <ion-segment-button value="from" (click)="changeTab('from')">
+          <ion-label>Từ ngày</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="to" (click)="changeTab('to')">
+          <ion-label>Đến ngày</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+      <ion-datetime [value]="dateRange.startDate" (ionChange)="setStartDate($event)" *ngIf="stateDate === 'from'"
+        locale="vi-VN" presentation="date"></ion-datetime>
+      <ion-datetime [value]="dateRange.endDate" *ngIf="stateDate === 'to'" locale="vi-VN" presentation="date"
+        (ionChange)="setEndDate($event)"></ion-datetime>
+    </ion-content>
+    <ion-footer style="background-color: rgba(0, 110, 185, 0.9)!important;">
+      <ion-toolbar class="new-toolbar-background">
+        <ion-buttons slot="start">
+          <ion-button style="--color: white!important">Hủy</ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button style="--color: white!important" [strong]="true" (click)="setCustomDate(dateRange)">Áp
+            dụng</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </ion-modal>
+</div>

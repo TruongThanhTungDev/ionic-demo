@@ -1,75 +1,84 @@
-<ion-menu contentId="main-content" auto-hide="true">
-  <ion-header>
-    <ion-toolbar class="menu-header">
-      <ion-title routerLink="/shop">
-        <img src="../../assets/img/logo-header.png" alt="">
-        <img src="../../assets/img/logo-text.png" alt="">
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content class="ion-padding">
-    <ion-accordion-group *ngIf="isShowMenu">
-      <div *ngFor="let menu of listMenu">
-        <ion-accordion *ngIf="menu.items.length; else elseBlock" [value]="menu.title">
-          <ion-item slot="header" color="white" class="text-menu" [lines]="false"
-            style="--background: transparent;    --border-color: none">
-            <i [ngClass]="menu.icon" class="col-3 " style="margin-right: 8px; font-size: 28px"></i>
-            <ion-label class="line-clamp-1  col-9" style="font-weight: 600;">{{menu.title}}</ion-label>
-          </ion-item>
-          <div slot="content">
-            <ion-list style="margin-left: 8px" style="background: transparent;">
-              <ion-item *ngFor="let item of menu.items" class="border-item text-menu" [routerLink]="item.path"
-                routerLinkActive="active" style="--background: transparent; --border-color: none">
-                <ion-label class="line-clamp-1 " style="font-size: 14px">{{item.title}}</ion-label>
-              </ion-item>
-            </ion-list>
-          </div>
-        </ion-accordion>
-        <ng-template #elseBlock>
-          <ion-item slot="header" class="text-menu" style="font-weight: 600;"
-            style="--border-color: #006BB9!important; --background: transparent;" [routerLink]="menu.path"
-            routerLinkActive="active">
-            <i [ngClass]="menu.icon" class="col-3 " style="font-size: 28px"></i>
-            <ion-label class="line-clamp-1  col-9" style="font-weight: 600;">{{menu.title}}</ion-label>
-          </ion-item>
-        </ng-template>
+<ion-app>
+  <ion-menu mode="md" contentId="main-content">
+    <ion-header>
+      <ion-toolbar class="menu-header">
+        <ion-title routerLink="/shop">
+          <img src="../../assets/img/logo-header.png" alt="">
+          <img src="../../assets/img/logo-text.png" alt="">
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-accordion-group>
+        <div *ngFor="let menu of listMenu">
+          <ion-accordion *ngIf="menu.items.length; else elseMenu" [value]="menu.title">
+            <ion-item slot="header" color="white" class="text-menu" [lines]="false"
+              style="--background: transparent;    --border-color: none">
+              <i [ngClass]="menu.icon" class="col-3 " style="margin-right: 8px; font-size: 28px"></i>
+              <ion-label class="line-clamp-1  col-9" style="font-weight: 600;">{{menu.title}}</ion-label>
+            </ion-item>
+            <div slot="content">
+              <ion-list style="margin-left: 8px" style="background: transparent;">
+                <ion-menu-toggle auto-hide="false">
+                  <ion-item *ngFor="let item of menu.items" class="border-item text-menu" [routerLink]="item.path"
+                    routerLinkActive="active" style="--background: transparent; --border-color: none">
+                    <ion-label class="line-clamp-1 " style="font-size: 14px">{{item.title}}</ion-label>
+                  </ion-item>
+                </ion-menu-toggle>
+              </ion-list>
+            </div>
+          </ion-accordion>
+          <ng-template #elseMenu>
+            <ion-item slot="header" class="text-menu" style="font-weight: 600;"
+              style="--border-color: #006BB9!important; --background: transparent;" [routerLink]="menu.path"
+              routerLinkActive="active">
+              <i [ngClass]="menu.icon" class="col-3 " style="font-size: 28px"></i>
+              <ion-label class="line-clamp-1  col-9" style="font-weight: 600;">{{menu.title}}</ion-label>
+            </ion-item>
+          </ng-template>
+        </div>
+      </ion-accordion-group>
+    </ion-content>
+    <ion-footer mode="md" [translucent]="true" *ngIf="isAdmin">
+      <ion-toolbar style="--background: transparent">
+        <ion-menu-toggle auto-hide="false">
+          <ion-title class="text-menu" style="font-weight: 600;" routerLink="/shop">
+            <i class="fa-solid fa-arrow-left" style="font-size:20px;margin-right: 6px"></i>
+            <ion-label>Danh sách cửa hàng</ion-label>
+          </ion-title>
+        </ion-menu-toggle>
+      </ion-toolbar>
+    </ion-footer>
+  </ion-menu>
+  <div class="ion-page" id="main-content">
+    <ion-header class="py-3 px-4 text-white d-flex header-container justify-content-between w-100 align-items-center">
+      <div *ngIf="!isChange; else elseButton">
+        <ion-menu-toggle class="bg-content" style="padding: 8px 10px; border-radius: 50%;">
+          <i class="fa-solid fa-bars text-primary" style="font-size: 20px;"></i>
+        </ion-menu-toggle>
+        <ion-label class="fw-bold" style="margin-left: 6px;">{{titleHeader}}</ion-label>
       </div>
-    </ion-accordion-group>
-  </ion-content>
-  <ion-footer [translucent]="true">
-    <ion-toolbar style="--background: transparent">
-      <ion-title class="text-menu" style="font-weight: 600;" routerLink="/shop">
-        <i class="fa-solid fa-arrow-left" style="font-size:20px;margin-right: 6px"></i>
-        <ion-label>Danh sách cửa hàng</ion-label>
-      </ion-title>
-    </ion-toolbar>
-  </ion-footer>
-</ion-menu>
-<div class="ion-page" id="main-content">
-  <ion-header class="py-3 px-4 text-white d-flex header-container justify-content-between w-100 align-items-center">
-    <div *ngIf="!isChange; else elseButton">
-      <ion-menu-toggle class="bg-content" style="padding: 8px 10px; border-radius: 50%;">
-        <i class="fa-solid fa-bars text-primary" style="font-size: 20px;"></i>
-      </ion-menu-toggle>
-      <ion-label class="fw-bold" style="margin-left: 6px;">{{titleHeader}}</ion-label>
-    </div>
-    <ng-template #elseButton>
-      <div>
-        <button class="bg-content rounded-circle" (click)="handleBackHeader()">
-          <i class="fa-solid fa-arrow-left"
-            style=" padding: 8px 8px;font-size:20px;margin-right: 6px;color: #2c5fb6"></i>
-        </button>
-        <ion-label style="margin-left: 6px;" class="fw-bold">{{ customTitle }}</ion-label>
+      <ng-template #elseButton>
+        <div>
+          <button class="bg-content rounded-circle" (click)="handleBackHeader()">
+            <i class="fa-solid fa-arrow-left"
+              style=" padding: 8px 8px;font-size:20px;margin-right: 6px;color: #2c5fb6"></i>
+          </button>
+          <ion-label style="margin-left: 6px;" class="fw-bold">{{ customTitle }}</ion-label>
+        </div>
+      </ng-template>
+      <div class=" dropdown bg-content rounded-circle border" data-bs-toggle="dropdown">
+        <i class="fa-solid fa-user p-2" style="color: #2c5fb6"></i>
+        <ul class="dropdown-menu">
+          <li class="dropdown-item" (click)="logout()">
+            <i class="fa-solid fa-right-from-bracket" style="margin-right: 4px;"></i>
+            Đăng xuất
+          </li>
+        </ul>
       </div>
-    </ng-template>
-    <div class=" dropdown bg-content rounded-circle border" data-bs-toggle="dropdown">
-      <i class="fa-solid fa-user p-2" style="color: #2c5fb6"></i>
-      <ul class="dropdown-menu">
-        <li class="dropdown-item" (click)="logout()">Đăng xuất</li>
-      </ul>
-    </div>
-  </ion-header>
-  <ion-content class="ion-padding">
-    <router-outlet></router-outlet>
-  </ion-content>
-</div>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <router-outlet></router-outlet>
+    </ion-content>
+  </div>
+</ion-app>

@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar mode="md" class="new-toolbar-background">
+    <ion-buttons slot="start">
+      <button class="bg-content rounded-circle" (click)="cancel()">
+        <i class="fa-solid fa-arrow-left" style=" padding: 8px 8px;font-size:20px;margin-right: 6px;color: #2c5fb6"></i>
+      </button>
+    </ion-buttons>
+    <ion-title class="text-14px fw-bold">{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="saveInfo()" [strong]="true">Lưu</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="text-primary">
+    <h5 class="fw-bold">Thông tin chi phí</h5>
+    <div class="form-floating mb-3">
+      <input type="text" [(ngModel)]="costPerDay" class="form-control" id="name">
+      <label for="name" style="top: 3px">
+        Chi phí theo ngày
+      </label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" [(ngModel)]="numOfDay" class="form-control" id="name" (change)="getCostByDay()">
+      <label for="name" style="top: 3px">
+        Số ngày
+      </label>
+    </div>
+    <div class="form-floating mb-3" *ngIf="!checkMakerting">
+      <input type="text" [(ngModel)]="numOfOrder" class="form-control" id="name" (change)="cost()">
+      <label for="name" style="top: 3px">
+        Số đơn
+      </label>
+    </div>
+    <div class="form-floating mb-3" *ngIf="costPerOrder">
+      <input type="text" [(ngModel)]="costPerOrderValue" class="form-control" id="name" (change)="cost()">
+      <label for="name" style="top: 3px">
+        Chi phí/đơn
+      </label>
+    </div>
+    <div class="form-floating mb-3">
+      <select *ngIf="info.role !== 'admin'; else elseBlock" [(ngModel)]="shopCode" class="form-control">
+        <option value="" selected>Chọn shop</option>
+        <option *ngFor="let obj of shopList" [value]="obj.code">{{obj.code}}</option>
+      </select>
+      <ng-template #elseBlock>
+        <input type="text" [(ngModel)]="shopCode" class="form-control" disabled>
+      </ng-template>
+      <label for="name" style="top: 3px">
+        Shop code
+      </label>
+    </div>
+    <div class="mb-3" *ngIf="checkMakerting">
+      <div class="row align-items-center">
+        <div class="form-floating col-6">
+          <input type="date" [(ngModel)]="dateRange.startDate" class="form-control text-primary" placeholder="Từ ngày">
+          <label style="top: 3px;left: 12px">Từ ngày</label>
+        </div>
+        <div class="form-floating col-6">
+          <input type="date" [(ngModel)]="dateRange.endDate" class="form-control w-100 text-primary"
+            style="margin-left: 4px" placeholder="Đến ngày">
+          <label style="top: 3px; left: 16px">Đến ngày</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" [(ngModel)]="totalCost" class="form-control" id="name" [disabled]="costPerOrder"
+        (change)="getCostByDay()">
+      <label for="name" style="top: 3px">
+        Tổng chi phí
+      </label>
+    </div>
+    <div class="form-floating mb-3">
+      <select [(ngModel)]="costType" class="form-select" id="floatingSelect" (change)="loadDataByCostPerOerDer()">
+        <option value=""></option>
+        <option *ngFor="let item of listCostType" [value]="item.id">{{ item.code }} - {{ item.name }}</option>
+      </select>
+      <label for="floatingSelect">Danh sách loại chi phí</label>
+    </div>
+  </div>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+    (didDismiss)="setOpen(false)"></ion-toast>
+</ion-content>

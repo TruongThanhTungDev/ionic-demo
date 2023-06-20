@@ -1,17 +1,133 @@
 <ion-app>
   <ion-content class="ion-padding">
-    Chấm công
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <div class="mb-3 d-flex align-items-center">
+      <button class="btn btn-primary col-4" (click)="refreshData()">
+        <i class="fa fa-refresh"></i>
+        Làm mới
+      </button>
+      <datepicker-component (filterDate)="filterDate($event)"></datepicker-component>
+    </div>
+    <div *ngIf=" listData && listData.length; else elseBlock" class="position-relative">
+      <div class="position-relative" *ngFor="let item of listData">
+        <small class="checkbox-in-card-container form-check">
+          {{plugins.formatDate(item.timeIn) }}
+        </small>
+        <ion-card>
+          <ion-card-content class="text-dark">
+            <div class="d-flex align-items-center mb-5">
+              <ion-avatar style="height: 50px; width: 50px">
+                <img width="30" height="30" alt="Silhouette of a person's head"
+                  src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+              </ion-avatar>
+              <div class="line-clamp-1 fw-bold text-center w-100 d-flex justify-content-center">{{ item.account ?
+                item.account.fullName : '' }}
+                ({{item.account ?
+                item.account.userName : ''}})</div>
+            </div>
+            <progress-date [start]="item.timeIn" [end]="item.timeOut"></progress-date>
+            <div class="row mt-3 mb-1" style="font-size: 12px">
+              <div class="col-4 fw-bold">
+                Đơn giao
+              </div>
+              <div class="col-4 fw-bold">
+                Đơn đang xử lý
+              </div>
+              <div class="col-4 fw-bold">
+                Đơn hoàn thành
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4">
+                {{ plugins.formatNumber(item.totalOrder) }}
+              </div>
+              <div class="col-4">
+                {{ plugins.formatNumber(item.processedOrder) }}
+              </div>
+              <div class="col-4">
+                {{ plugins.formatNumber(item.successOrder) }}
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+    <ng-template #elseBlock>
+
+    </ng-template>
   </ion-content>
   <ion-footer [translucent]="true">
-    <ion-toolbar class="footer-container">
+    <ion-toolbar mode="md" class="footer-container">
       <ion-segment color="dark" value="work">
         <ion-segment-button value="account" routerLink="/account">
           <ion-label class="fw-bold">Nhân viên</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="work" routerLink="/work">
+        <ion-segment-button value="work" routerLink="/work" style="background: #035287">
           <ion-label class="fw-bold text-white">Chấm công</ion-label>
         </ion-segment-button>
       </ion-segment>
     </ion-toolbar>
   </ion-footer>
+  <div *ngIf="isAdmin" class="dropdown position-absolute" style="bottom: 5rem; right: 1rem;">
+    <button id="open-filter" class="btn btn-primary rounded-pill " type="button" (click)="openModalFilter(true)">
+      <i class="fa-solid fa-filter"></i>
+      Lọc
+    </button>
+  </div>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+    (didDismiss)="setOpenToast(false)"></ion-toast>
+  <ion-modal [isOpen]="isOpenFilterModal" class="modal-filter" (didDismiss)="openModalFilter(false)">
+    <ion-header>
+      <ion-toolbar class="text-white fw-bold" style="--background: rgba(0, 110, 185, 0.9)!important;">
+        <ion-title>
+          <i class="fa-solid fa-filter"></i>
+          Lọc
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="form-floating mb-3">
+        <input type="text" [(ngModel)]="userName" class="form-control" placeholder="Tài khoản">
+        <label style="top: 3px">
+          Tài khoản
+        </label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="text" [(ngModel)]="fullName" class="form-control" placeholder="Họ và tên">
+        <label style="top: 3px">
+          Họ và tên
+        </label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="text" [(ngModel)]="totalOrder" class="form-control" placeholder="Đơn giao">
+        <label style="top: 3px">
+          Đơn giao
+        </label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="text" [(ngModel)]="processedOrder" class="form-control" placeholder="Đơn đang xử lý">
+        <label style="top: 3px">
+          Đơn đang xử lý
+        </label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="text" [(ngModel)]="successOrder" class="form-control" placeholder="Đơn hoàn thành">
+        <label style="top: 3px">
+          Đơn hoàn thành
+        </label>
+      </div>
+    </ion-content>
+    <ion-footer style="background-color: rgba(0, 110, 185, 0.9)!important;">
+      <ion-toolbar class="new-toolbar-background">
+        <ion-buttons slot="start">
+          <ion-button (click)="openModalFilter(false)" style="--color: white!important">Hủy</ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button [strong]="true" (click)="getFilter()">Lọc</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </ion-modal>
 </ion-app>

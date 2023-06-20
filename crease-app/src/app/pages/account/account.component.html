@@ -28,10 +28,10 @@
         *ngFor="let entity of listEntity | paginate: { itemsPerPage: 10, currentPage: page, totalItems }">
         <div *ngIf="isBackHeader" class="checkbox-in-card-container form-check">
           <input class="form-check-input checkbox-in-card" type="checkbox"
-            [checked]="selectedAccount && selectedAccount.id === entity.id" (change)="selecteItem(entity)">
+            [checked]="selectedAccount && selectedAccount.id === entity.id" (change)="selectItem(entity)">
         </div>
-        <ion-card color="dark" [class]="selectedAccount && selectedAccount.id === entity.id ? 'card-active' : ''"
-          (click)="isBackHeader ? selecteItem(entity) : editInfoUser(entity)">
+        <ion-card [class]="selectedAccount && selectedAccount.id === entity.id ? 'card-active' : ''"
+          (click)="isBackHeader ? selectItem(entity) : editInfoUser(entity)">
           <ion-card-content [class]="selectedAccount && selectedAccount.id === entity.id ? 'text-white' : 'text-dark'">
             <div class="d-flex align-items-center mb-3">
               <div class="col-3" style="margin-right: 6px">
@@ -78,15 +78,18 @@
       (pageChange)="changePagination($event)"></pagination-controls>
   </ion-content>
   <ion-footer [translucent]="true">
-    <ion-toolbar class="footer-container">
-      <ion-segment color="dark" value="account">
-        <ion-segment-button value="account" routerLink="/account">
+    <ion-toolbar mode="md" class="footer-container">
+      <ion-segment *ngIf="!isBackHeader;else elseFooter" color="dark" value="account">
+        <ion-segment-button value="account" routerLink="/account" style="background: #035287">
           <ion-label class="fw-bold text-white">Nhân viên</ion-label>
         </ion-segment-button>
         <ion-segment-button value="work" routerLink="/work">
           <ion-label class="fw-bold">Chấm công</ion-label>
         </ion-segment-button>
       </ion-segment>
+      <ng-template #elseFooter>
+        <ion-title class="text-center text-14px fw-bold">Chọn mục</ion-title>
+      </ng-template>
     </ion-toolbar>
   </ion-footer>
   <div class="dropdown position-absolute" style="bottom: 5rem; right: 1rem;">

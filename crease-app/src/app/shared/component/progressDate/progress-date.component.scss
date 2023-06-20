@@ -1,0 +1,33 @@
+input[type="range"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  outline: none;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  background-color: transparent;
+  pointer-events: none;
+}
+.slider-track {
+  width: 100%;
+  height: 2px;
+  background-color: #8d8009;
+  border-radius: 4px;
+}
+.start-point::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 17px;
+  height: 17px;
+  background-color: #8d8009;
+  border-radius: 50%;
+}
+.end-point::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 17px;
+  height: 17px;
+  background-color: #ff4747;
+  border-radius: 50%;
+}

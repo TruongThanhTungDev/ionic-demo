@@ -3,6 +3,10 @@ import { ShopComponent } from '../pages/shop/shop.component';
 import { Dashboard } from '../pages/dashboard/dashboard.component';
 import { AccountComponent } from '../pages/account/account.component';
 import { WorkComponent } from '../pages/work/work.component';
+import { LoaiChiPhiComponent } from '../pages/loai-chi-phi/loai-chi-phi.component';
+import { CauHinhUtmComponent } from '../pages/cau-hinh-utm/cau-hinh-utm-component';
+import { CostRecordComponent } from '../pages/ban-ghi-chi-phi/ban-ghi-chi-phi.component';
+import { CostMarketingComponent } from '../pages/cost-marketing/cost.marketing.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -26,5 +30,25 @@ export const LayoutRoutes: Routes = [
     data: {
       code: 'work',
     },
+  },
+  {
+    path: 'cost-type',
+    component: LoaiChiPhiComponent,
+  },
+  {
+    path: 'utm-medium',
+    component: CauHinhUtmComponent,
+  },
+  {
+    path: 'cost',
+    component: CostRecordComponent,
+  },
+  {
+    path: 'cost-marketing',
+    component: CostMarketingComponent,
+  },
+  {
+    path: 'callLogs',
+    component: CostMarketingComponent,
   },
 ];

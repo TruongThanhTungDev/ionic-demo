@@ -21,8 +21,21 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { commonReducer } from './shared/store/common/common.reducers';
+import { ThemSuaCostTypeComponent } from './shared/popup/them-sua-loai-chi-phi/them-sua-loai-chi-phi.component';
+import { ThemSuaCostRecord } from './shared/popup/them-sua-ban-ghi-chi-phi/them-sua-ban-ghi-chi-phi-component';
+import { ThemSuaUtmComponent } from './shared/popup/them-sua-utm/them-sua-utm.component';
+import { ThemSuaCostMarketing } from './shared/popup/them-sua-cost-marketing/them-sua-cost-marketing.component';
 @NgModule({
-  declarations: [AppComponent, LayoutComponent, ThemSuaShop, ThemSuaAccount],
+  declarations: [
+    AppComponent,
+    LayoutComponent,
+    ThemSuaShop,
+    ThemSuaAccount,
+    ThemSuaCostTypeComponent,
+    ThemSuaCostRecord,
+    ThemSuaUtmComponent,
+    ThemSuaCostMarketing,
+  ],
   imports: [
     HttpClientModule,
     BrowserModule,

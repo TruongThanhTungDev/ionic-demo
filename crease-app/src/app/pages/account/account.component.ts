@@ -13,8 +13,6 @@ import { OPERATIONS, ROLE } from 'src/app/app.constant';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { ThemSuaAccount } from 'src/app/shared/popup/them-sua-account/them-sua-account.component';
 import { Store, select } from '@ngrx/store';
-import { isBackHeader } from 'src/app/shared/store/common/common.selector';
-import { map, Observable } from 'rxjs';
 @Component({
   selector: 'account-component',
   templateUrl: './account.component.html',
@@ -198,17 +196,16 @@ export class AccountComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
   showListDelete() {
-    // this.isShowSelectDelete = !this.isShowSelectDelete;
     if (!this.isShowSelectDelete) this.selectedAccount = null;
     this.store.dispatch({
       type: 'CHANGE_HEADER',
       payload: {
-        title: 'Chọn mục',
+        title: 'Hủy',
         state: true,
       },
     });
   }
-  selecteItem(item: any) {
+  selectItem(item: any) {
     if (this.selectedAccount && this.selectedAccount.id === item.id) {
       this.selectedAccount = null;
     } else {

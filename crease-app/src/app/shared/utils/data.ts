@@ -2,7 +2,7 @@ export const ROUTES = [
   {
     path: '/dashboard',
     title: 'Dashboard',
-    icon: '	fa fa-cube',
+    icon: 'fa fa-cube',
     class: '',
     role: '',
     params: '',
@@ -173,7 +173,7 @@ export const ROUTES = [
     show: true,
     items: [
       {
-        path: '/costType',
+        path: '/cost-type',
         title: 'Loại chi phí',
         icon: 'nc-basket',
         class: '',
@@ -355,5 +355,69 @@ export const ROUTES = [
         params: '',
       },
     ],
+  },
+];
+
+export const MENU_MKT = [
+  {
+    path: '/utm-medium',
+    title: 'Cấu hình UTM',
+    icon: 'fa fa-cog',
+    class: 'border-bottom ',
+    role: 'marketing',
+    show: true,
+    params: { shopCode: 'KHBOM' },
+    items: [],
+  },
+  {
+    path: '/notF',
+    title: 'Thu chi',
+    icon: 'fa fa-laptop',
+    class: '',
+    role: '',
+    params: '',
+    show: true,
+    items: [
+      {
+        path: '/cost-marketing',
+        title: 'Chi phí marketing',
+        icon: 'nc-basket',
+        class: '',
+        role: 'marketing',
+        params: '',
+      },
+    ],
+  },
+  {
+    path: '/notF',
+    title: 'Báo cáo',
+    icon: '	fa fa-pie-chart',
+    class: '',
+    role: '',
+    params: '',
+    show: true,
+    items: [
+      {
+        path: '/utm-statistic',
+        title: 'Hiệu suất Marketing',
+        icon: 'nc-basket',
+        class: '',
+        role: 'marketing',
+        params: '',
+      },
+    ],
+  },
+];
+
+export const MENU_USER = [
+  {
+    path: '/work',
+    title: 'Chấm công',
+    icon: 'fa fa-laptop',
+    class: '',
+    role: 'user',
+    params: '',
+    show: true,
+    items: [],
   },
 ];

@@ -1,0 +1,15 @@
+<div class="position-relative">
+  <div class="position-relative text-black">
+    <div class="slider-track"></div>
+    <div *ngIf="start" class="position-relative">
+      <label class="position-absolute text-black" style="top:-2rem"
+        [style.left.%]="startProgress(start) === 100 ? 93 : startProgress(start)">{{formatDate(start)}}</label>
+      <input type="range" id="slider-1" class="start-point" min="0" max="100" [value]="startProgress(start)">
+    </div>
+    <div *ngIf="end" class="position-relative">
+      <label class="position-absolute text-black" style="top:-2rem"
+        [style.left.%]="startProgress(end) === 100 ? 93 : startProgress(end)">{{formatDate(end)}}</label>
+      <input type="range" id="slider-2" class="end-point" min="0" max="100" [value]="startProgress(end)">
+    </div>
+  </div>
+</div>

@@ -8,6 +8,14 @@ import { Dashboard } from '../pages/dashboard/dashboard.component';
 import { AccountComponent } from '../pages/account/account.component';
 import { WorkComponent } from '../pages/work/work.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { DatePickerComponent } from '../shared/component/datepicker/datepicker.component';
+import { ProgressDateComponent } from '../shared/component/progressDate/progress-date.component';
+import { LoaiChiPhiComponent } from '../pages/loai-chi-phi/loai-chi-phi.component';
+import { SideBarComponent } from '../shared/component/sidebar/sidebar.component';
+import { CauHinhUtmComponent } from '../pages/cau-hinh-utm/cau-hinh-utm-component';
+import { CostRecordComponent } from '../pages/ban-ghi-chi-phi/ban-ghi-chi-phi.component';
+import { CostMarketingComponent } from '../pages/cost-marketing/cost.marketing.component';
+import { CallLogsStatisticComponent } from '../pages/callLogs-statistic/callLogs-statistic.component';
 
 @NgModule({
   imports: [
@@ -16,7 +24,20 @@ import { NgxPaginationModule } from 'ngx-pagination';
     RouterModule.forChild(LayoutRoutes),
     NgxPaginationModule,
   ],
-  declarations: [ShopComponent, Dashboard, AccountComponent, WorkComponent],
+  declarations: [
+    ShopComponent,
+    Dashboard,
+    AccountComponent,
+    WorkComponent,
+    LoaiChiPhiComponent,
+    CauHinhUtmComponent,
+    CostRecordComponent,
+    DatePickerComponent,
+    ProgressDateComponent,
+    SideBarComponent,
+    CostMarketingComponent,
+    CallLogsStatisticComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LayoutModule {}
