@@ -79,12 +79,11 @@ export class WorkComponent implements OnInit {
                 ...item,
                 percentCompletedOrder:
                   item.successOrder / item.totalOrder
-                    ? ((item.successOrder / item.totalOrder) * 100).toFixed(2)
+                    ? ((item.successOrder / item.totalOrder) * 100).toFixed(1)
                     : 0,
               };
             });
             this.loading.dismiss();
-            console.log('this.listData :>> ', this.listData);
           } else {
             this.isToastOpen = true;
             this.loading.dismiss();
@@ -121,7 +120,6 @@ export class WorkComponent implements OnInit {
               };
             });
             this.loading.dismiss();
-            console.log('this.listData :>> ', this.listData);
             this.totalItems = res.body.RESULT.totalPages;
           } else {
             this.listData = [];
