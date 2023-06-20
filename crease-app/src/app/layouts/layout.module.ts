@@ -16,6 +16,7 @@ import { CauHinhUtmComponent } from '../pages/cau-hinh-utm/cau-hinh-utm-componen
 import { CostRecordComponent } from '../pages/ban-ghi-chi-phi/ban-ghi-chi-phi.component';
 import { CostMarketingComponent } from '../pages/cost-marketing/cost.marketing.component';
 import { CallLogsStatisticComponent } from '../pages/callLogs-statistic/callLogs-statistic.component';
+import { UtmStatisticComponent } from '../pages/utm-statistic-marketing/utm-statistic-marketing.component';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { CallLogsStatisticComponent } from '../pages/callLogs-statistic/callLogs
     SideBarComponent,
     CostMarketingComponent,
     CallLogsStatisticComponent,
+    UtmStatisticComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

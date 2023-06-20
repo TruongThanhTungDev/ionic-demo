@@ -209,7 +209,7 @@ export const ROUTES = [
     items: [
       {
         path: '/utm-statistic',
-        title: 'Thống kê UTM',
+        title: 'Hiệu suất Marketing',
         icon: 'nc-basket',
         class: '',
         role: 'marketing',

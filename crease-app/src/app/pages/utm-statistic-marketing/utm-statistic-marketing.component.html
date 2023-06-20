@@ -1,0 +1,53 @@
+<ion-app>
+  <ion-content class="ion-padding">
+    <div class="row">
+      <div class="col-6">
+        <datepicker-component (filterDate)="filterDate($event)"></datepicker-component>
+      </div>
+      <div class="col-6 d-flex justify-content-end">
+        <button class="btn btn-primary fw-bold d-flex align-items-center">
+          MVP Tháng
+          <i class="fa-solid fa-arrow-right" style="margin-left: 4px"></i>
+        </button>
+      </div>
+    </div>
+    <div>
+      <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê hiệu suất Marketing</h5>
+      <ion-accordion-group>
+        <ion-accordion value="first">
+          <ion-item slot="header" color="light">
+            <ion-label>First Accordion</ion-label>
+          </ion-item>
+          <div class="ion-padding" slot="content">First Content</div>
+        </ion-accordion>
+        <ion-accordion value="second">
+          <ion-item slot="header" color="light">
+            <ion-label>Second Accordion</ion-label>
+          </ion-item>
+          <div class="ion-padding" slot="content">Second Content</div>
+        </ion-accordion>
+        <ion-accordion value="third">
+          <ion-item slot="header" color="light">
+            <ion-label>Third Accordion</ion-label>
+          </ion-item>
+          <div class="ion-padding" slot="content">Third Content</div>
+        </ion-accordion>
+      </ion-accordion-group>
+    </div>
+  </ion-content>
+  <ion-footer [translucent]="true">
+    <ion-toolbar mode="md" class="footer-container">
+      <ion-segment color="dark" value="utm">
+        <ion-segment-button value="utm" routerLink="/utm-statistic" style="font-size: 10px;background: #035287">
+          <ion-label class="fw-bold text-white">Thông kê UTM</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="revenue" routerLink="/statiscal-revenue" style="font-size: 10px;">
+          <ion-label class="fw-bold">Thống kê doanh thu</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="cost" routerLink="/statiscal-cost" style="font-size: 10px;">
+          <ion-label class="fw-bold">Thống kê chi phí</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  </ion-footer>
+</ion-app>

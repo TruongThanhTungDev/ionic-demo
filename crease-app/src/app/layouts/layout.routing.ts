@@ -7,6 +7,7 @@ import { LoaiChiPhiComponent } from '../pages/loai-chi-phi/loai-chi-phi.componen
 import { CauHinhUtmComponent } from '../pages/cau-hinh-utm/cau-hinh-utm-component';
 import { CostRecordComponent } from '../pages/ban-ghi-chi-phi/ban-ghi-chi-phi.component';
 import { CostMarketingComponent } from '../pages/cost-marketing/cost.marketing.component';
+import { UtmStatisticComponent } from '../pages/utm-statistic-marketing/utm-statistic-marketing.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -50,5 +51,9 @@ export const LayoutRoutes: Routes = [
   {
     path: 'callLogs',
     component: CostMarketingComponent,
+  },
+  {
+    path: 'utm-statistic',
+    component: UtmStatisticComponent,
   },
 ];
