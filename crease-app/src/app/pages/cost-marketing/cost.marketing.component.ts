@@ -4,8 +4,10 @@ import { LoadingController, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { LocalStorageService } from 'ngx-webstorage';
+import { OPERATIONS } from 'src/app/app.constant';
 import { DanhMucService } from 'src/app/danhmuc.services';
 import { Plugin } from 'src/app/plugins/plugins';
+import { ThemSuaCostMarketing } from 'src/app/shared/popup/them-sua-cost-marketing/them-sua-cost-marketing.component';
 
 @Component({
   selector: 'costMarketing-cmp',
@@ -16,7 +18,6 @@ export class CostMarketingComponent implements OnInit {
   page = 1;
   totalItems = 0;
   shopCode = '';
-  costType: any;
   name = '';
   code = '';
   info: any;
@@ -46,7 +47,9 @@ export class CostMarketingComponent implements OnInit {
     {
       text: 'Đồng ý',
       role: 'confirm',
-      handler: () => {},
+      handler: () => {
+        this.deleteItem();
+      },
     },
   ];
   constructor(
@@ -66,11 +69,11 @@ export class CostMarketingComponent implements OnInit {
     if (this.info.role === 'admin') {
       this.shopCode = this.localStorage.retrieve('shop').code;
     }
-    this.getListCostType();
     this.loadData();
     this.loadShopList();
   }
   async loadData() {
+    if (!this.shopCode) return;
     var date = JSON.parse(JSON.stringify(this.dateRange));
     date.endDate = date.endDate.replace('23:59:59', '00:00:00');
     const payload = {
@@ -98,6 +101,7 @@ export class CostMarketingComponent implements OnInit {
             })
             .sort((a: any, b: any) => b.id - a.id);
           this.totalItems = res.body ? res.body.RESULT.totalElements : 0;
+          this.resetData();
         } else {
           this.loading.dismiss();
           this.isToastOpen = true;
@@ -123,22 +127,65 @@ export class CostMarketingComponent implements OnInit {
       }
     );
   }
-  getListCostType() {
-    this.dmService.getOption(null, '/api/v1/costtype', '/getAll').subscribe(
-      (res: HttpResponse<any>) => {
-        this.listCostType = res.body.RESULT;
+
+  async addCostMarketing() {
+    const modal = await this.modal.create({
+      component: ThemSuaCostMarketing,
+      componentProps: {
+        title: 'Thêm mới Chi phí marketing',
+        data: null,
+        type: 'add',
+        shopCode: this.shopCode,
       },
-      () => {
-        console.error();
-      }
-    );
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.loadData();
+    }
   }
 
-  async addCostMarketing() {}
+  async editCostMarketing(item: any) {
+    const modal = await this.modal.create({
+      component: ThemSuaCostMarketing,
+      componentProps: {
+        title: 'Xử lý chi phí marketing',
+        data: item,
+        type: 'edit',
+      },
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.loadData();
+    }
+  }
 
-  async editCostMarketing(item: any) {}
-
-  async deleteItem() {}
+  async deleteItem() {
+    await this.isLoading();
+    this.dmService
+      .delete(this.selectedItem.id, this.REQUEST_URL + OPERATIONS.DELETE)
+      .subscribe(
+        (res: HttpResponse<any>) => {
+          if (res.body.CODE === 200) {
+            this.loading.dismiss();
+            this.isToastOpen = true;
+            this.messageToast = 'Xóa thành công';
+            this.loadData();
+          } else {
+            this.loading.dismiss();
+            this.isToastOpen = true;
+            this.messageToast = 'Xóa thất bại';
+          }
+        },
+        () => {
+          this.loading.dismiss();
+          this.isToastOpen = true;
+          this.messageToast = 'Xóa thất bại';
+          console.error();
+        }
+      );
+  }
 
   searchData() {
     // this.spinner.show();
@@ -147,10 +194,8 @@ export class CostMarketingComponent implements OnInit {
     let endDate = moment(date.endDate, 'YYYYMMDD').format('YYYYMMDD');
     const filter = [];
     filter.push("id>0;costType.code=='CPMKT'");
-    filter.push(`shopCode==${this.shopCode}`);
-    if (this.costType) {
-      filter.push(`costType.id==${this.costType}`);
-    }
+    if (this.shopCode) filter.push(`shopCode==${this.shopCode}`);
+    if (this.name) filter.push(`name==${this.name}`);
     if (startDate) filter.push(`fromDate>=${startDate}`);
     if (endDate) filter.push(`toDate<=${endDate}`);
     return filter.join(';');
@@ -208,7 +253,6 @@ export class CostMarketingComponent implements OnInit {
   resetData() {
     this.name = '';
     this.code = '';
-    this.costType = '';
   }
   async handleRefresh(event: any) {
     this.resetData();

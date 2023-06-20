@@ -1,5 +1,5 @@
 <ion-app>
-  <ion-menu contentId="main-content">
+  <ion-menu mode="md" contentId="main-content">
     <ion-header>
       <ion-toolbar class="menu-header">
         <ion-title routerLink="/shop">
@@ -39,7 +39,7 @@
         </div>
       </ion-accordion-group>
     </ion-content>
-    <ion-footer [translucent]="true" *ngIf="isAdmin">
+    <ion-footer mode="md" [translucent]="true" *ngIf="isAdmin">
       <ion-toolbar style="--background: transparent">
         <ion-menu-toggle auto-hide="false">
           <ion-title class="text-menu" style="font-weight: 600;" routerLink="/shop">

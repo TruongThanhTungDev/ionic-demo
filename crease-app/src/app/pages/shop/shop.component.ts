@@ -19,7 +19,7 @@ import { Store } from '@ngrx/store';
 export class ShopComponent implements OnInit {
   data: any;
   REQUEST_URL = '/api/v1/shop';
-  shopcode = '';
+  shopCode = '';
   ftTen = '';
   isOpenDeleteShop = false;
   shopSeleted: any;
