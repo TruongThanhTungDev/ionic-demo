@@ -78,8 +78,8 @@
       (pageChange)="changePagination($event)"></pagination-controls>
   </ion-content>
   <ion-footer [translucent]="true">
-    <ion-toolbar class="footer-container">
-      <ion-segment color="dark" value="account">
+    <ion-toolbar mode="md" class="footer-container">
+      <ion-segment *ngIf="!isBackHeader;else elseFooter" color="dark" value="account">
         <ion-segment-button value="account" routerLink="/account" style="background: #035287">
           <ion-label class="fw-bold text-white">Nhân viên</ion-label>
         </ion-segment-button>
@@ -87,6 +87,9 @@
           <ion-label class="fw-bold">Chấm công</ion-label>
         </ion-segment-button>
       </ion-segment>
+      <ng-template #elseFooter>
+        <ion-title class="text-center text-14px fw-bold">Chọn mục</ion-title>
+      </ng-template>
     </ion-toolbar>
   </ion-footer>
   <div class="dropdown position-absolute" style="bottom: 5rem; right: 1rem;">

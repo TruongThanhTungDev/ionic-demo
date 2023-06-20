@@ -62,8 +62,8 @@
       (didDismiss)="setOpen(false)"></ion-toast>
   </ion-content>
   <ion-footer [translucent]="true">
-    <ion-toolbar class="footer-container">
-      <ion-segment mode="md" color="dark" value="costType">
+    <ion-toolbar mode="md" class="footer-container">
+      <ion-segment *ngIf="!isBackHeader;else elseFooter" color="dark" value="costType">
         <ion-segment-button value="costType" routerLink="/cost-type" style="font-size: 10px; background: #035287">
           <ion-label class="fw-bold text-white">Loại chi phí</ion-label>
         </ion-segment-button>
@@ -74,6 +74,9 @@
           <ion-label class="fw-bold">Chi phí marketing</ion-label>
         </ion-segment-button>
       </ion-segment>
+      <ng-template #elseFooter>
+        <ion-title class="text-center text-14px fw-bold">Chọn mục</ion-title>
+      </ng-template>
     </ion-toolbar>
   </ion-footer>
 </ion-app>
