@@ -29,16 +29,16 @@
         </div>
         <ion-card [class]="selectedItem && selectedItem.id === item.id ? 'card-active' : ''"
           (click)="isBackHeader ? selectItem(item) : editInfoUtm(item)" color="white">
-          <ion-card-header>
-            <ion-card-title style="font-size: 15px; color:#006EB9">{{item.nhanvien}}</ion-card-title>
-            <ion-card-subtitle style="font-size: 10px; color:#838383">{{item.code}}</ion-card-subtitle>
+          <ion-card-header style="padding-bottom:7px">
+            <ion-card-title class="fw-bold" style=" font-size: 15px; color:#006EB9">{{item.nhanvien}}</ion-card-title>
+            <ion-card-subtitle class="fw-bold" style=" font-size: 10px; color:#838383;margin-top:0.05rem">{{item.code}}</ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
             <div class="row fw-bold">
-              <div class="col-4">Ghi chú</div>
+              <div class="col-4" style="font-size:10px">Ghi chú</div>
             </div>
             <div class="row">
-              <div class="col-12 line-clamp-1 " style="font-size: 10px;"title="">{{item.note}}</div>
+              <div class="col-12 line-clamp-1 " style=" fw-bold; font-size: 10px;"title="">{{item.note}}</div>
             </div>
           </ion-card-content>
         </ion-card>

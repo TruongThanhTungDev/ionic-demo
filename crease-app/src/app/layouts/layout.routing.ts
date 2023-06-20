@@ -47,4 +47,8 @@ export const LayoutRoutes: Routes = [
     path: 'cost-marketing',
     component: CostMarketingComponent,
   },
+  {
+    path: 'callLogs',
+    component: CostMarketingComponent,
+  },
 ];

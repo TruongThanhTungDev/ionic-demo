@@ -15,6 +15,7 @@ import { SideBarComponent } from '../shared/component/sidebar/sidebar.component'
 import { CauHinhUtmComponent } from '../pages/cau-hinh-utm/cau-hinh-utm-component';
 import { CostRecordComponent } from '../pages/ban-ghi-chi-phi/ban-ghi-chi-phi.component';
 import { CostMarketingComponent } from '../pages/cost-marketing/cost.marketing.component';
+import { CallLogsStatisticComponent } from '../pages/callLogs-statistic/callLogs-statistic.component';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { CostMarketingComponent } from '../pages/cost-marketing/cost.marketing.c
     ProgressDateComponent,
     SideBarComponent,
     CostMarketingComponent,
+    CallLogsStatisticComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

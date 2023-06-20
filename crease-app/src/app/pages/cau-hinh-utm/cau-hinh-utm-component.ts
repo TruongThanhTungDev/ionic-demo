@@ -93,7 +93,7 @@ export class CauHinhUtmComponent implements OnInit {
           this.listData.forEach((unitItem: any) => {
             unitItem.nhanvien = unitItem.account
               ? unitItem.account.fullName +
-                '(' +
+                ' (' +
                 unitItem.account.userName +
                 ')'
               : '';
