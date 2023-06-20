@@ -143,6 +143,8 @@ export class CauHinhUtmComponent implements OnInit {
         data: null,
         type: 'add',
       },
+      cssClass: 'modal-filter-lg',
+      backdropDismiss: false,
     });
     modal.present();
     const { data, role } = await modal.onWillDismiss();
@@ -158,6 +160,8 @@ export class CauHinhUtmComponent implements OnInit {
         data: item,
         type: 'edit',
       },
+      cssClass: 'modal-filter-lg',
+      backdropDismiss: false,
     });
     modal.present();
     const { data, role } = await modal.onWillDismiss();

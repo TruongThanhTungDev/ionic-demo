@@ -5,11 +5,11 @@
     </ion-refresher>
     <div>
       <div *ngIf="!isBackHeader; else elseBtn" class="row align-items-center justify-content-center">
-        <button class="btn col-1 " style="background-color: #46c851; padding:7.5px ;width:40px"
-          (click)="addUtm()">
+        <button class="btn col-1 " style="background-color: #46c851; padding:7.5px ;width:40px" (click)="addUtm()">
           <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
         </button>
-        <button class="btn  col-3 mx-2 h-100  " style="background-color:#089774;color: #ffffff; padding:8px 4px " (click)="showListDelete()">Chọn</button>
+        <button class="btn  col-3 mx-2 h-100  " style="background-color:#089774;color: #ffffff; padding:8px 4px "
+          (click)="showListDelete()">Chọn</button>
         <ion-searchbar class="col-7 p-0  search-bar " style="padding:8px;" placeholder="Tìm kiếm"
           (keyup.enter)="searchUtm($event)" placeholder="Tìm kiếm"></ion-searchbar>
       </div>
@@ -31,14 +31,15 @@
           (click)="isBackHeader ? selectItem(item) : editInfoUtm(item)" color="white">
           <ion-card-header style="padding-bottom:7px">
             <ion-card-title class="fw-bold" style=" font-size: 15px; color:#006EB9">{{item.nhanvien}}</ion-card-title>
-            <ion-card-subtitle class="fw-bold" style=" font-size: 10px; color:#838383;margin-top:0.05rem">{{item.code}}</ion-card-subtitle>
+            <ion-card-subtitle class="fw-bold"
+              style=" font-size: 10px; color:#838383;margin-top:0.05rem">{{item.code}}</ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
             <div class="row fw-bold">
               <div class="col-4" style="font-size:10px">Ghi chú</div>
             </div>
             <div class="row">
-              <div class="col-12 line-clamp-1 " style=" fw-bold; font-size: 10px;"title="">{{item.note}}</div>
+              <div class="col-12 line-clamp-1" style="font-size: 10px;" title="">{{item.note}}</div>
             </div>
           </ion-card-content>
         </ion-card>
