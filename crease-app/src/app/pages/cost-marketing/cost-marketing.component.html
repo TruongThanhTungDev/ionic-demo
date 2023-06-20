@@ -1,8 +1,8 @@
 <ion-app>
-  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
   <ion-content class="ion-padding">
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <div>
       <div *ngIf="!isBackHeader; else elseBtn" class="d-flex">
         <button class="btn" style="background-color: #46C851;" (click)="addCostMarketing()">
@@ -50,7 +50,7 @@
                 </div>
               </div>
             </div>
-            <div class="position-relative row" style="font-size: 12px;"
+            <div class="position-relative row" style="font-size: 10px;"
               [class]="selectedItem && selectedItem.id === item.id ? 'text-white' : ''">
               <div class="col-4">
                 <div class="mb-3">
@@ -79,6 +79,9 @@
                   </div>
                   <p>{{ plugins.formatNumber(item.costPerDay) }}</p>
                 </div>
+              </div>
+              <div class="col-3">
+
               </div>
               <div style="position: absolute;top: 15%;left: 25%;">
                 <i class="fa-solid fa-arrow-right"></i>
@@ -158,26 +161,20 @@
         </div>
       </div>
       <div class="mb-3">
-        <div class="d-flex align-items-center">
-          <div>
+        <div class="row row-cols-2 align-items-center">
+          <div class="col">
             <label>Từ ngày</label>
             <input type="date" [(ngModel)]="dateRange.startDate" class="form-control text-primary">
           </div>
-          <div>
+          <div class="col">
             <label>Đến ngày</label>
             <input type="date" [(ngModel)]="dateRange.endDate" class="form-control w-100 text-primary"
               style="margin-left: 4px">
           </div>
         </div>
       </div>
-      <div class="mb-3">
-        <label>Loại chi phí</label>
-        <select class="form-select text-primary" [(ngModel)]="costType">
-          <option *ngFor="let costType of listCostType" [value]="costType.id">{{ costType.name }}</option>
-        </select>
-      </div>
     </ion-content>
-    <ion-footer style="background-color: rgba(0, 110, 185, 0.9)!important;">
+    <ion-footer mode="md" style="background-color: rgba(0, 110, 185, 0.9)!important;">
       <ion-toolbar class="new-toolbar-background">
         <ion-buttons slot="start">
           <ion-button (click)="openModalFilter(false)" style="--color: white!important">Hủy</ion-button>
