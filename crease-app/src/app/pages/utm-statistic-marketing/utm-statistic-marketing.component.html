@@ -1,6 +1,6 @@
 <ion-app>
   <ion-content class="ion-padding">
-    <ion-refresher slot="fixed" (ionRefresh)="resetData()">
+    <ion-refresher slot="fixed" (ionRefresh)="resetData($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <div class="row">

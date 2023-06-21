@@ -1,4 +1,7 @@
 <div class="overflow-x-hidden h-100">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div class="d-flex w-100 mb-3">
     <button class="btn" style="background-color: #46C851; margin-right: 3px;" (click)="addShop()">
       <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
