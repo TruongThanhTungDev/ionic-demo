@@ -36,7 +36,7 @@ export class CauHinhUtmComponent implements OnInit {
   nhanvien = '';
   code: any;
   note: any;
-
+  name:any;
   public actionDeleteAccount = [
     {
       text: 'Hủy',
@@ -72,20 +72,26 @@ export class CauHinhUtmComponent implements OnInit {
   }
   filterSearch() {
     let filter = [];
+    if(this.info.role !== 'admin') {
+      filter.push("account.role=='marketing'");
+      filter.push(`account.id==${this.info.id}`);
+    } 
     filter.push('id>0');
     if (this.code) filter.push(`code==*${this.code}*`);
+    if(this.name) filter.push(`account.fullName==*${this.name}*`);
     return filter.join(';');
   }
   async loadData() {
-    if (this.info.role !== 'admin') return;
+    if (this.info.role !== 'admin'&& this.info.role !== 'marketing') return;
     const params = {
-      sort: [this.sort, this.sortType ? 'desc' : 'asc'],
+      sort: ['id','desc'],
       page: this.page - 1,
       size: this.itemsPerPage,
       filter: this.filterSearch(),
     };
+   
     await this.isLoading();
-    this.dmService.getOption(params, this.REQUEST_URL, '/search').subscribe(
+    this.dmService.getOption(params, this.REQUEST_URL,'/search').subscribe(
       (res: HttpResponse<any>) => {
         if (res.status === 200) {
           this.totalItems = res.body ? res.body.RESULT.totalElements : 0;
@@ -181,6 +187,7 @@ export class CauHinhUtmComponent implements OnInit {
             this.messageToast = res.body.MESSAGE
               ? res.body.MESSAGE
               : 'Xóa thông tin UTM thành công';
+            this.selectedItem=null;
             this.loadData();
           } else {
             this.messageToast = res.body.MESSAGE
@@ -213,7 +220,7 @@ export class CauHinhUtmComponent implements OnInit {
     this.loadData();
   }
   searchUtm(e: any) {
-    this.code = e.target.value;
+    this.name = e.target.value;
     this.loadData();
   }
 }

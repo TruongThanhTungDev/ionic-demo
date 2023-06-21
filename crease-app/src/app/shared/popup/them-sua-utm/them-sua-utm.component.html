@@ -24,7 +24,7 @@
       <label for="code">
         Mã UTM
       </label>
-      <input type="text" [(ngModel)]="code" class="form-control" id="code">
+      <input type="text" [(ngModel)]="code" [disabled]="type==='edit'" class="form-control" id="code">
     </div>
     <div class="mb-3">
       <label for="note">

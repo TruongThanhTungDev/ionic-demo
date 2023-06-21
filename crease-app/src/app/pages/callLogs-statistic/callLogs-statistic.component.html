@@ -4,7 +4,7 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <div class="mb-3 d-flex align-items-center">
-      <button class="btn btn-primary col-4" style="font-size:13px; padding: 7px 0px " (click)="refreshData()">
+      <button class="btn btn-primary col-4" style="font-size:13px; padding: 7px 0px ;margin-left:12px" (click)="refreshData()">
         <i class="fa fa-refresh"></i>
         Làm mới
       </button>
@@ -24,12 +24,12 @@
               </div>
               <div class="col-4">
                 <div class="d-flex justify-content-center">
-                  <span class="line-clamp-1 fw-bold" style="font-size:13px; margin-left: 7px">{{ item.phone }}</span>
+                  <span class=" fw-bold" style="font-size:13px; margin-left: 7px">{{ item.phone }}</span>
                 </div>
               </div>
               <div class="col-3">
                 <div class="text-end">
-                  <span class="line-clamp-1" style="font-size:10px; margin-right:4px ">File ghi âm</span>
+                  <span  style="font-size:10px; margin-right:4px ;color:#187CC0">File ghi âm</span>
                 </div>
               </div>
               <div class="col-2" style="margin-top:3px">
@@ -45,13 +45,13 @@
                 <div class="col-4" style="font-size: 9px">Danh sách đen</div>
               </div>
               <div class="row text-10px">
-                <div class="col-4 line-clamp-1 align-center" style="padding: 0px 0px 0px 30px;" title="">
+                <div class="col-3  align-center" style="padding: 0px 0px 0px 30px;" title="">
                   {{ item.duration }}s
                 </div>
-                <div class="col-4 line-clamp-1" style="padding: 0px 10px 0px 0px;" title="">
+                <div class="col-5 " style="padding: 0px 14px 0px 10px;" title="">
                   {{ convertDateTime(item.calldate) }}
                 </div>
-                <div class="col-4 line-clamp-1" style="adding: 0px 0px 0px 30px;" title="">
+                <div class="col-4 " style="adding: 0px 0px 0px 30px;" title="">
                   {{ item.blacklist }}
                 </div>
               </div>
