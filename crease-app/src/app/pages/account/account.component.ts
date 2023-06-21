@@ -226,6 +226,7 @@ export class AccountComponent implements OnInit, AfterViewInit, OnChanges {
             this.isToastOpen = true;
             this.messageToast = 'Xóa tài khoản thành công';
             this.loadData();
+            this.selectedAccount = null;
           } else {
             this.messageToast = 'Xóa tài khoản thất bại';
             this.isToastOpen = true;

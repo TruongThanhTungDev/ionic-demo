@@ -110,35 +110,35 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <div class="form-floating mb-3">
-        <input type="text" [(ngModel)]="FtTaiKhoan" class="form-control" placeholder="Tài khoản">
-        <label style="top: 3px">
+      <div class="mb-3">
+        <label>
           Tài khoản
         </label>
+        <input type="text" [(ngModel)]="FtTaiKhoan" class="form-control" placeholder="Tài khoản">
       </div>
-      <div class="form-floating mb-3">
-        <input type="text" [(ngModel)]="FtHoTen" class="form-control" placeholder="Họ và tên">
-        <label style="top: 3px">
+      <div class="mb-3">
+        <label>
           Họ và tên
         </label>
+        <input type="text" [(ngModel)]="FtHoTen" class="form-control" placeholder="Họ và tên">
       </div>
-      <div class="form-floating mb-3">
-        <input type="text" [(ngModel)]="FtEmail" class="form-control" placeholder="Email">
-        <label style="top: 3px">
+      <div class="mb-3">
+        <label>
           Email
         </label>
+        <input type="text" [(ngModel)]="FtEmail" class="form-control" placeholder="Email">
       </div>
-      <div class="form-floating mb-3">
-        <input type="text" [(ngModel)]="FtSdt" class="form-control" placeholder="Số điện thoại">
-        <label style="top: 3px">
+      <div class="mb-3">
+        <label>
           Số điện thoại
         </label>
+        <input type="text" [(ngModel)]="FtSdt" class="form-control" placeholder="Số điện thoại">
       </div>
-      <div class="form-floating mb-3">
-        <input type="text" [(ngModel)]="FtDiaChi" class="form-control" placeholder="Địa chỉ">
-        <label style="top: 3px">
+      <div class="mb-3">
+        <label>
           Địa chỉ
         </label>
+        <input type="text" [(ngModel)]="FtDiaChi" class="form-control" placeholder="Địa chỉ">
       </div>
       <label>Phân quyền</label>
       <div>
@@ -164,7 +164,7 @@
         </div>
       </div>
     </ion-content>
-    <ion-footer style="background-color: rgba(0, 110, 185, 0.9)!important;">
+    <ion-footer mode="md" style="background-color: rgba(0, 110, 185, 0.9)!important;">
       <ion-toolbar class="new-toolbar-background">
         <ion-buttons slot="start">
           <ion-button (click)="openModalFilter(false)" style="--color: white!important">Hủy</ion-button>
