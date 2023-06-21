@@ -8,8 +8,8 @@
         <button class="btn col-1 " style="background-color: #46c851; padding:7.5px ;width:40px" (click)="addUtm()">
           <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
         </button>
-        <button class="btn  col-3 mx-2 h-100 text-13px  " style="background-color:#089774;color: #ffffff; padding:8px 4px "
-          (click)="showListDelete()">Chọn</button>
+        <button class="btn  col-3 mx-2 h-100 text-13px  "
+          style="background-color:#089774;color: #ffffff; padding:8px 4px " (click)="showListDelete()">Chọn</button>
         <ion-searchbar class="col-7 p-0  search-bar " style="padding:8px;" placeholder="Tìm kiếm"
           (keyup.enter)="searchUtm($event)" placeholder="Tìm kiếm"></ion-searchbar>
       </div>
@@ -58,7 +58,7 @@
     <pagination-controls *ngIf="listData && listData.length" previousLabel="" nextLabel=""
       (pageChange)="changePagination($event)"></pagination-controls>
   </ion-content>
-  <ion-footer [translucent]="true">
+  <ion-footer *ngIf="info.role !== 'marketing'" [translucent]="true">
     <ion-toolbar mode="md" class="footer-container">
       <ion-segment *ngIf="!isBackHeader;else elseFooter" color="dark" value="account">
         <ion-segment-button value="utmmedium" routerLink="/utm-medium" style="font-size:10px">
