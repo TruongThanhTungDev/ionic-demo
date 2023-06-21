@@ -7,6 +7,7 @@ import { LoaiChiPhiComponent } from '../pages/loai-chi-phi/loai-chi-phi.componen
 import { CauHinhUtmComponent } from '../pages/cau-hinh-utm/cau-hinh-utm-component';
 import { CostRecordComponent } from '../pages/ban-ghi-chi-phi/ban-ghi-chi-phi.component';
 import { CostMarketingComponent } from '../pages/cost-marketing/cost.marketing.component';
+import { CallLogsStatisticComponent } from '../pages/callLogs-statistic/callLogs-statistic.component';
 import { UtmStatisticComponent } from '../pages/utm-statistic-marketing/utm-statistic-marketing.component';
 
 export const LayoutRoutes: Routes = [
@@ -49,8 +50,8 @@ export const LayoutRoutes: Routes = [
     component: CostMarketingComponent,
   },
   {
-    path: 'callLogs',
-    component: CostMarketingComponent,
+    path: 'calllogs',
+    component: CallLogsStatisticComponent,
   },
   {
     path: 'utm-statistic',
