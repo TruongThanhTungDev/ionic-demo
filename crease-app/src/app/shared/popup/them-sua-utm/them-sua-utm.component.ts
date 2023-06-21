@@ -23,6 +23,7 @@ export class ThemSuaUtmComponent implements OnInit {
   name:any;
   id:any;
   nhanvienid:any;
+  REQUEST_URL = '/api/v1/utmmedium/'
 
 
   constructor(
@@ -91,8 +92,7 @@ export class ThemSuaUtmComponent implements OnInit {
         let entity={
           id: '',
           code: this.code,
-          account:{ id: this.nhanvienid },
-        
+          account:{ id: this.nhanvienid }, 
           note:this.note,
         };
         await this.isLoading();
@@ -124,7 +124,7 @@ export class ThemSuaUtmComponent implements OnInit {
       else{
         entity.id = this.data.id;
         this.dmService
-          .postOption(entity, '/api/v1/utmmedium/update', '')
+          .putOption(entity,  this.REQUEST_URL, 'update?id='+entity.id)
           .subscribe(
             (res: HttpResponse<any>) => {
               if (res.body.CODE === 200) {

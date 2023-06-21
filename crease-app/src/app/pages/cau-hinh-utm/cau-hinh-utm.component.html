@@ -9,8 +9,8 @@
           <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
         </button>
         <button class="btn  col-3 mx-2 h-100 text-13px  "
-          style="background-color:#089774;color: #ffffff; padding:8px 4px " (click)="showListDelete()">Chọn</button>
-        <ion-searchbar class="col-7 p-0  search-bar " style="padding:8px;" placeholder="Tìm kiếm"
+          style="background-color:#089774;color: #ffffff; padding:10px 4px " (click)="showListDelete()">Chọn</button>
+        <ion-searchbar class="col-7   search-bar " style="padding:7px;" placeholder="Tìm kiếm"
           (keyup.enter)="searchUtm($event)" placeholder="Tìm kiếm"></ion-searchbar>
       </div>
       <ng-template #elseBtn>
@@ -67,7 +67,7 @@
         <ion-segment-button value="kho" routerLink="/kho" style="font-size:10px">
           <ion-label class="fw-bold">Cấu hình kho</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="work" routerLink="/work" style="font-size:10px">
+        <ion-segment-button value="dashboard" routerLink="/dashboard" style="font-size:10px">
           <ion-label class="fw-bold">Danh sách cấu hình</ion-label>
         </ion-segment-button>
       </ion-segment>

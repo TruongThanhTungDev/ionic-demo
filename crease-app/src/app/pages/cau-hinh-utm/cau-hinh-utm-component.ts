@@ -36,7 +36,7 @@ export class CauHinhUtmComponent implements OnInit {
   nhanvien = '';
   code: any;
   note: any;
-
+  name:any;
   public actionDeleteAccount = [
     {
       text: 'Hủy',
@@ -74,22 +74,24 @@ export class CauHinhUtmComponent implements OnInit {
     let filter = [];
     filter.push('id>0');
     if (this.code) filter.push(`code==*${this.code}*`);
+    if(this.name) filter.push(`account.fullName==*${this.name}*`);
     return filter.join(';');
   }
   async loadData() {
-    if (this.info.role !== 'admin') return;
+    if (this.info.role !== 'admin'&& this.info.role !== 'marketing') return;
     const params = {
       sort: [this.sort, this.sortType ? 'desc' : 'asc'],
       page: this.page - 1,
       size: this.itemsPerPage,
       filter: this.filterSearch(),
     };
+   
     await this.isLoading();
-    this.dmService.getOption(params, this.REQUEST_URL, '/search').subscribe(
+    this.dmService.getOption(params, this.REQUEST_URL,'').subscribe(
       (res: HttpResponse<any>) => {
         if (res.status === 200) {
           this.totalItems = res.body ? res.body.RESULT.totalElements : 0;
-          this.listData = res.body.RESULT.content;
+          this.listData = res.body.RESULT;
           this.listData.forEach((unitItem: any) => {
             unitItem.nhanvien = unitItem.account
               ? unitItem.account.fullName +
@@ -213,7 +215,7 @@ export class CauHinhUtmComponent implements OnInit {
     this.loadData();
   }
   searchUtm(e: any) {
-    this.code = e.target.value;
+    this.name = e.target.value;
     this.loadData();
   }
 }
