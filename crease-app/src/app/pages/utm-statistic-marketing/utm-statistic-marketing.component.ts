@@ -1,10 +1,3 @@
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
@@ -31,8 +24,8 @@ export class UtmStatisticComponent implements OnInit {
   listData: any;
   listMvp: any;
   dateRange = {
-    startDate: dayjs(),
-    endDate: dayjs(),
+    startDate: moment().utc().startOf('month'),
+    endDate: moment().utc().endOf('month'),
   };
   activeSlide = 'active';
   inactiveSlide = 'inactive';
@@ -48,6 +41,10 @@ export class UtmStatisticComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getAllData();
+  }
+
+  getAllData() {
     if (this.info.role === 'admin') {
       this.shopCode = this.localStorage.retrieve('shop')
         ? this.localStorage.retrieve('shop').code
@@ -57,7 +54,6 @@ export class UtmStatisticComponent implements OnInit {
       this.detailUser();
     }
   }
-
   async loadData() {
     if (this.shopCode === '') {
       return;
@@ -113,8 +109,8 @@ export class UtmStatisticComponent implements OnInit {
   }
   public loadDataTopMonth() {
     var date = JSON.parse(JSON.stringify(this.dateRange));
-    let startDate = dayjs().startOf('month').format('YYYYMMDD') + '000000';
-    let endDate = dayjs().endOf('month').format('YYYYMMDD') + '235959';
+    let startDate = moment(date.startDate).format('YYYYMMDD') + '000000';
+    let endDate = moment(date.endDate).format('YYYYMMDD') + '235959';
     this.dmService
       .getOption(
         null,
@@ -170,7 +166,11 @@ export class UtmStatisticComponent implements OnInit {
       }
     );
   }
-  filterDate(e: any) {}
+  filterDate(e: any) {
+    this.dateRange.startDate = moment(e.startDate, 'YYYY-MM-DD');
+    this.dateRange.endDate = moment(e.endDate, 'YYYY-MM-DD');
+    this.getAllData();
+  }
 
   async isLoading() {
     const isLoading = await this.loading.create({
@@ -183,5 +183,12 @@ export class UtmStatisticComponent implements OnInit {
   }
   changeView() {
     this.isShowMvp = !this.isShowMvp;
+  }
+  resetData() {
+    this.dateRange = {
+      startDate: moment().utc().startOf('month'),
+      endDate: moment().utc().endOf('month'),
+    };
+    this.getAllData();
   }
 }

@@ -32,6 +32,30 @@ ion-item::part(native) {
     opacity: 1;
   }
 }
+.dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin-bottom: 6px;
+  &_mvp {
+    background: rgb(255, 236, 64);
+  }
+  &_silver {
+    background: #a7b1c9;
+  }
+  &_cu {
+    background: #d89244;
+  }
+}
+.border-mvp {
+  border: 6px solid rgb(255, 236, 64);
+}
+.border-silver {
+  border: 6px solid #a7b1c9;
+}
+.border-cu {
+  border: 6px solid #d89244;
+}
 
 @keyframes slideLeft {
   0% {
