@@ -1,3 +1,11 @@
+body {
+  color: #2c2c2c;
+  font-size: 14px;
+  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
 /* custom input */
 input::placeholder {
   color: #2c5fb6 !important;
@@ -64,15 +72,18 @@ input::placeholder {
   box-shadow: 0px -4px 4px rgba(0, 0, 0, 0.25);
   --color: white;
   --font-weight: 600;
+  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
 }
 
 /* -------------Card------------ */
 ion-header {
   background-color: rgba(0, 110, 185, 0.9) !important;
+  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
 }
 ion-card {
   --background: #fff;
   color: #000000;
+  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
 }
 .card-selected {
   --background: #919191 !important;
