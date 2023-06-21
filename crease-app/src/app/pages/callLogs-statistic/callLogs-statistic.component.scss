@@ -1,0 +1,25 @@
+.circle-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  position: relative;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.arrow {
+  display: block;
+  width: 15px;
+  height: 15px;
+  transform: rotate(0deg);
+  margin-left: 1px;
+  margin-top: 1px;
+}
+
+
