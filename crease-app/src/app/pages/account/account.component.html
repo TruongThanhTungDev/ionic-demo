@@ -1,5 +1,5 @@
 <ion-app>
-  <ion-content class="ion-padding">
+  <ion-content class="ion-padding bg-content">
     <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
@@ -23,7 +23,7 @@
         </div>
       </ng-template>
     </div>
-    <div *ngIf="listEntity && listEntity.length; else elseBlock" class="position-relative -mt-20px">
+    <div *ngIf="listEntity && listEntity.length; else elseBlock" class="position-relative">
       <div class="position-relative"
         *ngFor="let entity of listEntity | paginate: { itemsPerPage: 10, currentPage: page, totalItems }">
         <div *ngIf="isBackHeader" class="checkbox-in-card-container form-check">

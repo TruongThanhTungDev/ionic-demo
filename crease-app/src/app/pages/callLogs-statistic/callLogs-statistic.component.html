@@ -1,0 +1,88 @@
+<ion-app>
+  <ion-content class="ion-padding">
+    <ion-refresher slot="fixed" (ionRefresh)="loadData()">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <div class="mb-3 d-flex align-items-center">
+      <button class="btn btn-primary col-4" style="font-size:13px; padding: 7px 0px " (click)="refreshData()">
+        <i class="fa fa-refresh"></i>
+        Làm mới
+      </button>
+      <datepicker-component (filterDate)="filterDate($event)"></datepicker-component>
+    </div>
+    <div *ngIf="listData && listData.length; else elseBlock" class="position-relative">
+      <div class="position-relative"
+        *ngFor=" let item of listData | paginate : { itemsPerPage: 10, currentPage: page, totalItems }">
+        <ion-card>
+          <ion-card-content>
+            <div class="d-flex align-items-center mb-3">
+              <div class="col-4" style="margin-right: 0px">
+                <button type="button" class="btn btn-sm fw-bold w-100" style="font-size:10px"
+                  [ngClass]="{'btn-success': item.status == 'ANSWERED', 'btn-danger text-white': item.status == 'NO ANSWER', 'btn-warning': item.status == 'BUSY', 'btn-primary': item.status == 'CONGESTION'}">
+                  {{ convertStatus(item.status)}}
+                </button>
+              </div>
+              <div class="col-4">
+                <div class="d-flex justify-content-center">
+                  <span class="line-clamp-1 fw-bold" style="font-size:13px; margin-left: 7px">{{ item.phone }}</span>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="text-end">
+                  <span class="line-clamp-1" style="font-size:10px; margin-right:4px ">File ghi âm</span>
+                </div>
+              </div>
+              <div class="col-2" style="margin-top:3px">
+                <a class="circle-button" href={{item.recording}}>
+                  <ion-icon class="arrow" name="arrow-forward"></ion-icon>
+                </a>
+              </div>
+            </div>
+            <div>
+              <div class="row fw-bold">
+                <div class="col-4" style="font-size: 9px">Thời lượng</div>
+                <div class="col-4" style="font-size: 9px">Thời gian</div>
+                <div class="col-4" style="font-size: 9px">Danh sách đen</div>
+              </div>
+              <div class="row text-10px">
+                <div class="col-4 line-clamp-1 align-center" style="padding: 0px 0px 0px 30px;" title="">
+                  {{ item.duration }}s
+                </div>
+                <div class="col-4 line-clamp-1" style="padding: 0px 10px 0px 0px;" title="">
+                  {{ convertDateTime(item.calldate) }}
+                </div>
+                <div class="col-4 line-clamp-1" style="adding: 0px 0px 0px 30px;" title="">
+                  {{ item.blacklist }}
+                </div>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+    <ng-template #elseBlock>
+      <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%)">
+        <i class="fa-solid fa-users-slash text-sub-content mb-3" style="font-size: 100px"></i>
+        <h5 class="text-sub-content">Không có dữ liệu!</h5>
+      </div>
+    </ng-template>
+    <pagination-controls *ngIf="listData && listData.length" previousLabel="" nextLabel=""
+      (pageChange)="changePagination($event)"></pagination-controls>
+  </ion-content>
+  <ion-footer [translucent]="true">
+    <ion-toolbar mode="md" class="footer-container">
+      <ion-segment color="dark" value="account">
+        <ion-segment-button value="account" routerLink="/account">
+          <ion-label class="fw-bold" style="font-size: 8px">Thống kê vận chuyển</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="calllogs" routerLink="/calllogs" style="background: #035287">
+          <ion-label class="fw-bold text-white" style="font-size: 8px">Thống kê cuộc gọi</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="work" routerLink="/work">
+          <ion-label class="fw-bold" style="font-size: 8px">Tài chính tổng hợp</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  </ion-footer>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"></ion-toast>
+</ion-app>

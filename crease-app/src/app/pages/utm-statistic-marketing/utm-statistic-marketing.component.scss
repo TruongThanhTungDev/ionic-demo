@@ -4,3 +4,42 @@
 div[slot="content"] {
   background: #ffc3c3 !important;
 }
+ion-item[slot="header"] {
+  --background: #ffffff;
+}
+
+ion-item::part(native) {
+  border-color: #fff;
+}
+.custom-icon {
+  color: #006eb9;
+}
+
+.show-mvp {
+  animation: slideRight 0.3s ease-in-out;
+}
+.show-statistic {
+  animation: slideLeft 0.3s ease-in-out;
+}
+
+@keyframes slideRight {
+  0% {
+    transform: translateX(150%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideLeft {
+  0% {
+    transform: translateX(-150%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

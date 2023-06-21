@@ -5,34 +5,115 @@
         <datepicker-component (filterDate)="filterDate($event)"></datepicker-component>
       </div>
       <div class="col-6 d-flex justify-content-end">
-        <button class="btn btn-primary fw-bold d-flex align-items-center">
+        <button *ngIf="!isShowMvp" class="btn btn-primary fw-bold d-flex align-items-center text-13px"
+          (click)="changeView()">
           MVP Tháng
           <i class="fa-solid fa-arrow-right" style="margin-left: 4px"></i>
         </button>
+        <button *ngIf="isShowMvp" class="btn btn-primary fw-bold d-flex align-items-center text-13px"
+          (click)="changeView()">
+          <i class="fa-solid fa-arrow-left" style="margin-right: 4px"></i>
+          Thống kê
+        </button>
       </div>
     </div>
-    <div>
+    <div *ngIf="!isShowMvp" class="show-statistic">
       <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê hiệu suất Marketing</h5>
-      <ion-accordion-group>
-        <ion-accordion value="first">
-          <ion-item slot="header" color="light">
-            <ion-label>First Accordion</ion-label>
+      <ion-accordion-group *ngIf="listData && listData.details.length; else elseData">
+        <ion-accordion *ngFor="let item of listData.details" mode="md" [value]="item.account" class="mb-2 rounded">
+          <ion-item slot="header">
+            <ion-icon class="ion-accordion-toggle-icon custom-icon" name="chevron-down-outline" slot="end">
+            </ion-icon>
+            <ion-label>
+              <div class="row align-items-center">
+                <div class="col-3">
+                  <ion-avatar slot="start" style="width: 50px;height: 50px;">
+                    <img alt="Silhouette of a person's head"
+                      src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                  </ion-avatar>
+                </div>
+                <div class="col-9 d-flex justify-content-between">
+                  <div>
+                    <div class="fw-bold">
+                      Tên
+                    </div>
+                    <p>
+                      {{item.fullName}}
+                    </p>
+                  </div>
+                  <div>
+                    <div class="fw-bold">
+                      Data
+                    </div>
+                    <p>
+                      {{plugins.formatNumber(item.totalData)}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </ion-label>
           </ion-item>
-          <div class="ion-padding" slot="content">First Content</div>
-        </ion-accordion>
-        <ion-accordion value="second">
-          <ion-item slot="header" color="light">
-            <ion-label>Second Accordion</ion-label>
-          </ion-item>
-          <div class="ion-padding" slot="content">Second Content</div>
-        </ion-accordion>
-        <ion-accordion value="third">
-          <ion-item slot="header" color="light">
-            <ion-label>Third Accordion</ion-label>
-          </ion-item>
-          <div class="ion-padding" slot="content">Third Content</div>
+          <div class="ion-padding" slot="content">
+            <table class="text-12px mb-3">
+              <thead>
+                <tr class="w-100 fw-normal">
+                  <th class="fw-normal" style="width: 33.33%;">Đơn hàng chốt</th>
+                  <th class="fw-normal" style="width: 33.33%;">TLC</th>
+                  <th class="fw-normal" style="width: 33.33%;">Chi phí Ads/đơn hàng</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="fw-bold">
+                  <td>{{plugins.formatNumber(item.totalOrder)}}</td>
+                  <td>{{item.tlc}}%</td>
+                  <td>{{plugins.formatNumber(item.adsTotalOrder)}}đ</td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="text-12px">
+              <thead>
+                <tr class="w-100">
+                  <th class="fw-normal" style="width: 33.33%;">Chi phí Ads/data</th>
+                  <th class="fw-normal" style="width: 33.33%;">Chi phí Ads/doanh số</th>
+                  <th class="fw-normal" style="width: 33.33%;">Doanh số</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="fw-bold">
+                  <td>{{plugins.formatNumber(item.adsTotalData)}}đ</td>
+                  <td>{{item.adsRevenue}}%</td>
+                  <td>{{plugins.formatNumber(item.revenue)}}đ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </ion-accordion>
       </ion-accordion-group>
+      <ng-template #elseData>
+        <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+          <i class="fa-solid fa-chart-simple text-sub-content mb-3" style="font-size: 100px"></i>
+          <h5 class="text-sub-content">Không có dữ liệu!</h5>
+        </div>
+      </ng-template>
+    </div>
+    <div *ngIf="isShowMvp" class="show-mvp">
+      <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">MVP Tháng</h5>
+      <div>
+        <ion-card>
+          <ion-card-content>
+            <div class="row">
+              <div class="col-2">
+                <div>
+                  4
+                </div>
+                <p>
+
+                </p>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
     </div>
   </ion-content>
   <ion-footer [translucent]="true">
