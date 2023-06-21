@@ -6,6 +6,7 @@ import {
   ModalController,
 } from '@ionic/angular';
 import { LocalStorageService } from 'ngx-webstorage';
+import { OPERATIONS } from 'src/app/app.constant';
 import { DanhMucService } from 'src/app/danhmuc.services';
 @Component({
   selector: 'them-sua-utm',
@@ -23,7 +24,7 @@ export class ThemSuaUtmComponent implements OnInit {
   name:any;
   id:any;
   nhanvienid:any;
-  REQUEST_URL = '/api/v1/utmmedium/'
+  REQUEST_URL = '/api/v1/utmmedium'
 
 
   constructor(
@@ -98,7 +99,7 @@ export class ThemSuaUtmComponent implements OnInit {
         await this.isLoading();
         if (this.type === 'add') {
         this.dmService
-          .postOption(entity, '/api/v1/utmmedium/create', '')
+          .postOption(entity, this.REQUEST_URL,OPERATIONS.CREATE)
           .subscribe(
             (res: HttpResponse<any>) => {
               if (res.body.CODE === 200) {
@@ -124,7 +125,7 @@ export class ThemSuaUtmComponent implements OnInit {
       else{
         entity.id = this.data.id;
         this.dmService
-          .putOption(entity,  this.REQUEST_URL, 'update?id='+entity.id)
+          .putOption(entity,  this.REQUEST_URL, '/update?id='+entity.id)
           .subscribe(
             (res: HttpResponse<any>) => {
               if (res.body.CODE === 200) {
