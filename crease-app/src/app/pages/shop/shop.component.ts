@@ -118,9 +118,9 @@ export class ShopComponent implements OnInit {
             this.messageToast = 'Xóa cửa hàng thành công';
             this.loading.dismiss();
           } else {
+            this.loading.dismiss();
             this.isToastOpen = true;
             this.messageToast = 'Xóa cửa hàng thất bại';
-            this.loading.dismiss();
           }
         },
         () => {

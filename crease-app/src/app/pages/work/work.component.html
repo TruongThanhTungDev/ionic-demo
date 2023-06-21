@@ -4,7 +4,7 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <div class="mb-3 d-flex align-items-center">
-      <button class="btn btn-primary col-4" (click)="refreshData()">
+      <button class="btn btn-primary col-4 text-13px" (click)="refreshData()">
         <i class="fa fa-refresh"></i>
         Làm mới
       </button>
@@ -12,12 +12,20 @@
     </div>
     <div *ngIf=" listData && listData.length; else elseBlock" class="position-relative">
       <div class="position-relative" *ngFor="let item of listData">
-        <small class="checkbox-in-card-container form-check">
-          {{plugins.formatDate(item.timeIn) }}
-        </small>
-        <ion-card>
+        <ion-card class="position-relative">
+          <div class="text-12px check-in">
+            <div class="check-in-dot"></div>
+            {{formatDate(item.timeIn) }}
+          </div>
+          <div *ngIf="item.timeOut" class="text-12px check-out">
+            <div class="check-out-dot"></div>
+            {{item.timeOut ? formatDate(item.timeOut) : '' }}
+          </div>
+          <div class="text-12px date-check fst-italic">
+            {{plugins.formatDate(item.timeIn) }}
+          </div>
           <ion-card-content class="text-dark">
-            <div class="d-flex align-items-center mb-5">
+            <div class="d-flex align-items-center my-3">
               <ion-avatar style="height: 50px; width: 50px">
                 <img width="30" height="30" alt="Silhouette of a person's head"
                   src="https://ionicframework.com/docs/img/demos/avatar.svg" />
@@ -27,7 +35,12 @@
                 ({{item.account ?
                 item.account.userName : ''}})</div>
             </div>
-            <progress-date [start]="item.timeIn" [end]="item.timeOut"></progress-date>
+            <!-- <progress-date [start]="item.timeIn" [end]="item.timeOut"></progress-date> -->
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-label="Example with label"
+                [style.width.%]="item.percentCompletedOrder" aria-valuemin="0" aria-valuemax="100">
+                {{item.percentCompletedOrder}}%</div>
+            </div>
             <div class="row mt-3 mb-1" style="font-size: 12px">
               <div class="col-4 fw-bold">
                 Đơn giao
@@ -58,7 +71,7 @@
 
     </ng-template>
   </ion-content>
-  <ion-footer [translucent]="true">
+  <ion-footer [translucent]="true" *ngIf="info.role === 'admin'">
     <ion-toolbar mode="md" class="footer-container">
       <ion-segment color="dark" value="work">
         <ion-segment-button value="account" routerLink="/account">
@@ -88,38 +101,38 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <div class="form-floating mb-3">
-        <input type="text" [(ngModel)]="userName" class="form-control" placeholder="Tài khoản">
-        <label style="top: 3px">
+      <div class="mb-3">
+        <label>
           Tài khoản
         </label>
+        <input type="text" [(ngModel)]="userName" class="form-control" placeholder="Tài khoản">
       </div>
-      <div class="form-floating mb-3">
-        <input type="text" [(ngModel)]="fullName" class="form-control" placeholder="Họ và tên">
-        <label style="top: 3px">
+      <div class="mb-3">
+        <label>
           Họ và tên
         </label>
+        <input type="text" [(ngModel)]="fullName" class="form-control" placeholder="Họ và tên">
       </div>
-      <div class="form-floating mb-3">
-        <input type="text" [(ngModel)]="totalOrder" class="form-control" placeholder="Đơn giao">
-        <label style="top: 3px">
+      <div class="mb-3">
+        <label>
           Đơn giao
         </label>
+        <input type="text" [(ngModel)]="totalOrder" class="form-control" placeholder="Đơn giao">
       </div>
-      <div class="form-floating mb-3">
-        <input type="text" [(ngModel)]="processedOrder" class="form-control" placeholder="Đơn đang xử lý">
-        <label style="top: 3px">
+      <div class="mb-3">
+        <label>
           Đơn đang xử lý
         </label>
+        <input type="text" [(ngModel)]="processedOrder" class="form-control" placeholder="Đơn đang xử lý">
       </div>
-      <div class="form-floating mb-3">
-        <input type="text" [(ngModel)]="successOrder" class="form-control" placeholder="Đơn hoàn thành">
-        <label style="top: 3px">
+      <div class="mb-3">
+        <label>
           Đơn hoàn thành
         </label>
+        <input type="text" [(ngModel)]="successOrder" class="form-control" placeholder="Đơn hoàn thành">
       </div>
     </ion-content>
-    <ion-footer style="background-color: rgba(0, 110, 185, 0.9)!important;">
+    <ion-footer mode="md" style="background-color: rgba(0, 110, 185, 0.9)!important;">
       <ion-toolbar class="new-toolbar-background">
         <ion-buttons slot="start">
           <ion-button (click)="openModalFilter(false)" style="--color: white!important">Hủy</ion-button>

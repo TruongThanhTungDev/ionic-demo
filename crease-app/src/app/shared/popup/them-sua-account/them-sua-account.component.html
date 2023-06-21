@@ -15,22 +15,22 @@
   <div class="text-primary mb-3 border-bottom">
     <h5 class="fw-bold">Thông tin tài khoản</h5>
     <div class="form-floating mb-3">
-      <input type="text" [(ngModel)]="fullName" class="form-control" id="name" placeholder="Họ và tên">
+      <input type="text" [(ngModel)]="fullName" class="form-control" id="name">
       <label for="name" style="top: 3px">
-        Họ và tên
+        Họ và tên<label class="text-danger">*</label>
       </label>
     </div>
     <div class="form-floating mb-3">
-      <input type="text" [(ngModel)]="userName" class="form-control" id="username" placeholder="Tên tài khoản">
+      <input type="text" [(ngModel)]="userName" class="form-control" id="username">
       <label for="username" style="top: 2.5px">
-        Tên tài khoản
+        Tên tài khoản<label class="text-danger">*</label>
       </label>
     </div>
     <div class="form-floating mb-3">
       <input [type]="isShowPassword ? 'text' : 'password'" [(ngModel)]="passWord" class="form-control" id="password"
-        placeholder="Mật khẩu">
+        [disabled]="type === 'edit'">
       <label for="password" style="top: 3px">
-        Mật khẩu
+        Mật khẩu<label class="text-danger">*</label>
       </label>
       <div class="position-absolute" style="right:1rem; top: 30%" (click)="showPassword()">
         <i *ngIf="isShowPassword" class="fa-solid fa-eye-slash" style="color: #a89a00;"></i>
@@ -39,9 +39,9 @@
     </div>
     <div class="form-floating mb-3">
       <input [type]="isShowPassword ? 'text' : 'password'" [(ngModel)]="confirmPassword" class="form-control"
-        id="cfpass" placeholder="Nhập lại mật khẩu">
+        id="cfpass" [disabled]="type === 'edit'">
       <label for="cfpass" style="top: 2.5px">
-        Nhập lại mật khẩu
+        Nhập lại mật khẩu<label class="text-danger">*</label>
       </label>
       <div class="position-absolute" style="right:1rem; top: 30%" (click)="showPassword()">
         <i *ngIf="isShowPassword" class="fa-solid fa-eye-slash" style="color: #a89a00;"></i>
@@ -49,7 +49,7 @@
       </div>
     </div>
     <div class="form-floating mb-3">
-      <input type="text" [(ngModel)]="email" class="form-control" id="email" placeholder="Email">
+      <input type="text" [(ngModel)]="email" class="form-control" id="email">
       <label for="email" style="top: 2.5px">
         Email
       </label>
@@ -58,13 +58,13 @@
   <div class="text-primary">
     <h5 class="fw-bold">Thông tin người dùng</h5>
     <div class="form-floating mb-3">
-      <input type="number" [(ngModel)]="phone" class="form-control" id="idShop" placeholder="Số điện thoại">
+      <input type="number" [(ngModel)]="phone" class="form-control" id="idShop">
       <label for="idShop" style="top: 2.5px">
         Số điện thoại
       </label>
     </div>
     <div class="form-floating mb-3">
-      <input type="text" [(ngModel)]="address" class="form-control" id="address" placeholder="Địa chỉ">
+      <input type="text" [(ngModel)]="address" class="form-control" id="address">
       <label for="address" style="top: 2.5px">
         Địa chỉ
       </label>
@@ -76,7 +76,7 @@
         <option value="marketing">Marketing</option>
         <option value="admin">Admin</option>
       </select>
-      <label for="floatingSelect">Phân quyền</label>
+      <label for="floatingSelect">Phân quyền<label class="text-danger">*</label></label>
     </div>
     <div class="form-floating mb-3">
       <ng-select [(ngModel)]="listSelect" name="listSelect" [multiple]="true" [clearable]="true"

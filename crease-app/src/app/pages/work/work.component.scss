@@ -2,3 +2,40 @@ ion-range {
   --bar-background: #8d8009;
   --bar-background-active: #8d8009;
 }
+.check-in {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+}
+.check-out {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+}
+.check-in-dot {
+  width: 14px;
+  height: 14px;
+  background-color: #ff4747;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.check-out-dot {
+  width: 14px;
+  height: 14px;
+  background-color: #8d8009;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+.date-check {
+  position: absolute;
+  z-index: 10;
+  bottom: 0.25rem;
+  right: 0.5rem;
+}

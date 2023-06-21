@@ -38,61 +38,79 @@ export class ThemSuaShop implements OnInit {
       this.url = this.data.url;
     }
   }
+  get isValid() {
+    if (!this.code) {
+      this.isToastOpen = true;
+      this.messageToast = 'Vui lòng nhập mã cửa hàng';
+      return false;
+    } else if (!this.name) {
+      this.isToastOpen = true;
+      this.messageToast = 'Vui lòng nhập tên cửa hàng';
+      return false;
+    } else if (!this.status) {
+      this.isToastOpen = true;
+      this.messageToast = 'Vui lòng chọn tên cửa hàng';
+      return false;
+    }
+    return true;
+  }
   async saveInfo() {
-    const entity = {
-      id: this.data ? this.data.id : 0,
-      code: this.code ? this.code.trim().toUpperCase() : '',
-      name: this.name ? this.name.trim() : '',
-      status: this.status,
-      url: this.url,
-      note: this.note,
-    };
-    await this.isLoading();
-    if (this.type === 'edit') {
-      this.dmService
-        .putOption(entity, '/api/v1/shop/', 'update?id=' + entity.id)
-        .subscribe(
+    if (this.isValid) {
+      const entity = {
+        id: this.data ? this.data.id : 0,
+        code: this.code ? this.code.trim().toUpperCase() : '',
+        name: this.name ? this.name.trim() : '',
+        status: this.status,
+        url: this.url,
+        note: this.note,
+      };
+      await this.isLoading();
+      if (this.type === 'edit') {
+        this.dmService
+          .putOption(entity, '/api/v1/shop/', 'update?id=' + entity.id)
+          .subscribe(
+            (res: HttpResponse<any>) => {
+              if (res.body.CODE === 200) {
+                this.confirm();
+                this.loading.dismiss();
+                this.isToastOpen = true;
+                this.messageToast = 'Cập nhật cửa hàng thành công';
+              } else {
+                this.cancel();
+                this.loading.dismiss();
+                this.isToastOpen = true;
+                this.messageToast = 'Cập nhật cửa hàng thất bại';
+              }
+            },
+            () => {
+              console.error();
+              this.loading.dismiss();
+              this.messageToast = 'Cập nhật cửa hàng thất bại';
+            }
+          );
+      } else {
+        delete entity.id;
+        this.dmService.postOption(entity, '/api/v1/shop/', 'create').subscribe(
           (res: HttpResponse<any>) => {
             if (res.body.CODE === 200) {
               this.confirm();
               this.loading.dismiss();
               this.isToastOpen = true;
-              this.messageToast = 'Cập nhật cửa hàng thành công';
+              this.messageToast = 'Thêm mới cửa hàng thành công';
             } else {
               this.cancel();
               this.loading.dismiss();
               this.isToastOpen = true;
-              this.messageToast = 'Cập nhật cửa hàng thất bại';
+              this.messageToast = 'Thêm mới cửa hàng thất bại';
             }
           },
           () => {
             console.error();
             this.loading.dismiss();
-            this.messageToast = 'Cập nhật cửa hàng thất bại';
-          }
-        );
-    } else {
-      delete entity.id;
-      this.dmService.postOption(entity, '/api/v1/shop/', 'create').subscribe(
-        (res: HttpResponse<any>) => {
-          if (res.body.CODE === 200) {
-            this.confirm();
-            this.loading.dismiss();
-            this.isToastOpen = true;
-            this.messageToast = 'Thêm mới cửa hàng thành công';
-          } else {
-            this.cancel();
-            this.loading.dismiss();
-            this.isToastOpen = true;
             this.messageToast = 'Thêm mới cửa hàng thất bại';
           }
-        },
-        () => {
-          console.error();
-          this.loading.dismiss();
-          this.messageToast = 'Thêm mới cửa hàng thất bại';
-        }
-      );
+        );
+      }
     }
   }
   public async isLoading() {

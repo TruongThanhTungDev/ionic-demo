@@ -74,7 +74,15 @@ export class WorkComponent implements OnInit {
       .subscribe(
         (res: HttpResponse<any>) => {
           if (res.status === 200) {
-            this.listData = res.body.RESULT;
+            this.listData = res.body.RESULT.map((item: any) => {
+              return {
+                ...item,
+                percentCompletedOrder:
+                  item.successOrder / item.totalOrder
+                    ? ((item.successOrder / item.totalOrder) * 100).toFixed(1)
+                    : 0,
+              };
+            });
             this.loading.dismiss();
           } else {
             this.isToastOpen = true;
@@ -102,9 +110,17 @@ export class WorkComponent implements OnInit {
       (res: HttpResponse<any>) => {
         if (res.body) {
           if (res.body.CODE === 200) {
-            this.listData = res.body.RESULT.content;
-            this.totalItems = res.body.RESULT.totalPages;
+            this.listData = res.body.RESULT.content.map((item: any) => {
+              return {
+                ...item,
+                percentCompletedOrder:
+                  item.successOrder / item.totalOrder
+                    ? ((item.successOrder / item.totalOrder) * 100).toFixed(1)
+                    : 0,
+              };
+            });
             this.loading.dismiss();
+            this.totalItems = res.body.RESULT.totalPages;
           } else {
             this.listData = [];
             this.isToastOpen = true;
@@ -195,5 +211,12 @@ export class WorkComponent implements OnInit {
     this.dateRange.startDate = event.startDate;
     this.dateRange.endDate = event.endDate;
     this.checkLoadData();
+  }
+  formatDate(date: number) {
+    if (!date) return '';
+    const dateTimeString = date.toString();
+    const hour = dateTimeString.substr(8, 2);
+    const minute = dateTimeString.substr(10, 2);
+    return `${hour}:${minute}`;
   }
 }

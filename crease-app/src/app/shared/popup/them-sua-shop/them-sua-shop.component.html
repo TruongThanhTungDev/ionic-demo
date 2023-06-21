@@ -13,7 +13,7 @@
 </ion-header>
 <ion-content class="ion-padding">
   <div class="form-floating mb-3">
-    <input type="text" [(ngModel)]="code" class="form-control" id="idShop">
+    <input type="text" [(ngModel)]="code" class="form-control" id="idShop" [disabled]="type === 'edit'">
     <label for="idShop">
       Mã cửa hàng
       <label class="text-danger">*</label>
@@ -36,7 +36,7 @@
       <option [value]="1">Hoạt động</option>
       <option [value]="0">Khóa</option>
     </select>
-    <label for="floatingSelect">Trạng thái</label>
+    <label for="floatingSelect">Trạng thái <label class="text-danger">*</label></label>
   </div>
   <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
     (didDismiss)="setOpen(false)"></ion-toast>
