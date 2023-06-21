@@ -28,7 +28,7 @@
             [checked]="selectedItem && selectedItem.id === item.id" (change)="selectItem(item)">
         </div>
         <ion-card [class]="selectedItem && selectedItem.id === item.id ? 'card-active' : ''"
-          (click)="isBackHeader ? selectItem(item) : editInfoUtm(item)" color="white">
+          (click)="isBackHeader ? selectItem(item) : editInfoUtm(item)">
           <ion-card-header style="padding-bottom:7px">
             <ion-card-title class="fw-bold" style=" font-size: 15px; color:#006EB9">{{item.nhanvien}}</ion-card-title>
             <ion-card-subtitle class="fw-bold"
