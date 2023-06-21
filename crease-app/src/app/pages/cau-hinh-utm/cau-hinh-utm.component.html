@@ -58,7 +58,7 @@
     <pagination-controls *ngIf="listData && listData.length" previousLabel="" nextLabel=""
       (pageChange)="changePagination($event)"></pagination-controls>
   </ion-content>
-  <ion-footer *ngIf="info.role !== 'marketing'" [translucent]="true">
+  <ion-footer *ngIf="info.role === 'admin'" [translucent]="true">
     <ion-toolbar mode="md" class="footer-container">
       <ion-segment *ngIf="!isBackHeader;else elseFooter" color="dark" value="account">
         <ion-segment-button value="utmmedium" routerLink="/utm-medium" style="font-size:10px">
