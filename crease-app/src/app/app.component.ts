@@ -8,8 +8,10 @@ import { isPlatform } from '@ionic/angular';
 })
 export class AppComponent {
   constructor() {
-    StatusBar.setBackgroundColor({
-      color: '#006eb9e6',
-    });
+    if (isPlatform('mobile')) {
+      StatusBar.setBackgroundColor({
+        color: '#006eb9e6',
+      });
+    }
   }
 }
