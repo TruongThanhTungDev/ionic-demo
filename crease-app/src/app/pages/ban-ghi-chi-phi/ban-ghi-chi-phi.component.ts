@@ -188,6 +188,7 @@ export class CostRecordComponent implements OnInit {
           if (res.body.CODE === 200) {
             this.isToastOpen = true;
             this.messageToast = 'Xóa bản ghi chi phí thành công';
+            this.selectedItem = null;
             this.loading.dismiss();
             setTimeout(() => {
               this.loadData();

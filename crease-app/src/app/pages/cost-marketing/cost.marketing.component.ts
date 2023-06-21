@@ -171,6 +171,7 @@ export class CostMarketingComponent implements OnInit {
             this.loading.dismiss();
             this.isToastOpen = true;
             this.messageToast = 'Xóa thành công';
+            this.selectedItem = null;
             this.loadData();
           } else {
             this.loading.dismiss();

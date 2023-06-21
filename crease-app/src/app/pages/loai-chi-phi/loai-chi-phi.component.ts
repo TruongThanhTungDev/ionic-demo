@@ -141,6 +141,7 @@ export class LoaiChiPhiComponent implements OnInit {
           if (res.body.CODE === 200) {
             this.loading.dismiss();
             this.isToastOpen = true;
+            this.selectedItem = null;
             this.messageToast = res.body.MESSAGE
               ? res.body.MESSAGE
               : 'Xóa Loại chi phí thành công';
