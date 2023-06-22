@@ -11,7 +11,7 @@
         <button class="btn  col-3 mx-2 h-100 text-13px  "
           style="background-color:#089774;color: #ffffff; padding:10px 4px " (click)="showListDelete()">Chọn</button>
         <ion-searchbar class="col-7   search-bar " style="padding:7px;" placeholder="Tìm kiếm"
-          (keydown.enter)="searchUtm($event)" placeholder="Tìm kiếm"></ion-searchbar>
+          (keyup.enter)="searchUtm($event)" placeholder="Tìm kiếm" (ionClear)="reset()"></ion-searchbar>
       </div>
       <ng-template #elseBtn>
         <button type="button" class="btn btn-danger" [disabled]="!selectedItem" (click)="openDeleteModal(true)">
