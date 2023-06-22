@@ -49,7 +49,7 @@ export class ThemSuaShop implements OnInit {
       return false;
     } else if (!this.status) {
       this.isToastOpen = true;
-      this.messageToast = 'Vui lòng chọn tên cửa hàng';
+      this.messageToast = 'Vui lòng chọn trạng thái';
       return false;
     }
     return true;

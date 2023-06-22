@@ -178,4 +178,8 @@ export class ShopComponent implements OnInit {
     this.loadData();
     event.target.complete();
   }
+  reset() {
+    this.ftTen = '';
+    this.loadData();
+  }
 }

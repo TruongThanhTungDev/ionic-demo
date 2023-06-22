@@ -21,14 +21,13 @@
       </label>
     </div>
     <div class="form-floating mb-3">
-      <input type="text" [(ngModel)]="userName" class="form-control" id="username">
+      <input type="text" [(ngModel)]="userName" class="form-control" id="username" [disabled]="type === 'edit'">
       <label for="username" style="top: 2.5px">
         Tên tài khoản<label class="text-danger">*</label>
       </label>
     </div>
     <div class="form-floating mb-3">
-      <input [type]="isShowPassword ? 'text' : 'password'" [(ngModel)]="passWord" class="form-control" id="password"
-        [disabled]="type === 'edit'">
+      <input [type]="isShowPassword ? 'text' : 'password'" [(ngModel)]="passWord" class="form-control" id="password">
       <label for="password" style="top: 3px">
         Mật khẩu<label class="text-danger">*</label>
       </label>
@@ -39,7 +38,7 @@
     </div>
     <div class="form-floating mb-3">
       <input [type]="isShowPassword ? 'text' : 'password'" [(ngModel)]="confirmPassword" class="form-control"
-        id="cfpass" [disabled]="type === 'edit'">
+        id="cfpass">
       <label for="cfpass" style="top: 2.5px">
         Nhập lại mật khẩu<label class="text-danger">*</label>
       </label>

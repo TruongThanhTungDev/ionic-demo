@@ -12,7 +12,7 @@
         </i>
       </span>
       <input type="text" class="form-control border-primary border-0 search-control" placeholder="Tìm kiếm cửa hàng"
-        [(ngModel)]="ftTen" (keyup.enter)="loadData()">
+        [(ngModel)]="ftTen" (keydown.enter)="loadData()" (ionClear)="reset()">
     </div>
   </div>
   <div *ngIf="data; else elseBlock" class="d-flex p-0 row">
