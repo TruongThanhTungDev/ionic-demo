@@ -265,8 +265,11 @@ export class AccountComponent implements OnInit, AfterViewInit, OnChanges {
     this.loadData();
   }
   searchUser(e: any) {
+    console.log('1 :>> ', 1);
     this.FtHoTen = e.target.value;
-    this.loadData();
+    this.debounce(() => {
+      this.loadData();
+    }, 1000);
   }
   reset() {
     this.FtHoTen = '';
@@ -276,5 +279,18 @@ export class AccountComponent implements OnInit, AfterViewInit, OnChanges {
     this.resetData();
     await this.loadData();
     event.target.complete();
+  }
+  debounce(fn: any, ms: any) {
+    let timer: any;
+    return () => {
+      const args = arguments;
+      const context = this;
+
+      if (timer) clearTimeout(timer);
+
+      timer = setTimeout(() => {
+        fn.apply(context, args);
+      }, ms);
+    };
   }
 }
