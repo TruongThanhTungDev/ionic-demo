@@ -172,4 +172,8 @@ export class LoaiChiPhiComponent implements OnInit {
   setOpen(open: boolean) {
     this.isToastOpen = open;
   }
+  handleRefresh(event: any) {
+    this.loadData();
+    event.target.complete();
+  }
 }

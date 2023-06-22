@@ -173,4 +173,13 @@ export class ShopComponent implements OnInit {
   setOpen(isOpen: boolean) {
     this.isToastOpen = isOpen;
   }
+  handleRefresh(event: any) {
+    this.ftTen = '';
+    this.loadData();
+    event.target.complete();
+  }
+  reset() {
+    this.ftTen = '';
+    this.loadData();
+  }
 }

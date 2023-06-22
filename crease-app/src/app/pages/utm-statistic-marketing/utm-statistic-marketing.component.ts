@@ -184,11 +184,12 @@ export class UtmStatisticComponent implements OnInit {
   changeView() {
     this.isShowMvp = !this.isShowMvp;
   }
-  resetData() {
+  resetData(event: any) {
     this.dateRange = {
       startDate: moment().utc().startOf('month'),
       endDate: moment().utc().endOf('month'),
     };
     this.getAllData();
+    event.target.complete();
   }
 }

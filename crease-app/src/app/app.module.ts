@@ -26,6 +26,7 @@ import { ThemSuaCostTypeComponent } from './shared/popup/them-sua-loai-chi-phi/t
 import { ThemSuaCostRecord } from './shared/popup/them-sua-ban-ghi-chi-phi/them-sua-ban-ghi-chi-phi-component';
 import { ThemSuaUtmComponent } from './shared/popup/them-sua-utm/them-sua-utm.component';
 import { ThemSuaCostMarketing } from './shared/popup/them-sua-cost-marketing/them-sua-cost-marketing.component';
+import { HighchartsChartModule } from 'highcharts-angular';
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,6 +59,7 @@ import { ThemSuaCostMarketing } from './shared/popup/them-sua-cost-marketing/the
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
     BrowserAnimationsModule,
+    HighchartsChartModule,
   ],
   providers: [
     {

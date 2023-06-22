@@ -11,7 +11,7 @@
         <button class="btn btn-primary col-2 mx-2 h-100 text-13px p-6px" (click)="showListDelete()">
           Chọn
         </button>
-        <ion-searchbar class="col-7 p-0 search-bar" placeholder="Tìm kiếm" (keyup.enter)="searchUser($event)"
+        <ion-searchbar class="col-7 p-0 search-bar" placeholder="Tìm kiếm" (keydown.enter)="searchUser($event)"
           (ionClear)="reset()"></ion-searchbar>
       </div>
       <ng-template #elseBtn>

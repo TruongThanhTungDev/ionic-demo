@@ -87,7 +87,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnChanges {
       { ma: '/cost', title: 'Bản ghi chi phí' },
       { ma: '/shop', title: 'Danh sách cửa hàng' },
       { ma: '/cost-marketing', title: 'Chi phí Marketing' },
-      { ma: '/utm-statistic', title: 'Thống kê UTM' },
+      { ma: '/utm-statistic', title: 'Thống kê hiệu suất marketing' },
       { ma: '/utm-medium', title: 'Cấu hình UTM' },
       { ma: '/statiscal-revenue', title: 'Thống kê doanh thu' },
       { ma: '/statiscal-cost', title: 'Thống kê chi phí' },

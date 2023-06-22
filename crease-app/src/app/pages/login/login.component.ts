@@ -30,6 +30,7 @@ export class Login implements OnInit {
     private store: Store<any>
   ) {}
   get isValid() {
+    const pattern = /[^\w\s]/;
     if (!this.username.trim() && !this.password) {
       this.isToastOpen = true;
       this.messageToast = 'Vui lòng nhập thông tin đăng nhập';
@@ -39,6 +40,11 @@ export class Login implements OnInit {
     } else if (!this.username.trim()) {
       this.isToastOpen = true;
       this.messageToast = 'Vui lòng nhập Tên đăng nhập';
+      this.isValidUsername = true;
+      return false;
+    } else if (pattern.test(this.username.trim())) {
+      this.isToastOpen = true;
+      this.messageToast = 'Tên đăng nhập không hợp lệ';
       this.isValidUsername = true;
       return false;
     } else if (!this.password) {

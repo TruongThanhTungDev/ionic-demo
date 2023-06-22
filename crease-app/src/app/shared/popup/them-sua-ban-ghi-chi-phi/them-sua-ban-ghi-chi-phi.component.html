@@ -15,25 +15,25 @@
   <div class="text-primary">
     <h5 class="fw-bold">Thông tin chi phí</h5>
     <div class="form-floating mb-3">
-      <input type="text" [(ngModel)]="costPerDay" class="form-control" id="name">
+      <input type="text" [(ngModel)]="costPerDay" class="form-control" disabled>
       <label for="name" style="top: 3px">
         Chi phí theo ngày
       </label>
     </div>
     <div class="form-floating mb-3">
-      <input type="text" [(ngModel)]="numOfDay" class="form-control" id="name" (change)="getCostByDay()">
+      <input type="text" [(ngModel)]="numOfDay" class="form-control" (change)="getCostByDay()">
       <label for="name" style="top: 3px">
         Số ngày
       </label>
     </div>
     <div class="form-floating mb-3" *ngIf="!checkMakerting">
-      <input type="text" [(ngModel)]="numOfOrder" class="form-control" id="name" (change)="cost()">
+      <input type="text" [(ngModel)]="numOfOrder" class="form-control" (change)="cost()">
       <label for="name" style="top: 3px">
         Số đơn
       </label>
     </div>
     <div class="form-floating mb-3" *ngIf="costPerOrder">
-      <input type="text" [(ngModel)]="costPerOrderValue" class="form-control" id="name" (change)="cost()">
+      <input type="text" [(ngModel)]="costPerOrderValue" class="form-control" (change)="cost()">
       <label for="name" style="top: 3px">
         Chi phí/đơn
       </label>

@@ -1,6 +1,6 @@
 <ion-app>
   <ion-content class="ion-padding">
-    <ion-refresher slot="fixed" (ionRefresh)="resetData()">
+    <ion-refresher slot="fixed" (ionRefresh)="resetData($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <div class="row">
@@ -22,7 +22,7 @@
     </div>
     <div *ngIf="!isShowMvp" class="show-statistic">
       <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê hiệu suất Marketing</h5>
-      <ion-accordion-group *ngIf="listData.details && listData.details.length; else elseData">
+      <ion-accordion-group *ngIf="listData && listData.details.length; else elseData">
         <ion-accordion *ngFor="let item of listData.details" mode="md" [value]="item.account" class="mb-2 rounded">
           <ion-item slot="header">
             <ion-icon class="ion-accordion-toggle-icon custom-icon" name="chevron-down-outline" slot="end">
@@ -209,10 +209,10 @@
             marketing</ion-label>
         </ion-segment-button>
         <ion-segment-button value="revenue" routerLink="/statiscal-revenue" style="font-size: 10px;width: 33.33%;">
-          <ion-label class="fw-bold">Thống kê doanh thu</ion-label>
+          <ion-label text-wrap class="fw-bold">Thống kê doanh thu</ion-label>
         </ion-segment-button>
         <ion-segment-button value="cost" routerLink="/statiscal-cost" style="width: 33.33%;font-size: 10px;">
-          <ion-label class="fw-bold">Thống kê chi phí</ion-label>
+          <ion-label text-wrap class="fw-bold">Thống kê chi phí</ion-label>
         </ion-segment-button>
       </ion-segment>
     </ion-toolbar>
