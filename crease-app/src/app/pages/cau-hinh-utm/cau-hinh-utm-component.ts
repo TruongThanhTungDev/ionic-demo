@@ -215,6 +215,10 @@ export class CauHinhUtmComponent implements OnInit {
   setOpen(open: boolean) {
     this.isToastOpen = open;
   }
+  reset() {
+    this.name = '';
+    this.loadData();
+  }
   changePagination(e: any) {
     this.page = e;
     this.loadData();
