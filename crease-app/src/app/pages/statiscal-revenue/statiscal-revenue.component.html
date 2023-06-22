@@ -1,0 +1,37 @@
+<ion-app>
+  <ion-content class="ion-padding">
+    <div class="w-100 d-flex">
+      <div style="width: 30%;">
+        <select [(ngModel)]="typeShow" class="form-control text-13px" (change)="statistic()" *ngIf="optionChart==1">
+          <option value=1>Theo Ngày</option>
+          <option value=2>Theo Tháng</option>
+          <option value=3>Theo Năm</option>
+        </select>
+      </div>
+      <div class="mx-2" style="width: 30%;">
+        a
+      </div>
+      <div style="width: 30%;">
+        a
+      </div>
+    </div>
+  </ion-content>
+  <ion-footer [translucent]="true">
+    <ion-toolbar mode="md" class="footer-container">
+      <ion-segment class="w-100" color="dark" value="utm">
+        <ion-segment-button value="utm" routerLink="/utm-statistic"
+          style="border: none;font-size: 10px; width: 33.33%;">
+          <ion-label text-wrap class="fw-bold">Thông kê hiệu suất
+            marketing</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="revenue" routerLink="/statiscal-revenue"
+          style="font-size: 10px;width: 33.33%; background: #035287;">
+          <ion-label text-wrap class="fw-bold text-white">Thống kê doanh thu</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="cost" routerLink="/statiscal-cost" style="width: 33.33%;font-size: 10px;">
+          <ion-label text-wrap class="fw-bold">Thống kê chi phí</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  </ion-footer>
+</ion-app>
