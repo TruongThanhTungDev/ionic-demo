@@ -26,6 +26,7 @@ import { ThemSuaCostTypeComponent } from './shared/popup/them-sua-loai-chi-phi/t
 import { ThemSuaCostRecord } from './shared/popup/them-sua-ban-ghi-chi-phi/them-sua-ban-ghi-chi-phi-component';
 import { ThemSuaUtmComponent } from './shared/popup/them-sua-utm/them-sua-utm.component';
 import { ThemSuaCostMarketing } from './shared/popup/them-sua-cost-marketing/them-sua-cost-marketing.component';
+import { ThemSuaKhoComponent } from './shared/popup/them-sua-kho/them-sua-kho.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +37,7 @@ import { ThemSuaCostMarketing } from './shared/popup/them-sua-cost-marketing/the
     ThemSuaCostRecord,
     ThemSuaUtmComponent,
     ThemSuaCostMarketing,
+    ThemSuaKhoComponent,
   ],
   imports: [
     HttpClientModule,
