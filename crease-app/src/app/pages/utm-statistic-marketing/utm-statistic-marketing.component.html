@@ -22,7 +22,7 @@
     </div>
     <div *ngIf="!isShowMvp" class="show-statistic">
       <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê hiệu suất Marketing</h5>
-      <ion-accordion-group *ngIf="listData.details && listData.details.length; else elseData">
+      <ion-accordion-group *ngIf="listData && listData.details.length; else elseData">
         <ion-accordion *ngFor="let item of listData.details" mode="md" [value]="item.account" class="mb-2 rounded">
           <ion-item slot="header">
             <ion-icon class="ion-accordion-toggle-icon custom-icon" name="chevron-down-outline" slot="end">

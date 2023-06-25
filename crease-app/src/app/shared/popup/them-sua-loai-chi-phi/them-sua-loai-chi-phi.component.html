@@ -15,15 +15,15 @@
   <div class="text-primary mb-3">
     <h5 class="fw-bold">Thông tin chi phí</h5>
     <div class="form-floating mb-3">
-      <input type="text" [(ngModel)]="code" class="form-control" id="name" placeholder="Mã chi phí">
+      <input type="text" [(ngModel)]="code" class="form-control" [disabled]="type === 'edit'">
       <label for="name" style="top: 3px">
-        Mã chi phí
+        Mã chi phí <label class="text-danger">*</label>
       </label>
     </div>
     <div class="form-floating mb-3">
-      <input type="text" [(ngModel)]="name" class="form-control" id="name" placeholder="Tên loại chi phí">
+      <input type="text" [(ngModel)]="name" class="form-control">
       <label for="name" style="top: 3px">
-        Tên loại chi phí
+        Tên loại chi phí <label class="text-danger">*</label>
       </label>
     </div>
     <div class="form-floating mb-3">

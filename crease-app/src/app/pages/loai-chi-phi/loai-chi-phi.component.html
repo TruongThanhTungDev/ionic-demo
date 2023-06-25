@@ -5,10 +5,10 @@
   <ion-content class="ion-padding">
     <div>
       <div *ngIf="!isBackHeader; else elseBtn">
-        <button class="btn" style="background-color: #46C851;" (click)="addCost()">
+        <button class="btn btn-sm" style="background-color: #46C851;" (click)="addCost()">
           <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
         </button>
-        <button class="btn btn-success mx-2 h-100" (click)="showListDelete()">
+        <button class="btn btn-success mx-2 h-100 text-13px" (click)="showListDelete()">
           Chọn
         </button>
       </div>
@@ -36,14 +36,14 @@
                 <p>{{item.code}}</p>
               </div>
             </div>
-            <div class="col-6">
-              <div class="mb-1">
+            <div class="col-6 text-12px">
+              <div class="mb-3">
                 <div class="fw-bold">Khung áp dụng</div>
-                <p>{{item.priodName ? item.priodName : ''}}</p>
+                <p class="text-12px">{{item.priodName ? item.priodName : ''}}</p>
               </div>
               <div>
                 <div class="fw-bold">Lấy theo số lượng đơn hàng</div>
-                <p>{{item.isCountOrderName ? item.isCountOrderName : ''}}</p>
+                <p class="text-12px">{{item.isCountOrderName ? item.isCountOrderName : ''}}</p>
               </div>
             </div>
           </ion-card-content>
