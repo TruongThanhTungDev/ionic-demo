@@ -37,13 +37,31 @@
         <option *ngFor="let obj of shopList" [value]="obj.code">{{obj.code}}</option>
       </select>
     </div>
-    <div>
+    <div *ngIf="(listPieChart && listPieChart.length) && (valueChart && valueChart.length); else elseData">
       <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê theo trạng thái</h5>
+      <ion-card>
+        <ion-card-content>
+          <div class="chart" id="pie-chart" style="height: 400px;" [hidden]="optionChart != 1"></div>
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-content>
+          <div class="chart" id="chart" style="height: 400px;"></div>
+        </ion-card-content>
+      </ion-card>
     </div>
+    <ng-template #elseData>
+      <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <i class="fa-solid fa-chart-pie text-sub-content mb-3" style="font-size: 100px"></i>
+        <h5 class="text-sub-content">Không có dữ liệu!</h5>
+      </div>
+    </ng-template>
+    <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+      (didDismiss)="setOpen(false)"></ion-toast>
   </ion-content>
   <ion-footer [translucent]="true">
     <ion-toolbar mode="md" class="footer-container">
-      <ion-segment class="w-100" color="dark" value="utm">
+      <ion-segment class="w-100" color="dark" value="revenue">
         <ion-segment-button value="utm" routerLink="/utm-statistic"
           style="border: none;font-size: 10px; width: 33.33%;">
           <ion-label text-wrap class="fw-bold">Thông kê hiệu suất

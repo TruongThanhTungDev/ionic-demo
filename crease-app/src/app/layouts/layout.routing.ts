@@ -11,6 +11,7 @@ import { CallLogsStatisticComponent } from '../pages/callLogs-statistic/callLogs
 import { UtmStatisticComponent } from '../pages/utm-statistic-marketing/utm-statistic-marketing.component';
 import { CauhinhKhoComponent } from '../pages/cau-hinh-kho/cau-hinh-kho.component';
 import { StatiscalRevenue } from '../pages/statiscal-revenue/statiscal-revenue.component';
+import { StatiscalCostComponent } from '../pages/statiscal-cost/statiscal-cost.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -61,10 +62,14 @@ export const LayoutRoutes: Routes = [
   },
   {
     path: 'kho/quan-ly-kho',
-    component: CauhinhKhoComponent, 
+    component: CauhinhKhoComponent,
   },
   {
     path: 'statiscal-revenue',
     component: StatiscalRevenue,
+  },
+  {
+    path: 'statiscal-cost',
+    component: StatiscalCostComponent,
   },
 ];

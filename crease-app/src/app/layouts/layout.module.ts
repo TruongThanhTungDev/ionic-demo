@@ -19,6 +19,7 @@ import { CallLogsStatisticComponent } from '../pages/callLogs-statistic/callLogs
 import { UtmStatisticComponent } from '../pages/utm-statistic-marketing/utm-statistic-marketing.component';
 import { CauhinhKhoComponent } from '../pages/cau-hinh-kho/cau-hinh-kho.component';
 import { StatiscalRevenue } from '../pages/statiscal-revenue/statiscal-revenue.component';
+import { StatiscalCostComponent } from '../pages/statiscal-cost/statiscal-cost.component';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import { StatiscalRevenue } from '../pages/statiscal-revenue/statiscal-revenue.c
     UtmStatisticComponent,
     CauhinhKhoComponent,
     StatiscalRevenue,
+    StatiscalCostComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

@@ -16,7 +16,7 @@ import { DanhMucService } from '../danhmuc.services';
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
 })
-export class LayoutComponent implements OnInit, AfterViewInit, OnChanges {
+export class LayoutComponent implements OnInit, AfterViewInit {
   location: Location;
   isChange: any;
   customTitle: any;
@@ -45,11 +45,6 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnChanges {
         this.loadData(this.listMenu);
       }
     });
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.shopCode) {
-      console.log('1 :>> ', 1);
-    }
   }
   get isAdmin() {
     return this.info.role === 'admin';
