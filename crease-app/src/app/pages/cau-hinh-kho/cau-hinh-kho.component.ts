@@ -1,10 +1,10 @@
 import { HttpResponse } from '@angular/common/http';
-import { OnInit, Component } from '@angular/core';
+import { OnInit, Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 import { OPERATIONS, ROLE } from 'src/app/app.constant';
-import { LoadingController, ModalController } from '@ionic/angular';
+import { ActionSheetController, LoadingController, ModalController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ThemSuaKhoComponent } from 'src/app/shared/popup/them-sua-kho/them-sua-kho.component';
@@ -13,7 +13,11 @@ import { ThemSuaKhoComponent } from 'src/app/shared/popup/them-sua-kho/them-sua-
   templateUrl: './cau-hinh-kho.component.html',
 })
 export class CauhinhKhoComponent implements OnInit {
+  @Input() data: any;
+  @Input() title: any;
+  @Input() type: any;
   REQUEST_URL = '/api/v1/warehouse';
+  REQUEST_URL_SHOP = '/api/v1/shop';
   itemsPerPage = 10;
   page = 1;
   totalItems = 0;
@@ -30,12 +34,20 @@ export class CauhinhKhoComponent implements OnInit {
   messageToast: any;
   isOpenDeleteModal = false;
   isOpenFilterModal = false;
+  isOpenStatisticKho=false;
   isOpenModalOpen=false;
   isBackHeader: any;
   name='';
   phone='';
   address='';
   shopCode :any;
+  isOpenAddModal=false;
+  listShop:any = [];
+  totalImportProduct:any;
+  totalInventoryQuantity:any;
+  totalAwaitingProduct:any;
+  price:any;
+  localData:any;
 
   public actionDeleteAccount = [
     {
@@ -55,10 +67,11 @@ export class CauhinhKhoComponent implements OnInit {
     private dmService: DanhMucService,
     private localStorage: LocalStorageService,
     private loading: LoadingController,
-    private modal: ModalController,
+    private modalCtrl: ModalController,
     private route: ActivatedRoute,
     private store: Store<any>,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private actionSheetCtrl: ActionSheetController
   ) {
     this.info = this.localStorage.retrieve('authenticationtoken');
     this.store.subscribe((state) => {
@@ -69,7 +82,24 @@ export class CauhinhKhoComponent implements OnInit {
   }
   ngOnInit(): void {
     this.loadData();
+    this.dmService.getOption(null, this.REQUEST_URL_SHOP, "?status=1").subscribe(
+      (res: HttpResponse<any>) => {
+          this.listShop = res.body.RESULT;
+      },
+      () => {
+          console.error();
+      });
+    if (this.data) {
+      this.name = this.data.name;
+      this.phone = this.data.phone;
+      this.address = this.data.address;
+    } 
+    if(this.type==='edit'){
+      this.getWareHouseData();
+    }
   }
+ 
+
   filterSearch() {
     let filter = []; 
     filter.push(`id>0;staus>=0;shop.code=="${this.shopCode ? this.shopCode : ''}"`);
@@ -79,6 +109,20 @@ export class CauhinhKhoComponent implements OnInit {
    
     return filter.join(';');
   }
+  get validData() {
+    this.data= this.data;
+    if (this.name == '') {
+      this.isToastOpen = true;
+      this.messageToast = 'Tên Không được để trống';
+      return false;
+    }
+    if (this.phone == '') {
+      this.isToastOpen = true;
+      this.messageToast = 'Số điện thoại không được để trống';
+      return false;
+    }
+    return true;
+  } 
   async loadData() {
     if (this.info.role !== 'admin') return;
     const params = {
@@ -121,6 +165,33 @@ export class CauhinhKhoComponent implements OnInit {
   openDeleteModal(open: boolean) {
     this.isOpenDeleteModal = open;
   }
+  async getWareHouseData() {
+    if (!this.data || !this.data.id) {
+      // Handle the case where this.data or this.data.id is undefined
+      return;
+    }
+    console.log(this.data.id)
+    await this.isLoading();
+    this.dmService.getOption(null,this.REQUEST_URL,'/stc-warehouse?warehouseId='+this.data.id).subscribe(
+      (res: HttpResponse<any>) => {
+        if (res.status === 200) {
+          this.localData = res.body.RESULT;          
+          this.loading.dismiss();
+        } else {
+          this.loading.dismiss();
+          this.isToastOpen = true;
+          this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
+        }
+      },
+      () => {
+        this.loading.dismiss();
+        this.isToastOpen = true;
+        this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
+        console.error();
+      }
+    );
+    
+  }
   showListDelete() {
     this.store.dispatch({
       type: 'CHANGE_HEADER',
@@ -130,9 +201,95 @@ export class CauhinhKhoComponent implements OnInit {
       },
     });
   }
+  async saveInfo() {
+    if(this.validData){
+      let entity={
+        id: '',
+        name: this.name,
+        phone:this.phone,
+        address: this.address,
+      };
+      await this.isLoading();
+      if (this.type === 'add') {
+      this.dmService
+        .postOption(entity, this.REQUEST_URL,OPERATIONS.CREATE)
+        .subscribe(
+          (res: HttpResponse<any>) => {
+            if (res.body.CODE === 200) {
+              this.loading.dismiss();
+              this.isToastOpen = true;
+              this.messageToast = 'Tạo kho thành công';
+              this.confirm();
+            } else {
+              this.loading.dismiss();
+              this.isToastOpen = true;
+              this.messageToast = 'Tạo kho thất bại';
+              this.cancel();
+            }
+          },
+          () => {
+            this.loading.dismiss();
+            this.isToastOpen = true;
+            this.messageToast = 'Tạo kho thất bại';
+            console.error();
+          }
+        );
+    }
+    else{
+      entity.id = this.data.id;
+      this.dmService
+        .putOption(entity,  this.REQUEST_URL, '/update?id='+entity.id)
+        .subscribe(
+          (res: HttpResponse<any>) => {
+            if (res.body.CODE === 200) {
+              this.loading.dismiss();
+              this.isToastOpen = true;
+              this.messageToast = 'Cập nhật kho thành công';
+              this.confirm();
+            } else {
+              this.loading.dismiss();
+              this.isToastOpen = true;
+              this.messageToast = 'Cập nhật kho thất bại';
+              this.cancel();
+            }
+          },
+          () => {
+            this.loading.dismiss();
+            this.isToastOpen = true;
+            this.messageToast = 'Cập nhật kho thất bại';
+            console.error();
+          }
+    )};
+  } 
+}
+confirm() {
+  this.modalCtrl.dismiss(null, 'confirm');
+}
+async cancel() {
+  const actionSheet = await this.actionSheetCtrl.create({
+    header: 'Bạn có chắc muốn thoát không?',
+    buttons: [
+      {
+        text: 'Đồng ý',
+        role: 'confirm',
+      },
+      {
+        text: 'Hủy',
+        role: 'cancel',
+      },
+    ],
+  });
+
+  actionSheet.present();
+
+  const { role } = await actionSheet.onWillDismiss();
+  if (role === 'confirm') {
+    this.modalCtrl.dismiss();
+  }
+}
   async addKho() {
-    const modal = await this.modal.create({
-      component: ThemSuaKhoComponent,
+    const modal = await this.modalCtrl.create({
+      component: CauhinhKhoComponent,
       componentProps: {
         title: 'Tạo cấu hình kho',
         data: null,
@@ -143,12 +300,14 @@ export class CauhinhKhoComponent implements OnInit {
     modal.present();
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm') {
-      this.loadData();
+      if(data && data.id){
+        this.getWareHouseData();
+      }
     }
   }
   async editInfoKho(item: any) {
-    const modal = await this.modal.create({
-      component: ThemSuaKhoComponent,
+    const modal = await this.modalCtrl.create({
+      component: CauhinhKhoComponent,
       componentProps: {
         title: 'Xử lý thông tin kho',
         data: item,
@@ -160,7 +319,10 @@ export class CauhinhKhoComponent implements OnInit {
     modal.present();
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm') {
-      this.loadData();
+      if(data && data.id){
+        this.getWareHouseData();
+      }
+      
     }
   }
   async deleteKho(item: any) {
@@ -214,6 +376,9 @@ export class CauhinhKhoComponent implements OnInit {
   searchKho(e: any) {
     this.name = e.target.value;
     this.loadData();
+  }
+  setOpenStatisticKho(open: boolean){
+      this.isOpenStatisticKho=open;
   }
 
 }

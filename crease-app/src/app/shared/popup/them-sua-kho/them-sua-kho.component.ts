@@ -87,6 +87,7 @@ export class ThemSuaKhoComponent implements OnInit {
     }
     return filter.join(";");
   }
+ 
   async loadData() {
   
     await this.isLoading();
