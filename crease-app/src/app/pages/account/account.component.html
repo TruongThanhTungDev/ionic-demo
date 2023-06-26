@@ -11,8 +11,14 @@
         <button class="btn btn-primary col-2 mx-2 h-100 text-13px p-6px" (click)="showListDelete()">
           Chọn
         </button>
-        <ion-searchbar class="col-7 p-0 search-bar" placeholder="Tìm kiếm" (keydown.enter)="searchUser($event)"
-          (ionClear)="reset()"></ion-searchbar>
+        <div class="col-9 input-group input-group-sm border-primary" style="border-radius: 6px; width: fit-content">
+          <span class="input-group-text bg-white" style="border: 0">
+            <i class="fa-solid fa-magnifying-glass text-sub-content" style="color: #2c5fb6">
+            </i>
+          </span>
+          <input type="text" class="form-control border-primary border-0 search-control" placeholder="Tìm kiếm cửa hàng"
+            [(ngModel)]="FtHoTen" (keydown.enter)="loadData()">
+        </div>
       </div>
       <ng-template #elseBtn>
         <div class="btn-group" role="group" aria-label="Basic example">
