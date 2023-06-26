@@ -137,6 +137,7 @@ export class UtmStatisticComponent implements OnInit {
     this.dmService.get('/api/v1/account/details?id=' + this.info.id).subscribe(
       (res: HttpResponse<any>) => {
         const user = res.body.RESULT;
+        this.loading.dismiss();
         if (user) {
           this.loadShopList(user.shop);
         }

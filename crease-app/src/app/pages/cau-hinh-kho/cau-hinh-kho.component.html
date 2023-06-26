@@ -20,16 +20,17 @@
         </button>
       </ng-template>
     </div>
-    <div *ngIf="listData && listData.length; else elseBlock" class="position-relative" >
-      <div *ngFor="let item of listData | paginate: { itemsPerPage: 10, currentPage: page, totalItems }" class="position-relative">
-         <div *ngIf="isBackHeader" class="checkbox-in-card-container form-check">
+    <div *ngIf="listData && listData.length; else elseBlock" class="position-relative">
+      <div *ngFor="let item of listData | paginate: { itemsPerPage: 10, currentPage: page, totalItems }"
+        class="position-relative">
+        <div *ngIf="isBackHeader" class="checkbox-in-card-container form-check">
           <input class="form-check-input checkbox-in-card" type="checkbox"
-           [checked]="selectedItem && selectedItem.id === item.id" (change)="selectItem(item)">
+            [checked]="selectedItem && selectedItem.id === item.id" (change)="selectItem(item)">
         </div>
-        <ion-card [class]="selectedItem && selectedItem.id === item.id ? 'card-active' : ''" 
-        (click)="isBackHeader ? selectItem(item) : editInfoKho(item)" >         
+        <ion-card [class]="selectedItem && selectedItem.id === item.id ? 'card-active' : ''"
+          (click)="isBackHeader ? selectItem(item) : setOpenStatisticKho(true, item)">
           <ion-card-content>
-           <div class="d-flex align-items-center mb-3 text-12px">
+            <div class="d-flex align-items-center mb-3 text-12px">
               <div class="col-8">
                 <div class="d-flex justify-content-start" style="margin-left: 6px">
                   <span class="line-clamp-1">{{item.name}}</span>
@@ -48,6 +49,111 @@
             </div>
           </ion-card-content>
         </ion-card>
+        <ion-modal [isOpen]="isOpenStatisticKho" (didDismiss)="setOpenStatisticKho(false,null)">
+          <ion-header>
+            <ion-toolbar mode="md" class="new-toolbar-background">
+              <ion-buttons slot="start">
+                <button class="bg-content rounded-circle" (click)="cancel()">
+                  <i class="fa-solid fa-arrow-left"
+                    style=" padding: 8px 8px;font-size:20px;margin-right: 6px;color: #2c5fb6"></i>
+                </button>
+              </ion-buttons>
+              <ion-title class="text-14px fw-bold">{{ title }}</ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="saveInfo()" [strong]="true">Lưu</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <div class="text-primary ">
+              <h6 class="fw-bold" style="color:#2E2D2D;margin:10px 30px">Thêm kho</h6>
+              <div class="position-relative">
+                <div class="position-relative">
+                  <ion-card>
+                    <ion-card-header style="padding-bottom: 7px">
+                      <ion-card-title class="fw-bold" style="font-size: 15px; color: #006EB9">
+                        <span class="dot"></span>
+                        Thông tin kho
+                      </ion-card-title>
+                      <div class="row fw-bold">
+                        <button type="button">
+                          <div class="col-4 ion-float-end">
+                            <i class="fa fa-pen" (click)="editInfoKho(item)"></i>
+                          </div>
+                        </button>
+                      </div>
+                    </ion-card-header>
+                    <ion-card-content>
+                      <div class="row ">
+                        <div class="col-6 d-flex align-items-center" style="font-size:10px">Tên kho:
+                          <ng-container>{{ item.name }}</ng-container>
+                        </div>
+                      </div>
+                      <div class="row ">
+                        <div class="col-6 d-flex align-items-center" style="font-size:10px">Địa chỉ:
+                          <ng-container>{{item.address }}</ng-container>
+
+                        </div>
+                      </div>
+                      <div class="row ">
+                        <div class="col-6 d-flex align-items-center" style="font-size:10px">Số điện thoại:
+                          <ng-container>{{item.phone}}</ng-container>
+                        </div>
+                      </div>
+                    </ion-card-content>
+                  </ion-card>
+                  <ion-card>
+                    <ion-card-header style="padding-bottom: 7px">
+                      <ion-card-title class="fw-bold" style="font-size: 15px; color: #006EB9">
+                        <span class="dot"></span>
+                        Sản phẩm kho
+                      </ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                      <div class="row ">
+                        <div class="col-6 d-flex align-items-center" style="font-size:10px">Tổng hàng nhập:
+                          <ng-container>{{localData ? localData.totalImportProduct : 0}}</ng-container>
+                        </div>
+                      </div>
+                      <div class="row ">
+                        <div class="col-6 d-flex align-items-center" style="font-size:10px">Tổng còn trong kho:
+                          <ng-container>{{localData ? localData.totalInventoryQuantity : 0}}</ng-container>
+
+                        </div>
+                      </div>
+                      <div class="row ">
+                        <div class="col-6 d-flex align-items-center" style="font-size:10px">Tổng đang về:
+                          <ng-container>{{localData ? localData.totalAwaitingProduct : 0}}</ng-container>
+
+                        </div>
+                      </div>
+                      <div class="row ">
+                        <div class="col-6 d-flex align-items-center" style="font-size:10px">Tổng tiền hàng:
+                          <ng-container>{{localData ? localData.price : 0}}</ng-container>
+
+                        </div>
+                      </div>
+
+                    </ion-card-content>
+                  </ion-card>
+                  <ion-card>
+                    <ion-card-header style="padding-bottom: 7px">
+                      <ion-card-title class="fw-bold" style="font-size: 15px; color: #006EB9">
+                        <span class="dot"></span>
+                        Nhân viên
+                      </ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                      <div class="row fw-bold">
+                        <div class="col-4" style="font-size:10px">tên nhân viên</div>
+                      </div>
+                    </ion-card-content>
+                  </ion-card>
+                </div>
+              </div>
+            </div>
+          </ion-content>
+        </ion-modal>
         <ion-alert [isOpen]="isOpenDeleteModal" header="BẠN CÓ THẬT SỰ MUỐN XÓA BẢN GHI NÀY?"
           [buttons]="actionDeleteAccount" (didDismiss)="openDeleteModal(false)"></ion-alert>
       </div>
@@ -81,4 +187,5 @@
       </ng-template>
     </ion-toolbar>
   </ion-footer>
+  <!-- Danh sách thông tin kho Modal -->
 </ion-app>

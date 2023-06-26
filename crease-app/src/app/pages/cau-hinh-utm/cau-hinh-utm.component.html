@@ -10,8 +10,13 @@
         </button>
         <button class="btn  col-3 mx-2 h-100 text-13px  "
           style="background-color:#089774;color: #ffffff; padding:10px 4px " (click)="showListDelete()">Chọn</button>
-        <ion-searchbar class="col-7   search-bar " style="padding:7px;" placeholder="Tìm kiếm"
-          (keyup.enter)="searchUtm($event)" placeholder="Tìm kiếm" (ionClear)="reset()"></ion-searchbar>
+        <div class="input-group col-7  border-primary" style="border-radius: 6px;">
+            <span class="input-group-text bg-white" style="border: 0">
+              <i class="fa-solid fa-magnifying-glass text-sub-content" style="color: #2c5fb6"></i>
+            </span>
+            <input type="text" class="form-control border-primary border-0 search-control" placeholder="Tìm kiếm"
+            [(ngModel)]="name" (keydown.enter)="loadData()" (ionClear)="reset()">
+        </div>
       </div>
       <ng-template #elseBtn>
         <button type="button" class="btn btn-danger" [disabled]="!selectedItem" (click)="openDeleteModal(true)">
