@@ -4,7 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 import { OPERATIONS, ROLE } from 'src/app/app.constant';
-import { ActionSheetController, LoadingController, ModalController } from '@ionic/angular';
+import {
+  ActionSheetController,
+  LoadingController,
+  ModalController,
+} from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ThemSuaKhoComponent } from 'src/app/shared/popup/them-sua-kho/them-sua-kho.component';
@@ -34,20 +38,20 @@ export class CauhinhKhoComponent implements OnInit {
   messageToast: any;
   isOpenDeleteModal = false;
   isOpenFilterModal = false;
-  isOpenStatisticKho=false;
-  isOpenModalOpen=false;
+  isOpenStatisticKho = false;
+  isOpenModalOpen = false;
   isBackHeader: any;
-  name='';
-  phone='';
-  address='';
-  shopCode :any;
-  isOpenAddModal=false;
-  listShop:any = [];
-  totalImportProduct:any;
-  totalInventoryQuantity:any;
-  totalAwaitingProduct:any;
-  price:any;
-  localData:any;
+  name = '';
+  phone = '';
+  address = '';
+  shopCode: any;
+  isOpenAddModal = false;
+  listShop: any = [];
+  totalImportProduct: any;
+  totalInventoryQuantity: any;
+  totalAwaitingProduct: any;
+  price: any;
+  localData: any;
 
   public actionDeleteAccount = [
     {
@@ -78,39 +82,43 @@ export class CauhinhKhoComponent implements OnInit {
       this.isBackHeader = state.common.isBackHeader;
       this.selectedItem = null;
     });
-    this.shopCode=this.localStorage.retrieve("shopCode");
+    this.shopCode = this.localStorage.retrieve('shopCode');
   }
   ngOnInit(): void {
     this.loadData();
-    this.dmService.getOption(null, this.REQUEST_URL_SHOP, "?status=1").subscribe(
-      (res: HttpResponse<any>) => {
+    this.dmService
+      .getOption(null, this.REQUEST_URL_SHOP, '?status=1')
+      .subscribe(
+        (res: HttpResponse<any>) => {
           this.listShop = res.body.RESULT;
-      },
-      () => {
+        },
+        () => {
           console.error();
-      });
+        }
+      );
     if (this.data) {
       this.name = this.data.name;
       this.phone = this.data.phone;
       this.address = this.data.address;
-    } 
-    if(this.type==='edit'){
-      this.getWareHouseData();
     }
+    // if (this.type === 'edit') {
+    //   this.getWareHouseData();
+    // }
   }
- 
 
   filterSearch() {
-    let filter = []; 
-    filter.push(`id>0;staus>=0;shop.code=="${this.shopCode ? this.shopCode : ''}"`);
+    let filter = [];
+    filter.push(
+      `id>0;staus>=0;shop.code=="${this.shopCode ? this.shopCode : ''}"`
+    );
     if (this.phone) filter.push(`phone==*${this.phone}*`);
-    if(this.name) filter.push(`name==*${this.name}*`);
-    if(this.address) filter.push(`address==*${this.address}*`);
-   
+    if (this.name) filter.push(`name==*${this.name}*`);
+    if (this.address) filter.push(`address==*${this.address}*`);
+
     return filter.join(';');
   }
   get validData() {
-    this.data= this.data;
+    this.data = this.data;
     if (this.name == '') {
       this.isToastOpen = true;
       this.messageToast = 'Tên Không được để trống';
@@ -122,18 +130,18 @@ export class CauhinhKhoComponent implements OnInit {
       return false;
     }
     return true;
-  } 
+  }
   async loadData() {
     if (this.info.role !== 'admin') return;
     const params = {
-      sort: ['id','desc'],
+      sort: ['id', 'desc'],
       page: this.page - 1,
       size: this.itemsPerPage,
       filter: this.filterSearch(),
     };
-   
+
     await this.isLoading();
-    this.dmService.getOption(params, this.REQUEST_URL,'/search').subscribe(
+    this.dmService.getOption(params, this.REQUEST_URL, '/search').subscribe(
       (res: HttpResponse<any>) => {
         if (res.status === 200) {
           this.totalItems = res.body ? res.body.RESULT.totalElements : 0;
@@ -166,31 +174,35 @@ export class CauhinhKhoComponent implements OnInit {
     this.isOpenDeleteModal = open;
   }
   async getWareHouseData() {
-    if (!this.data || !this.data.id) {
-      // Handle the case where this.data or this.data.id is undefined
-      return;
-    }
-    console.log(this.data.id)
-    await this.isLoading();
-    this.dmService.getOption(null,this.REQUEST_URL,'/stc-warehouse?warehouseId='+this.data.id).subscribe(
-      (res: HttpResponse<any>) => {
-        if (res.status === 200) {
-          this.localData = res.body.RESULT;          
-          this.loading.dismiss();
-        } else {
-          this.loading.dismiss();
+    // if (!this.data || !this.data.id) {
+    //   // Handle the case where this.data or this.data.id is undefined
+    //   return;
+    // }
+    // await this.isLoading();
+    this.dmService
+      .getOption(
+        null,
+        this.REQUEST_URL,
+        '/stc-warehouse?warehouseId=' + this.selectedItem.id
+      )
+      .subscribe(
+        (res: HttpResponse<any>) => {
+          if (res.status === 200) {
+            this.localData = res.body.RESULT;
+            // this.loading.dismiss();
+          } else {
+            // this.loading.dismiss();
+            this.isToastOpen = true;
+            this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
+          }
+        },
+        () => {
+          // this.loading.dismiss();
           this.isToastOpen = true;
           this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
+          console.error();
         }
-      },
-      () => {
-        this.loading.dismiss();
-        this.isToastOpen = true;
-        this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
-        console.error();
-      }
-    );
-    
+      );
   }
   showListDelete() {
     this.store.dispatch({
@@ -202,91 +214,91 @@ export class CauhinhKhoComponent implements OnInit {
     });
   }
   async saveInfo() {
-    if(this.validData){
-      let entity={
+    if (this.validData) {
+      let entity = {
         id: '',
         name: this.name,
-        phone:this.phone,
+        phone: this.phone,
         address: this.address,
       };
       await this.isLoading();
       if (this.type === 'add') {
-      this.dmService
-        .postOption(entity, this.REQUEST_URL,OPERATIONS.CREATE)
-        .subscribe(
-          (res: HttpResponse<any>) => {
-            if (res.body.CODE === 200) {
-              this.loading.dismiss();
-              this.isToastOpen = true;
-              this.messageToast = 'Tạo kho thành công';
-              this.confirm();
-            } else {
+        this.dmService
+          .postOption(entity, this.REQUEST_URL, OPERATIONS.CREATE)
+          .subscribe(
+            (res: HttpResponse<any>) => {
+              if (res.body.CODE === 200) {
+                this.loading.dismiss();
+                this.isToastOpen = true;
+                this.messageToast = 'Tạo kho thành công';
+                this.confirm();
+              } else {
+                this.loading.dismiss();
+                this.isToastOpen = true;
+                this.messageToast = 'Tạo kho thất bại';
+                this.cancel();
+              }
+            },
+            () => {
               this.loading.dismiss();
               this.isToastOpen = true;
               this.messageToast = 'Tạo kho thất bại';
-              this.cancel();
+              console.error();
             }
-          },
-          () => {
-            this.loading.dismiss();
-            this.isToastOpen = true;
-            this.messageToast = 'Tạo kho thất bại';
-            console.error();
-          }
-        );
-    }
-    else{
-      entity.id = this.data.id;
-      this.dmService
-        .putOption(entity,  this.REQUEST_URL, '/update?id='+entity.id)
-        .subscribe(
-          (res: HttpResponse<any>) => {
-            if (res.body.CODE === 200) {
-              this.loading.dismiss();
-              this.isToastOpen = true;
-              this.messageToast = 'Cập nhật kho thành công';
-              this.confirm();
-            } else {
+          );
+      } else {
+        entity.id = this.data.id;
+        this.dmService
+          .putOption(entity, this.REQUEST_URL, '/update?id=' + entity.id)
+          .subscribe(
+            (res: HttpResponse<any>) => {
+              if (res.body.CODE === 200) {
+                this.loading.dismiss();
+                this.isToastOpen = true;
+                this.messageToast = 'Cập nhật kho thành công';
+                this.confirm();
+              } else {
+                this.loading.dismiss();
+                this.isToastOpen = true;
+                this.messageToast = 'Cập nhật kho thất bại';
+                this.cancel();
+              }
+            },
+            () => {
               this.loading.dismiss();
               this.isToastOpen = true;
               this.messageToast = 'Cập nhật kho thất bại';
-              this.cancel();
+              console.error();
             }
-          },
-          () => {
-            this.loading.dismiss();
-            this.isToastOpen = true;
-            this.messageToast = 'Cập nhật kho thất bại';
-            console.error();
-          }
-    )};
-  } 
-}
-confirm() {
-  this.modalCtrl.dismiss(null, 'confirm');
-}
-async cancel() {
-  const actionSheet = await this.actionSheetCtrl.create({
-    header: 'Bạn có chắc muốn thoát không?',
-    buttons: [
-      {
-        text: 'Đồng ý',
-        role: 'confirm',
-      },
-      {
-        text: 'Hủy',
-        role: 'cancel',
-      },
-    ],
-  });
-
-  actionSheet.present();
-
-  const { role } = await actionSheet.onWillDismiss();
-  if (role === 'confirm') {
-    this.modalCtrl.dismiss();
+          );
+      }
+    }
   }
-}
+  confirm() {
+    this.modalCtrl.dismiss(null, 'confirm');
+  }
+  async cancel() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Bạn có chắc muốn thoát không?',
+      buttons: [
+        {
+          text: 'Đồng ý',
+          role: 'confirm',
+        },
+        {
+          text: 'Hủy',
+          role: 'cancel',
+        },
+      ],
+    });
+
+    actionSheet.present();
+
+    const { role } = await actionSheet.onWillDismiss();
+    if (role === 'confirm') {
+      this.modalCtrl.dismiss();
+    }
+  }
   async addKho() {
     const modal = await this.modalCtrl.create({
       component: CauhinhKhoComponent,
@@ -300,14 +312,14 @@ async cancel() {
     modal.present();
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm') {
-      if(data && data.id){
+      if (data && data.id) {
         this.getWareHouseData();
       }
     }
   }
   async editInfoKho(item: any) {
     const modal = await this.modalCtrl.create({
-      component: CauhinhKhoComponent,
+      component: ThemSuaKhoComponent,
       componentProps: {
         title: 'Xử lý thông tin kho',
         data: item,
@@ -319,10 +331,9 @@ async cancel() {
     modal.present();
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm') {
-      if(data && data.id){
+      if (data && data.id) {
         this.getWareHouseData();
       }
-      
     }
   }
   async deleteKho(item: any) {
@@ -337,7 +348,7 @@ async cancel() {
             this.messageToast = res.body.MESSAGE
               ? res.body.MESSAGE
               : 'Xóa kho thành công';
-            this.selectedItem=null;
+            this.selectedItem = null;
             this.loadData();
           } else {
             this.messageToast = res.body.MESSAGE
@@ -377,8 +388,9 @@ async cancel() {
     this.name = e.target.value;
     this.loadData();
   }
-  setOpenStatisticKho(open: boolean){
-      this.isOpenStatisticKho=open;
+  setOpenStatisticKho(open: boolean, item: any) {
+    this.selectedItem = item;
+    this.isOpenStatisticKho = open;
+    this.getWareHouseData();
   }
-
 }
