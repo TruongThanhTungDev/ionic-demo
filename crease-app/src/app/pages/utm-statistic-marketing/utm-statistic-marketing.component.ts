@@ -24,8 +24,8 @@ export class UtmStatisticComponent implements OnInit {
   listData: any;
   listMvp: any;
   dateRange = {
-    startDate: moment().utc().startOf('month'),
-    endDate: moment().utc().endOf('month'),
+    startDate: moment().utc().format('YYYY-MM-DD'),
+    endDate: moment().utc().format('YYYY-MM-DD'),
   };
   activeSlide = 'active';
   inactiveSlide = 'inactive';
@@ -167,8 +167,12 @@ export class UtmStatisticComponent implements OnInit {
     );
   }
   filterDate(e: any) {
-    this.dateRange.startDate = moment(e.startDate, 'YYYY-MM-DD');
-    this.dateRange.endDate = moment(e.endDate, 'YYYY-MM-DD');
+    this.dateRange.startDate = moment(e.startDate, 'YYYY-MM-DD').format(
+      'YYYY-MM-DD'
+    );
+    this.dateRange.endDate = moment(e.endDate, 'YYYY-MM-DD').format(
+      'YYYY-MM-DD'
+    );
     this.getAllData();
   }
 
@@ -186,8 +190,8 @@ export class UtmStatisticComponent implements OnInit {
   }
   resetData(event: any) {
     this.dateRange = {
-      startDate: moment().utc().startOf('month'),
-      endDate: moment().utc().endOf('month'),
+      startDate: moment().utc().startOf('month').format('YYYY-MM-DD'),
+      endDate: moment().utc().endOf('month').format('YYYY-MM-DD'),
     };
     this.getAllData();
     event.target.complete();

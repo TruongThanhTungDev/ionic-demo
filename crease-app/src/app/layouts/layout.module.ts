@@ -17,6 +17,7 @@ import { CostRecordComponent } from '../pages/ban-ghi-chi-phi/ban-ghi-chi-phi.co
 import { CostMarketingComponent } from '../pages/cost-marketing/cost.marketing.component';
 import { CallLogsStatisticComponent } from '../pages/callLogs-statistic/callLogs-statistic.component';
 import { UtmStatisticComponent } from '../pages/utm-statistic-marketing/utm-statistic-marketing.component';
+import { CauhinhKhoComponent } from '../pages/cau-hinh-kho/cau-hinh-kho.component';
 import { StatiscalRevenue } from '../pages/statiscal-revenue/statiscal-revenue.component';
 
 @NgModule({
@@ -40,6 +41,7 @@ import { StatiscalRevenue } from '../pages/statiscal-revenue/statiscal-revenue.c
     CostMarketingComponent,
     CallLogsStatisticComponent,
     UtmStatisticComponent,
+    CauhinhKhoComponent,
     StatiscalRevenue,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

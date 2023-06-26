@@ -9,6 +9,7 @@ import { CostRecordComponent } from '../pages/ban-ghi-chi-phi/ban-ghi-chi-phi.co
 import { CostMarketingComponent } from '../pages/cost-marketing/cost.marketing.component';
 import { CallLogsStatisticComponent } from '../pages/callLogs-statistic/callLogs-statistic.component';
 import { UtmStatisticComponent } from '../pages/utm-statistic-marketing/utm-statistic-marketing.component';
+import { CauhinhKhoComponent } from '../pages/cau-hinh-kho/cau-hinh-kho.component';
 import { StatiscalRevenue } from '../pages/statiscal-revenue/statiscal-revenue.component';
 
 export const LayoutRoutes: Routes = [
@@ -57,6 +58,10 @@ export const LayoutRoutes: Routes = [
   {
     path: 'utm-statistic',
     component: UtmStatisticComponent,
+  },
+  {
+    path: 'kho/quan-ly-kho',
+    component: CauhinhKhoComponent, 
   },
   {
     path: 'statiscal-revenue',

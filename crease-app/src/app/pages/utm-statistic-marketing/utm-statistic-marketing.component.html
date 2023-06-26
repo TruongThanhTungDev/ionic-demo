@@ -5,7 +5,8 @@
     </ion-refresher>
     <div class="row">
       <div class="col-6">
-        <datepicker-component (filterDate)="filterDate($event)"></datepicker-component>
+        <datepicker-component *ngIf="!isShowMvp" (filterDate)="filterDate($event)"
+          [dateRange]="dateRange"></datepicker-component>
       </div>
       <div class="col-6 d-flex justify-content-end">
         <button *ngIf="!isShowMvp" class="btn btn-primary fw-bold d-flex align-items-center text-13px"
@@ -113,7 +114,7 @@
               <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
             </ion-avatar>
             <div class="text-center mt-1">
-              <div class="text-14px">
+              <div class="text-13px">
                 {{listMvp[1].fullName}}
               </div>
               <p class="text-24px fw-bold">
@@ -131,7 +132,7 @@
               <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
             </ion-avatar>
             <div class="text-center mt-1">
-              <div class="text-14px">
+              <div class="text-13px">
                 {{listMvp[0].fullName}}
               </div>
               <p class="text-24px fw-bold">
@@ -149,7 +150,7 @@
               <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
             </ion-avatar>
             <div class="text-center mt-1">
-              <div class="text-14px">
+              <div class="text-13px">
                 {{listMvp[2].fullName}}
               </div>
               <p class="text-24px fw-bold">
@@ -161,11 +162,11 @@
         <div *ngFor="let item of listMvp; index as i">
           <ion-card *ngIf="i >=3">
             <ion-card-content>
-              <div class="row align-items-center">
-                <div class="col-2 text-primary text-20px fw-bold text-center">
+              <div class="row align-items-center text-12px">
+                <div class="col-2 text-primary text-20px fw-bold text-center pr-0">
                   {{i + 1}}
                 </div>
-                <div class="col-2">
+                <div class="col-2 " style="padding-left: 0">
                   <ion-avatar slot="start" style="width: 50px;height: 50px;">
                     <img alt="Silhouette of a person's head"
                       src="https://ionicframework.com/docs/img/demos/avatar.svg" />
