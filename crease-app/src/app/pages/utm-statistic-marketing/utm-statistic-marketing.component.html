@@ -201,7 +201,7 @@
       </ng-template>
     </div>
   </ion-content>
-  <ion-footer [translucent]="true">
+  <ion-footer [translucent]="true" *ngIf="info.role ==='admin'">
     <ion-toolbar mode="md" class="footer-container">
       <ion-segment class="w-100" color="dark" value="utm">
         <ion-segment-button value="utm" routerLink="/utm-statistic"
