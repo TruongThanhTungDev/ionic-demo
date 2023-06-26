@@ -1,49 +1,54 @@
 <ion-app>
   <ion-content class="ion-padding">
-    <div class="row mt3 mb-3">
-      <div class="col-3">
-        <select [(ngModel)]="typeShow" class="form-control select-custom" (change)="statistic()">
-          <option value=1>Trong tháng</option>
-          <option value=2>Trong năm</option>
-          <option value=3>Các năm</option>
-        </select>
+    <div class="d-flex w-100 justify-content-between align-items-center mb-3">
+      <div class="d-flex w-100">
+        <div class="w-40">
+          <select [(ngModel)]="typeShow" class="form-control form-control-sm select-custom" (change)="statistic()">
+            <option value=1>Trong tháng</option>
+            <option value=2>Trong năm</option>
+            <option value=3>Các năm</option>
+          </select>
+        </div>
+        <div class="w-30 mx-1">
+          <select *ngIf="typeShow == 1" [(ngModel)]="month" class="form-control form-control-sm select-custom"
+            (change)="statistic()">
+            <option value=1>Tháng 1</option>
+            <option value=2>Tháng 2</option>
+            <option value=3>Tháng 3</option>
+            <option value=4>Tháng 4</option>
+            <option value=5>Tháng 5</option>
+            <option value=6>Tháng 6</option>
+            <option value=7>Tháng 7</option>
+            <option value=8>Tháng 8</option>
+            <option value=9>Tháng 9</option>
+            <option value=10>Tháng 10</option>
+            <option value=11>Tháng 11</option>
+            <option value=12>Tháng 12</option>
+          </select>
+          <input *ngIf="typeShow == 2" type="text" class="form-control form-control-sm" [(ngModel)]="year"
+            placeholder="Năm" (change)="statistic()">
+        </div>
       </div>
-      <div class="col-3">
-        <select [(ngModel)]="month" class="form-control select-custom" *ngIf="typeShow == 1" (change)="statistic()">
-          <option value=1>Tháng 1</option>
-          <option value=2>Tháng 2</option>
-          <option value=3>Tháng 3</option>
-          <option value=4>Tháng 4</option>
-          <option value=5>Tháng 5</option>
-          <option value=6>Tháng 6</option>
-          <option value=7>Tháng 7</option>
-          <option value=8>Tháng 8</option>
-          <option value=9>Tháng 9</option>
-          <option value=10>Tháng 10</option>
-          <option value=11>Tháng 11</option>
-          <option value=12>Tháng 12</option>
-        </select>
-        <input type="text" class=" form-control bg-primary text-white p-2" [(ngModel)]="year" *ngIf="typeShow == 2"
-          placeholder="Năm" (change)="statistic()">
-      </div>
-      <!-- <div class="col-3" *ngIf="info.role!='admin'">
+      <div *ngIf="info.role!='admin'" class="w-30">
         <select [(ngModel)]="shopCode" class="form-control select-custom pl-3 " (change)="statistic()">
           <option *ngFor="let obj of shopList" [value]="obj.code">{{obj.code}}</option>
         </select>
-      </div> -->
-      <div class="col-3">
-        <a class="btn btn-success m-0" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="chart"
-          routerLink="/cost">
+      </div>
+      <div class="w-50">
+        <a class="btn btn-sm btn-success m-0 text-13px" data-toggle="collapse" role="button" aria-expanded="false"
+          aria-controls="chart" routerLink="/cost">
           <i class="fa fa-mail-forward mr-1"></i> Bản ghi chi phí</a>
       </div>
     </div>
     <div>
       <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê chi phí</h5>
-      <div>
-        aa
-      </div>
+      <ion-card>
+        <ion-card-content>
+          <div id="chart"></div>
+        </ion-card-content>
+      </ion-card>
     </div>
-    <ng-template #elseData>
+    <ng-template #elseDiv>
       <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
         <i class="fa-solid fa-chart-pie text-sub-content mb-3" style="font-size: 100px"></i>
         <h5 class="text-sub-content">Không có dữ liệu!</h5>
