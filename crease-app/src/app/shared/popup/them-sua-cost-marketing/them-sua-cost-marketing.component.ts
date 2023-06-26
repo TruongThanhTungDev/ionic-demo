@@ -29,8 +29,8 @@ export class ThemSuaCostMarketing implements OnInit {
   costPerOrderValue: any;
   checkMakerting = false;
   costPerOrder = false;
-  fromDate: any;
-  toDate: any;
+  fromDate = '';
+  toDate = '';
   code = '';
   name = '';
   status = 1;
@@ -39,8 +39,8 @@ export class ThemSuaCostMarketing implements OnInit {
   info: any;
   updateValue = false;
   dateRange = {
-    startDate: moment(),
-    endDate: moment(),
+    startDate: moment().format('YYYY-MM-DD'),
+    endDate: moment().format('YYYY-MM-DD'),
   };
   listCostType: any;
   costType = 0;
@@ -57,19 +57,16 @@ export class ThemSuaCostMarketing implements OnInit {
     this.info = this.localStorage.retrieve('authenticationtoken');
   }
   get validData() {
-    this.code =
-      this.fromDate.toString().slice(6) +
-      '/' +
-      this.fromDate.toString().slice(4, 6) +
-      '/' +
-      this.fromDate.toString().slice(0, 4) +
-      '-' +
-      this.toDate.toString().slice(6) +
-      '/' +
-      this.toDate.toString().slice(4, 6) +
-      '/' +
-      this.toDate.toString().slice(0, 4);
-    this.name = this.localStorage.retrieve('authenticationtoken').userName;
+    if (!this.fromDate || !this.toDate) {
+      this.isToastOpen = true;
+      this.messageToast = 'Vui lòng nhập Từ ngày - Đến ngày';
+      return false;
+    }
+    if (!this.totalCost) {
+      this.isToastOpen = true;
+      this.messageToast = 'Vui lòng nhập Tổng chi phí';
+      return false;
+    }
     if (this.code == '') {
       this.isToastOpen = true;
       this.messageToast = 'code Không được để trống';
@@ -107,7 +104,6 @@ export class ThemSuaCostMarketing implements OnInit {
       this.fromDate = moment(this.data.fromDate, 'DD/MM/YYYY').format(
         'YYYY-MM-DD'
       );
-      console.log('this.fromDate :>> ', this.fromDate);
       this.toDate = moment(this.data.toDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
       this.numOfOrder = this.data.numOfOrder;
       this.shopCode = this.data.shopCode;
@@ -121,6 +117,19 @@ export class ThemSuaCostMarketing implements OnInit {
   }
   filterDate(e: any) {}
   async saveInfo() {
+    this.code =
+      this.fromDate.toString().slice(6) +
+      '/' +
+      this.fromDate.toString().slice(4, 6) +
+      '/' +
+      this.fromDate.toString().slice(0, 4) +
+      '-' +
+      this.toDate.toString().slice(6) +
+      '/' +
+      this.toDate.toString().slice(4, 6) +
+      '/' +
+      this.toDate.toString().slice(0, 4);
+    this.name = this.localStorage.retrieve('authenticationtoken').userName;
     if (this.validData) {
       let entity = {
         id: '',
@@ -199,15 +208,15 @@ export class ThemSuaCostMarketing implements OnInit {
     this.checkMakerting = true;
     var date = JSON.parse(JSON.stringify(this.dateRange));
     date.endDate = date.endDate.replace('23:59:59', '00:00:00');
-    this.fromDate = moment(date.startDate, 'YYYYMMDD').format('YYYYMMDD');
-    this.toDate = moment(date.endDate, 'YYYYMMDD').format('YYYYMMDD');
+    this.fromDate = moment(date.startDate).format('YYYY-MM-DD');
+    this.toDate = moment(date.endDate).format('YYYY-MM-DD');
     if (this.fromDate != this.toDate) {
       this.isToastOpen = true;
       this.messageToast = 'Bạn đang nhập khoảng thời gian nhiều hơn 1 ngày';
       this.fromDate = moment(dayjs().toString()).format('YYYYMMDD');
       this.toDate = moment(dayjs().toString()).format('YYYYMMDD');
-      this.dateRange.startDate = moment();
-      this.dateRange.endDate = moment();
+      this.dateRange.startDate = moment().format('YYYY-MM-DD');
+      this.dateRange.endDate = moment().format('YYYY-MM-DD');
     }
   }
   cost(): void {

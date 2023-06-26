@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as moment from 'moment';
 
 @Component({
@@ -7,6 +7,10 @@ import * as moment from 'moment';
 })
 export class DatePickerComponent {
   @Output() filterDate = new EventEmitter<any>();
+  @Input() dateRange = {
+    startDate: moment().startOf('month').format('YYYY-MM-DD'),
+    endDate: moment().endOf('month').format('YYYY-MM-DD'),
+  };
   isOpenFilterModal = false;
   stateDate = 'from';
   range = [
@@ -58,10 +62,6 @@ export class DatePickerComponent {
         .format('YYYY-MM-DD'),
     },
   ];
-  dateRange = {
-    startDate: moment().startOf('month').format('YYYY-MM-DD'),
-    endDate: moment().endOf('month').format('YYYY-MM-DD'),
-  };
   get date() {
     return (
       moment(this.dateRange.startDate).format('DD/MM/YYYY') +

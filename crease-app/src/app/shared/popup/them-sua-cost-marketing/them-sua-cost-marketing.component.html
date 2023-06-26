@@ -42,16 +42,17 @@
       <div class="row align-items-center">
         <div class="col-6">
           <label style="top: 3px;left: 12px">Từ ngày</label>
-          <input type="date" [(ngModel)]="fromDate" class="form-control text-primary" placeholder="Từ ngày">
+          <input type="date" [(ngModel)]="dateRange.startDate" class="form-control text-primary" placeholder="Từ ngày"
+            (change)="checkDate()">
         </div>
         <div class="col-6">
           <label style="top: 3px; left: 16px">Đến ngày</label>
-          <input type="date" [(ngModel)]="toDate" class="form-control w-100 text-primary" style="margin-left: 4px"
-            placeholder="Đến ngày">
+          <input type="date" [(ngModel)]="dateRange.endDate" class="form-control w-100 text-primary"
+            style="margin-left: 4px" placeholder="Đến ngày" (change)="checkDate()">
         </div>
       </div>
     </div>
-    <div class="mb-3" *ngIf="!checkMakerting">
+    <div class="mb-3" *ngIf="!checkMakerting && type === 'edit'">
       <label>
         Số đơn
       </label>
