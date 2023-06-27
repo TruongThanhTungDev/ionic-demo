@@ -11,6 +11,10 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { Location } from '@angular/common';
 import { Store, select } from '@ngrx/store';
 import { DanhMucService } from '../danhmuc.services';
+import { HttpResponse } from '@angular/common/http';
+import { ModalController } from '@ionic/angular';
+import { CheckInComponent } from '../shared/popup/check-in/check-in.component';
+import { CheckOutComponent } from '../shared/popup/check-out/check-out.component';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -25,17 +29,21 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   shopCode: any;
   info: any;
   listMenu: any;
+  checkWorkActive = false;
+  disableToggle = false;
   constructor(
     private router: Router,
     private localStorage: LocalStorageService,
     location: Location,
     private store: Store<any>,
-    private dmService: DanhMucService
+    private dmService: DanhMucService,
+    private modalCtrl: ModalController
   ) {
     this.location = location;
     this.shop = this.localStorage.retrieve('shop');
     this.info = this.localStorage.retrieve('authenticationToken');
     this.shopCode = this.localStorage.retrieve('shopcode');
+    this.checkWorkActive = this.localStorage.retrieve('check_work_active');
     this.setMenu();
     this.dmService.getClickEvent().subscribe(() => {
       this.shop = this.localStorage.retrieve('shop');
@@ -109,6 +117,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       this.customTitle = state.common.titleCustom;
       this.shopInfo = state.common.shopInfo;
     });
+    this.getAccountStatus();
   }
 
   ngAfterViewInit(): void {}
@@ -122,7 +131,77 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       this.listMenu = MENU_USER;
     }
   }
-
+  getAccountStatus(): void {
+    this.disableToggle = true;
+    const entity = {
+      nhanVienId: this.info.id,
+    };
+    this.dmService
+      .postOption(entity, '/api/v1/work/checkWorkActive', '')
+      .subscribe(
+        (res: HttpResponse<any>) => {
+          if (res.body.CODE === 200) {
+            this.checkWorkActive = true;
+            this.localStorage.store('check_work_active', true);
+            this.localStorage.store('call_info', res.body.RESULT.callInfo);
+            this.localStorage.store('shopCode', res.body.RESULT.shopCode);
+            this.store.dispatch({
+              type: 'SET_LOADING_COMPLETED',
+              payload: true,
+            });
+          } else {
+            this.checkWorkActive = false;
+          }
+          this.disableToggle = false;
+        },
+        () => {
+          this.checkWorkActive = false;
+          this.disableToggle = false;
+          console.error();
+        }
+      );
+  }
+  async onTriggerWorkActive() {
+    if (this.checkWorkActive) {
+      const modal = await this.modalCtrl.create({
+        component: CheckInComponent,
+        cssClass: 'modal-md',
+      });
+      modal.present();
+      const { data, role } = await modal.onWillDismiss();
+      if (role === 'confirm') {
+        this.checkWorkActive = true;
+        this.store.dispatch({
+          type: 'SET_RELOAD',
+          payload: true,
+        });
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 500);
+      } else {
+        this.checkWorkActive = false;
+      }
+    } else {
+      const modal = await this.modalCtrl.create({
+        component: CheckOutComponent,
+        cssClass: 'modal-md',
+      });
+      modal.present();
+      const { data, role } = await modal.onWillDismiss();
+      if (role === 'confirm') {
+        this.checkWorkActive = false;
+        this.store.dispatch({
+          type: 'SET_RELOAD',
+          payload: true,
+        });
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 500);
+      } else {
+        this.checkWorkActive = true;
+      }
+    }
+  }
   logout() {
     this.router.navigate(['/login']);
     this.localStorage.clear();

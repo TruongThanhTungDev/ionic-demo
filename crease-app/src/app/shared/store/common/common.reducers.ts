@@ -5,6 +5,7 @@ const initialState: CommonState = {
   titleCustom: '',
   listMenu: [],
   shopInfo: null,
+  isReload: false,
 };
 
 export function commonReducer(state = initialState, action: any) {
@@ -33,6 +34,12 @@ export function commonReducer(state = initialState, action: any) {
         ...state,
         shopInfo: action.payload.shop,
         listMenu: action.payload.listMenu,
+      };
+    }
+    case 'SET_RELOAD': {
+      return {
+        ...state,
+        isReload: action.payload,
       };
     }
     default: {

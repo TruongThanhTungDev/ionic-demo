@@ -2,6 +2,7 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
+import { Store } from '@ngrx/store';
 import * as dayjs from 'dayjs';
 import * as moment from 'moment';
 import { LocalStorageService } from 'ngx-webstorage';
@@ -38,7 +39,8 @@ export class WorkComponent implements OnInit {
     private route: ActivatedRoute,
     private localStorage: LocalStorageService,
     private dmService: DanhMucService,
-    private loading: LoadingController
+    private loading: LoadingController,
+    private store: Store<any>
   ) {
     this.info = this.localStorage.retrieve('authenticationtoken');
     this.shopCode = localStorage.retrieve('shop')
@@ -50,6 +52,12 @@ export class WorkComponent implements OnInit {
   }
   ngOnInit() {
     this.checkLoadData();
+    this.store.subscribe((state) => {
+      const isReload = state.common.isReload;
+      if (isReload) {
+        this.checkLoadData();
+      }
+    });
   }
 
   checkLoadData() {

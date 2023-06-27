@@ -3,4 +3,5 @@ export interface CommonState {
   titleCustom: string;
   listMenu: any;
   shopInfo: any;
+  isReload: boolean;
 }

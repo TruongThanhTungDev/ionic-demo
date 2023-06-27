@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar mode="md" class="new-toolbar-background">
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Hủy</ion-button>
+    </ion-buttons>
+    <ion-title class="text-14px fw-bold">Thông tin Check In</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="handleCheckIn()" [strong]="true">Xác nhận</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding text-primary text-14px">
+  <div class="row mb-3 pb-3 border-bottom">
+    <div class="fw-bold col-4 border-end">
+      Check In
+    </div>
+    <div class="col-8">
+      {{time}}
+    </div>
+  </div>
+  <div class="row mb-3 pb-3 border-bottom">
+    <div class="fw-bold col-4 border-end">
+      Mã cửa hàng
+    </div>
+    <div class="col-8">
+      <select [(ngModel)]="shopCode" class="form-control">
+        <option *ngFor="let obj of shopList" [value]="obj.code">{{obj.code}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row mb-3 pb-3 border-bottom">
+    <div class="fw-bold col-4 border-end">
+      Line
+    </div>
+    <div class="col-8">
+      <select [(ngModel)]="line" class="form-control">
+        <option [value]=0 selected>Trống</option>
+        <option *ngFor="let obj of lineList" [value]="obj.id">Line-{{obj.id}}</option>
+      </select>
+    </div>
+  </div>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+    (didDismiss)="setOpen(false)"></ion-toast>
+</ion-content>
