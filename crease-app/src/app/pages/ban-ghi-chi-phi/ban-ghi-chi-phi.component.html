@@ -90,7 +90,7 @@
                 <button class="btn btn-sm btn-warning text-white fw-bold">{{ plugins.formatNumber(item.totalCost)
                   }}đ</button>
               </div>
-              <small class="position-absolute fst-italic" style="right: 0; bottom: -4px;width: fit-content; ">
+              <small class="position-absolute fst-italic" style="right: -0.75rem; bottom: -1rem;width: fit-content;">
                 {{item.code}}
               </small>
             </div>
@@ -158,12 +158,12 @@
         </div>
       </div>
       <div class="mb-3">
-        <div class="d-flex align-items-center">
-          <div>
+        <div class="row align-items-center">
+          <div class="col-6">
             <label>Từ ngày</label>
             <input type="date" [(ngModel)]="dateRange.startDate" class="form-control text-primary">
           </div>
-          <div>
+          <div class="col-6">
             <label>Đến ngày</label>
             <input type="date" [(ngModel)]="dateRange.endDate" class="form-control w-100 text-primary"
               style="margin-left: 4px">

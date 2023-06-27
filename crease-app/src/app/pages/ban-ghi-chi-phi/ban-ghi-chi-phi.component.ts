@@ -37,8 +37,8 @@ export class CostRecordComponent implements OnInit {
   plugins = new Plugin();
   SHOP_URL = '/api/v1/shop';
   dateRange = {
-    startDate: moment().utc().startOf('month'),
-    endDate: moment().utc().endOf('month'),
+    startDate: moment().utc(),
+    endDate: moment().utc(),
   };
   public actionDeleteAccount = [
     {

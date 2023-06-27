@@ -62,8 +62,8 @@
       <label>
         Tổng chi phí
       </label>
-      <input type="text" [(ngModel)]="totalCost" class="form-control" id="name" [disabled]="costPerOrder"
-        (change)="getCostByDay()" min="1" step="1">
+      <input type="number" [(ngModel)]="totalCost" class="form-control" id="name" [disabled]="costPerOrder"
+        (change)="getCostByDay()" min="0" step="1">
     </div>
   </div>
   <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
