@@ -85,18 +85,27 @@ export class Login implements OnInit {
               this.localStorage.store('check_work_active', false);
               if (res.body.RESULT.role === 'admin') {
                 this.router.navigate(['/shop']);
+                setTimeout(() => {
+                  window.location.reload();
+                }, 200);
               } else if (res.body.RESULT.role === 'marketing') {
                 this.store.dispatch({
                   type: 'SET_MENU',
                   payload: MENU_MKT,
                 });
                 this.router.navigate(['/utm-medium']);
+                setTimeout(() => {
+                  window.location.reload();
+                }, 200);
               } else {
                 this.store.dispatch({
                   type: 'SET_MENU',
                   payload: MENU_USER,
                 });
                 this.router.navigate(['/work']);
+                setTimeout(() => {
+                  window.location.reload();
+                }, 200);
               }
               this.loading.dismiss();
               this.isToastOpen = true;

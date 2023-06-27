@@ -35,11 +35,12 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     this.location = location;
     this.shop = this.localStorage.retrieve('shop');
     this.info = this.localStorage.retrieve('authenticationToken');
-    this.shopCode = this.localStorage.retrieve('shopCode');
+    this.shopCode = this.localStorage.retrieve('shopcode');
     this.setMenu();
     this.dmService.getClickEvent().subscribe(() => {
       this.shop = this.localStorage.retrieve('shop');
-      this.shopCode = this.localStorage.retrieve('shopCode');
+      this.info = this.localStorage.retrieve('authenticationToken');
+      this.shopCode = this.localStorage.retrieve('shopcode');
       if (this.shopCode) {
         this.setMenu();
         this.loadData(this.listMenu);
