@@ -43,7 +43,7 @@ export class ThemSuaCostMarketing implements OnInit {
     endDate: moment().format('YYYY-MM-DD'),
   };
   listCostType: any;
-  costType = 0;
+  costType = 7;
   SHOP_URL = '/api/v1/shop';
   REQUEST_URL = '/api/v1/cost';
   REQUEST_URL_COSTTYPE = '/api/v1/costtype';
@@ -55,11 +55,22 @@ export class ThemSuaCostMarketing implements OnInit {
     private localStorage: LocalStorageService
   ) {
     this.info = this.localStorage.retrieve('authenticationtoken');
+    this.checkDate();
   }
   get validData() {
     if (!this.fromDate || !this.toDate) {
       this.isToastOpen = true;
       this.messageToast = 'Vui lòng nhập Từ ngày - Đến ngày';
+      return false;
+    }
+    if (moment(this.fromDate).isAfter(moment(this.toDate))) {
+      this.isToastOpen = true;
+      this.messageToast = 'Từ ngày không được lớn hơn Đến ngày';
+      return false;
+    }
+    if (this.fromDate !== this.toDate) {
+      this.isToastOpen = true;
+      this.messageToast = 'Bạn đang nhập khoảng thời gian nhiều hơn 1 ngày';
       return false;
     }
     if (!this.totalCost) {
@@ -109,7 +120,6 @@ export class ThemSuaCostMarketing implements OnInit {
       this.shopCode = this.data.shopCode;
     }
     if (this.type === 'add') {
-      this.costType = this.currentCodeType;
       this.updateValue = false;
     } else {
       this.updateValue = true;
@@ -117,18 +127,9 @@ export class ThemSuaCostMarketing implements OnInit {
   }
   filterDate(e: any) {}
   async saveInfo() {
-    this.code =
-      this.fromDate.toString().slice(6) +
-      '/' +
-      this.fromDate.toString().slice(4, 6) +
-      '/' +
-      this.fromDate.toString().slice(0, 4) +
-      '-' +
-      this.toDate.toString().slice(6) +
-      '/' +
-      this.toDate.toString().slice(4, 6) +
-      '/' +
-      this.toDate.toString().slice(0, 4);
+    this.code = `${moment(this.fromDate).format('DD/MM/YYYY')}-${moment(
+      this.toDate
+    ).format('DD/MM/YYYY')}`;
     this.name = this.localStorage.retrieve('authenticationtoken').userName;
     if (this.validData) {
       let entity = {
@@ -140,11 +141,9 @@ export class ThemSuaCostMarketing implements OnInit {
         numOfDay: this.numOfDay,
         totalCost: this.totalCost,
         fromDate: parseInt(
-          moment(this.fromDate, 'YYYY-MM-DDDD').format('YYYYDDMM')
+          moment(this.fromDate, 'YYYY-MM-DD').format('YYYYMMDD')
         ),
-        toDate: parseInt(
-          moment(this.toDate, 'YYYY-MM-DDDD').format('YYYYDDMM')
-        ),
+        toDate: parseInt(moment(this.toDate, 'YYYY-MM-DD').format('YYYYMMDD')),
         numOfOrder: this.numOfOrder,
         costTypeId: this.costType,
         shopCode: this.shopCode,
@@ -210,13 +209,15 @@ export class ThemSuaCostMarketing implements OnInit {
     date.endDate = date.endDate.replace('23:59:59', '00:00:00');
     this.fromDate = moment(date.startDate).format('YYYY-MM-DD');
     this.toDate = moment(date.endDate).format('YYYY-MM-DD');
-    if (this.fromDate != this.toDate) {
+    if (moment(this.fromDate).isAfter(moment(this.toDate))) {
+      this.isToastOpen = true;
+      this.messageToast = 'Từ ngày không được lớn hơn Đến ngày';
+    }
+    if (this.fromDate !== this.toDate) {
       this.isToastOpen = true;
       this.messageToast = 'Bạn đang nhập khoảng thời gian nhiều hơn 1 ngày';
-      this.fromDate = moment(dayjs().toString()).format('YYYYMMDD');
-      this.toDate = moment(dayjs().toString()).format('YYYYMMDD');
-      this.dateRange.startDate = moment().format('YYYY-MM-DD');
-      this.dateRange.endDate = moment().format('YYYY-MM-DD');
+      // this.dateRange.startDate = moment().format('YYYY-MM-DD');
+      // this.dateRange.endDate = moment().format('YYYY-MM-DD');
     }
   }
   cost(): void {
@@ -231,42 +232,6 @@ export class ThemSuaCostMarketing implements OnInit {
       : 0;
   }
 
-  loadDataByCostPerOerDer(): void {
-    this.getByIdCostType();
-  }
-  getByIdCostType() {
-    this.dmService
-      .getOption(
-        null,
-        this.REQUEST_URL_COSTTYPE,
-        OPERATIONS.DETAILS + '?id=' + this.costType
-      )
-      .subscribe(
-        (res: HttpResponse<any>) => {
-          if (res.body.RESULT.isCountOrder == 1) {
-            this.fromDate = moment().startOf('month').format('YYYYMMDD');
-            this.toDate = moment().endOf('month').format('YYYYMMDD');
-            this.numOfDay = parseInt(moment().endOf('month').format('DD'));
-            this.costPerOrder = true;
-            this.timeValue = 1;
-            this.numOfDay = 1;
-            this.getData();
-          } else {
-            this.costPerOrder = false;
-          }
-          if (res.body.RESULT.priod == 1) {
-            this.checkDate();
-          } else {
-            this.fromDate = moment().startOf('month').format('YYYYMMDD');
-            this.toDate = moment().endOf('month').format('YYYYMMDD');
-            this.numOfDay = parseInt(moment().endOf('month').format('DD'));
-          }
-        },
-        () => {
-          console.error();
-        }
-      );
-  }
   getData() {
     if (this.costPerOrder) {
       this.dmService

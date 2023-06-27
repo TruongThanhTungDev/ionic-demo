@@ -68,6 +68,16 @@ export class ThemSuaCostRecord implements OnInit {
       this.messageToast = 'Vui lòng chọn Từ ngày - Đến ngày';
       return false;
     }
+    if (this.costType === 7 && this.fromDate !== this.toDate) {
+      this.isToastOpen = true;
+      this.messageToast = 'Bạn đang nhập khoảng thời gian nhiều hơn 1 ngày';
+      return false;
+    }
+    if (moment(this.fromDate).isAfter(moment(this.toDate))) {
+      this.isToastOpen = true;
+      this.messageToast = 'Từ ngày không được lớn hơn Đến ngày';
+      return false;
+    }
     if (this.code == '') {
       this.isToastOpen = true;
       this.messageToast = 'code Không được để trống';
@@ -97,6 +107,7 @@ export class ThemSuaCostRecord implements OnInit {
     return true;
   }
   ngOnInit() {
+    this.checkDate();
     this.loadShopList();
     this.findCostType();
     if (this.type === 'edit') {
@@ -112,9 +123,9 @@ export class ThemSuaCostRecord implements OnInit {
       this.toDate = moment(this.data.toDate, 'DD/MM/YYYY').format('YYYYMMDD');
       this.numOfOrder = this.data.numOfOrder;
       this.shopCode = this.data.shopCode;
+      this.costType = this.data.costType;
     }
     if (this.type === 'add') {
-      this.costType = this.currentCodeType;
       this.updateValue = false;
     } else {
       this.updateValue = true;
@@ -211,13 +222,16 @@ export class ThemSuaCostRecord implements OnInit {
     date.endDate = date.endDate.replace('23:59:59', '00:00:00');
     this.fromDate = moment(date.startDate).format('YYYY-MM-DD');
     this.toDate = moment(date.endDate).format('YYYY-MM-DD');
-    if (this.fromDate != this.toDate) {
-      this.isToastOpen = true;
-      this.messageToast = 'Bạn đang nhập khoảng thời gian nhiều hơn 1 ngày';
-      this.fromDate = moment(dayjs().toString()).format('YYYYMMDD');
-      this.toDate = moment(dayjs().toString()).format('YYYYMMDD');
-      this.dateRange.startDate = moment().format('YYYY-MM-DD');
-      this.dateRange.endDate = moment().format('YYYY-MM-DD');
+    if (this.costType == 7) {
+      console.log('1 :>> ', 1);
+      if (moment(this.fromDate).isAfter(moment(this.toDate))) {
+        this.isToastOpen = true;
+        this.messageToast = 'Từ ngày không được lớn hơn Đến ngày';
+      }
+      if (this.fromDate !== this.toDate) {
+        this.isToastOpen = true;
+        this.messageToast = 'Bạn đang nhập khoảng thời gian nhiều hơn 1 ngày';
+      }
     }
   }
   cost(): void {
@@ -258,6 +272,7 @@ export class ThemSuaCostRecord implements OnInit {
           if (res.body.RESULT.priod == 1) {
             this.checkDate();
           } else {
+            this.checkMakerting = false;
             this.fromDate = moment().startOf('month').format('YYYYMMDD');
             this.toDate = moment().endOf('month').format('YYYYMMDD');
             this.numOfDay = parseInt(moment().endOf('month').format('DD'));
@@ -340,7 +355,7 @@ export class ThemSuaCostRecord implements OnInit {
             const rs = this.listCostType.find(
               (item: any) => item.name === this.data.costName
             );
-            this.costType = rs.id;
+            // this.costType = rs.id;
           }
         },
         () => {
