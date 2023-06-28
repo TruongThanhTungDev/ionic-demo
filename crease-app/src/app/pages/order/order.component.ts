@@ -1,6 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
+import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
@@ -24,12 +25,14 @@ export class OrderComponent implements OnInit {
   listData: any;
   messageToast: any;
   isToastOpen = false;
+  isBackHeader = false;
   REQUEST_URL = '/api/v1/data';
   plugins = new Plugin();
   constructor(
     private dmService: DanhMucService,
     private localStorage: LocalStorageService,
-    private loading: LoadingController
+    private loading: LoadingController,
+    private store: Store<any>
   ) {
     this.info = this.localStorage.retrieve('authenticationToken');
     this.shopCode = this.localStorage.retrieve('shopCode');
@@ -43,6 +46,9 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
+    this.store.subscribe((state) => {
+      this.isBackHeader = state.common.isBackHeader;
+    });
   }
 
   async loadData() {
@@ -64,7 +70,12 @@ export class OrderComponent implements OnInit {
           if (res.body.CODE === 200) {
             this.loading.dismiss();
             this.totalItems = res.body.RESULT.totalElements || 0;
-            this.listData = res.body.RESULT.content;
+            this.listData = res.body.RESULT.content.map((item: any) => {
+              return {
+                ...item,
+                date: moment(item.date).format('HH:mm:ss DD/MM/YYYY'),
+              };
+            });
           } else {
             this.loading.dismiss();
             this.isToastOpen = true;
@@ -90,6 +101,15 @@ export class OrderComponent implements OnInit {
     if (this.ftTrangThai || this.ftTrangThai >= 0)
       comparesArray.push(`status=in=(${this.ftTrangThai})`);
     return comparesArray.join(';');
+  }
+  handleSelect() {
+    this.store.dispatch({
+      type: 'CHANGE_HEADER',
+      payload: {
+        title: 'Hủy',
+        state: true,
+      },
+    });
   }
   filterDate(event: any) {
     this.dateRange.startDate = event.startDate;
