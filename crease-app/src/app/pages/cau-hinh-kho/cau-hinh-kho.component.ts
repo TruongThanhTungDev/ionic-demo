@@ -15,6 +15,8 @@ import { ThemSuaKhoComponent } from 'src/app/shared/popup/them-sua-kho/them-sua-
 @Component({
   selector: 'cauhinhkho-component',
   templateUrl: './cau-hinh-kho.component.html',
+  styleUrls: ['./cau-hinh-kho.component.scss'],
+
 })
 export class CauhinhKhoComponent implements OnInit {
   @Input() data: any;
@@ -22,13 +24,14 @@ export class CauhinhKhoComponent implements OnInit {
   @Input() type: any;
   REQUEST_URL = '/api/v1/warehouse';
   REQUEST_URL_SHOP = '/api/v1/shop';
+  REQUEST_URL_ACCOUNT = '/api/v1/account';
   itemsPerPage = 10;
   page = 1;
   totalItems = 0;
   previousPage = 1;
   sort = 'id';
   sortType = true;
-
+  typeModal = 'add'
   source: any;
   dataAdapter: any;
   listData: any;
@@ -45,13 +48,20 @@ export class CauhinhKhoComponent implements OnInit {
   phone = '';
   address = '';
   shopCode: any;
+  shop:any;
+  tentaikhoan:any;
+  phoneNumber : any;
+  listSelect:any = [];
   isOpenAddModal = false;
   listShop: any = [];
+  listTaiKhoan: { userName: string }[] = [];
+  listAccountData: { userName: string }[] = [];
   totalImportProduct: any;
   totalInventoryQuantity: any;
   totalAwaitingProduct: any;
   price: any;
   localData: any;
+  userName:any; 
 
   public actionDeleteAccount = [
     {
@@ -82,28 +92,12 @@ export class CauhinhKhoComponent implements OnInit {
       this.isBackHeader = state.common.isBackHeader;
       this.selectedItem = null;
     });
-    this.shopCode = this.localStorage.retrieve('shopCode');
+    this.shopCode=this.localStorage.retrieve('shopCode');
+    this.shop = this.localStorage.retrieve('shop');
   }
   ngOnInit(): void {
     this.loadData();
-    this.dmService
-      .getOption(null, this.REQUEST_URL_SHOP, '?status=1')
-      .subscribe(
-        (res: HttpResponse<any>) => {
-          this.listShop = res.body.RESULT;
-        },
-        () => {
-          console.error();
-        }
-      );
-    if (this.data) {
-      this.name = this.data.name;
-      this.phone = this.data.phone;
-      this.address = this.data.address;
-    }
-    // if (this.type === 'edit') {
-    //   this.getWareHouseData();
-    // }
+     
   }
 
   filterSearch() {
@@ -118,17 +112,28 @@ export class CauhinhKhoComponent implements OnInit {
     return filter.join(';');
   }
   get validData() {
-    this.data = this.data;
-    if (this.name == '') {
+    // this.resetData(this.data)
+    console.log(this.selectedItem)
+    if (this.selectedItem.name === '') {
       this.isToastOpen = true;
       this.messageToast = 'Tên Không được để trống';
       return false;
     }
-    if (this.phone == '') {
-      this.isToastOpen = true;
-      this.messageToast = 'Số điện thoại không được để trống';
-      return false;
+    if (this.selectedItem.phone === '') {      
+      const vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+      if (vnf_regex.test(this.selectedItem.phone.trim()) == false) {
+        console.log(1)
+        this.isToastOpen = true;
+        this.messageToast = 'Số điện thoại không đúng định dạng';
+        return false;
+      }else{
+        console.log(2)
+        this.isToastOpen = true;
+        this.messageToast = 'Số điện thoại không được để trống';
+        return false;
+      }
     }
+    console.log(3)
     return true;
   }
   async loadData() {
@@ -173,11 +178,69 @@ export class CauhinhKhoComponent implements OnInit {
   openDeleteModal(open: boolean) {
     this.isOpenDeleteModal = open;
   }
+  async getTaiKhoan() {
+    console.log(1)
+  const params = {
+    sort: ['id', 'asc'],
+    page: 0,
+    size: 10,
+    filter: 'id>0;userName=="*'+ this.tentaikhoan + '*"',
+  };
+    await this.isLoading();
+    this.dmService.query(params, '/api/v1/account').subscribe(
+      (res: HttpResponse<any>) => {
+        if (res.status === 200) {
+          this.listTaiKhoan = res.body.RESULT.content;
+          this.loading.dismiss();
+        } else {
+          this.loading.dismiss();
+          this.isToastOpen = true;
+          this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
+        }
+      },
+      (error) => {
+        this.loading.dismiss();
+        this.isToastOpen = true;
+        this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
+        console.error(error);
+      }
+    );
+}
+async getAccountData() {
+  if (this.info.role !== 'admin') return;
+  if(!this.selectedItem) return;
+  if (!this.tentaikhoan) {
+    this.tentaikhoan = ""; 
+  }
+  const params = {
+    sort: ['id','desc'],
+    page: this.page - 1,
+    size: this.itemsPerPage,
+    filter: 'id>0;userName=="*'+ this.tentaikhoan +'*"',
+  };
+ 
+  await this.isLoading();
+  this.dmService.getOption(params, this.REQUEST_URL_ACCOUNT,'/search').subscribe(
+    (res: HttpResponse<any>) => {
+      if (res.status === 200) {
+        this.listAccountData = res.body.RESULT.content;
+        this.loading.dismiss();
+      } else {
+        this.loading.dismiss();
+        this.isToastOpen = true;
+        this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
+      }
+    },
+    () => {
+      this.loading.dismiss();
+      this.isToastOpen = true;
+      this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
+      console.error();
+    }
+  );
+}
   async getWareHouseData() {
-    // if (!this.data || !this.data.id) {
-    //   // Handle the case where this.data or this.data.id is undefined
-    //   return;
-    // }
+    if(!this.selectedItem) return
     // await this.isLoading();
     this.dmService
       .getOption(
@@ -213,21 +276,31 @@ export class CauhinhKhoComponent implements OnInit {
       },
     });
   }
-  async saveInfo() {
-    if (this.validData) {
-      let entity = {
-        id: '',
-        name: this.name,
-        phone: this.phone,
-        address: this.address,
-      };
-      await this.isLoading();
-      if (this.type === 'add') {
+
+  
+  async saveInfo(type:any) {
+    if(this.typeModal='add'){     
+      if (this.validData  ) {
+        let entity = {
+          id: '',
+         staffIdList: [],
+          warehouse:{
+          address: this.selectedItem.address,
+          name: this.selectedItem.name,
+          phone: this.selectedItem.phone,
+          staus: 1,
+          shop:this.shop,
+          flag: -1
+        }
+      } 
+      if (type === 'add') {
         this.dmService
           .postOption(entity, this.REQUEST_URL, OPERATIONS.CREATE)
           .subscribe(
             (res: HttpResponse<any>) => {
               if (res.body.CODE === 200) {
+                this.loadData();
+                this.selectedItem = null;
                 this.loading.dismiss();
                 this.isToastOpen = true;
                 this.messageToast = 'Tạo kho thành công';
@@ -246,33 +319,51 @@ export class CauhinhKhoComponent implements OnInit {
               console.error();
             }
           );
-      } else {
-        entity.id = this.data.id;
-        this.dmService
-          .putOption(entity, this.REQUEST_URL, '/update?id=' + entity.id)
-          .subscribe(
-            (res: HttpResponse<any>) => {
-              if (res.body.CODE === 200) {
-                this.loading.dismiss();
-                this.isToastOpen = true;
-                this.messageToast = 'Cập nhật kho thành công';
-                this.confirm();
-              } else {
-                this.loading.dismiss();
-                this.isToastOpen = true;
-                this.messageToast = 'Cập nhật kho thất bại';
-                this.cancel();
-              }
-            },
-            () => {
-              this.loading.dismiss();
-              this.isToastOpen = true;
-              this.messageToast = 'Cập nhật kho thất bại';
-              console.error();
-            }
-          );
-      }
+      } 
     }
+    }else{
+      console.log(9)
+      const entity = {
+        staffIdList: [],
+        warehouse:{
+          address: this.selectedItem.address,
+          name: this.selectedItem.name,
+          phone: this.selectedItem.phone,
+          staus: this.selectedItem.staus,
+          shop:this.selectedItem.shop,
+          id: this.selectedItem.id,
+          createAt: this.selectedItem.createAt,
+          flag: this.selectedItem.flag,
+          updateAt: this.selectedItem.updateAt,
+          code: this.selectedItem.code
+        }
+      }
+      this.dmService
+      .postOption(entity, this.REQUEST_URL, OPERATIONS.CREATE)
+      .subscribe(
+        (res: HttpResponse<any>) => {
+          if (res.body.CODE === 200) {
+            this.loadData();
+            this.selectedItem = null;
+            this.loading.dismiss();
+            this.isToastOpen = true;
+            this.messageToast = 'Update kho thành công';
+            this.confirm();
+          } else {
+            this.loading.dismiss();
+            this.isToastOpen = true;
+            this.messageToast = 'Update kho thất bại';
+            this.cancel();
+          }
+        },
+        () => {
+          this.loading.dismiss();
+          this.isToastOpen = true;
+          this.messageToast = 'Update kho thất bại';
+          console.error();
+        }
+      );
+     }
   }
   confirm() {
     this.modalCtrl.dismiss(null, 'confirm');
@@ -297,43 +388,25 @@ export class CauhinhKhoComponent implements OnInit {
     const { role } = await actionSheet.onWillDismiss();
     if (role === 'confirm') {
       this.modalCtrl.dismiss();
+      this.localData = null;
+      this.listAccountData=[];
     }
   }
   async addKho() {
-    const modal = await this.modalCtrl.create({
-      component: CauhinhKhoComponent,
-      componentProps: {
-        title: 'Tạo cấu hình kho',
-        data: null,
-        type: 'add',
-      },
-      backdropDismiss: false,
-    });
-    modal.present();
-    const { data, role } = await modal.onWillDismiss();
-    if (role === 'confirm') {
-      if (data && data.id) {
-        this.getWareHouseData();
-      }
-    }
-  }
-  async editInfoKho(item: any) {
+    
     const modal = await this.modalCtrl.create({
       component: ThemSuaKhoComponent,
       componentProps: {
-        title: 'Xử lý thông tin kho',
-        data: item,
-        type: 'edit',
+        title: this.typeModal === 'add' ? 'Tạo cấu hình kho' : 'Chỉnh sửa thông tin kho',
+        data: this.typeModal === 'edit' ? this.selectedItem : null,
+        type: this.typeModal
       },
-
       backdropDismiss: false,
     });
     modal.present();
     const { data, role } = await modal.onWillDismiss();
-    if (role === 'confirm') {
-      if (data && data.id) {
-        this.getWareHouseData();
-      }
+    if(role === 'confirm'){
+      this.selectedItem = data
     }
   }
   async deleteKho(item: any) {
@@ -380,6 +453,14 @@ export class CauhinhKhoComponent implements OnInit {
     this.name = '';
     this.loadData();
   }
+  // resetData(data:any){
+  //   if (data) {
+  //     this.name = data.name;
+  //     this.phone = data.phone;
+  //     this.address = data.address;
+  //   }
+  //   console.log(this.name)
+  // }
   changePagination(e: any) {
     this.page = e;
     this.loadData();
@@ -388,9 +469,18 @@ export class CauhinhKhoComponent implements OnInit {
     this.name = e.target.value;
     this.loadData();
   }
-  setOpenStatisticKho(open: boolean, item: any) {
-    this.selectedItem = item;
+  setOpenStatisticKho(open: boolean, item: any,type:any) {
+    // this.selectedItem = item;
+    this.typeModal = type
     this.isOpenStatisticKho = open;
-    this.getWareHouseData();
+      this.selectedItem = item;
+      if(type !=='add' && item){
+        this.getWareHouseData();
+        // this.getTaiKhoan();
+        this.getAccountData();
+
+      } else {
+        this.selectedItem = null;
+      }
   }
 }
