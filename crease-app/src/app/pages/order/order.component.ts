@@ -24,6 +24,7 @@ export class OrderComponent implements OnInit {
   info: any;
   listData: any;
   messageToast: any;
+  listCheck: any[] = [];
   isToastOpen = false;
   isBackHeader = false;
   REQUEST_URL = '/api/v1/data';
@@ -43,7 +44,22 @@ export class OrderComponent implements OnInit {
       };
     }
   }
-
+  get isAdmin() {
+    return this.info.role === 'admin';
+  }
+  get enabledAssignButton() {
+    const result = this.listCheck.some((item) => {
+      return (
+        item.status === 6 ||
+        item.status === 7 ||
+        item.status === 8 ||
+        item.status === 9 ||
+        item.status === 10 ||
+        item.status === 11
+      );
+    });
+    return this.info.role === 'admin' && this.listCheck.length && result;
+  }
   ngOnInit() {
     this.loadData();
     this.store.subscribe((state) => {
