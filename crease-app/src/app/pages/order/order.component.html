@@ -20,7 +20,7 @@
             style="bottom: 0.5rem!important; right:0.5rem; z-index: 10">
             <input class="form-check-input checkbox-in-card" type="checkbox">
           </div>
-          <ion-card class="mx-0">
+          <ion-card class="mx-0" (click)="!isBackHeader ? handleViewInfoOrder(item) : {}">
             <ion-card-content>
               <div class="d-flex justify-content-between align-items-center">
                 <h5 class="fw-bold">{{item.name}}</h5>
