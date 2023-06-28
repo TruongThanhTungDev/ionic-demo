@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar mode="md" class="new-toolbar-background">
+    <ion-buttons slot="start">
+      <button class="bg-content rounded-circle" (click)="cancel()">
+        <i class="fa-solid fa-arrow-left" style=" padding: 8px 8px;font-size:20px;margin-right: 6px;color: #2c5fb6"></i>
+      </button>
+    </ion-buttons>
+    <ion-title class="text-14px fw-bold">{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()" [strong]="true">Lưu</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div>
+    <div class="mb-3">
+      <h5 class="text-secondary fw-bold">Đơn hàng của:</h5>
+      <h5 class="fw-bold">
+        AAAAA
+      </h5>
+    </div>
+    <div>
+      <div class="position-relative w-50 mb-3">
+        <select [(ngModel)]="statusOrder" class="form-control">
+          <option *ngIf="!isUser" value="0,1,2,3,4,5,6,9">Tất cả</option>
+          <option *ngIf="!isUser" value="0">Mới</option>
+          <option value="1">Đã tiếp nhận</option>
+          <option value="2">Đang xử lý</option>
+          <option value="3">KNM L1</option>
+          <option value="4">KNM L2</option>
+          <option value="5">KNM L3</option>
+          <option value="6">Thất bại</option>
+          <option value="9">Trùng</option>
+        </select>
+        <i class="fa-solid fa-chevron-down position-absolute arrow-input"></i>
+      </div>
+      <ion-card>
+        <ion-card-content>
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+              <div class="dot-green" style="margin-right: 6px;"></div>
+              <div class="fw-bold text-16px">
+                Thông tin khách hàng
+              </div>
+            </div>
+            <div class="text-primary">
+              <i class="fa fa-pen" (click)="editInfoCustomer(true)"></i>
+            </div>
+          </div>
+          <thong-tin-khach-hang [isModalOpen]="isShowEditInfoCustomer"
+            (handleOpenModal)="editInfoCustomer($event)"></thong-tin-khach-hang>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+    (didDismiss)="setOpen(false)"></ion-toast>
+</ion-content>

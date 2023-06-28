@@ -1,0 +1,22 @@
+<ion-modal [isOpen]="isModalOpen" class="modal-md" (didDismiss)="setOpen(false)">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar mode="md" class="new-toolbar-background">
+        <ion-title class="fw-bold">Thông tin khách hàng</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="mb-3">
+        <label class="text-primary">Họ và tên</label>
+        <input type="text" class="form-control" placeholder="Họ và tên">
+      </div>
+      <div class="mb-3">
+        <label class="text-primary">Số điện thoại</label>
+        <input type="number" class="form-control" placeholder="Số điện thoại">
+      </div>
+      <div class="text-end">
+        <button class="btn btn-sm btn-primary fw-bold px-3">Lưu</button>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

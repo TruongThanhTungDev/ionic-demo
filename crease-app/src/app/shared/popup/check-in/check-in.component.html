@@ -22,21 +22,25 @@
     <div class="fw-bold col-4 border-end">
       Mã cửa hàng
     </div>
-    <div class="col-8">
+    <div class="col-8 position-relative">
       <select [(ngModel)]="shopCode" class="form-control">
         <option *ngFor="let obj of shopList" [value]="obj.code">{{obj.code}}</option>
       </select>
+      <i class="fa-solid fa-chevron-down position-absolute" style="top: 40%;
+    right: 1.5rem;"></i>
     </div>
   </div>
   <div class="row mb-3 pb-3 border-bottom">
     <div class="fw-bold col-4 border-end">
       Line
     </div>
-    <div class="col-8">
+    <div class="col-8 position-relative">
       <select [(ngModel)]="line" class="form-control">
         <option [value]=0 selected>Trống</option>
         <option *ngFor="let obj of lineList" [value]="obj.id">Line-{{obj.id}}</option>
       </select>
+      <i class="fa-solid fa-chevron-down position-absolute" style="top: 40%;
+    right: 1.5rem;"></i>
     </div>
   </div>
   <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"

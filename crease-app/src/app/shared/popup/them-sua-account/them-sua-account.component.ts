@@ -168,6 +168,7 @@ export class ThemSuaAccount implements OnInit {
     }
   }
   validData() {
+    const pattern = /^[a-zA-Z0-9]+$/;
     if (!this.role) {
       this.isToastOpen = true;
       this.messageToast = 'Vui lòng phân quyền tài khoản';
@@ -180,7 +181,7 @@ export class ThemSuaAccount implements OnInit {
       this.isToastOpen = true;
       this.messageToast = 'Vui lòng nhập tên tài khoản';
       return false;
-    } else if (/[^a-zA-Z]/.test(this.userName)) {
+    } else if (!pattern.test(this.userName.trim())) {
       this.isToastOpen = true;
       this.messageToast =
         'Vui lòng nhập tên tài khoản không có ký tự đặc biệt, không có khoảng trắng và không có dấu';

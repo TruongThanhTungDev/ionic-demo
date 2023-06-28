@@ -16,7 +16,6 @@ import { ThemSuaKhoComponent } from 'src/app/shared/popup/them-sua-kho/them-sua-
   selector: 'cauhinhkho-component',
   templateUrl: './cau-hinh-kho.component.html',
   styleUrls: ['./cau-hinh-kho.component.scss'],
-
 })
 export class CauhinhKhoComponent implements OnInit {
   @Input() data: any;
@@ -31,7 +30,7 @@ export class CauhinhKhoComponent implements OnInit {
   previousPage = 1;
   sort = 'id';
   sortType = true;
-  typeModal = 'add'
+  typeModal = 'add';
   source: any;
   dataAdapter: any;
   listData: any;
@@ -48,10 +47,10 @@ export class CauhinhKhoComponent implements OnInit {
   phone = '';
   address = '';
   shopCode: any;
-  shop:any;
-  tentaikhoan:any;
-  phoneNumber : any;
-  listSelect:any = [];
+  shop: any;
+  tentaikhoan: any;
+  phoneNumber: any;
+  listSelect: any = [];
   isOpenAddModal = false;
   listShop: any = [];
   listTaiKhoan: { userName: string }[] = [];
@@ -61,7 +60,7 @@ export class CauhinhKhoComponent implements OnInit {
   totalAwaitingProduct: any;
   price: any;
   localData: any;
-  userName:any; 
+  userName: any;
 
   public actionDeleteAccount = [
     {
@@ -92,12 +91,11 @@ export class CauhinhKhoComponent implements OnInit {
       this.isBackHeader = state.common.isBackHeader;
       this.selectedItem = null;
     });
-    this.shopCode=this.localStorage.retrieve('shopCode');
+    this.shopCode = this.localStorage.retrieve('shopCode');
     this.shop = this.localStorage.retrieve('shop');
   }
   ngOnInit(): void {
     this.loadData();
-     
   }
 
   filterSearch() {
@@ -113,27 +111,23 @@ export class CauhinhKhoComponent implements OnInit {
   }
   get validData() {
     // this.resetData(this.data)
-    console.log(this.selectedItem)
     if (this.selectedItem.name === '') {
       this.isToastOpen = true;
       this.messageToast = 'Tên Không được để trống';
       return false;
     }
-    if (this.selectedItem.phone === '') {      
+    if (this.selectedItem.phone === '') {
       const vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
       if (vnf_regex.test(this.selectedItem.phone.trim()) == false) {
-        console.log(1)
         this.isToastOpen = true;
         this.messageToast = 'Số điện thoại không đúng định dạng';
         return false;
-      }else{
-        console.log(2)
+      } else {
         this.isToastOpen = true;
         this.messageToast = 'Số điện thoại không được để trống';
         return false;
       }
     }
-    console.log(3)
     return true;
   }
   async loadData() {
@@ -179,13 +173,13 @@ export class CauhinhKhoComponent implements OnInit {
     this.isOpenDeleteModal = open;
   }
   async getTaiKhoan() {
-    console.log(1)
-  const params = {
-    sort: ['id', 'asc'],
-    page: 0,
-    size: 10,
-    filter: 'id>0;userName=="*'+ this.tentaikhoan + '*"',
-  };
+    console.log(1);
+    const params = {
+      sort: ['id', 'asc'],
+      page: 0,
+      size: 10,
+      filter: 'id>0;userName=="*' + this.tentaikhoan + '*"',
+    };
     await this.isLoading();
     this.dmService.query(params, '/api/v1/account').subscribe(
       (res: HttpResponse<any>) => {
@@ -205,42 +199,44 @@ export class CauhinhKhoComponent implements OnInit {
         console.error(error);
       }
     );
-}
-async getAccountData() {
-  if (this.info.role !== 'admin') return;
-  if(!this.selectedItem) return;
-  if (!this.tentaikhoan) {
-    this.tentaikhoan = ""; 
   }
-  const params = {
-    sort: ['id','desc'],
-    page: this.page - 1,
-    size: this.itemsPerPage,
-    filter: 'id>0;userName=="*'+ this.tentaikhoan +'*"',
-  };
- 
-  await this.isLoading();
-  this.dmService.getOption(params, this.REQUEST_URL_ACCOUNT,'/search').subscribe(
-    (res: HttpResponse<any>) => {
-      if (res.status === 200) {
-        this.listAccountData = res.body.RESULT.content;
-        this.loading.dismiss();
-      } else {
-        this.loading.dismiss();
-        this.isToastOpen = true;
-        this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
-      }
-    },
-    () => {
-      this.loading.dismiss();
-      this.isToastOpen = true;
-      this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
-      console.error();
+  async getAccountData() {
+    if (this.info.role !== 'admin') return;
+    if (!this.selectedItem) return;
+    if (!this.tentaikhoan) {
+      this.tentaikhoan = '';
     }
-  );
-}
+    const params = {
+      sort: ['id', 'desc'],
+      page: this.page - 1,
+      size: this.itemsPerPage,
+      filter: 'id>0;userName=="*' + this.tentaikhoan + '*"',
+    };
+
+    await this.isLoading();
+    this.dmService
+      .getOption(params, this.REQUEST_URL_ACCOUNT, '/search')
+      .subscribe(
+        (res: HttpResponse<any>) => {
+          if (res.status === 200) {
+            this.listAccountData = res.body.RESULT.content;
+            this.loading.dismiss();
+          } else {
+            this.loading.dismiss();
+            this.isToastOpen = true;
+            this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
+          }
+        },
+        () => {
+          this.loading.dismiss();
+          this.isToastOpen = true;
+          this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
+          console.error();
+        }
+      );
+  }
   async getWareHouseData() {
-    if(!this.selectedItem) return
+    if (!this.selectedItem) return;
     // await this.isLoading();
     this.dmService
       .getOption(
@@ -277,30 +273,26 @@ async getAccountData() {
     });
   }
 
-  
-  async saveInfo(type:any) {
-    if(this.typeModal='add'){     
-      if (this.validData  ) {
+  async saveInfo() {
+    if (this.typeModal === 'add') {
+      if (this.validData) {
         let entity = {
-          id: '',
-         staffIdList: [],
-          warehouse:{
-          address: this.selectedItem.address,
-          name: this.selectedItem.name,
-          phone: this.selectedItem.phone,
-          staus: 1,
-          shop:this.shop,
-          flag: -1
-        }
-      } 
-      if (type === 'add') {
+          staffIdList: [],
+          warehouse: {
+            address: this.selectedItem.address,
+            name: this.selectedItem.name,
+            phone: this.selectedItem.phone,
+            staus: 1,
+            shop: this.shop,
+            flag: -1,
+          },
+        };
         this.dmService
           .postOption(entity, this.REQUEST_URL, OPERATIONS.CREATE)
           .subscribe(
             (res: HttpResponse<any>) => {
               if (res.body.CODE === 200) {
                 this.loadData();
-                this.selectedItem = null;
                 this.loading.dismiss();
                 this.isToastOpen = true;
                 this.messageToast = 'Tạo kho thành công';
@@ -319,51 +311,48 @@ async getAccountData() {
               console.error();
             }
           );
-      } 
-    }
-    }else{
-      console.log(9)
+      }
+    } else {
       const entity = {
         staffIdList: [],
-        warehouse:{
+        warehouse: {
           address: this.selectedItem.address,
           name: this.selectedItem.name,
           phone: this.selectedItem.phone,
           staus: this.selectedItem.staus,
-          shop:this.selectedItem.shop,
+          shop: this.selectedItem.shop,
           id: this.selectedItem.id,
           createAt: this.selectedItem.createAt,
           flag: this.selectedItem.flag,
           updateAt: this.selectedItem.updateAt,
-          code: this.selectedItem.code
-        }
-      }
+          code: this.selectedItem.code,
+        },
+      };
       this.dmService
-      .postOption(entity, this.REQUEST_URL, OPERATIONS.CREATE)
-      .subscribe(
-        (res: HttpResponse<any>) => {
-          if (res.body.CODE === 200) {
-            this.loadData();
-            this.selectedItem = null;
-            this.loading.dismiss();
-            this.isToastOpen = true;
-            this.messageToast = 'Update kho thành công';
-            this.confirm();
-          } else {
+        .postOption(entity, this.REQUEST_URL, OPERATIONS.CREATE)
+        .subscribe(
+          (res: HttpResponse<any>) => {
+            if (res.body.CODE === 200) {
+              this.loadData();
+              this.loading.dismiss();
+              this.isToastOpen = true;
+              this.messageToast = 'Update kho thành công';
+              this.confirm();
+            } else {
+              this.loading.dismiss();
+              this.isToastOpen = true;
+              this.messageToast = 'Update kho thất bại';
+              this.cancel();
+            }
+          },
+          () => {
             this.loading.dismiss();
             this.isToastOpen = true;
             this.messageToast = 'Update kho thất bại';
-            this.cancel();
+            console.error();
           }
-        },
-        () => {
-          this.loading.dismiss();
-          this.isToastOpen = true;
-          this.messageToast = 'Update kho thất bại';
-          console.error();
-        }
-      );
-     }
+        );
+    }
   }
   confirm() {
     this.modalCtrl.dismiss(null, 'confirm');
@@ -389,24 +378,27 @@ async getAccountData() {
     if (role === 'confirm') {
       this.modalCtrl.dismiss();
       this.localData = null;
-      this.listAccountData=[];
+      this.listAccountData = [];
     }
   }
   async addKho() {
-    
     const modal = await this.modalCtrl.create({
       component: ThemSuaKhoComponent,
       componentProps: {
-        title: this.typeModal === 'add' ? 'Tạo cấu hình kho' : 'Chỉnh sửa thông tin kho',
+        title:
+          this.typeModal === 'add'
+            ? 'Tạo cấu hình kho'
+            : 'Chỉnh sửa thông tin kho',
         data: this.typeModal === 'edit' ? this.selectedItem : null,
-        type: this.typeModal
+        type: this.typeModal,
       },
       backdropDismiss: false,
     });
     modal.present();
     const { data, role } = await modal.onWillDismiss();
-    if(role === 'confirm'){
-      this.selectedItem = data
+    if (role === 'confirm') {
+      console.log('this.typeModal :>> ', this.typeModal);
+      this.selectedItem = data;
     }
   }
   async deleteKho(item: any) {
@@ -453,14 +445,6 @@ async getAccountData() {
     this.name = '';
     this.loadData();
   }
-  // resetData(data:any){
-  //   if (data) {
-  //     this.name = data.name;
-  //     this.phone = data.phone;
-  //     this.address = data.address;
-  //   }
-  //   console.log(this.name)
-  // }
   changePagination(e: any) {
     this.page = e;
     this.loadData();
@@ -469,18 +453,15 @@ async getAccountData() {
     this.name = e.target.value;
     this.loadData();
   }
-  setOpenStatisticKho(open: boolean, item: any,type:any) {
-    // this.selectedItem = item;
-    this.typeModal = type
+  setOpenStatisticKho(open: boolean, item: any, type: any) {
+    this.typeModal = type;
     this.isOpenStatisticKho = open;
-      this.selectedItem = item;
-      if(type !=='add' && item){
-        this.getWareHouseData();
-        // this.getTaiKhoan();
-        this.getAccountData();
-
-      } else {
-        this.selectedItem = null;
-      }
+    this.selectedItem = item;
+    if (type !== 'add' && item) {
+      this.getWareHouseData();
+      this.getAccountData();
+    } else {
+      this.selectedItem = null;
+    }
   }
 }

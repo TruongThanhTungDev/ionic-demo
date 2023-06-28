@@ -24,7 +24,11 @@ input::placeholder {
   border: 1px solid #dee2e6 !important;
   border-radius: 6px;
 }
-
+.arrow-input {
+  position: absolute;
+  top: 35%;
+  right: 1rem;
+}
 /* -------------Custom checkbox------------ */
 .checkbox-in-card {
   width: 17px !important;
@@ -103,6 +107,9 @@ ion-card {
   color: #000000;
   font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
 }
+ion-content::part(background) {
+  background: #ecf7ff !important;
+}
 .card-selected {
   --background: #919191 !important;
 }
@@ -170,4 +177,12 @@ ion-card {
 .searchbar-input-container {
   border: 1px solid #3f8acd !important;
   border-radius: 6px !important;
+}
+
+/*--------CSS Custom----------*/
+.dot-green {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(71, 172, 79, 0.6);
 }

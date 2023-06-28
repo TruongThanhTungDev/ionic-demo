@@ -1,11 +1,12 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 import { Plugin } from 'src/app/plugins/plugins';
+import { XuLyOrderComponent } from 'src/app/shared/popup/xu-ly-order/xu-ly-order.component';
 
 @Component({
   selector: 'order-component',
@@ -33,7 +34,8 @@ export class OrderComponent implements OnInit {
     private dmService: DanhMucService,
     private localStorage: LocalStorageService,
     private loading: LoadingController,
-    private store: Store<any>
+    private store: Store<any>,
+    private modal: ModalController
   ) {
     this.info = this.localStorage.retrieve('authenticationToken');
     this.shopCode = this.localStorage.retrieve('shopCode');
@@ -127,6 +129,22 @@ export class OrderComponent implements OnInit {
       },
     });
   }
+  async handleViewInfoOrder(item: any) {
+    const modal = await this.modal.create({
+      component: XuLyOrderComponent,
+      componentProps: {
+        title: 'Tất cả đơn hàng',
+        data: item,
+        type: 'edit',
+      },
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.loadData();
+    }
+  }
+
   filterDate(event: any) {
     this.dateRange.startDate = event.startDate;
     this.dateRange.endDate = event.endDate;

@@ -27,21 +27,21 @@
     <ion-content class="ion-padding">
       <ion-segment value="from" class="mb-3">
         <ion-segment-button value="from" (click)="changeTab('from')">
-          <ion-label>Từ ngày</ion-label>
+          <ion-label class="text-primary">Từ ngày</ion-label>
         </ion-segment-button>
         <ion-segment-button value="to" (click)="changeTab('to')">
-          <ion-label>Đến ngày</ion-label>
+          <ion-label class="text-primary">Đến ngày</ion-label>
         </ion-segment-button>
       </ion-segment>
-      <ion-datetime [value]="dateRange.startDate" (ionChange)="setStartDate($event)" *ngIf="stateDate === 'from'"
-        locale="vi-VN" presentation="date"></ion-datetime>
-      <ion-datetime [value]="dateRange.endDate" *ngIf="stateDate === 'to'" locale="vi-VN" presentation="date"
-        (ionChange)="setEndDate($event)"></ion-datetime>
+      <ion-datetime style="--background: #ffffff" [value]="dateRange.startDate" (ionChange)="setStartDate($event)"
+        *ngIf="stateDate === 'from'" locale="vi-VN" presentation="date"></ion-datetime>
+      <ion-datetime style="--background: #ffffff" [value]="dateRange.endDate" *ngIf="stateDate === 'to'" locale="vi-VN"
+        presentation="date" (ionChange)="setEndDate($event)"></ion-datetime>
     </ion-content>
     <ion-footer style="background-color: rgba(0, 110, 185, 0.9)!important;">
       <ion-toolbar class="new-toolbar-background">
         <ion-buttons slot="start">
-          <ion-button style="--color: white!important">Hủy</ion-button>
+          <ion-button style="--color: white!important" (click)="isOpenFilterModal = false">Hủy</ion-button>
         </ion-buttons>
         <ion-buttons slot="end">
           <ion-button style="--color: white!important" [strong]="true" (click)="setCustomDate(dateRange)">Áp
