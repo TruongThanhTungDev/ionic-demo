@@ -278,11 +278,11 @@ async getAccountData() {
   }
 
   
-  async saveInfo(type:any) {
-    if(this.typeModal='add'){     
-      if (this.validData  ) {
+  async saveInfo() {
+    if(this.typeModal='add' ){
+      console.log(9)
+      if (this.validData) {
         let entity = {
-          id: '',
          staffIdList: [],
           warehouse:{
           address: this.selectedItem.address,
@@ -292,15 +292,13 @@ async getAccountData() {
           shop:this.shop,
           flag: -1
         }
-      } 
-      if (type === 'add') {
+      }       
         this.dmService
           .postOption(entity, this.REQUEST_URL, OPERATIONS.CREATE)
           .subscribe(
             (res: HttpResponse<any>) => {
               if (res.body.CODE === 200) {
                 this.loadData();
-                this.selectedItem = null;
                 this.loading.dismiss();
                 this.isToastOpen = true;
                 this.messageToast = 'Tạo kho thành công';
@@ -319,8 +317,7 @@ async getAccountData() {
               console.error();
             }
           );
-      } 
-    }
+      }
     }else{
       console.log(9)
       const entity = {
@@ -344,7 +341,6 @@ async getAccountData() {
         (res: HttpResponse<any>) => {
           if (res.body.CODE === 200) {
             this.loadData();
-            this.selectedItem = null;
             this.loading.dismiss();
             this.isToastOpen = true;
             this.messageToast = 'Update kho thành công';
