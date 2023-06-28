@@ -27,3 +27,6 @@
 .text-menu {
   color: #006bb9;
 }
+ion-toggle::part(track) {
+  border: 1px solid #fefefe !important;
+}

@@ -28,6 +28,8 @@ import { ThemSuaUtmComponent } from './shared/popup/them-sua-utm/them-sua-utm.co
 import { ThemSuaCostMarketing } from './shared/popup/them-sua-cost-marketing/them-sua-cost-marketing.component';
 import { ThemSuaKhoComponent } from './shared/popup/them-sua-kho/them-sua-kho.component';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { CheckInComponent } from './shared/popup/check-in/check-in.component';
+import { CheckOutComponent } from './shared/popup/check-out/check-out.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +41,8 @@ import { HighchartsChartModule } from 'highcharts-angular';
     ThemSuaUtmComponent,
     ThemSuaCostMarketing,
     ThemSuaKhoComponent,
+    CheckInComponent,
+    CheckOutComponent,
   ],
   imports: [
     HttpClientModule,
