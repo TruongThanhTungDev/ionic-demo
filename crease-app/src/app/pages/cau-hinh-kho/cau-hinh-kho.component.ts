@@ -279,8 +279,8 @@ async getAccountData() {
 
   
   async saveInfo() {
-    if(this.typeModal='add' ){
-      console.log(9)
+    
+    if(this.typeModal==='add' ){
       if (this.validData) {
         let entity = {
          staffIdList: [],
@@ -318,8 +318,8 @@ async getAccountData() {
             }
           );
       }
-    }else{
-      console.log(9)
+    }else {
+     
       const entity = {
         staffIdList: [],
         warehouse:{
@@ -335,6 +335,7 @@ async getAccountData() {
           code: this.selectedItem.code
         }
       }
+      console.log(entity)
       this.dmService
       .postOption(entity, this.REQUEST_URL, OPERATIONS.CREATE)
       .subscribe(
