@@ -31,6 +31,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   listMenu: any;
   checkWorkActive = false;
   disableToggle = false;
+  SHOP_URL = '/api/v1/shop';
   constructor(
     private router: Router,
     private localStorage: LocalStorageService,
@@ -49,10 +50,6 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       this.shop = this.localStorage.retrieve('shop');
       this.info = this.localStorage.retrieve('authenticationToken');
       this.shopCode = this.localStorage.retrieve('shopcode');
-      if (this.shopCode) {
-        this.setMenu();
-        this.loadData(this.listMenu);
-      }
     });
   }
   get isAdmin() {
@@ -118,6 +115,12 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       this.shopInfo = state.common.shopInfo;
     });
     this.getAccountStatus();
+    if (this.info.role === 'admin' || this.info.role === 'marketing') {
+      this.setMenu();
+      this.loadData(this.listMenu);
+    } else {
+      this.loadShopList();
+    }
   }
 
   ngAfterViewInit(): void {}
@@ -128,7 +131,36 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     } else if (this.isMarketing) {
       this.listMenu = MENU_MKT;
     } else if (this.isUser) {
-      this.listMenu = MENU_USER;
+      this.listMenu = [
+        ...MENU_USER,
+        {
+          path: '/notF',
+          title: this.shopInfo ? this.shopInfo.name : 'Đơn hàng',
+          icon: 'fa fa-archive',
+          class: '',
+          role: '',
+          params: '',
+          show: true,
+          items: [
+            {
+              path: '/data',
+              title: 'Order',
+              icon: 'nc-basket',
+              class: '',
+              role: 'user',
+              params: { shopCode: this.shopCode },
+            },
+            {
+              path: '/data-after-order',
+              title: 'Đơn hàng',
+              icon: 'nc-basket',
+              class: '',
+              role: 'user',
+              params: { shopCode: this.shopCode },
+            },
+          ],
+        },
+      ];
     }
   }
   getAccountStatus(): void {
@@ -231,5 +263,16 @@ export class LayoutComponent implements OnInit, AfterViewInit {
         }
       }
     });
+  }
+  public loadShopList() {
+    this.dmService.getOption(null, this.SHOP_URL, `?status=1`).subscribe(
+      (res: HttpResponse<any>) => {
+        this.shopInfo = res.body.RESULT[0];
+        this.setMenu();
+      },
+      () => {
+        console.error();
+      }
+    );
   }
 }
