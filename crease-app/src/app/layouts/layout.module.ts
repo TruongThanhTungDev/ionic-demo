@@ -20,6 +20,7 @@ import { UtmStatisticComponent } from '../pages/utm-statistic-marketing/utm-stat
 import { CauhinhKhoComponent } from '../pages/cau-hinh-kho/cau-hinh-kho.component';
 import { StatiscalRevenue } from '../pages/statiscal-revenue/statiscal-revenue.component';
 import { StatiscalCostComponent } from '../pages/statiscal-cost/statiscal-cost.component';
+import { OrderComponent } from '../pages/order/order.component';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { StatiscalCostComponent } from '../pages/statiscal-cost/statiscal-cost.c
     CauhinhKhoComponent,
     StatiscalRevenue,
     StatiscalCostComponent,
+    OrderComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

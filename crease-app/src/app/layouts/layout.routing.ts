@@ -12,6 +12,7 @@ import { UtmStatisticComponent } from '../pages/utm-statistic-marketing/utm-stat
 import { CauhinhKhoComponent } from '../pages/cau-hinh-kho/cau-hinh-kho.component';
 import { StatiscalRevenue } from '../pages/statiscal-revenue/statiscal-revenue.component';
 import { StatiscalCostComponent } from '../pages/statiscal-cost/statiscal-cost.component';
+import { OrderComponent } from '../pages/order/order.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -71,5 +72,9 @@ export const LayoutRoutes: Routes = [
   {
     path: 'statiscal-cost',
     component: StatiscalCostComponent,
+  },
+  {
+    path: 'data',
+    component: OrderComponent,
   },
 ];
