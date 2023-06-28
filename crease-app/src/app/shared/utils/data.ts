@@ -79,6 +79,14 @@ export const ROUTES = [
     items: [
       {
         path: '/data',
+        title: 'Order',
+        icon: 'nc-basket',
+        class: '',
+        role: 'user',
+        params: { shopCode: 'KHBOM' },
+      },
+      {
+        path: '/notF',
         title: 'Đơn hàng',
         icon: 'nc-basket',
         class: '',
@@ -88,14 +96,6 @@ export const ROUTES = [
       {
         path: '/notF',
         title: 'Danh sách hàng hoàn',
-        icon: 'nc-basket',
-        class: '',
-        role: 'user',
-        params: { shopCode: 'KHBOM' },
-      },
-      {
-        path: '/notF',
-        title: 'Đã in đơn',
         icon: 'nc-basket',
         class: '',
         role: 'user',

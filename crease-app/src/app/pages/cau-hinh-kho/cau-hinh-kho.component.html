@@ -5,35 +5,32 @@
     </ion-refresher>
     <div>
       <div *ngIf="!isBackHeader; else elseBtn" class="row align-items-center justify-content-center">
-        <button class="btn col-1 " style="background-color: #46c851; padding:7.5px ;width:40px" (click)="addKho()">
-          <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
+        <button class="btn col-1" style="background-color: #46c851; padding: 7.5px; width: 40px" (click)="setOpenStatisticKho(true, null, 'add')" >
+          <i class="fa-solid fa-plus" style="color: #ffffff"></i>
         </button>
-        <button class="btn  col-3 mx-2 h-100 text-13px  "
-          style="background-color:#089774;color: #ffffff; padding:10px 4px " (click)="showListDelete()">Chọn</button>
-        <ion-searchbar class="col-7   search-bar " style="padding:7px;" placeholder="Tìm kiếm"
-          (keyup.enter)="searchKho($event)" placeholder="Tìm kiếm" (ionClear)="reset()"></ion-searchbar>
+        <button class="btn col-3 mx-2 h-100 text-13px" style="background-color: #089774; color: #ffffff; padding: 10px 4px" (click)="showListDelete()">
+          Chọn
+        </button>
+        <ion-searchbar class="col-7 search-bar" style="padding: 7px" placeholder="Tìm kiếm" (keyup.enter)="searchKho($event)" placeholder="Tìm kiếm" (ionClear)="reset()" ></ion-searchbar>
       </div>
       <ng-template #elseBtn>
-        <button type="button" class="btn btn-danger" [disabled]="!selectedItem" (click)="openDeleteModal(true)">
-          <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
-          Xóa
+        <button type="button" class="btn btn-danger"  [disabled]="!selectedItem"   (click)="openDeleteModal(true)" >
+          <i class="fa-solid fa-trash-can" style="color: #ffffff"></i> Xóa
         </button>
       </ng-template>
     </div>
     <div *ngIf="listData && listData.length; else elseBlock" class="position-relative">
-      <div *ngFor="let item of listData | paginate: { itemsPerPage: 10, currentPage: page, totalItems }"
-        class="position-relative">
+      <div *ngFor="  let item of listData  | paginate : { itemsPerPage: 10, currentPage: page, totalItems } " class="position-relative" >
         <div *ngIf="isBackHeader" class="checkbox-in-card-container form-check">
-          <input class="form-check-input checkbox-in-card" type="checkbox"
-            [checked]="selectedItem && selectedItem.id === item.id" (change)="selectItem(item)">
+          <input  class="form-check-input checkbox-in-card" type="checkbox"  [checked]="selectedItem && selectedItem.id === item.id"  (change)="selectItem(item)" />
         </div>
-        <ion-card [class]="selectedItem && selectedItem.id === item.id ? 'card-active' : ''"
-          (click)="isBackHeader ? selectItem(item) : setOpenStatisticKho(true, item)">
+        <ion-card [class]="  selectedItem && selectedItem.id === item.id ? 'card-active' : ''" 
+        (click)=" isBackHeader ? selectItem(item) : setOpenStatisticKho(true, item, 'edit') " >
           <ion-card-content>
             <div class="d-flex align-items-center mb-3 text-12px">
               <div class="col-8">
-                <div class="d-flex justify-content-start" style="margin-left: 6px">
-                  <span class="line-clamp-1">{{item.name}}</span>
+                <div class="d-flex justify-content-start"style="margin-left: 6px" >
+                  <span class="line-clamp-1 fw-bold" style="color:#006EB9">{{ item.name }}</span>
                 </div>
               </div>
             </div>
@@ -43,143 +40,206 @@
                 <div class="col-6">Địa chỉ</div>
               </div>
               <div class="row">
-                <div class="col-6 " title="">{{item.phone}}</div>
-                <div class="col-6 " title="">{{item.address}}</div>
+                <div class="col-6" title="">{{ item.phone }}</div>
+                <div class="col-6" title="">{{ item.address }}</div>
               </div>
             </div>
           </ion-card-content>
         </ion-card>
-        <ion-modal [isOpen]="isOpenStatisticKho" (didDismiss)="setOpenStatisticKho(false,null)">
+        <ion-modal [isOpen]="isOpenStatisticKho" (didDismiss)="setOpenStatisticKho(false, null, null)">
           <ion-header>
             <ion-toolbar mode="md" class="new-toolbar-background">
               <ion-buttons slot="start">
                 <button class="bg-content rounded-circle" (click)="cancel()">
-                  <i class="fa-solid fa-arrow-left"
-                    style=" padding: 8px 8px;font-size:20px;margin-right: 6px;color: #2c5fb6"></i>
+                  <i  class="fa-solid fa-arrow-left"  style=" padding: 8px 8px; font-size: 20px; margin-right: 6px; color: #2c5fb6; "  ></i>
                 </button>
               </ion-buttons>
               <ion-title class="text-14px fw-bold">{{ title }}</ion-title>
               <ion-buttons slot="end">
-                <ion-button (click)="saveInfo()" [strong]="true">Lưu</ion-button>
+                <ion-button (click)="saveInfo('add')" [strong]="true" >Lưu</ion-button >
               </ion-buttons>
             </ion-toolbar>
           </ion-header>
           <ion-content>
-            <div class="text-primary ">
-              <h6 class="fw-bold" style="color:#2E2D2D;margin:10px 30px">Thêm kho</h6>
+            <div class="text-primary">
+              <h6  class="fw-bold" style="color: #187CC0; margin: 10px 30px">  {{selectedItem ? selectedItem.name: "Thêm kho" }} </h6>
+              <div *ngIf="typeModal === 'edit'" class="button-group">
+                <button>Sản phẩm kho</button>
+                <button>Nhập hàng</button>
+                <button>Xuất hàng</button>
+                <button>Lịch sử xuất hàng</button>
+              </div>
               <div class="position-relative">
                 <div class="position-relative">
                   <ion-card>
-                    <ion-card-header style="padding-bottom: 7px">
-                      <ion-card-title class="fw-bold" style="font-size: 15px; color: #006EB9">
-                        <span class="dot"></span>
-                        Thông tin kho
-                      </ion-card-title>
-                      <div class="row fw-bold">
-                        <button type="button">
-                          <div class="col-4 ion-float-end">
-                            <i class="fa fa-pen" (click)="editInfoKho(item)"></i>
-                          </div>
-                        </button>
+                   <ion-card-header style="padding-bottom: 7px">
+                    <ion-card-title class="fw-bold" style="font-size: 15px; color: #006eb9">
+                      <span class="dot"></span>
+                      Thông tin kho
+                      <div class="row justify-content-end align-items-center">
+                        <div class="col-auto">
+                          <button type="button">
+                           <i class="fa fa-pen" (click)="addKho()"></i>
+                          </button>
+                        </div>
                       </div>
-                    </ion-card-header>
+                    </ion-card-title>
+                  </ion-card-header>
                     <ion-card-content>
-                      <div class="row ">
-                        <div class="col-6 d-flex align-items-center" style="font-size:10px">Tên kho:
-                          <ng-container>{{ item.name }}</ng-container>
+                      <div class="row">
+                        <div class="col-6 d-flex align-items-center" style="font-size: 10px" > Tên kho:
+                          <ng-container>{{ selectedItem ? selectedItem.name : ""  }}</ng-container>
                         </div>
                       </div>
-                      <div class="row ">
-                        <div class="col-6 d-flex align-items-center" style="font-size:10px">Địa chỉ:
-                          <ng-container>{{item.address }}</ng-container>
-
+                      <div class="row">
+                        <div  class="col-6 d-flex align-items-center" style="font-size: 10px"> Địa chỉ:
+                          <ng-container>{{  selectedItem ? selectedItem.address : "" }}</ng-container>
                         </div>
                       </div>
-                      <div class="row ">
-                        <div class="col-6 d-flex align-items-center" style="font-size:10px">Số điện thoại:
-                          <ng-container>{{item.phone}}</ng-container>
+                      <div class="row">
+                        <div  class="col-6 d-flex align-items-center" style="font-size: 10px"  >
+                          Số điện thoại:
+                          <ng-container>{{  selectedItem ? selectedItem.phone : ""}}</ng-container>
                         </div>
                       </div>
                     </ion-card-content>
                   </ion-card>
                   <ion-card>
                     <ion-card-header style="padding-bottom: 7px">
-                      <ion-card-title class="fw-bold" style="font-size: 15px; color: #006EB9">
+                      <ion-card-title  class="fw-bold" style="font-size: 15px; color: #006eb9" >
                         <span class="dot"></span>
                         Sản phẩm kho
                       </ion-card-title>
                     </ion-card-header>
                     <ion-card-content>
-                      <div class="row ">
-                        <div class="col-6 d-flex align-items-center" style="font-size:10px">Tổng hàng nhập:
-                          <ng-container>{{localData ? localData.totalImportProduct : 0}}</ng-container>
+                      <div class="row">
+                        <div  class="col-6 d-flex align-items-center" style="font-size: 10px">
+                          Tổng hàng nhập:
+                          <ng-container>{{ localData ? localData.totalImportProduct : 0 }}</ng-container>
                         </div>
                       </div>
-                      <div class="row ">
-                        <div class="col-6 d-flex align-items-center" style="font-size:10px">Tổng còn trong kho:
-                          <ng-container>{{localData ? localData.totalInventoryQuantity : 0}}</ng-container>
-
+                      <div class="row">
+                        <div  class="col-6 d-flex align-items-center"style="font-size: 10px" >
+                          Tổng còn trong kho:
+                          <ng-container>{{  localData ? localData.totalInventoryQuantity : 0  }}</ng-container>
                         </div>
                       </div>
-                      <div class="row ">
-                        <div class="col-6 d-flex align-items-center" style="font-size:10px">Tổng đang về:
-                          <ng-container>{{localData ? localData.totalAwaitingProduct : 0}}</ng-container>
-
+                      <div class="row">
+                        <div class="col-6 d-flex align-items-center" style="font-size: 10px" >
+                          Tổng đang về:
+                          <ng-container>{{ localData ? localData.totalAwaitingProduct : 0 }}</ng-container>
                         </div>
                       </div>
-                      <div class="row ">
-                        <div class="col-6 d-flex align-items-center" style="font-size:10px">Tổng tiền hàng:
-                          <ng-container>{{localData ? localData.price : 0}}</ng-container>
-
+                      <div class="row">
+                        <div  class="col-6 d-flex align-items-center"  style="font-size: 10px"  >
+                          Tổng tiền hàng:
+                          <ng-container>{{ localData ? localData.price : 0 }}</ng-container>
                         </div>
                       </div>
-
                     </ion-card-content>
                   </ion-card>
                   <ion-card>
                     <ion-card-header style="padding-bottom: 7px">
-                      <ion-card-title class="fw-bold" style="font-size: 15px; color: #006EB9">
+                      <ion-card-title  class="fw-bold"  style="font-size: 15px; color: #006eb9"  >
                         <span class="dot"></span>
                         Nhân viên
                       </ion-card-title>
                     </ion-card-header>
-                    <ion-card-content>
-                      <div class="row fw-bold">
-                        <div class="col-4" style="font-size:10px">tên nhân viên</div>
+                   <ion-card-content>
+                    <div class="row fw-bold ">
+                      <div class="col-12 col-md-8 offset-md-2">
+                        <div class="input-group border-2">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text bg-white" style="border: 0 ; padding:12px">
+                              <i class="fa-solid fa-magnifying-glass text-sub-content" style="color: #2c5fb6"></i>
+                            </span>
+                          </div>
+                          <input type="text" class="form-control border-primary border-0 search-control"
+                                placeholder="Tìm kiếm nhân viên" [(ngModel)]="tentaikhoan" (keydown.enter)="getAccountData()">
+                        </div>
                       </div>
-                    </ion-card-content>
+                    </div>
+                    <div class="row mt-3">
+                   <div class="col-12 col-md-8 offset-md-2">
+                        <table class="table">
+                          <tbody>
+                            <tr *ngFor="let item of listAccountData" >
+                              <td>
+                                <ion-avatar slot="start" style="width: 20px;height: 20px; margin-right:0px" >
+                                    <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                                </ion-avatar>
+                              </td>
+                              <td>{{ item.userName }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>   
+                    </div>
+
+                  </ion-card-content>
+
                   </ion-card>
                 </div>
               </div>
             </div>
           </ion-content>
         </ion-modal>
-        <ion-alert [isOpen]="isOpenDeleteModal" header="BẠN CÓ THẬT SỰ MUỐN XÓA BẢN GHI NÀY?"
-          [buttons]="actionDeleteAccount" (didDismiss)="openDeleteModal(false)"></ion-alert>
+        <ion-alert [isOpen]="isOpenDeleteModal" header="BẠN CÓ THẬT SỰ MUỐN XÓA BẢN GHI NÀY?"  [buttons]="actionDeleteAccount"  (didDismiss)="openDeleteModal(false)" ></ion-alert>
       </div>
     </div>
     <ng-template #elseBlock>
-      <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
-        <i class="fa-solid fa-box-open text-sub-content mb-3" style="font-size: 100px"></i>
+      <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%)" >
+        <i class="fa-solid fa-box-open text-sub-content mb-3"  style="font-size: 100px" ></i>
         <h5 class="text-sub-content">Không có dữ liệu!</h5>
       </div>
     </ng-template>
-    <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
-      (didDismiss)="setOpen(false)"></ion-toast>
-    <pagination-controls *ngIf="listData && listData.length" previousLabel="" nextLabel=""
-      (pageChange)="changePagination($event)"></pagination-controls>
+    <ion-toast
+      [isOpen]="isToastOpen"
+      [message]="messageToast"
+      [duration]="3000"
+      (didDismiss)="setOpen(false)"
+    ></ion-toast>
+    <pagination-controls
+      *ngIf="listData && listData.length"
+      previousLabel=""
+      nextLabel=""
+      (pageChange)="changePagination($event)"
+    ></pagination-controls>
   </ion-content>
   <ion-footer *ngIf="info.role === 'admin'" [translucent]="true">
-    <ion-toolbar mode="md" class="footer-container">
+    <ion-toolbar [scrollable]="true" mode="md" class="footer-container">
       <ion-segment *ngIf="!isBackHeader;else elseFooter" color="dark" value="account">
         <ion-segment-button value="utmmedium" routerLink="/utm-medium" style="font-size:10px">
           <ion-label class="fw-bold text-white">Cấu hình UTM</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="kho" routerLink="/kho" style="font-size:10px">
-          <ion-label class="fw-bold">Cấu hình kho</ion-label>
+        <ion-segment-button
+          value="kho/quan-ly-kho"
+          routerLink="/kho/quan-ly-kho"
+          style="font-size: 10px"
+        >
+          <ion-label class="fw-bold text-white">Cấu hình kho</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="dashboard" routerLink="/dashboard" style="font-size:10px">
+        <ion-segment-button
+          value="dashboard"
+          routerLink="/dashboard"
+          style="font-size: 10px"
+        >
           <ion-label class="fw-bold">Danh sách cấu hình</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="setting-order" routerLink="/order-config" style="font-size:10px">
+          <ion-label class="fw-bold">Cấu hình đơn hàng</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="setting-cost" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Cấu hình chi phí</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="setting-permission" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Cấu hình phân quyền</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="list-product" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Danh mục sản phẩm</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="unit-shipping" routerLink="/setting-shipping" style="font-size:10px">
+          <ion-label class="fw-bold">Đơn vị vận chuyển</ion-label>
         </ion-segment-button>
       </ion-segment>
       <ng-template #elseFooter>

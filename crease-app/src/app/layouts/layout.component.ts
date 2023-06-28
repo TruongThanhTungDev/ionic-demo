@@ -45,11 +45,8 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     this.info = this.localStorage.retrieve('authenticationToken');
     this.shopCode = this.localStorage.retrieve('shopcode');
     this.checkWorkActive = this.localStorage.retrieve('check_work_active');
-    this.setMenu();
     this.dmService.getClickEvent().subscribe(() => {
       this.shop = this.localStorage.retrieve('shop');
-      this.info = this.localStorage.retrieve('authenticationToken');
-      this.shopCode = this.localStorage.retrieve('shopcode');
     });
   }
   get isAdmin() {
@@ -113,14 +110,18 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       this.isChange = state.common.isBackHeader;
       this.customTitle = state.common.titleCustom;
       this.shopInfo = state.common.shopInfo;
+      const loadingCompleted = state.common.isLoadCompleted;
+      if (loadingCompleted) {
+        this.shopCode = this.localStorage.retrieve('shopcode');
+        if (this.info.role === 'admin' || this.info.role === 'marketing') {
+          this.setMenu();
+          this.loadData(this.listMenu);
+        } else {
+          this.loadShopList();
+        }
+      }
     });
     this.getAccountStatus();
-    if (this.info.role === 'admin' || this.info.role === 'marketing') {
-      this.setMenu();
-      this.loadData(this.listMenu);
-    } else {
-      this.loadShopList();
-    }
   }
 
   ngAfterViewInit(): void {}
@@ -168,6 +169,10 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     const entity = {
       nhanVienId: this.info.id,
     };
+    this.store.dispatch({
+      type: 'SET_LOADING_COMPLETED',
+      payload: false,
+    });
     this.dmService
       .postOption(entity, '/api/v1/work/checkWorkActive', '')
       .subscribe(
@@ -182,11 +187,19 @@ export class LayoutComponent implements OnInit, AfterViewInit {
               payload: true,
             });
           } else {
+            this.store.dispatch({
+              type: 'SET_LOADING_COMPLETED',
+              payload: true,
+            });
             this.checkWorkActive = false;
           }
           this.disableToggle = false;
         },
         () => {
+          this.store.dispatch({
+            type: 'SET_LOADING_COMPLETED',
+            payload: true,
+          });
           this.checkWorkActive = false;
           this.disableToggle = false;
           console.error();

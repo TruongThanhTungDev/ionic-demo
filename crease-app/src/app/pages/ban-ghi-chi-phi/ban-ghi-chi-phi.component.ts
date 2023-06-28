@@ -102,7 +102,7 @@ export class CostRecordComponent implements OnInit {
       page: this.page - 1,
       size: this.itemsPerPage,
       filter: this.searchData(),
-      sort: ['id', 'asc'],
+      sort: ['id', 'desc'],
     };
     await this.isLoading();
     this.dmService.query(payload, `${this.REQUEST_URL}`).subscribe(
@@ -114,7 +114,7 @@ export class CostRecordComponent implements OnInit {
               return {
                 ...item,
                 costName: item.costType ? item.costType.name : '',
-                costId: item.costType ? item.costType.id : '',
+                costTypeId: item.costType ? item.costType.id : '',
                 fromDate: moment(item.fromDate, 'YYYYMMDD').format(
                   'DD/MM/YYYY'
                 ),
@@ -170,6 +170,7 @@ export class CostRecordComponent implements OnInit {
         data: null,
         type: 'add',
         shopCode: this.shopCode,
+        currentCodeType: this.costType,
       },
     });
     modal.present();
