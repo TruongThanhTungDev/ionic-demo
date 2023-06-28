@@ -4,25 +4,33 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <div>
-      <div *ngIf="!isBackHeader; else elseBtn" class="row align-items-center justify-content-center">
-        <button class="btn col-1 " style="background-color: #46c851; padding:7.5px ;width:40px" (click)="addUtm()">
-          <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
-        </button>
-        <button class="btn  col-3 mx-2 h-100 text-13px  "
-          style="background-color:#089774;color: #ffffff; padding:10px 4px " (click)="showListDelete()">Chọn</button>
-        <div class="input-group col-7  border-primary" style="border-radius: 6px;">
+      <div *ngIf="!isBackHeader; else elseBtn" class="d-flex align-items-center justify-content-center">
+        <div>
+          <button class="btn btn-sm" style="background-color: #46C851;" (click)="addUtm()">
+            <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
+          </button>
+        </div>
+        <div class="mx-2">
+          <button class="btn btn-primary h-100 text-13px p-6px" (click)="showListDelete()">
+            Chọn
+          </button>
+        </div>
+        <div class="col-8 input-group input-group-sm border-primary" style="border-radius: 6px; width: fit-content">
           <span class="input-group-text bg-white" style="border: 0">
-            <i class="fa-solid fa-magnifying-glass text-sub-content" style="color: #2c5fb6"></i>
+            <i class="fa-solid fa-magnifying-glass text-sub-content" style="color: #2c5fb6">
+            </i>
           </span>
-          <input type="text" class="form-control border-primary border-0 search-control" placeholder="Tìm kiếm"
-            [(ngModel)]="name" (keydown.enter)="loadData()" (ionClear)="reset()">
+          <input type="text" class="form-control border-primary border-0 search-control"
+            placeholder="Tìm kiếm UTM" [(ngModel)]="name" (keydown.enter)="loadData()">
         </div>
       </div>
       <ng-template #elseBtn>
-        <button type="button" class="btn btn-danger" [disabled]="!selectedItem" (click)="openDeleteModal(true)">
-          <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
-          Xóa
-        </button>
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button type="button" class="btn btn-danger" [disabled]="!selectedItem" (click)="openDeleteModal(true)">
+            <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
+            Xóa
+          </button>
+        </div>
       </ng-template>
     </div>
     <div *ngIf="listData && listData.length; else elseBlock" class="position-relative">

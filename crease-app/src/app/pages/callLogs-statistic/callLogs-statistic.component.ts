@@ -32,6 +32,7 @@ export class CallLogsStatisticComponent implements OnInit {
   messageToast: any;
   isBackHeader: any;
   isOpenDatePicker:any;
+  isOpenFilterModal:any;
   plugins = new Plugin();
   phone: any;
   calldate: any;
@@ -78,7 +79,7 @@ export class CallLogsStatisticComponent implements OnInit {
       filter.push(`duration=="*${this.duration.trim()}s*"`);
     }
     if (this.status) {
-      filter.push(`status==${this.status}`);
+      filter.push(`status=="*${this.status}*"`);
     }
     if (this.blacklist) {
       filter.push(`blacklist==${this.blacklist}`);
@@ -171,5 +172,15 @@ export class CallLogsStatisticComponent implements OnInit {
     }
     return status;
   }
-
+  openModalFilter(isOpen: boolean) {
+    this.isOpenFilterModal = isOpen;
+    if (!isOpen) {
+      this.loadData();
+    }
+    
+  }
+  async getFilter() {
+    await this.loadData();
+    this.isOpenFilterModal = false;
+  }
 }
