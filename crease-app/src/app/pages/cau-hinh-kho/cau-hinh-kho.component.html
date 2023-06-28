@@ -170,7 +170,7 @@
       (pageChange)="changePagination($event)"></pagination-controls>
   </ion-content>
   <ion-footer *ngIf="info.role === 'admin'" [translucent]="true">
-    <ion-toolbar mode="md" class="footer-container">
+    <ion-toolbar [scrollable]="true" mode="md" class="footer-container">
       <ion-segment *ngIf="!isBackHeader;else elseFooter" color="dark" value="account">
         <ion-segment-button value="utmmedium" routerLink="/utm-medium" style="font-size:10px">
           <ion-label class="fw-bold text-white">Cấu hình UTM</ion-label>
@@ -180,6 +180,21 @@
         </ion-segment-button>
         <ion-segment-button value="dashboard" routerLink="/dashboard" style="font-size:10px">
           <ion-label class="fw-bold">Danh sách cấu hình</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="setting-order" routerLink="/order-config" style="font-size:10px">
+          <ion-label class="fw-bold">Cấu hình đơn hàng</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="setting-cost" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Cấu hình chi phí</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="setting-permission" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Cấu hình phân quyền</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="list-product" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Danh mục sản phẩm</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="unit-shipping" routerLink="/setting-shipping" style="font-size:10px">
+          <ion-label class="fw-bold">Đơn vị vận chuyển</ion-label>
         </ion-segment-button>
       </ion-segment>
       <ng-template #elseFooter>
