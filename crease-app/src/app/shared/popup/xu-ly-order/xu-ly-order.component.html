@@ -44,9 +44,11 @@
               </div>
             </div>
             <div class="text-primary">
-              <i class="fa fa-pen"></i>
+              <i class="fa fa-pen" (click)="editInfoCustomer(true)"></i>
             </div>
           </div>
+          <thong-tin-khach-hang [isModalOpen]="isShowEditInfoCustomer"
+            (handleOpenModal)="editInfoCustomer($event)"></thong-tin-khach-hang>
         </ion-card-content>
       </ion-card>
     </div>

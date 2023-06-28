@@ -31,6 +31,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { CheckInComponent } from './shared/popup/check-in/check-in.component';
 import { CheckOutComponent } from './shared/popup/check-out/check-out.component';
 import { XuLyOrderComponent } from './shared/popup/xu-ly-order/xu-ly-order.component';
+import { ThongTinKhachHangOrder } from './shared/popup/xu-ly-order/thong-tin-khach-hang/thong-tin-khach-hang.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +46,7 @@ import { XuLyOrderComponent } from './shared/popup/xu-ly-order/xu-ly-order.compo
     CheckInComponent,
     CheckOutComponent,
     XuLyOrderComponent,
+    ThongTinKhachHangOrder,
   ],
   imports: [
     HttpClientModule,

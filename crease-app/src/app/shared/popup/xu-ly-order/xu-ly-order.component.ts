@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
+import { ThongTinKhachHangOrder } from './thong-tin-khach-hang/thong-tin-khach-hang.component';
 
 @Component({
   selector: 'xuLyOder-cmp',
@@ -11,6 +12,7 @@ export class XuLyOrderComponent {
   @Input() data: any;
   @Input() title: any;
   @Input() type: any;
+  isShowEditInfoCustomer = false;
   statusOrder = '0,1,2,3,4,5,6,9';
   info: any;
   isToastOpen = false;
@@ -25,6 +27,9 @@ export class XuLyOrderComponent {
   }
   get isUser() {
     return this.info.role === 'user';
+  }
+  async editInfoCustomer(open: any) {
+    this.isShowEditInfoCustomer = open;
   }
   cancel() {
     this.modal.dismiss();
