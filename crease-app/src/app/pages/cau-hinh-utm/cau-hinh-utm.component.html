@@ -74,11 +74,11 @@
   <ion-footer *ngIf="info.role === 'admin'" [translucent]="true">
     <ion-toolbar mode="md" class="footer-container">
       <ion-segment [scrollable]="true" *ngIf="!isBackHeader;else elseFooter" color="dark" value="account">
-        <ion-segment-button value="utmmedium" routerLink="/utm-medium" style="font-size:10px">
+        <ion-segment-button value="utmmedium" routerLink="/utm-medium" style="font-size:10px;background: #035287">
           <ion-label class="fw-bold text-white">Cấu hình UTM</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="kho" routerLink="/kho" style="font-size:10px">
-          <ion-label class="fw-bold">Cấu hình kho</ion-label>
+        <ion-segment-button value="kho" routerLink="/kho/quan-ly-kho" style="font-size: 10px" >
+          <ion-label class="fw-bold text-white">Cấu hình kho</ion-label>
         </ion-segment-button>
         <ion-segment-button value="list-setting" routerLink="/dashboard" style="font-size:10px">
           <ion-label class="fw-bold">Danh sách cấu hình</ion-label>
