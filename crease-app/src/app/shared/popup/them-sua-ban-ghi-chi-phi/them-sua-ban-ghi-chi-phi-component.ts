@@ -44,7 +44,7 @@ export class ThemSuaCostRecord implements OnInit {
     endDate: moment().format('YYYY-MM-DD'),
   };
   listCostType: any;
-  costType: any;
+  costType = 0;
   SHOP_URL = '/api/v1/shop';
   REQUEST_URL = '/api/v1/cost';
   REQUEST_URL_COSTTYPE = '/api/v1/costtype';
@@ -107,7 +107,6 @@ export class ThemSuaCostRecord implements OnInit {
     return true;
   }
   ngOnInit() {
-    this.checkDate();
     this.loadShopList();
     this.findCostType();
     if (this.type === 'edit') {
@@ -123,9 +122,17 @@ export class ThemSuaCostRecord implements OnInit {
       this.toDate = moment(this.data.toDate, 'DD/MM/YYYY').format('YYYYMMDD');
       this.numOfOrder = this.data.numOfOrder;
       this.shopCode = this.data.shopCode;
-      this.costType = this.data.costType;
+      this.costType = this.data.costTypeId;
+      this.dateRange.startDate = moment(
+        this.data.fromDate,
+        'DD/MM/YYYY'
+      ).format('YYYY-MM-DD');
+      this.dateRange.endDate = moment(this.data.toDate, 'DD/MM/YYYY').format(
+        'YYYY-MM-DD'
+      );
     }
     if (this.type === 'add') {
+      this.costType = this.currentCodeType;
       this.updateValue = false;
     } else {
       this.updateValue = true;
@@ -216,14 +223,15 @@ export class ThemSuaCostRecord implements OnInit {
   }
 
   checkDate() {
-    this.numOfDay = 1;
-    this.checkMakerting = true;
     var date = JSON.parse(JSON.stringify(this.dateRange));
     date.endDate = date.endDate.replace('23:59:59', '00:00:00');
-    this.fromDate = moment(date.startDate).format('YYYY-MM-DD');
-    this.toDate = moment(date.endDate).format('YYYY-MM-DD');
+    if (this.type === 'add') {
+      this.fromDate = moment(date.startDate).format('YYYYMMDD');
+      this.toDate = moment(date.endDate).format('YYYYMMDD');
+    }
+    this.checkMakerting = true;
     if (this.costType == 7) {
-      console.log('1 :>> ', 1);
+      this.numOfDay = 1;
       if (moment(this.fromDate).isAfter(moment(this.toDate))) {
         this.isToastOpen = true;
         this.messageToast = 'Từ ngày không được lớn hơn Đến ngày';
@@ -232,6 +240,15 @@ export class ThemSuaCostRecord implements OnInit {
         this.isToastOpen = true;
         this.messageToast = 'Bạn đang nhập khoảng thời gian nhiều hơn 1 ngày';
       }
+    } else {
+      if (moment(this.fromDate).isAfter(moment(this.toDate))) {
+        this.isToastOpen = true;
+        this.messageToast = 'Từ ngày không được lớn hơn Đến ngày';
+      }
+      const duration = moment.duration(
+        moment(this.fromDate).diff(moment(this.toDate))
+      );
+      this.numOfDay = Math.abs(duration.asDays()) + 1;
     }
   }
   cost(): void {
@@ -264,7 +281,6 @@ export class ThemSuaCostRecord implements OnInit {
             this.numOfDay = parseInt(moment().endOf('month').format('DD'));
             this.costPerOrder = true;
             this.timeValue = 1;
-            this.numOfDay = 1;
             this.getData();
           } else {
             this.costPerOrder = false;
@@ -285,51 +301,58 @@ export class ThemSuaCostRecord implements OnInit {
   }
   getData() {
     if (this.costPerOrder) {
-      this.dmService
-        .postOption({ code: 'CPVC' }, '/api/v1/config', '/getByCODE')
-        .subscribe(
-          (res: HttpResponse<any>) => {
-            if (
-              this.fromDate >= res.body.RESULT.fromDate &&
-              this.toDate <= res.body.RESULT.toDate
-            ) {
-              this.costPerOrderValue = res.body.RESULT.value;
-            } else {
-              this.costPerOrderValue = res.body.RESULT.defaultValue;
-            }
-            this.dmService
-              .getOption(
-                null,
-                '/api/v1/data',
-                '/thongkeutm?startDate=' +
-                  this.fromDate +
-                  '&endDate=' +
-                  this.toDate +
-                  '&shopCode=KHBOM'
-              )
-              .subscribe(
-                (res: HttpResponse<any>) => {
-                  let count = 0;
-                  for (let item of res.body.RESULT) {
-                    count = count + item.count;
-                  }
-                  this.numOfOrder = count;
-                  console.log(this.costPerOrderValue);
-                  this.totalCost = this.numOfOrder * this.costPerOrderValue;
-                  this.costPerDay = (this.totalCost / this.numOfDay).toFixed(0);
-                },
-                () => {
-                  console.error();
-                }
-              );
-          },
-          () => {
-            console.error();
+      const payload = {
+        page: 0,
+        size: 9999,
+        filter: "id>0;code=='CPVC'",
+        sort: ['id', 'desc'],
+      };
+      this.dmService.getOption(payload, '/api/v1/config', '/search').subscribe(
+        (res: HttpResponse<any>) => {
+          if (
+            this.fromDate >= res.body.RESULT.fromDate &&
+            this.toDate <= res.body.RESULT.toDate
+          ) {
+            this.costPerOrderValue = res.body.RESULT.value;
+          } else {
+            this.costPerOrderValue = res.body.RESULT.defaultValue;
           }
-        );
+          this.dmService
+            .getOption(
+              null,
+              '/api/v1/data',
+              '/thongkeutm?startDate=' +
+                this.fromDate +
+                '&endDate=' +
+                this.toDate +
+                '&shopCode=KHBOM'
+            )
+            .subscribe(
+              (res1: HttpResponse<any>) => {
+                let count = 0;
+                for (let item of res1.body.RESULT) {
+                  count = count + item.count;
+                }
+                this.numOfOrder = count;
+                this.totalCost =
+                  this.numOfOrder * this.costPerOrderValue
+                    ? this.numOfOrder * this.costPerOrderValue
+                    : 0;
+                this.costPerDay = (this.totalCost / this.numOfDay).toFixed(0);
+              },
+              () => {
+                console.error();
+              }
+            );
+        },
+        () => {
+          console.error();
+        }
+      );
     }
   }
-  public loadShopList() {
+  public async loadShopList() {
+    await this.isLoading();
     this.dmService
       .getOption(
         null,
@@ -339,8 +362,10 @@ export class ThemSuaCostRecord implements OnInit {
       .subscribe(
         (res: HttpResponse<any>) => {
           this.shopList = res.body.RESULT.content;
+          this.loading.dismiss();
         },
         () => {
+          this.loading.dismiss();
           console.error();
         }
       );

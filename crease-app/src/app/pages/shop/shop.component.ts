@@ -90,14 +90,18 @@ export class ShopComponent implements OnInit {
     return filter.join(';');
   }
   public selectRow(item: any) {
+    this.store.dispatch({
+      type: 'SET_LOADING_COMPLETED',
+      payload: false,
+    });
     this.localStorage.store('shop', item);
     this.localStorage.store('shopCode', item.code);
-    this.store.dispatch({
-      type: 'SET_SHOP_INFO',
-      payload: item,
-    });
     this.router.navigate(['/dashboard']);
     this.dmService.sendClickEvent();
+    this.store.dispatch({
+      type: 'SET_LOADING_COMPLETED',
+      payload: true,
+    });
   }
   resetData() {
     this.ftTen = '';

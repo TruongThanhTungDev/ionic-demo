@@ -24,7 +24,7 @@
       <label for="name" style="top: 3px">
         Số ngày
       </label>
-      <input type="text" [(ngModel)]="numOfDay" class="form-control" (change)="getCostByDay()">
+      <input type="text" [(ngModel)]="numOfDay" class="form-control" (change)="getCostByDay()" disabled>
     </div>
     <div class="mb-3" *ngIf="!checkMakerting">
       <label for="name" style="top: 3px">
@@ -50,7 +50,7 @@
         <input type="text" [(ngModel)]="shopCode" class="form-control" disabled>
       </ng-template>
     </div>
-    <div class="mb-3" *ngIf="checkMakerting">
+    <div class="mb-3" *ngIf="checkMakerting || type === 'edit'">
       <div class="row align-items-center">
         <div class="col-6">
           <label>Từ ngày</label>

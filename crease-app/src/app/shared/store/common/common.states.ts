@@ -4,4 +4,5 @@ export interface CommonState {
   listMenu: any;
   shopInfo: any;
   isReload: boolean;
+  isLoadCompleted: boolean;
 }
