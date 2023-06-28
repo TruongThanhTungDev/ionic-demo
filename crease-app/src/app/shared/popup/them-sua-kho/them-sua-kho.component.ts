@@ -45,12 +45,9 @@ export class ThemSuaKhoComponent implements OnInit {
     }
   ngOnInit(): void {
     if(this.type === 'edit') {
-      console.log(this.data)
       this.name=this.data.name;
       this.phone=this.data.phone;
-      this.address=this.data.address;
-      console.log(this.name,this.phone,this.address);
-      
+      this.address=this.data.address;         
     }
     
   }
