@@ -111,7 +111,6 @@ export class CauhinhKhoComponent implements OnInit {
   }
   get validData() {
     // this.resetData(this.data)
-    console.log(this.selectedItem);
     if (this.selectedItem.name === '') {
       this.isToastOpen = true;
       this.messageToast = 'Tên Không được để trống';
@@ -120,18 +119,15 @@ export class CauhinhKhoComponent implements OnInit {
     if (this.selectedItem.phone === '') {
       const vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
       if (vnf_regex.test(this.selectedItem.phone.trim()) == false) {
-        console.log(1);
         this.isToastOpen = true;
         this.messageToast = 'Số điện thoại không đúng định dạng';
         return false;
       } else {
-        console.log(2);
         this.isToastOpen = true;
         this.messageToast = 'Số điện thoại không được để trống';
         return false;
       }
     }
-    console.log(3);
     return true;
   }
   async loadData() {
