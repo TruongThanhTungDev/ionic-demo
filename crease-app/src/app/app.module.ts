@@ -34,6 +34,7 @@ import { XuLyOrderComponent } from './shared/popup/xu-ly-order/xu-ly-order.compo
 import { ThongTinKhachHangOrder } from './shared/popup/xu-ly-order/thong-tin-khach-hang/thong-tin-khach-hang.component';
 import { OnlyNumberDirective } from './plugins/only-number.directive';
 import { ThongTinDiaChiOrder } from './shared/popup/xu-ly-order/thong-tin-dia-chi/thong-tin-dia-chi.component';
+import { PhanQuyenKhoComponent } from './shared/popup/them-sua-kho/phan-quyen-kho/phan-quyen-kho.component';
 @NgModule({
   declarations: [
     OnlyNumberDirective,
@@ -51,6 +52,7 @@ import { ThongTinDiaChiOrder } from './shared/popup/xu-ly-order/thong-tin-dia-ch
     XuLyOrderComponent,
     ThongTinKhachHangOrder,
     ThongTinDiaChiOrder,
+    PhanQuyenKhoComponent,
   ],
   imports: [
     HttpClientModule,
