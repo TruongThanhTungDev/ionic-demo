@@ -17,6 +17,7 @@ import { Plugin } from 'src/app/shared/utils/plugins';
 export class CostRecordComponent implements OnInit {
   name = '';
   code = '';
+  createdAt = '';
   itemsPerPage = 10;
   page = 1;
   totalItems = 0;
@@ -119,6 +120,9 @@ export class CostRecordComponent implements OnInit {
                   'DD/MM/YYYY'
                 ),
                 toDate: moment(item.toDate, 'YYYYMMDD').format('DD/MM/YYYY'),
+                createdAt: item.createdAt
+                  ? moment(item.createdAt, 'YYYYMMDD').format('DD/MM/YYYY')
+                  : '',
               };
             })
             .sort((a: any, b: any) => b.id - a.id);
@@ -143,11 +147,15 @@ export class CostRecordComponent implements OnInit {
     var date = this.dateRange;
     let startDate = moment(date.startDate, 'YYYYMMDD').format('YYYYMMDD');
     let endDate = moment(date.endDate, 'YYYYMMDD').format('YYYYMMDD');
+    let create = moment(this.createdAt, 'YYYY-MM-DD').format('YYYYMMDD');
     const filter = [];
     filter.push('id>0');
     filter.push(`shopCode==${this.shopCode}`);
     if (this.costType) {
       filter.push(`costType.id==${this.costType}`);
+    }
+    if (this.createdAt) {
+      filter.push(`createdAt==${create}`);
     }
     if (startDate) filter.push(`fromDate>=${startDate}`);
     if (endDate) filter.push(`toDate<=${endDate}`);
@@ -268,6 +276,11 @@ export class CostRecordComponent implements OnInit {
     this.name = '';
     this.code = '';
     this.costType = '';
+    this.dateRange = {
+      startDate: moment().utc(),
+      endDate: moment().utc(),
+    };
+    this.createdAt = '';
   }
   async handleRefresh(event: any) {
     this.resetData();
