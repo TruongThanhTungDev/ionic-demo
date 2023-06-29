@@ -119,6 +119,7 @@ export class ThemSuaAccount implements OnInit {
                 this.loading.dismiss();
                 this.isToastOpen = true;
                 this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
+                // this.cancel();
                 console.error();
               }
             );
@@ -151,6 +152,7 @@ export class ThemSuaAccount implements OnInit {
                   this.messageToast = res.body.MESSAGE
                     ? res.body.MESSAGE
                     : 'Cập nhật tài khoản thất bại';
+                  this.loading.dismiss();
                   // this.cancel();
                 }
               },
