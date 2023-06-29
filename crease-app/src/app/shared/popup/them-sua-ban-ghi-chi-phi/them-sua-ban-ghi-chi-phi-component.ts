@@ -166,6 +166,7 @@ export class ThemSuaCostRecord implements OnInit {
       numOfOrder: this.numOfOrder,
       costTypeId: this.costType,
       shopCode: this.shopCode,
+      createdAt: parseInt(moment().format('YYYYMMDD')),
     };
     if (this.validData) {
       await this.isLoading();
@@ -195,6 +196,7 @@ export class ThemSuaCostRecord implements OnInit {
           );
       } else {
         entity.id = this.data.id;
+        entity.createdAt = this.data.createdAt;
         this.dmService
           .postOption(entity, '/api/v1/cost/postcost', ``)
           .subscribe(

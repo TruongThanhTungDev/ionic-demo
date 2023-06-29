@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
@@ -8,13 +8,18 @@ import { ThongTinKhachHangOrder } from './thong-tin-khach-hang/thong-tin-khach-h
   selector: 'xuLyOder-cmp',
   templateUrl: './xu-ly-order.component.html',
 })
-export class XuLyOrderComponent {
+export class XuLyOrderComponent implements OnInit {
   @Input() data: any;
   @Input() title: any;
   @Input() type: any;
   isShowEditInfoCustomer = false;
+  isShowEditAddressCustomer = false;
   statusOrder = '0,1,2,3,4,5,6,9';
   info: any;
+  name: any;
+  phone: any;
+  ward: any;
+
   isToastOpen = false;
   messageToast: any;
   constructor(
@@ -28,8 +33,24 @@ export class XuLyOrderComponent {
   get isUser() {
     return this.info.role === 'user';
   }
-  async editInfoCustomer(open: any) {
+  ngOnInit() {
+    if (this.type === 'edit') {
+      this.name = this.data.name;
+      this.phone = this.data.phone;
+      this.statusOrder = this.data.status;
+    }
+  }
+
+  async showEditInfoCustomer(open: any) {
     this.isShowEditInfoCustomer = open;
+  }
+  handleEditInfo(value: any) {
+    this.name = value.name;
+    this.phone = value.phone;
+  }
+
+  async editAddressCustomer(open: any) {
+    this.isShowEditAddressCustomer = open;
   }
   cancel() {
     this.modal.dismiss();

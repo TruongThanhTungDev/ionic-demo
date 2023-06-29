@@ -13,7 +13,7 @@ import { NgxWebstorageModule } from 'ngx-webstorage';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemSuaShop } from './shared/popup/them-sua-shop/them-sua-shop.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ThemSuaAccount } from './shared/popup/them-sua-account/them-sua-account.component';
@@ -32,8 +32,11 @@ import { CheckInComponent } from './shared/popup/check-in/check-in.component';
 import { CheckOutComponent } from './shared/popup/check-out/check-out.component';
 import { XuLyOrderComponent } from './shared/popup/xu-ly-order/xu-ly-order.component';
 import { ThongTinKhachHangOrder } from './shared/popup/xu-ly-order/thong-tin-khach-hang/thong-tin-khach-hang.component';
+import { OnlyNumberDirective } from './plugins/only-number.directive';
+import { ThongTinDiaChiOrder } from './shared/popup/xu-ly-order/thong-tin-dia-chi/thong-tin-dia-chi.component';
 @NgModule({
   declarations: [
+    OnlyNumberDirective,
     AppComponent,
     LayoutComponent,
     ThemSuaShop,
@@ -47,12 +50,14 @@ import { ThongTinKhachHangOrder } from './shared/popup/xu-ly-order/thong-tin-kha
     CheckOutComponent,
     XuLyOrderComponent,
     ThongTinKhachHangOrder,
+    ThongTinDiaChiOrder,
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     IonicModule.forRoot(),
     ToastrModule.forRoot(),
     AppRoutingModule,

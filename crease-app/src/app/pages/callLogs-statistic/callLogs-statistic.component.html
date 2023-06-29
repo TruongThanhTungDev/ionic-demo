@@ -72,13 +72,13 @@
   <ion-footer [translucent]="true">
     <ion-toolbar mode="md" class="footer-container">
       <ion-segment color="dark" value="account">
-        <ion-segment-button value="account" routerLink="/account">
+        <ion-segment-button value="notF" routerLink="/notF">
           <ion-label class="fw-bold" style="font-size: 8px">Thống kê vận chuyển</ion-label>
         </ion-segment-button>
         <ion-segment-button value="calllogs" routerLink="/calllogs" style="background: #035287">
           <ion-label class="fw-bold text-white" style="font-size: 8px">Thống kê cuộc gọi</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="work" routerLink="/work">
+        <ion-segment-button value="notF" routerLink="/notF">
           <ion-label class="fw-bold" style="font-size: 8px">Tài chính tổng hợp</ion-label>
         </ion-segment-button>
       </ion-segment>
@@ -101,6 +101,12 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
+      <div class="mb-3">
+        <label>
+          Số điện thoại:
+        </label>
+        <input type="text" [(ngModel)]="phone" class="form-control" placeholder="Số điện thoại">
+      </div>
       <label>Trạng thái</label>
       <div>
         <div class="form-check form-check-inline">
