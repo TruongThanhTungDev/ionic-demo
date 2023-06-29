@@ -48,6 +48,7 @@
                 <div class="d-flex justify-content-start" style="margin-left: 6px">
                   <span class="line-clamp-1 fw-bold" style="color:#006EB9">{{ item.name }}</span>
                 </div>
+
               </div>
             </div>
             <div class="text-12px">
@@ -79,13 +80,19 @@
           </ion-header>
           <ion-content>
             <div class="text-primary">
-              <h6 class="fw-bold" style="color: #187CC0; margin: 10px 30px"> {{selectedItem ? selectedItem.name: "Thêm
-                kho" }} </h6>
+              <div class="d-flex align-items-center justify-content-between">
+                <h6 class="fw-bold" style="color: #187CC0; margin: 10px 30px">
+                  {{selectedItem ? selectedItem.name : "Thêm kho" }}
+                </h6>
+                
+              </div>
+
               <div *ngIf="typeModal === 'edit'" class="button-group">
                 <button>Sản phẩm kho</button>
                 <button>Nhập hàng</button>
                 <button>Xuất hàng</button>
                 <button>Lịch sử xuất hàng</button>
+                <button (click)="phanQuyenKho()">Chỉnh sửa quyền</button>
               </div>
               <div class="position-relative">
                 <div class="position-relative">
@@ -195,14 +202,13 @@
                           </table>
                         </div>
                       </div>
-
                     </ion-card-content>
-
                   </ion-card>
                 </div>
               </div>
             </div>
           </ion-content>
+          
         </ion-modal>
         <ion-alert [isOpen]="isOpenDeleteModal" header="BẠN CÓ THẬT SỰ MUỐN XÓA BẢN GHI NÀY?"
           [buttons]="actionDeleteAccount" (didDismiss)="openDeleteModal(false)"></ion-alert>

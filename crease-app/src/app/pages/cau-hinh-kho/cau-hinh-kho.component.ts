@@ -12,6 +12,7 @@ import {
 import { Store, select } from '@ngrx/store';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ThemSuaKhoComponent } from 'src/app/shared/popup/them-sua-kho/them-sua-kho.component';
+import { PhanQuyenKhoComponent } from 'src/app/shared/popup/them-sua-kho/phan-quyen-kho/phan-quyen-kho.component';
 @Component({
   selector: 'cauhinhkho-component',
   templateUrl: './cau-hinh-kho.component.html',
@@ -40,6 +41,7 @@ export class CauhinhKhoComponent implements OnInit {
   messageToast: any;
   isOpenDeleteModal = false;
   isOpenFilterModal = false;
+  isOpenDecentralModal = false;
   isOpenStatisticKho = false;
   isOpenModalOpen = false;
   isBackHeader: any;
@@ -462,6 +464,21 @@ export class CauhinhKhoComponent implements OnInit {
       this.getAccountData();
     } else {
       this.selectedItem = null;
+    }
+  }
+  async phanQuyenKho() {
+    const modal = await this.modalCtrl.create({
+      component: PhanQuyenKhoComponent,
+      componentProps: {
+        title:'Chỉnh sửa quyền',
+        data: null,
+        type: this.typeModal,
+      },
+      backdropDismiss: false,
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
     }
   }
 }

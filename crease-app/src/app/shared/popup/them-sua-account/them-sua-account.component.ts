@@ -119,7 +119,6 @@ export class ThemSuaAccount implements OnInit {
                 this.loading.dismiss();
                 this.isToastOpen = true;
                 this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
-                this.cancel();
                 console.error();
               }
             );

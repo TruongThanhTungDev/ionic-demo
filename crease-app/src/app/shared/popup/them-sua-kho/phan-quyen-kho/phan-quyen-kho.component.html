@@ -1,0 +1,132 @@
+<ion-header>
+  <ion-toolbar mode="md" class="new-toolbar-background">
+    <ion-buttons slot="start">
+      <button class="bg-content rounded-circle" (click)="cancel()">
+        <i class="fa-solid fa-arrow-left"
+          style="padding: 8px 8px; font-size:20px; margin-right: 6px; color: #2c5fb6"></i>
+      </button>
+    </ion-buttons>
+    <ion-title class="text-14px fw-bold">{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [strong]="true">Lưu</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="text-primary">
+    <div class="col-12 p-0">
+      <div style="border-bottom: 1px solid #006eb9;" class="p-3">
+        <div class="d-flex">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Cấu hình kho</p>
+        </div>
+      </div>
+      <div style="border-bottom: 1px solid #006eb9;" class="p-3">
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Xem phiếu kiểm</p>
+        </div>
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Tạo phiếu kiểm</p>
+        </div>
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Duyệt phiếu kiểm</p>
+        </div>
+      </div>
+      <div style="border-bottom: 1px solid #006eb9;" class="p-3">
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Xem phiếu nhập</p>
+        </div>
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Tạo phiếu nhập</p>
+        </div>
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Duyệt phiếu nhập</p>
+        </div>
+      </div>
+      <div style="border-bottom: 1px solid #006eb9;" class="p-3">
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Xem phiếu xuất</p>
+        </div>
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Tạo phiếu xuất</p>
+        </div>
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Duyệt phiếu xuất</p>
+        </div>
+      </div>
+      <div style="border-bottom: 1px solid #006eb9;" class="p-3">
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Xem phiếu chuyển kho</p>
+        </div>
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Tạo phiếu chuyển kho</p>
+        </div>
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Hoàn tất phiếu chuyển kho</p>
+        </div>
+      </div>
+      <div style="border-bottom: 1px solid #006eb9;" class="p-3">
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Xem số liệu trên kho</p>
+        </div>
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Điều chỉnh kho</p>
+        </div>
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Điều chỉnh kho từ Excel</p>
+        </div>
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Xuất Excel tồn kho</p>
+        </div>
+      </div>
+      <div style="border-bottom: 1px solid #006eb9;" class="p-3">
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Bán hàng trên kho</p>
+        </div>
+      </div>
+      <div style="border-bottom: 1px solid #006eb9;" class="p-3">
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Tạo đơn hàng online</p>
+        </div>
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Tạo đơn hàng trên quầy</p>
+        </div>
+      </div>
+      <div style="border-bottom: 1px solid #006eb9;" class="p-3">
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Xem đơn hàng</p>
+        </div>
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Xem báo cáo</p>
+        </div>
+      </div>
+      <div style="border-bottom: 1px solid #006eb9;" class="p-3">
+        <div class="d-flex pb-2">
+          <input type="checkbox" class="form-check-input check-box mr-3" style="margin-right: 5px" />
+          <p class="m-0">Cập nhật đơn hàng</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
