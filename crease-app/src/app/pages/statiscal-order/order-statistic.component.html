@@ -1,0 +1,139 @@
+<ion-app>
+  <ion-content class="ion-padding">
+    <ion-refresher slot="fixed" (ionRefresh)="loadData()">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <div class="mb-3 d-flex align-items-center">
+      <button class="btn btn-primary col-8" style="font-size:13px; padding: 7px 0px ;margin-left:50px" (click)="loadData()">
+        <i class="fa fa-refresh"></i>
+        Làm mới
+      </button>
+    </div>
+    <div *ngIf="listData && listData.length; else elseBlock" class="position-relative">
+      <div class="position-relative"
+        *ngFor=" let item of listData | paginate : { itemsPerPage: 10, currentPage: page, totalItems }">
+        <ion-card>
+          <ion-card-header style="padding-bottom: 7px">
+            <ion-card-title class="fw-bold" style="font-size: 15px; color: #006eb9">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="col-6" style="margin-right: 0px">
+                  <button type="button" class="btn btn-success btn-sm fw-bold w-100" style="font-size:13px">
+                    {{ item.orderCode }}
+                  </button>
+                </div>
+                <div>
+                  <ng-container>{{ formatTotalOrderValue(item.totalOrderValue) }}</ng-container>
+                </div>
+              </div>
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="row">
+              <div class="col-10 d-flex align-items-center" style="font-size: 10px">Người nhận:
+                <ng-container>{{ item.toName }}</ng-container>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-10 d-flex align-items-center" style="font-size: 10px">Số điện thoại:
+                <ng-container>{{formatPhone( item.toPhone) }}</ng-container>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-10 d-flex align-items-center" style="font-size: 10px">Sản phẩm:
+                <ng-container>{{ item.productNames }}</ng-container>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-10 d-flex align-items-center" style="font-size: 10px">Địa chỉ:
+                <ng-container>{{ item.toAddress }}</ng-container>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 d-flex align-items-center" style="font-size: 10px">X/H/T:
+                <ng-container>{{ item.toWard }}, {{ item.toDistrict }}, {{ item.toProvince }}</ng-container>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+      </div>
+    </div>
+    <ng-template #elseBlock>
+      <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%)">
+        <i class="fa-solid fa-users-slash text-sub-content mb-3" style="font-size: 100px"></i>
+        <h5 class="text-sub-content">Không có dữ liệu!</h5>
+      </div>
+    </ng-template>
+    <pagination-controls *ngIf="listData && listData.length" previousLabel="" nextLabel=""
+      (pageChange)="changePagination($event)"></pagination-controls>
+  </ion-content>
+  <ion-footer [translucent]="true">
+    <ion-toolbar mode="md" class="footer-container">
+      <ion-segment color="dark" value="account">
+        <ion-segment-button value="notF" routerLink="/notF">
+          <ion-label class="fw-bold" style="font-size: 8px">Thống kê vận chuyển</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="order-shipping" routerLink="/order-shipping" style="background: #035287">
+          <ion-label class="fw-bold text-white" style="font-size: 8px">Thống kê đơn hàng</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="notF" routerLink="/notF">
+          <ion-label class="fw-bold" style="font-size: 8px">Tài chính tổng hợp</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  </ion-footer>
+  <div class="dropdown position-absolute" style="bottom: 5rem; right: 1rem;">
+    <button id="open-filter" class="btn btn-primary rounded-pill " type="button" (click)="openModalFilter(true)">
+      <i class="fa-solid fa-filter"></i>
+      Lọc
+    </button>
+  </div>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"></ion-toast>
+  <ion-modal [isOpen]="isOpenFilterModal" class="modal-filter" (didDismiss)="openModalFilter(false)">
+    <ion-header>
+      <ion-toolbar class="text-white fw-bold" style="--background: rgba(0, 110, 185, 0.9)!important;">
+        <ion-title>
+          <i class="fa-solid fa-filter"></i>
+          Lọc
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+     <div class="mb-3">
+        <label>
+          Mã đơn hàng:
+        </label>
+        <input type="text" [(ngModel)]="orderCode" class="form-control" placeholder="Mã đơn hàng">
+      </div>
+      <div class="mb-3">
+        <label>
+         Người nhận:
+        </label>
+        <input type="text" [(ngModel)]="name" class="form-control" placeholder="Người nhận">
+      </div>
+      <div class="mb-3">
+        <label>
+          Giá trị đơn hàng:
+        </label>
+        <input type="text" [(ngModel)]="totalOrderValue" class="form-control" placeholder="Giá trị đơn hàng">
+      </div>
+      <div class="mb-3">
+        <label>
+          Sản phẩm:
+        </label>
+        <input type="text" [(ngModel)]="productNames" class="form-control" placeholder="sản phẩm">
+      </div>
+      
+    </ion-content>
+    <ion-footer mode="md" style="background-color: rgba(0, 110, 185, 0.9)!important;">
+      <ion-toolbar class="new-toolbar-background">
+        <ion-buttons slot="start">
+          <ion-button (click)="openModalFilter(false)" style="--color: white!important">Hủy</ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button (click)="getFilter()" [strong]="true">Lọc</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </ion-modal>
+</ion-app>

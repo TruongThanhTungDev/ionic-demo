@@ -240,7 +240,7 @@ export const ROUTES = [
         params: '',
       },
       {
-        path: '/order',
+        path: '/order-shipping',
         title: 'Thống kê đơn hàng',
         icon: 'nc-basket',
         class: '',
@@ -354,6 +354,7 @@ export const ROUTES = [
         role: 'admin',
         params: '',
       },
+      
     ],
   },
 ];

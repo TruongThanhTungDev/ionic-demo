@@ -13,6 +13,7 @@ import { CauhinhKhoComponent } from '../pages/cau-hinh-kho/cau-hinh-kho.componen
 import { StatiscalRevenue } from '../pages/statiscal-revenue/statiscal-revenue.component';
 import { StatiscalCostComponent } from '../pages/statiscal-cost/statiscal-cost.component';
 import { OrderComponent } from '../pages/order/order.component';
+import { OrderStatisticComponent } from '../pages/statiscal-order/order-statistic.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -76,5 +77,9 @@ export const LayoutRoutes: Routes = [
   {
     path: 'data',
     component: OrderComponent,
+  },
+  {
+    path: 'order-shipping',
+    component: OrderStatisticComponent,
   },
 ];
