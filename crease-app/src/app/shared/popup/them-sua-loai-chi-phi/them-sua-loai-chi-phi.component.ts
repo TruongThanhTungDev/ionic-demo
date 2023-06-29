@@ -82,9 +82,7 @@ export class ThemSuaCostTypeComponent implements OnInit {
               } else {
                 this.loading.dismiss();
                 this.isToastOpen = true;
-                this.messageToast = res.body.MESSAGE
-                  ? res.body.MESSAGE
-                  : 'Tạo Loại chi phí thành công';
+                this.messageToast = 'Tạo Loại chi phí thất bại';
                 this.cancel();
               }
             },
