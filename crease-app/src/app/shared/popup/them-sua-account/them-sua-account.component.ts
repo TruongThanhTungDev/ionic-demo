@@ -119,7 +119,6 @@ export class ThemSuaAccount implements OnInit {
                 this.loading.dismiss();
                 this.isToastOpen = true;
                 this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
-                // this.cancel();
                 console.error();
               }
             );
@@ -218,8 +217,28 @@ export class ThemSuaAccount implements OnInit {
     this.isToastOpen = isOpen;
   }
   async cancel() {
-    this.modal.dismiss();
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Bạn có chắc muốn thoát không?',
+      buttons: [
+        {
+          text: 'Đồng ý',
+          role: 'confirm',
+        },
+        {
+          text: 'Hủy',
+          role: 'cancel',
+        },
+      ],
+    });
+
+    actionSheet.present();
+
+    const { role } = await actionSheet.onWillDismiss();
+    if (role === 'confirm') {
+      this.modal.dismiss();
+    }
   }
+
   confirm() {
     this.modal.dismiss(null, 'confirm');
   }
