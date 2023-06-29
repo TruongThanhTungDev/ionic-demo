@@ -83,17 +83,20 @@
               <div style="position: absolute;top: 15%;left: 25%;">
                 <i class="fa-solid fa-arrow-right"></i>
               </div>
-              <div class="text-warning position-absolute" style="right: 0; width: fit-content;bottom: 1.5rem">
+              <div class="text-warning">
                 <div>
-                  Tổng chi phí
+                  <div>
+                    Tổng chi phí
+                  </div>
+                  <button class="btn btn-sm btn-warning text-white fw-bold">{{ plugins.formatNumber(item.totalCost)
+                    }}đ</button>
                 </div>
-                <button class="btn btn-sm btn-warning text-white fw-bold">{{ plugins.formatNumber(item.totalCost)
-                  }}đ</button>
               </div>
-              <small class="position-absolute fst-italic" style="right: -0.75rem; bottom: -1rem;width: fit-content;">
-                {{item.createdAt}}
-              </small>
             </div>
+            <small class="position-absolute fst-italic text-10px"
+              style="bottom: 0.5rem; right: 1rem;width: fit-content;">
+              {{item.createdAt}}
+            </small>
           </ion-card-content>
         </ion-card>
         <ion-alert [isOpen]="isOpenDeleteModal" header="BẠN CÓ THẬT SỰ MUỐN XÓA BẢN GHI NÀY?"

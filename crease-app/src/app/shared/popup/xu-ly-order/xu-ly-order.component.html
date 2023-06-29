@@ -80,7 +80,7 @@
             <div class="mb-1">
               <i class="fa-solid fa-location-dot"></i>
               <span class="mx-1">T/H/X:</span>
-              <span>{{this.province}}{{this.district ? ',' : ''}} {{this.province}}{{this.ward ? ',' : ''}}
+              <span>{{this.province}}{{this.district ? ',' : ''}} {{this.district}}{{this.ward ? ',' : ''}}
                 {{this.ward}}</span>
             </div>
             <div>
@@ -91,7 +91,7 @@
           </div>
           <thong-tin-dia-chi [street]="street" [ward]="ward" [province]="province" [district]="district"
             [isModalOpen]="isShowEditAddressCustomer" (handleOpenModal)="editAddressCustomer($event)"
-            (editValue)="handleEditInfo($event)"></thong-tin-dia-chi>
+            (editValue)="handleEditAddress($event)"></thong-tin-dia-chi>
         </ion-card-content>
       </ion-card>
       <ion-card class="mb-3">

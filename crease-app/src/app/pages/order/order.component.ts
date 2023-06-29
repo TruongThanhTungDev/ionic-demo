@@ -92,6 +92,7 @@ export class OrderComponent implements OnInit {
               return {
                 ...item,
                 date: moment(item.date).format('HH:mm:ss DD/MM/YYYY'),
+                dataInfo: JSON.parse(item.dataInfo),
               };
             });
           } else {
@@ -135,6 +136,7 @@ export class OrderComponent implements OnInit {
       componentProps: {
         title: 'Tất cả đơn hàng',
         data: item,
+        shopCode: this.shopCode,
         type: 'edit',
       },
     });
