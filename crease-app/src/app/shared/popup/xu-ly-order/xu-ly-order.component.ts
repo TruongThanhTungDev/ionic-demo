@@ -19,7 +19,9 @@ export class XuLyOrderComponent implements OnInit {
   name: any;
   phone: any;
   ward: any;
-
+  district: any;
+  province: any;
+  street: any;
   isToastOpen = false;
   messageToast: any;
   constructor(
@@ -38,6 +40,10 @@ export class XuLyOrderComponent implements OnInit {
       this.name = this.data.name;
       this.phone = this.data.phone;
       this.statusOrder = this.data.status;
+      this.street = this.data.street;
+      this.ward = this.data.ward;
+      this.province = this.data.province;
+      this.district = this.data.district;
     }
   }
 
@@ -51,6 +57,12 @@ export class XuLyOrderComponent implements OnInit {
 
   async editAddressCustomer(open: any) {
     this.isShowEditAddressCustomer = open;
+  }
+  handleEditAddress(value: any) {
+    this.street = value.street;
+    this.ward = value.ward;
+    this.province = value.province;
+    this.district = value.district;
   }
   cancel() {
     this.modal.dismiss();

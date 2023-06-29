@@ -7,12 +7,35 @@
     </ion-header>
     <ion-content class="ion-padding">
       <div class="mb-3">
-        <label class="text-primary">Họ và tên</label>
-        <input type="text" [(ngModel)]="name" class="form-control" placeholder="Họ và tên">
+        <label class="text-primary">Tỉnh/Thành phố<span class="text-danger">*</span> </label>
+        <select [(ngModel)]="province" class="form-select" aria-label="Default select example">
+          <option selected>Open this select menu</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
       </div>
       <div class="mb-3">
-        <label class="text-primary">Số điện thoại</label>
-        <input type="text" onlyNumber [(ngModel)]="phone" class="form-control" placeholder="Số điện thoại">
+        <label class="text-primary">Quận/Huyện/Thị xã</label>
+        <select [(ngModel)]="district" class="form-select" aria-label="Default select example">
+          <option selected>Open this select menu</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="text-primary">Xã/Phường/Thị trấn</label>
+        <select [(ngModel)]="ward" class="form-select" aria-label="Default select example">
+          <option selected>Open this select menu</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="text-primary">Địa chỉ</label>
+        <input type="text" [(ngModel)]="street" class="form-control" placeholder="Số điện thoại">
       </div>
       <div class="text-end">
         <button class="btn btn-sm btn-primary fw-bold px-3" (click)="saveInfo()">Lưu</button>

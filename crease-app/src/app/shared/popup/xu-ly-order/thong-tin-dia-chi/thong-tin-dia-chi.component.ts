@@ -9,8 +9,10 @@ export class ThongTinDiaChiOrder implements OnInit {
   @Output() handleOpenModal = new EventEmitter<any>();
   @Output() editValue = new EventEmitter<any>();
   @Input() isModalOpen: any;
-  @Input() name: any;
-  @Input() phone: any;
+  @Input() street: any;
+  @Input() ward: any;
+  @Input() province: any;
+  @Input() district: any;
   constructor(private modal: ModalController) {}
   ngOnInit(): void {}
   setOpen(open: boolean) {
@@ -19,8 +21,10 @@ export class ThongTinDiaChiOrder implements OnInit {
   }
   saveInfo() {
     const value = {
-      name: this.name,
-      phone: this.phone,
+      street: this.street,
+      ward: this.ward,
+      district: this.district,
+      province: this.province,
     };
     this.editValue.emit(value);
     this.setOpen(false);
