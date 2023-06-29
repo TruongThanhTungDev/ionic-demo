@@ -91,7 +91,7 @@
                   }}đ</button>
               </div>
               <small class="position-absolute fst-italic" style="right: -0.75rem; bottom: -1rem;width: fit-content;">
-                {{item.code}}
+                {{item.createdAt}}
               </small>
             </div>
           </ion-card-content>
@@ -154,7 +154,7 @@
       <div class="mb-3">
         <label>Ngày tạo</label>
         <div class="position-relative" id="open-modal">
-          <input type="date" [(ngModel)]="code" class="form-control text-primary">
+          <input type="date" [(ngModel)]="createdAt" class="form-control text-primary">
         </div>
       </div>
       <div class="mb-3">
