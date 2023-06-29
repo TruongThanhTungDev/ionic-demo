@@ -79,7 +79,7 @@
     </div>
     <div class="form-floating mb-3">
       <ng-select [(ngModel)]="listSelect" name="listSelect" [multiple]="true" [clearable]="true"
-        placeholder="Danh sách shop">
+        placeholder="Danh sách shop*">
         <ng-option *ngFor="let obj of listShop" [value]="obj.code">{{obj.code}} - {{obj.name}}</ng-option>
       </ng-select>
     </div>

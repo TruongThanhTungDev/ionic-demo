@@ -119,7 +119,6 @@ export class ThemSuaAccount implements OnInit {
                 this.loading.dismiss();
                 this.isToastOpen = true;
                 this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
-                this.cancel();
                 console.error();
               }
             );
@@ -152,7 +151,6 @@ export class ThemSuaAccount implements OnInit {
                   this.messageToast = res.body.MESSAGE
                     ? res.body.MESSAGE
                     : 'Cập nhật tài khoản thất bại';
-                  this.loading.dismiss();
                   // this.cancel();
                 }
               },
@@ -218,28 +216,8 @@ export class ThemSuaAccount implements OnInit {
     this.isToastOpen = isOpen;
   }
   async cancel() {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Bạn có chắc muốn thoát không?',
-      buttons: [
-        {
-          text: 'Đồng ý',
-          role: 'confirm',
-        },
-        {
-          text: 'Hủy',
-          role: 'cancel',
-        },
-      ],
-    });
-
-    actionSheet.present();
-
-    const { role } = await actionSheet.onWillDismiss();
-    if (role === 'confirm') {
-      this.modal.dismiss();
-    }
+    this.modal.dismiss();
   }
-
   confirm() {
     this.modal.dismiss(null, 'confirm');
   }
