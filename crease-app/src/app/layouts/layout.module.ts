@@ -21,6 +21,7 @@ import { CauhinhKhoComponent } from '../pages/cau-hinh-kho/cau-hinh-kho.componen
 import { StatiscalRevenue } from '../pages/statiscal-revenue/statiscal-revenue.component';
 import { StatiscalCostComponent } from '../pages/statiscal-cost/statiscal-cost.component';
 import { OrderComponent } from '../pages/order/order.component';
+import { OrderStatisticComponent } from '../pages/statiscal-order/order-statistic.component';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import { OrderComponent } from '../pages/order/order.component';
     StatiscalRevenue,
     StatiscalCostComponent,
     OrderComponent,
+    OrderStatisticComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
