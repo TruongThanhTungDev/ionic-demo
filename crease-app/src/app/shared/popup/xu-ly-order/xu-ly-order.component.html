@@ -16,7 +16,7 @@
     <div class="mb-3">
       <h5 class="text-secondary fw-bold">Đơn hàng của:</h5>
       <h5 class="fw-bold">
-        AAAAA
+        {{name}}
       </h5>
     </div>
     <div>
@@ -34,9 +34,9 @@
         </select>
         <i class="fa-solid fa-chevron-down position-absolute arrow-input"></i>
       </div>
-      <ion-card>
+      <ion-card class="mb-3">
         <ion-card-content>
-          <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center justify-content-between mb-3">
             <div class="d-flex align-items-center">
               <div class="dot-green" style="margin-right: 6px;"></div>
               <div class="fw-bold text-16px">
@@ -44,11 +44,171 @@
               </div>
             </div>
             <div class="text-primary">
-              <i class="fa fa-pen" (click)="editInfoCustomer(true)"></i>
+              <i class="fa fa-pen" (click)="showEditInfoCustomer(true)"></i>
             </div>
           </div>
-          <thong-tin-khach-hang [isModalOpen]="isShowEditInfoCustomer"
-            (handleOpenModal)="editInfoCustomer($event)"></thong-tin-khach-hang>
+          <div class="text-12px text-secondary">
+            <div class="mb-1">
+              <i class="fa fa-user"></i>
+              <span class="mx-1">Họ và tên:</span>
+              <span>{{name}}</span>
+            </div>
+            <div>
+              <i class="fa-solid fa-phone"></i>
+              <span class="mx-1">Số điện thoại:</span>
+              <span>{{phone}}</span>
+            </div>
+          </div>
+          <thong-tin-khach-hang [isModalOpen]="isShowEditInfoCustomer" [name]="name" [phone]="phone"
+            (handleOpenModal)="showEditInfoCustomer($event)" (editValue)="handleEditInfo($event)" />
+        </ion-card-content>
+      </ion-card>
+      <ion-card class="mb-3">
+        <ion-card-content>
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="d-flex align-items-center">
+              <div class="dot-green" style="margin-right: 6px;"></div>
+              <div class="fw-bold text-16px">
+                Thông tin địa chỉ
+              </div>
+            </div>
+            <div class="text-primary">
+              <i class="fa fa-pen" (click)="editAddressCustomer(true)"></i>
+            </div>
+          </div>
+          <div class="text-12px text-secondary">
+            <div class="mb-1">
+              <i class="fa-solid fa-location-dot"></i>
+              <span class="mx-1">T/H/X:</span>
+              <span>Nguyễn Văn A</span>
+            </div>
+            <div>
+              <i class="fa-solid fa-location-dot"></i>
+              <span class="mx-1">Địa chỉ:</span>
+              <span>Nguyễn Văn A</span>
+            </div>
+          </div>
+          <thong-tin-dia-chi [isModalOpen]="isShowEditAddressCustomer"
+            (handleOpenModal)="editAddressCustomer($event)"></thong-tin-dia-chi>
+        </ion-card-content>
+      </ion-card>
+      <ion-card class="mb-3">
+        <ion-card-content>
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="d-flex align-items-center">
+              <div class="dot-green" style="margin-right: 6px;"></div>
+              <div class="fw-bold text-16px">
+                Thông tin sản phẩm
+              </div>
+            </div>
+            <div class="text-primary">
+              <i class="fa fa-pen" (click)="editAddressCustomer(true)"></i>
+            </div>
+          </div>
+          <div class="text-12px text-secondary">
+            <div class="mb-1">
+              <i class="fa-solid fa-box"></i>
+              <span class="mx-1">Sản phẩm:</span>
+              <span>Nguyễn Văn A</span>
+            </div>
+            <div>
+              <i class="fa-solid fa-box"></i>
+              <span class="mx-1">Mẫu mã:</span>
+              <span>Nguyễn Văn A</span>
+            </div>
+          </div>
+          <!-- <thong-tin-khach-hang [isModalOpen]="isShowEditInfoCustomer"
+            (handleOpenModal)="editAddressCustomer($event)"></thong-tin-khach-hang> -->
+        </ion-card-content>
+      </ion-card>
+      <ion-card class="mb-3">
+        <ion-card-content>
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="d-flex align-items-center">
+              <div class="dot-green" style="margin-right: 6px;"></div>
+              <div class="fw-bold text-16px">
+                Thông tin ghi chú
+              </div>
+            </div>
+            <div class="text-primary">
+              <i class="fa fa-pen" (click)="editAddressCustomer(true)"></i>
+            </div>
+          </div>
+          <div class="text-12px text-secondary">
+            <span>Khách muốn giao hàng ngoài giờ hành chính</span>
+          </div>
+          <!-- <thong-tin-khach-hang [isModalOpen]="isShowEditInfoCustomer"
+            (handleOpenModal)="editAddressCustomer($event)"></thong-tin-khach-hang> -->
+        </ion-card-content>
+      </ion-card>
+      <ion-card class="mb-3">
+        <ion-card-content>
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="d-flex align-items-center">
+              <div class="dot-green" style="margin-right: 6px;"></div>
+              <div class="fw-bold text-16px">
+                Thông tin đơn hàng
+              </div>
+            </div>
+            <div class="text-primary">
+              <i class="fa fa-pen" (click)="editAddressCustomer(true)"></i>
+            </div>
+          </div>
+          <div class="text-12px mb-3">
+            <div>
+              09:05:00 23/03/2023
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+              <h5 class="fw-bold">Áo sơ mi Genz 2023</h5>
+              <div class="text-secondary">ABC123</div>
+            </div>
+            <h5 class="fw-bold">150.000đ</h5>
+          </div>
+          <div class="text-12px text-secondary border-bottom pb-3 mb-3">
+            <div class="row">
+              <div class="col-6">1 - ABC123BLUEXL (Màu: Blue, size: XL)</div>
+              <div class="col-2 text-center">x1</div>
+              <div class="col-4 text-end">50.000đ</div>
+            </div>
+          </div>
+          <div>
+            <div class="d-flex justify-content-between align-items-center fw-bold text-12px mb-1">
+              <div>
+                Thành tiền
+              </div>
+              <div>
+                150.000đ
+              </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center fw-bold text-12px mb-1">
+              <div>
+                Giảm giá
+              </div>
+              <div>
+                150.000đ
+              </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center fw-bold text-12px mb-2">
+              <div>
+                Phí ship
+              </div>
+              <div>
+                150.000đ
+              </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center text-primary mb-1">
+              <h2 class="fw-bold">
+                Thành tiền
+              </h2>
+              <h2 class="fw-bold">
+                150.000đ
+              </h2>
+            </div>
+          </div>
+          <!-- <thong-tin-khach-hang [isModalOpen]="isShowEditInfoCustomer"
+            (handleOpenModal)="editAddressCustomer($event)"></thong-tin-khach-hang> -->
         </ion-card-content>
       </ion-card>
     </div>

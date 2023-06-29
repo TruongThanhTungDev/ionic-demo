@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
-  selector: 'thong-tin-khach-hang',
-  templateUrl: './thong-tin-khach-hang.component.html',
+  selector: 'thong-tin-dia-chi',
+  templateUrl: './thong-tin-dia-chi.component.html',
 })
-export class ThongTinKhachHangOrder implements OnInit {
+export class ThongTinDiaChiOrder implements OnInit {
   @Output() handleOpenModal = new EventEmitter<any>();
   @Output() editValue = new EventEmitter<any>();
   @Input() isModalOpen: any;

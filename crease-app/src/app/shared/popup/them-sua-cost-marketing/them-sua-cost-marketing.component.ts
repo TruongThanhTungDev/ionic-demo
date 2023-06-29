@@ -1,5 +1,11 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import {
   ActionSheetController,
   LoadingController,
@@ -76,6 +82,11 @@ export class ThemSuaCostMarketing implements OnInit {
     if (!this.totalCost) {
       this.isToastOpen = true;
       this.messageToast = 'Vui lòng nhập Tổng chi phí';
+      return false;
+    }
+    if (this.totalCost < 0) {
+      this.isToastOpen = true;
+      this.messageToast = 'Tổng chí phí không được bé hơn 0';
       return false;
     }
     if (this.code == '') {
@@ -226,6 +237,17 @@ export class ThemSuaCostMarketing implements OnInit {
     this.getCostByDay();
   }
   getCostByDay(): void {
+    const regex = /^\d+\.?\d*$/;
+    if (!regex.test(this.totalCost)) {
+      this.isToastOpen = true;
+      this.messageToast = 'Tổng chí phí phải là một số';
+      return;
+    }
+    if (this.totalCost < 0) {
+      this.isToastOpen = true;
+      this.messageToast = 'Tổng chí phí không được bé hơn 0';
+      return;
+    }
     this.costPerDay = this.totalCost / this.numOfDay;
     this.costPerDay = this.costPerDay
       ? parseFloat(this.costPerDay.toFixed(0))

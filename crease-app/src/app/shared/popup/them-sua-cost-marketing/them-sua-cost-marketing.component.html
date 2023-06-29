@@ -62,7 +62,7 @@
       <label>
         Tổng chi phí
       </label>
-      <input type="number" [(ngModel)]="totalCost" class="form-control" id="name" [disabled]="costPerOrder"
+      <input type="text" onlyNumber [(ngModel)]="totalCost" class="form-control" id="name" [disabled]="costPerOrder"
         (change)="getCostByDay()" min="0" step="1">
     </div>
   </div>
