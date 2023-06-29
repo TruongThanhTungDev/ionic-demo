@@ -4,7 +4,7 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <div class="mb-3 d-flex align-items-center">
-      <button class="btn btn-primary col-8" style="font-size:13px; padding: 7px 0px ;margin-left:50px" (click)="loadData()">
+      <button class="btn btn-primary col-4" style="font-size:13px; padding: 7px 0px ;margin-left:17px" (click)="loadData()">
         <i class="fa fa-refresh"></i>
         Làm mới
       </button>
@@ -16,12 +16,11 @@
           <ion-card-header style="padding-bottom: 7px">
             <ion-card-title class="fw-bold" style="font-size: 15px; color: #006eb9">
               <div class="d-flex justify-content-between align-items-center">
-                <div class="col-6" style="margin-right: 0px">
-                  <button type="button" class="btn btn-success btn-sm fw-bold w-100" style="font-size:13px">
-                    {{ item.orderCode }}
-                  </button>
+                <div class="col-7" style="margin-right: 0px; font-size:16px">  
+                                
+                    #{{ item.orderCode }}
                 </div>
-                <div>
+                <div style="color:#E69900">
                   <ng-container>{{ formatTotalOrderValue(item.totalOrderValue) }}</ng-container>
                 </div>
               </div>
@@ -29,28 +28,58 @@
           </ion-card-header>
           <ion-card-content>
             <div class="row">
-              <div class="col-10 d-flex align-items-center" style="font-size: 10px">Người nhận:
-                <ng-container>{{ item.toName }}</ng-container>
+              <div class="col-10 d-flex align-items-start" style="font-size: 10px">
+                <div style="margin:0px 2px 0 0"><i class="fa-solid fa-user"></i> </div>
+                 <div class="fw-bold row col-4" style="margin:0px 5px">  
+                    Người nhận:
+                 </div>
+                 <div class="col-6" >
+                   <ng-container>{{ item.toName }}</ng-container>
+                 </div>
               </div>
             </div>
             <div class="row">
-              <div class="col-10 d-flex align-items-center" style="font-size: 10px">Số điện thoại:
-                <ng-container>{{formatPhone( item.toPhone) }}</ng-container>
+              <div class="col-10 d-flex align-items-start" style="font-size: 10px">
+                <div style="margin:0px 2px 0 0"> <i class="fa-solid fa-phone"></i></div>
+                <div class="fw-bold row col-4 " style="margin:0px 5px"> 
+                  Số điện thoại:
+                </div>
+                <div class="col-6" >
+                   <ng-container>{{formatPhone( item.toPhone) }}</ng-container>
+                </div>              
               </div>
             </div>
             <div class="row">
-              <div class="col-10 d-flex align-items-center" style="font-size: 10px">Sản phẩm:
-                <ng-container>{{ item.productNames }}</ng-container>
+              <div class="col-10 d-flex align-items-start" style="font-size: 10px ">
+                <div> <i class="fa-solid fa-chalkboard"></i></div>
+                <div class="fw-bold row col-4 " style="margin:0px 5px"> 
+                  Sản phẩm:
+                </div>
+                <div class="col-8 " >
+                  <ng-container>{{ item.productNames }}</ng-container>
+                </div>              
               </div>
             </div>
             <div class="row">
-              <div class="col-10 d-flex align-items-center" style="font-size: 10px">Địa chỉ:
-                <ng-container>{{ item.toAddress }}</ng-container>
+              <div class="col-10 d-flex align-items-start" style="font-size: 10px">
+                <div style="margin:0px 4px 0 0"> <i class="fa-solid fa-location-dot"></i></div>
+                <div class="fw-bold row col-4 " style="margin:0px 5px "> 
+                  Địa chỉ:
+                </div>
+                <div class="col-6 " >
+                   <ng-container>{{ item.toAddress }}</ng-container>
+                </div>              
               </div>
             </div>
             <div class="row">
-              <div class="col-12 d-flex align-items-center" style="font-size: 10px">X/H/T:
-                <ng-container>{{ item.toWard }}, {{ item.toDistrict }}, {{ item.toProvince }}</ng-container>
+              <div class="col-12 d-flex align-items-start" style="font-size: 10px">
+                <div style="margin:0px 4px 0 0"> <i class="fa-solid fa-location-dot"></i></div>
+                <div class="fw-bold row col-4 " style="margin-left:5px"> 
+                  X/H/T:
+                </div>
+                <div class="col-8 " >
+                  <ng-container>{{ item.toWard }}, {{ item.toDistrict }}, {{ item.toProvince }}</ng-container>
+                </div>                  
               </div>
             </div>
           </ion-card-content>
