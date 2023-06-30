@@ -117,9 +117,9 @@ export class CauhinhKhoComponent implements OnInit {
       this.messageToast = 'Tên Không được để trống';
       return false;
     }
-    if (this.selectedItem.phone === '') {
+    if (!this.selectedItem.phone) {
       const vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
-      if (vnf_regex.test(this.selectedItem.phone.trim()) === false) {
+      if (vnf_regex.test(this.selectedItem.phone.trim())) {
         this.isToastOpen = true;
         this.messageToast = 'Số điện thoại không đúng định dạng';
         return false;
@@ -174,7 +174,6 @@ export class CauhinhKhoComponent implements OnInit {
     this.isOpenDeleteModal = open;
   }
   async getTaiKhoan() {
-    
     const params = {
       sort: ['id', 'asc'],
       page: 0,
@@ -313,51 +312,51 @@ export class CauhinhKhoComponent implements OnInit {
               console.error();
             }
           );
-          }
+      }
     } else {
-    if (this.validData) {
-      const entity = {
-        staffIdList: [],
-        warehouse: {
-          address: this.selectedItem.address,
-          name: this.selectedItem.name,
-          phone: this.selectedItem.phone,
-          staus: this.selectedItem.staus,
-          shop: this.selectedItem.shop,
-          id: this.selectedItem.id,
-          createAt: this.selectedItem.createAt,
-          flag: this.selectedItem.flag,
-          updateAt: this.selectedItem.updateAt,
-          code: this.selectedItem.code,
-        },
-      };
-      await this.isLoading();
-      this.dmService
-        .postOption(entity, this.REQUEST_URL, OPERATIONS.CREATE)
-        .subscribe(
-          (res: HttpResponse<any>) => {
-            if (res.body.CODE === 200) {
-              this.loadData();
-              this.loading.dismiss();
-              this.isToastOpen = true;
-              this.messageToast = 'Update kho thành công';
-              this.confirm();
-            } else {
+      if (this.validData) {
+        const entity = {
+          staffIdList: [],
+          warehouse: {
+            address: this.selectedItem.address,
+            name: this.selectedItem.name,
+            phone: this.selectedItem.phone,
+            staus: this.selectedItem.staus,
+            shop: this.selectedItem.shop,
+            id: this.selectedItem.id,
+            createAt: this.selectedItem.createAt,
+            flag: this.selectedItem.flag,
+            updateAt: this.selectedItem.updateAt,
+            code: this.selectedItem.code,
+          },
+        };
+        await this.isLoading();
+        this.dmService
+          .postOption(entity, this.REQUEST_URL, OPERATIONS.CREATE)
+          .subscribe(
+            (res: HttpResponse<any>) => {
+              if (res.body.CODE === 200) {
+                this.loadData();
+                this.loading.dismiss();
+                this.isToastOpen = true;
+                this.messageToast = 'Update kho thành công';
+                this.confirm();
+              } else {
+                this.loading.dismiss();
+                this.isToastOpen = true;
+                this.messageToast = 'Update kho thất bại';
+                this.cancel();
+              }
+            },
+            () => {
               this.loading.dismiss();
               this.isToastOpen = true;
               this.messageToast = 'Update kho thất bại';
-              this.cancel();
+              console.error();
             }
-          },
-          () => {
-            this.loading.dismiss();
-            this.isToastOpen = true;
-            this.messageToast = 'Update kho thất bại';
-            console.error();
-          }
-        );
+          );
+      }
     }
-  }
   }
   confirm() {
     this.modalCtrl.dismiss(null, 'confirm');
@@ -472,7 +471,7 @@ export class CauhinhKhoComponent implements OnInit {
     const modal = await this.modalCtrl.create({
       component: PhanQuyenKhoComponent,
       componentProps: {
-        title:'Chỉnh sửa quyền',
+        title: 'Chỉnh sửa quyền',
         data: null,
         type: this.typeModal,
       },
@@ -484,9 +483,8 @@ export class CauhinhKhoComponent implements OnInit {
     }
   }
   formatNumber(number: any): string {
-    if(number===null)
-    {
-      number=0;
+    if (number === null) {
+      number = 0;
     }
     return number.toLocaleString('en-US');
   }

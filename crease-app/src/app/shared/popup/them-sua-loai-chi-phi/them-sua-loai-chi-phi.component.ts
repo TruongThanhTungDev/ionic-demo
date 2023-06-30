@@ -82,11 +82,13 @@ export class ThemSuaCostTypeComponent implements OnInit {
               } else {
                 this.loading.dismiss();
                 this.isToastOpen = true;
-                this.messageToast = 'Tạo Loại chi phí thất bại';
-                this.cancel();
+                this.messageToast = res.body.MESSAGE
+                  ? res.body.MESSAGE
+                  : 'Tạo Loại chi phí thất bại';
               }
             },
-            () => {
+            (error) => {
+              console.log('error :>> ', error);
               this.loading.dismiss();
               this.isToastOpen = true;
               this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau';
@@ -111,10 +113,10 @@ export class ThemSuaCostTypeComponent implements OnInit {
                 this.messageToast = res.body.MESSAGE
                   ? res.body.MESSAGE
                   : 'Cập nhật Loại chi phí thất bại';
-                this.cancel();
               }
             },
-            () => {
+            (error) => {
+              console.log('error :>> ', error);
               this.isToastOpen = true;
               this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau';
               console.error();
