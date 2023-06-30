@@ -354,9 +354,7 @@ export class StatiscalCostComponent implements OnInit, AfterViewInit {
         text: undefined,
       },
       xAxis: {
-        categories: this.dateChart.map((item: any) => {
-          return moment(item, 'DD/MM/YYYY').format('DD/MM');
-        }),
+        categories: this.dateChart,
         crosshair: true,
       },
       yAxis: {

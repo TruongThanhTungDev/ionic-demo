@@ -93,7 +93,7 @@ export class ThemSuaAccount implements OnInit {
         shop: this.listSelect.toString(),
       };
       if (this.type === 'add') {
-        if (entity.role == 'user' && entity.shop == '') {
+        if (!entity.shop) {
           this.isToastOpen = true;
           this.messageToast = 'Vui lòng lựa chọn Cửa hàng';
         } else {
@@ -179,6 +179,10 @@ export class ThemSuaAccount implements OnInit {
     } else if (!this.userName) {
       this.isToastOpen = true;
       this.messageToast = 'Vui lòng nhập tên tài khoản';
+      return false;
+    } else if (!this.listShop.toString()) {
+      this.isToastOpen = true;
+      this.messageToast = 'Vui lòng chọn Cửa hàng';
       return false;
     } else if (!pattern.test(this.userName.trim())) {
       this.isToastOpen = true;
