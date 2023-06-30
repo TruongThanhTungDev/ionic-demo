@@ -39,8 +39,8 @@ export class StatiscalRevenue implements OnInit {
     { id: 1, label: 'Đang xử lý' },
   ];
   dateRange = {
-    startDate: dayjs().startOf('month'),
-    endDate: dayjs().endOf('month'),
+    startDate: moment().utc().format('YYYY-MM-DD'),
+    endDate: moment().utc().format('YYYY-MM-DD'),
   };
   chartOptions: any;
   chartPieOptions: any;
@@ -190,6 +190,11 @@ export class StatiscalRevenue implements OnInit {
           }
         );
     }
+  }
+  filterDate(event: any) {
+    this.startDate = moment(event.startDate, 'YYYY-MM-DD').format('YYYYMMDD');
+    this.endDate = moment(event.endDate, 'YYYY-MM-DD').format('YYYYMMDD');
+    this.loadData();
   }
   public loadDataChart() {
     this.dateChart = [];
@@ -370,19 +375,21 @@ export class StatiscalRevenue implements OnInit {
     let dateValue = 'Năm ' + fromDate.toString().slice(0, 4);
     return dateValue;
   }
-
+  changeTypeShow(e: any) {
+    this.typeShow = e.target.value;
+    this.statistic();
+  }
   statistic() {
     if (this.typeShow == 1) {
       let date = moment().format('YYYY') + '/' + this.month;
       this.startDate = moment(date).startOf('month').format('YYYYMMDD');
       this.endDate = moment(date).endOf('month').format('YYYYMMDD');
+      console.log('1 :>> ', 1);
     } else if (this.typeShow == 2) {
-      this.startDate = moment(this.year.toString())
-        .startOf('year')
-        .format('YYYYMMDD');
-      this.endDate = moment(this.year.toString())
-        .endOf('year')
-        .format('YYYYMMDD');
+      const date = JSON.parse(JSON.stringify(this.dateRange));
+      date.endDate = date.endDate.replace('23:59:59', '00:00:00');
+      this.startDate = moment(date.startDate).format('YYYYMMDD');
+      this.endDate = moment(date.endDate).format('YYYYMMDD');
     } else {
       this.startDate = moment('2021').startOf('year').format('YYYYDDMM');
       this.endDate = moment().format('YYYYDDMM');

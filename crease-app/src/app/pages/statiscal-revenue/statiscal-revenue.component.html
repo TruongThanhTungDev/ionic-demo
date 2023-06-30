@@ -7,7 +7,8 @@
           <option value=2>Theo Tháng</option>
           <option value=3>Theo Năm</option>
         </select>
-        <datepicker-component *ngIf="optionChart==2"></datepicker-component>
+        <datepicker-component [dateRange]="dateRange" (filterDate)="filterDate($event)"
+          *ngIf="optionChart==2"></datepicker-component>
       </div>
       <div class="mx-2" style="width: 30%;" *ngIf="typeShow == 1 && optionChart == 1">
         <select [(ngModel)]="month" class="form-control text-13px" (change)="statistic()">
@@ -33,29 +34,30 @@
       </div>
     </div>
     <div *ngIf="info.role !== 'admin'">
-      <select [(ngModel)]="shopCode" class="form-control select-custom" (change)="statistic()">
+      <select [(ngModel)]="shopCode" class="form-control select-custom" (change)="changeTypeShow($event)">
         <option *ngFor="let obj of shopList" [value]="obj.code">{{obj.code}}</option>
       </select>
     </div>
-    <div *ngIf="(listPieChart && listPieChart.length) && (valueChart && valueChart.length); else elseData">
+    <div>
       <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê theo trạng thái</h5>
-      <ion-card>
+      <ion-card [hidden]="(optionChart != 1) || (listPieChart && !listPieChart.length)">
         <ion-card-content>
-          <div class="chart" id="pie-chart" style="height: 400px;" [hidden]="optionChart != 1"></div>
+          <div class="chart" id="pie-chart" style="height: 400px;"></div>
         </ion-card-content>
       </ion-card>
-      <ion-card>
+      <ion-card [hidden]="valueChart && !valueChart.length">
         <ion-card-content>
           <div class="chart" id="chart" style="height: 400px;"></div>
         </ion-card-content>
       </ion-card>
     </div>
-    <ng-template #elseData>
+    <div
+      *ngIf="((optionChart != 1) && (valueChart && !valueChart.length)) || (listPieChart && !listPieChart.length) && (valueChart && !valueChart.length)">
       <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
         <i class="fa-solid fa-chart-pie text-sub-content mb-3" style="font-size: 100px"></i>
         <h5 class="text-sub-content">Không có dữ liệu!</h5>
       </div>
-    </ng-template>
+    </div>
     <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
       (didDismiss)="setOpen(false)"></ion-toast>
   </ion-content>

@@ -94,6 +94,9 @@ export class CostMarketingComponent implements OnInit {
               costId: item.costType ? item.costType.id : '',
               fromDate: moment(item.fromDate, 'YYYYMMDD').format('DD/MM/YYYY'),
               toDate: moment(item.toDate, 'YYYYMMDD').format('DD/MM/YYYY'),
+              createdAt: item.createdAt
+                ? moment(item.createdAt, 'YYYYMMDD').format('DD/MM/YYYY')
+                : '',
             };
           });
           this.totalItems = res.body ? res.body.RESULT.totalElements : 0;
@@ -114,7 +117,7 @@ export class CostMarketingComponent implements OnInit {
     );
   }
   loadShopList() {
-    this.dmService.getOption(null, this.SHOP_URL, '/getAll').subscribe(
+    this.dmService.getOption(null, this.SHOP_URL, '?status=1').subscribe(
       (res: HttpResponse<any>) => {
         this.shopList = res.body.RESULT;
       },
@@ -193,8 +196,10 @@ export class CostMarketingComponent implements OnInit {
     filter.push("id>0;costType.code=='CPMKT'");
     if (this.shopCode) filter.push(`shopCode==${this.shopCode}`);
     if (this.name) filter.push(`name==${this.name}`);
-    if (startDate) filter.push(`fromDate>=${startDate}`);
-    if (endDate) filter.push(`toDate<=${endDate}`);
+    if (this.info.role === 'admin') {
+      if (startDate) filter.push(`fromDate>=${startDate}`);
+      if (endDate) filter.push(`toDate<=${endDate}`);
+    }
     return filter.join(';');
   }
 
