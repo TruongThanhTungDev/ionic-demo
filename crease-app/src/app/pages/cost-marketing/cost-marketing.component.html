@@ -86,17 +86,20 @@
               <div style="position: absolute;top: 15%;left: 25%;">
                 <i class="fa-solid fa-arrow-right"></i>
               </div>
-              <div class="text-warning position-absolute" style="right: 0; width: fit-content;bottom: 1.5rem">
+              <div class="text-warning">
                 <div>
-                  Tổng chi phí
+                  <div>
+                    Tổng chi phí
+                  </div>
+                  <button class="btn btn-sm btn-warning text-white fw-bold">{{ plugins.formatNumber(item.totalCost)
+                    }}đ</button>
                 </div>
-                <button class="btn btn-sm btn-warning text-white fw-bold">{{ plugins.formatNumber(item.totalCost)
-                  }}đ</button>
               </div>
-              <small class="position-absolute fst-italic" style="right: 0; bottom: -4px;width: fit-content; ">
-                {{item.code}}
-              </small>
             </div>
+            <small class="position-absolute fst-italic text-10px"
+              style="bottom: 0.5rem; right: 1rem;width: fit-content;">
+              {{item.createdAt}}
+            </small>
           </ion-card-content>
         </ion-card>
         <ion-alert [isOpen]="isOpenDeleteModal" header="BẠN CÓ THẬT SỰ MUỐN XÓA BẢN GHI NÀY?"
@@ -112,7 +115,7 @@
     <pagination-controls *ngIf="listData && listData.length" previousLabel="" nextLabel=""
       (pageChange)="changePagination($event)"></pagination-controls>
   </ion-content>
-  <ion-footer [translucent]="true">
+  <ion-footer *ngIf="info.role === 'admin'" [translucent]="true">
     <ion-toolbar mode="md" class="footer-container">
       <ion-segment *ngIf="!isBackHeader;else elseFooter" color="dark" value="costmkt">
         <ion-segment-button value="costType" routerLink="/cost-type" style="font-size: 10px;">
@@ -130,7 +133,7 @@
       </ng-template>
     </ion-toolbar>
   </ion-footer>
-  <div class="dropdown position-absolute" style="bottom: 4rem; right: 1rem;">
+  <div *ngIf="info.role === 'admin'" class="dropdown position-absolute" style="bottom: 4rem; right: 1rem;">
     <button id="open-filter" class="btn btn-primary rounded-pill shadow" type="button" (click)="openModalFilter(true)">
       <i class="fa-solid fa-filter"></i>
       Lọc
