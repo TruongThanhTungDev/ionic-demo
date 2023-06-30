@@ -200,6 +200,9 @@ export class CostMarketingComponent implements OnInit {
       if (startDate) filter.push(`fromDate>=${startDate}`);
       if (endDate) filter.push(`toDate<=${endDate}`);
     }
+    if (this.info.role === 'marketing') {
+      filter.push(`name>=${this.info.userName}`);
+    }
     return filter.join(';');
   }
 
