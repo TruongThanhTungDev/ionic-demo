@@ -17,7 +17,7 @@ export class CostMarketingComponent implements OnInit {
   itemsPerPage = 10;
   page = 1;
   totalItems = 0;
-  shopCode = '';
+  shopCode:any;
   createdAt = '';
   name = '';
   code = '';
@@ -67,6 +67,9 @@ export class CostMarketingComponent implements OnInit {
       this.isBackHeader = state.common.isBackHeader;
       this.selectedItem = null;
     });
+  }
+  get disableAddBtn() {
+    return this.info.role === 'marketing' && !this.shopCode
   }
   ngOnInit() {
     if (this.info.role === 'admin') {
@@ -131,6 +134,11 @@ export class CostMarketingComponent implements OnInit {
   }
 
   async addCostMarketing() {
+    if(this.disableAddBtn) {
+      this.isToastOpen = true
+      this.messageToast = 'Vui lòng chọn Cửa hàng trước khi thêm mới'
+      return
+    }
     const modal = await this.modal.create({
       component: ThemSuaCostMarketing,
       componentProps: {
