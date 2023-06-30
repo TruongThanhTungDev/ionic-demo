@@ -58,7 +58,12 @@ export class ThemSuaKhoComponent implements OnInit {
       this.flag = this.data.flag;
       this.updateAt = this.data.updateAt;
       this.code = this.data.code;
-      console.log(this.name, this.id, this.createAt, this.flag, this.code,this.shop)
+    }
+    if(this.type==='add'){
+      this.data ? this.name=this.data.name :null;
+      this.data ? this.phone = this.data.phone :null;
+      this.data ? this.address = this.data.address :null;
+      
     }
   }
 
@@ -84,7 +89,7 @@ export class ThemSuaKhoComponent implements OnInit {
       this.modalCtrl.dismiss();
     }
   }
-
+  
   async save() {
     const newData = {
         address: this.address,
