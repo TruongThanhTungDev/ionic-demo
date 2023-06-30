@@ -385,10 +385,12 @@ export class StatiscalRevenue implements OnInit {
       this.startDate = moment(date).startOf('month').format('YYYYMMDD');
       this.endDate = moment(date).endOf('month').format('YYYYMMDD');
     } else if (this.typeShow == 2) {
-      const date = JSON.parse(JSON.stringify(this.dateRange));
-      date.endDate = date.endDate.replace('23:59:59', '00:00:00');
-      this.startDate = moment(date.startDate).format('YYYYMMDD');
-      this.endDate = moment(date.endDate).format('YYYYMMDD');
+      this.startDate = moment(this.year.toString())
+        .startOf('year')
+        .format('YYYYMMDD');
+      this.endDate = moment(this.year.toString())
+        .endOf('year')
+        .format('YYYYMMDD');
     } else {
       this.startDate = moment('2021').startOf('year').format('YYYYDDMM');
       this.endDate = moment().format('YYYYDDMM');

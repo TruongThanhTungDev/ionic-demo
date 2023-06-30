@@ -289,6 +289,8 @@ export class CostRecordComponent implements OnInit {
       endDate: '',
     };
     this.createdAt = '';
+    this.startDate = '';
+    this.endDate = '';
   }
   async handleRefresh(event: any) {
     this.resetData();

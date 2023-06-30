@@ -18,6 +18,7 @@ export class CostMarketingComponent implements OnInit {
   page = 1;
   totalItems = 0;
   shopCode = '';
+  createdAt = '';
   name = '';
   code = '';
   info: any;
@@ -35,9 +36,11 @@ export class CostMarketingComponent implements OnInit {
   SHOP_URL = '/api/v1/shop';
   REQUEST_URL = '/api/v1/cost';
   dateRange = {
-    startDate: moment().utc().startOf('month'),
-    endDate: moment().utc().endOf('month'),
+    startDate: '',
+    endDate: '',
   };
+  startDate: any;
+  endDate: any;
   public actionDeleteAccount = [
     {
       text: 'Hủy',
@@ -186,9 +189,15 @@ export class CostMarketingComponent implements OnInit {
         }
       );
   }
-
+  changeFromDate(event: any) {
+    this.startDate = event.target.value;
+  }
+  changeToDate(event: any) {
+    this.endDate = event.target.value;
+  }
   searchData() {
     // this.spinner.show();
+    let create = moment(this.createdAt, 'YYYY-MM-DD').format('YYYYMMDD');
     var date = this.dateRange;
     let startDate = moment(date.startDate, 'YYYYMMDD').format('YYYYMMDD');
     let endDate = moment(date.endDate, 'YYYYMMDD').format('YYYYMMDD');
@@ -196,9 +205,18 @@ export class CostMarketingComponent implements OnInit {
     filter.push("id>0;costType.code=='CPMKT'");
     if (this.shopCode) filter.push(`shopCode==${this.shopCode}`);
     if (this.name) filter.push(`name==${this.name}`);
+    if (this.createdAt) {
+      filter.push(`createdAt==${create}`);
+    }
     if (this.info.role === 'admin') {
-      if (startDate) filter.push(`fromDate>=${startDate}`);
-      if (endDate) filter.push(`toDate<=${endDate}`);
+      if (this.startDate) {
+        let fromDate = moment(this.startDate, 'YYYYMMDD').format('YYYYMMDD');
+        filter.push(`fromDate>=${fromDate}`);
+      }
+      if (this.endDate) {
+        let toDate = moment(this.endDate, 'YYYYMMDD').format('YYYYMMDD');
+        filter.push(`toDate<=${toDate}`);
+      }
     }
     if (this.info.role === 'marketing') {
       filter.push(`name>=${this.info.userName}`);
@@ -207,8 +225,10 @@ export class CostMarketingComponent implements OnInit {
   }
 
   filterDate(e: any) {
-    this.dateRange.startDate = moment(e.startDate, 'YYYY-MM-DD');
-    this.dateRange.endDate = moment(e.endDate, 'YYYY-MM-DD');
+    this.dateRange.startDate = moment(e.startDate, 'YYYY-MM-DD').format(
+      'YYYYMMDD'
+    );
+    this.dateRange.endDate = moment(e.endDate, 'YYYY-MM-DD').format('YYYYMMDD');
     this.loadData();
   }
   getFilter() {
@@ -258,6 +278,9 @@ export class CostMarketingComponent implements OnInit {
   resetData() {
     this.name = '';
     this.code = '';
+    this.startDate = '';
+    this.endDate = '';
+    this.createdAt = '';
   }
   async handleRefresh(event: any) {
     this.resetData();

@@ -10,6 +10,10 @@
         <datepicker-component [dateRange]="dateRange" (filterDate)="filterDate($event)"
           *ngIf="optionChart==2"></datepicker-component>
       </div>
+      <div class="mx-2" *ngIf="typeShow == 2 && optionChart == 1" style="width: 30%;">
+        <input type="text" [(ngModel)]="year" class="form-control form-control-sm py-1 h-100 select-custom"
+          placeholder="Năm" (change)="statistic()">
+      </div>
       <div class="mx-2" style="width: 30%;" *ngIf="typeShow == 1 && optionChart == 1">
         <select [(ngModel)]="month" class="form-control text-13px" (change)="statistic()">
           <option value=1>Tháng 1</option>
