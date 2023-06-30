@@ -19,7 +19,7 @@
                 <div class="col-8" style="margin-right: 0px; font-size:14px">  
                     Mã: {{ item.orderCode }}                 
                 </div>
-                <div style="color:#E69900">
+                <div  class="text-end" style="color:#E69900">
                   <ng-container>{{ formatTotalOrderValue(item.totalOrderValue) }}</ng-container>
                 </div>
               </div>
@@ -77,7 +77,7 @@
                   X/H/T:
                 </div>
                 <div class="col-8 " >
-                  <ng-container>{{ item.toWard }}, {{ item.toDistrict }}, {{ item.toProvince }}</ng-container>
+                  <ng-container>{{ item.toWard }}{{item.toWard ? ',' : ''}}{{ item.toDistrict }}{{item.toDistrict ? ',' : ''}}{{ item.toProvince }}</ng-container>
                 </div>                  
               </div>
             </div>
