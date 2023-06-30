@@ -384,7 +384,6 @@ export class StatiscalRevenue implements OnInit {
       let date = moment().format('YYYY') + '/' + this.month;
       this.startDate = moment(date).startOf('month').format('YYYYMMDD');
       this.endDate = moment(date).endOf('month').format('YYYYMMDD');
-      console.log('1 :>> ', 1);
     } else if (this.typeShow == 2) {
       const date = JSON.parse(JSON.stringify(this.dateRange));
       date.endDate = date.endDate.replace('23:59:59', '00:00:00');

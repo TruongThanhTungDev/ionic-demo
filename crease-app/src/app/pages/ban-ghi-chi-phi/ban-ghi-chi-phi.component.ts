@@ -110,22 +110,18 @@ export class CostRecordComponent implements OnInit {
       (res: HttpResponse<any>) => {
         if (res.status === 200) {
           this.loading.dismiss();
-          this.listData = res.body.RESULT.content
-            .map((item: any) => {
-              return {
-                ...item,
-                costName: item.costType ? item.costType.name : '',
-                costTypeId: item.costType ? item.costType.id : '',
-                fromDate: moment(item.fromDate, 'YYYYMMDD').format(
-                  'DD/MM/YYYY'
-                ),
-                toDate: moment(item.toDate, 'YYYYMMDD').format('DD/MM/YYYY'),
-                createdAt: item.createdAt
-                  ? moment(item.createdAt, 'YYYYMMDD').format('DD/MM/YYYY')
-                  : '',
-              };
-            })
-            .sort((a: any, b: any) => b.id - a.id);
+          this.listData = res.body.RESULT.content.map((item: any) => {
+            return {
+              ...item,
+              costName: item.costType ? item.costType.name : '',
+              costTypeId: item.costType ? item.costType.id : '',
+              fromDate: moment(item.fromDate, 'YYYYMMDD').format('DD/MM/YYYY'),
+              toDate: moment(item.toDate, 'YYYYMMDD').format('DD/MM/YYYY'),
+              createdAt: item.createdAt
+                ? moment(item.createdAt, 'YYYYMMDD').format('DD/MM/YYYY')
+                : '',
+            };
+          });
           this.totalItems = res.body ? res.body.RESULT.totalElements : 0;
         } else {
           this.loading.dismiss();
