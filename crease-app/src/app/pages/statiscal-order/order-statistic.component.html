@@ -15,10 +15,9 @@
         <ion-card>
           <ion-card-header style="padding-bottom: 7px">
             <ion-card-title class="fw-bold" style="font-size: 15px; color: #006eb9">
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="col-7" style="margin-right: 0px; font-size:16px">  
-                                
-                    #{{ item.orderCode }}
+              <div class="d-flex justify-content-start align-items-center">
+                <div class="col-8" style="margin-right: 0px; font-size:14px">  
+                    Mã: {{ item.orderCode }}                 
                 </div>
                 <div style="color:#E69900">
                   <ng-container>{{ formatTotalOrderValue(item.totalOrderValue) }}</ng-container>
@@ -148,10 +147,35 @@
       </div>
       <div class="mb-3">
         <label>
+          Số điện thoại:
+        </label>
+        <input type="text" [(ngModel)]="toPhone" class="form-control" placeholder="Số điện thoại">
+      </div>
+      <div class="mb-3">
+        <label>
           Sản phẩm:
         </label>
         <input type="text" [(ngModel)]="productNames" class="form-control" placeholder="sản phẩm">
       </div>
+      <div class="mb-3">
+        <label>
+         Tỉnh:
+        </label>
+        <input type="text" [(ngModel)]="toProvince" class="form-control" placeholder="Tỉnh">
+      </div>
+      <div class="mb-3">
+        <label>
+          Huyện:
+        </label>
+        <input type="text" [(ngModel)]="toDistrict" class="form-control" placeholder="Huyện">
+      </div>
+      <div class="mb-3">
+        <label>
+          Xã:
+        </label>
+        <input type="text" [(ngModel)]="toWard" class="form-control" placeholder="Xã">
+      </div>
+
       
     </ion-content>
     <ion-footer mode="md" style="background-color: rgba(0, 110, 185, 0.9)!important;">

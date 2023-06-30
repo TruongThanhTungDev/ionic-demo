@@ -146,9 +146,13 @@ export class OrderStatisticComponent implements OnInit {
     return number ? number.replace(/(\d{3})(\d{3})(\d{4})/, "$1 $2 $3") : "";
   }
   formatTotalOrderValue(amount: any): string {
+    if(amount === null){
+      amount = 0;
+    }
     return amount.toLocaleString('vi-VN', {
       style: 'currency',
       currency: 'VND'
     });
+    
   }
 }
