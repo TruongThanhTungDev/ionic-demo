@@ -38,9 +38,11 @@ export class CostRecordComponent implements OnInit {
   plugins = new Plugin();
   SHOP_URL = '/api/v1/shop';
   dateRange = {
-    startDate: moment().utc(),
-    endDate: moment().utc(),
+    startDate: '',
+    endDate: '',
   };
+  startDate: any;
+  endDate: any;
   public actionDeleteAccount = [
     {
       text: 'Hủy',
@@ -139,10 +141,6 @@ export class CostRecordComponent implements OnInit {
     );
   }
   searchData() {
-    // this.spinner.show();
-    var date = this.dateRange;
-    let startDate = moment(date.startDate, 'YYYYMMDD').format('YYYYMMDD');
-    let endDate = moment(date.endDate, 'YYYYMMDD').format('YYYYMMDD');
     let create = moment(this.createdAt, 'YYYY-MM-DD').format('YYYYMMDD');
     const filter = [];
     filter.push('id>0');
@@ -153,17 +151,32 @@ export class CostRecordComponent implements OnInit {
     if (this.createdAt) {
       filter.push(`createdAt==${create}`);
     }
-    if (startDate) filter.push(`fromDate>=${startDate}`);
-    if (endDate) filter.push(`toDate<=${endDate}`);
+    if (this.startDate) {
+      let fromDate = moment(this.startDate, 'YYYYMMDD').format('YYYYMMDD');
+      filter.push(`fromDate>=${fromDate}`);
+    }
+    if (this.endDate) {
+      let toDate = moment(this.endDate, 'YYYYMMDD').format('YYYYMMDD');
+      filter.push(`toDate<=${toDate}`);
+    }
     return filter.join(';');
   }
   filterDate(e: any) {
-    this.dateRange.startDate = moment(e.startDate, 'YYYY-MM-DD');
-    this.dateRange.endDate = moment(e.endDate, 'YYYY-MM-DD');
+    this.dateRange.startDate = moment(e.startDate, 'YYYY-MM-DD').format(
+      'YYYYMMDD'
+    );
+    this.dateRange.endDate = moment(e.endDate, 'YYYY-MM-DD').format('YYYYMMDD');
     this.loadData();
+  }
+  changeFromDate(event: any) {
+    this.startDate = event.target.value;
+  }
+  changeToDate(event: any) {
+    this.endDate = event.target.value;
   }
   getFilter() {
     this.isOpenFilterModal = false;
+    console.log('this.startDate :>> ', this.startDate);
     this.loadData();
   }
   async addCostRecord() {
@@ -273,8 +286,8 @@ export class CostRecordComponent implements OnInit {
     this.code = '';
     this.costType = '';
     this.dateRange = {
-      startDate: moment().utc(),
-      endDate: moment().utc(),
+      startDate: '',
+      endDate: '',
     };
     this.createdAt = '';
   }

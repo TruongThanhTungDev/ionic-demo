@@ -88,7 +88,6 @@ export class ThemSuaCostTypeComponent implements OnInit {
               }
             },
             (error) => {
-              console.log('error :>> ', error);
               this.loading.dismiss();
               this.isToastOpen = true;
               this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau';
