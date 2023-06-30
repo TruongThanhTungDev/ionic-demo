@@ -112,7 +112,6 @@ export class CauhinhKhoComponent implements OnInit {
     return filter.join(';');
   }
   get validData() {
-    // this.resetData(this.data)
     if (this.selectedItem.name === '') {
       this.isToastOpen = true;
       this.messageToast = 'Tên Không được để trống';
@@ -120,7 +119,7 @@ export class CauhinhKhoComponent implements OnInit {
     }
     if (this.selectedItem.phone === '') {
       const vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
-      if (vnf_regex.test(this.selectedItem.phone.trim()) == false) {
+      if (vnf_regex.test(this.selectedItem.phone.trim()) === false) {
         this.isToastOpen = true;
         this.messageToast = 'Số điện thoại không đúng định dạng';
         return false;
@@ -175,7 +174,7 @@ export class CauhinhKhoComponent implements OnInit {
     this.isOpenDeleteModal = open;
   }
   async getTaiKhoan() {
-    console.log(1);
+    
     const params = {
       sort: ['id', 'asc'],
       page: 0,
@@ -289,6 +288,7 @@ export class CauhinhKhoComponent implements OnInit {
             flag: -1,
           },
         };
+        await this.isLoading();
         this.dmService
           .postOption(entity, this.REQUEST_URL, OPERATIONS.CREATE)
           .subscribe(
@@ -313,8 +313,9 @@ export class CauhinhKhoComponent implements OnInit {
               console.error();
             }
           );
-      }
+          }
     } else {
+    if (this.validData) {
       const entity = {
         staffIdList: [],
         warehouse: {
@@ -330,6 +331,7 @@ export class CauhinhKhoComponent implements OnInit {
           code: this.selectedItem.code,
         },
       };
+      await this.isLoading();
       this.dmService
         .postOption(entity, this.REQUEST_URL, OPERATIONS.CREATE)
         .subscribe(
@@ -355,6 +357,7 @@ export class CauhinhKhoComponent implements OnInit {
           }
         );
     }
+  }
   }
   confirm() {
     this.modalCtrl.dismiss(null, 'confirm');
@@ -391,7 +394,7 @@ export class CauhinhKhoComponent implements OnInit {
           this.typeModal === 'add'
             ? 'Tạo cấu hình kho'
             : 'Chỉnh sửa thông tin kho',
-        data: this.typeModal === 'edit' ? this.selectedItem : null,
+        data: this.selectedItem,
         type: this.typeModal,
       },
       backdropDismiss: false,
@@ -399,7 +402,6 @@ export class CauhinhKhoComponent implements OnInit {
     modal.present();
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm') {
-      console.log('this.typeModal :>> ', this.typeModal);
       this.selectedItem = data;
     }
   }
@@ -463,7 +465,7 @@ export class CauhinhKhoComponent implements OnInit {
       this.getWareHouseData();
       this.getAccountData();
     } else {
-      this.selectedItem = null;
+      this.listAccountData = [];
     }
   }
   async phanQuyenKho() {
@@ -480,5 +482,12 @@ export class CauhinhKhoComponent implements OnInit {
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm') {
     }
+  }
+  formatNumber(number: any): string {
+    if(number===null)
+    {
+      number=0;
+    }
+    return number.toLocaleString('en-US');
   }
 }

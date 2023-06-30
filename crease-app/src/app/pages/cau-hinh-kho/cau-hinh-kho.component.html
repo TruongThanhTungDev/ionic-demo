@@ -92,11 +92,10 @@
                 <button>Nhập hàng</button>
                 <button>Xuất hàng</button>
                 <button>Lịch sử xuất hàng</button>
-                <button (click)="phanQuyenKho()">Chỉnh sửa quyền</button>
               </div>
               <div class="position-relative">
                 <div class="position-relative">
-                  <ion-card>
+                  <ion-card >
                     <ion-card-header style="padding-bottom: 7px">
                       <ion-card-title class="fw-bold" style="font-size: 15px; color: #006eb9">
                         <div class="d-flex justify-content-between align-items-center">
@@ -140,25 +139,25 @@
                       <div class="row">
                         <div class="col-6 d-flex align-items-center" style="font-size: 10px">
                           Tổng hàng nhập:
-                          <ng-container>{{ localData ? localData.totalImportProduct : 0 }}</ng-container>
+                          <ng-container>{{ localData ? formatNumber(localData.totalImportProduct) : 0 }}</ng-container>
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-6 d-flex align-items-center" style="font-size: 10px">
                           Tổng còn trong kho:
-                          <ng-container>{{ localData ? localData.totalInventoryQuantity : 0 }}</ng-container>
+                          <ng-container>{{ localData ? formatNumber(localData.totalInventoryQuantity) : 0 }}</ng-container>
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-6 d-flex align-items-center" style="font-size: 10px">
                           Tổng đang về:
-                          <ng-container>{{ localData ? localData.totalAwaitingProduct : 0 }}</ng-container>
+                          <ng-container>{{ localData ? formatNumber(localData.totalAwaitingProduct) : 0 }}</ng-container>
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-6 d-flex align-items-center" style="font-size: 10px">
                           Tổng tiền hàng:
-                          <ng-container>{{ localData ? localData.price : 0 }}</ng-container>
+                          <ng-container>{{ localData ? formatNumber(localData.price) : 0 }}</ng-container>
                         </div>
                       </div>
                     </ion-card-content>
@@ -192,16 +191,16 @@
                               <tr *ngFor="let item of listAccountData">
                                 <td>
                                   <ion-avatar slot="start" style="width: 20px;height: 20px; margin-right:0px">
-                                    <img alt="Silhouette of a person's head"
-                                      src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                                    <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
                                   </ion-avatar>
                                 </td>
-                                <td>{{ item.userName }}</td>
+                                <td (click)="phanQuyenKho()">{{ item.userName }}</td>
                               </tr>
                             </tbody>
                           </table>
                         </div>
                       </div>
+
                     </ion-card-content>
                   </ion-card>
                 </div>
