@@ -176,7 +176,6 @@ export class CostRecordComponent implements OnInit {
   }
   getFilter() {
     this.isOpenFilterModal = false;
-    console.log('this.startDate :>> ', this.startDate);
     this.loadData();
   }
   async addCostRecord() {
