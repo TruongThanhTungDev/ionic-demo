@@ -164,12 +164,13 @@
         <div class="row align-items-center">
           <div class="col-6">
             <label>Từ ngày</label>
-            <input type="date" [(ngModel)]="dateRange.startDate" class="form-control text-primary">
+            <input type="date" [(ngModel)]="startDate" (change)="changeFromDate($event)"
+              class="form-control text-primary">
           </div>
           <div class="col-6">
             <label>Đến ngày</label>
-            <input type="date" [(ngModel)]="dateRange.endDate" class="form-control w-100 text-primary"
-              style="margin-left: 4px">
+            <input type="date" [(ngModel)]="endDate" (change)="changeToDate($event)"
+              class="form-control w-100 text-primary" style="margin-left: 4px">
           </div>
         </div>
       </div>
