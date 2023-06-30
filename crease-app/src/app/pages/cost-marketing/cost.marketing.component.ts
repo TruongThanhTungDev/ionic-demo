@@ -204,11 +204,11 @@ export class CostMarketingComponent implements OnInit {
     const filter = [];
     filter.push("id>0;costType.code=='CPMKT'");
     if (this.shopCode) filter.push(`shopCode==${this.shopCode}`);
-    if (this.name) filter.push(`name==${this.name}`);
     if (this.createdAt) {
       filter.push(`createdAt==${create}`);
     }
     if (this.info.role === 'admin') {
+      if (this.name) filter.push(`name==${this.name}`);
       if (this.startDate) {
         let fromDate = moment(this.startDate, 'YYYYMMDD').format('YYYYMMDD');
         filter.push(`fromDate>=${fromDate}`);
@@ -219,7 +219,7 @@ export class CostMarketingComponent implements OnInit {
       }
     }
     if (this.info.role === 'marketing') {
-      filter.push(`name>=${this.info.userName}`);
+      filter.push(`name==${this.info.userName}`);
     }
     return filter.join(';');
   }
