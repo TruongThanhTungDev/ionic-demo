@@ -25,6 +25,7 @@ export class ThongTinDiaChiOrder implements OnInit {
   provinceName = '';
   districtName = '';
   wardName = '';
+  streetName = '';
   constructor(
     private modal: ModalController,
     private dmService: DanhMucService,
@@ -42,6 +43,9 @@ export class ThongTinDiaChiOrder implements OnInit {
     if (this.ward) {
       await this.getWard();
       this.findWard(this.ward);
+    }
+    if (this.street) {
+      this.streetName = this.street;
     }
   }
   setOpen(open: boolean) {
@@ -183,7 +187,7 @@ export class ThongTinDiaChiOrder implements OnInit {
   }
   saveInfo() {
     const value = {
-      street: this.street,
+      street: this.streetName,
       ward: this.wardName,
       district: this.districtName,
       province: this.provinceName,

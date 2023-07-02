@@ -1,0 +1,18 @@
+<ion-modal [isOpen]="isModalOpen" class="modal-50" (didDismiss)="setOpen(false)">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar mode="md" class="new-toolbar-background">
+        <ion-title class="fw-bold">Thông tin ghi chú</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="mb-3">
+        <label class="text-primary">Ghi chú</label>
+        <textarea [(ngModel)]="note" class="form-control" rows="7"></textarea>
+      </div>
+      <div class="text-end">
+        <button class="btn btn-sm btn-primary fw-bold px-3" (click)="saveInfo()">Lưu</button>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

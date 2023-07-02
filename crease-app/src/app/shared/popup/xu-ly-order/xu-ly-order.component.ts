@@ -4,6 +4,7 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 import { ThongTinKhachHangOrder } from './thong-tin-khach-hang/thong-tin-khach-hang.component';
 import { HttpResponse } from '@angular/common/http';
+import { Plugin } from '../../utils/plugins';
 
 @Component({
   selector: 'xuLyOder-cmp',
@@ -17,6 +18,8 @@ export class XuLyOrderComponent implements OnInit {
   REQUEST_URL_DATA_CONFIG = '/api/v1/dataconfig';
   isShowEditInfoCustomer = false;
   isShowEditAddressCustomer = false;
+  isShowEditNoteCustomer = false;
+  isShowEditInfoOrder = false;
   statusOrder = '0,1,2,3,4,5,6,9';
   info: any;
   name: any;
@@ -25,7 +28,15 @@ export class XuLyOrderComponent implements OnInit {
   district: any;
   province: any;
   street: any;
+  product: any;
+  note: any;
+  date: any;
+  price: any;
+  cogs: any;
+  dataOrder: any;
+  listProduct: any;
   cauHinhDonhang: any;
+  plugins = new Plugin();
   isToastOpen = false;
   messageToast: any;
   constructor(
@@ -40,14 +51,24 @@ export class XuLyOrderComponent implements OnInit {
     return this.info.role === 'user';
   }
   ngOnInit() {
-    if (this.type === 'edit') {
+    if (this.data) {
       this.name = this.data.name;
       this.phone = this.data.phone;
       this.statusOrder = this.data.status;
-      this.street = this.data.dataInfo.street;
-      this.ward = this.data.dataInfo.ward;
-      this.province = this.data.dataInfo.province;
-      this.district = this.data.dataInfo.district;
+      this.product = this.data.product;
+      this.date = this.data.date;
+      this.price = this.data.price;
+      this.cogs = this.data.cogs;
+      if (this.data.dataInfo) {
+        this.street = this.data.dataInfo.street;
+        this.ward = this.data.dataInfo.ward;
+        this.province = this.data.dataInfo.province;
+        this.district = this.data.dataInfo.district;
+        this.note = this.data.dataInfo.note;
+      }
+      if (this.data.productIds && this.data.productIds.length) {
+        this.listProduct = this.data.productIds;
+      }
     }
     // this.loadCauHinhDonHang();
   }
@@ -95,6 +116,15 @@ export class XuLyOrderComponent implements OnInit {
     this.province = value.province;
     this.district = value.district;
     this.isShowEditAddressCustomer = value.isOpen;
+  }
+  editNoteCustomer(open: any) {
+    this.isShowEditNoteCustomer = open;
+  }
+  handleEditNote(value: any) {
+    this.note = value.note;
+  }
+  editOrder(open: any) {
+    this.isShowEditInfoOrder = open;
   }
   cancel() {
     this.modal.dismiss();

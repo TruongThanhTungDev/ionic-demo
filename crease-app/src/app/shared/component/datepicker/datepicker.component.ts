@@ -47,7 +47,7 @@ export class DatePickerComponent {
         .format('YYYY-MM-DD'),
       endDate: moment()
         .subtract(1, 'month')
-        .startOf('month')
+        .endOf('month')
         .format('YYYY-MM-DD'),
     },
     {

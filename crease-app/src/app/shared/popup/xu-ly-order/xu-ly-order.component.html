@@ -103,24 +103,19 @@
                 Thông tin sản phẩm
               </div>
             </div>
-            <div class="text-primary">
-              <i class="fa fa-pen" (click)="editAddressCustomer(true)"></i>
-            </div>
           </div>
           <div class="text-12px text-secondary">
             <div class="mb-1">
               <i class="fa-solid fa-box"></i>
               <span class="mx-1">Sản phẩm:</span>
-              <span>Nguyễn Văn A</span>
+              <span>{{product}}</span>
             </div>
             <div>
               <i class="fa-solid fa-box"></i>
               <span class="mx-1">Mẫu mã:</span>
-              <span>Nguyễn Văn A</span>
+              <span>A</span>
             </div>
           </div>
-          <!-- <thong-tin-khach-hang [isModalOpen]="isShowEditInfoCustomer"
-            (handleOpenModal)="editAddressCustomer($event)"></thong-tin-khach-hang> -->
         </ion-card-content>
       </ion-card>
       <ion-card class="mb-3">
@@ -133,14 +128,14 @@
               </div>
             </div>
             <div class="text-primary">
-              <i class="fa fa-pen" (click)="editAddressCustomer(true)"></i>
+              <i class="fa fa-pen" (click)="editNoteCustomer(true)"></i>
             </div>
           </div>
           <div class="text-12px text-secondary">
-            <span>Khách muốn giao hàng ngoài giờ hành chính</span>
+            <span>{{note}}</span>
           </div>
-          <!-- <thong-tin-khach-hang [isModalOpen]="isShowEditInfoCustomer"
-            (handleOpenModal)="editAddressCustomer($event)"></thong-tin-khach-hang> -->
+          <thong-tin-ghi-chut [isModalOpen]="isShowEditNoteCustomer" [note]="note"
+            (handleOpenModal)="editNoteCustomer($event)" (editValue)="handleEditNote($event)"></thong-tin-ghi-chut>
         </ion-card-content>
       </ion-card>
       <ion-card class="mb-3">
@@ -153,26 +148,33 @@
               </div>
             </div>
             <div class="text-primary">
-              <i class="fa fa-pen" (click)="editAddressCustomer(true)"></i>
+              <i class="fa fa-pen" (click)="editOrder(true)"></i>
             </div>
           </div>
           <div class="text-12px mb-3">
             <div>
-              09:05:00 23/03/2023
+              {{date}}
             </div>
           </div>
           <div class="d-flex justify-content-between align-items-start mb-3">
             <div>
-              <h5 class="fw-bold">Áo sơ mi Genz 2023</h5>
+              <h5 class="fw-bold">{{product}}</h5>
               <div class="text-secondary">ABC123</div>
             </div>
-            <h5 class="fw-bold">150.000đ</h5>
+            <h5 class="fw-bold">{{plugins.formatNumber(price)}}đ</h5>
           </div>
           <div class="text-12px text-secondary border-bottom pb-3 mb-3">
-            <div class="row">
-              <div class="col-6">1 - ABC123BLUEXL (Màu: Blue, size: XL)</div>
-              <div class="col-2 text-center">x1</div>
-              <div class="col-4 text-end">50.000đ</div>
+            <div *ngFor="let product of listProduct; index as i" class="row mb-2">
+              <div class="col-6">
+                <div>
+                  {{i + 1}} - {{product.product.name}} - {{product.product.product.code}}
+                </div>
+                <div>
+                  ({{product.product.properties}})
+                </div>
+              </div>
+              <div class="col-2 text-center">x{{product.quantity}}</div>
+              <div class="col-4 text-end">{{plugins.formatNumber(product.price)}}đ</div>
             </div>
           </div>
           <div>
@@ -181,7 +183,7 @@
                 Thành tiền
               </div>
               <div>
-                150.000đ
+                0đ
               </div>
             </div>
             <div class="d-flex justify-content-between align-items-center fw-bold text-12px mb-1">
@@ -189,7 +191,7 @@
                 Giảm giá
               </div>
               <div>
-                150.000đ
+                0đ
               </div>
             </div>
             <div class="d-flex justify-content-between align-items-center fw-bold text-12px mb-2">
@@ -197,7 +199,7 @@
                 Phí ship
               </div>
               <div>
-                150.000đ
+                {{plugins.formatNumber(cogs)}}đ
               </div>
             </div>
             <div class="d-flex justify-content-between align-items-center text-primary mb-1">
@@ -205,12 +207,12 @@
                 Thành tiền
               </h2>
               <h2 class="fw-bold">
-                150.000đ
+                {{plugins.formatNumber(price)}}đ
               </h2>
             </div>
           </div>
-          <!-- <thong-tin-khach-hang [isModalOpen]="isShowEditInfoCustomer"
-            (handleOpenModal)="editAddressCustomer($event)"></thong-tin-khach-hang> -->
+          <thong-tin-don-hang [isModalOpen]="isShowEditInfoOrder" [price]="price" [product]="product"
+            (handleOpenModal)="editOrder($event)"></thong-tin-don-hang>
         </ion-card-content>
       </ion-card>
     </div>

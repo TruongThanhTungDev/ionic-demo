@@ -92,7 +92,21 @@ export class OrderComponent implements OnInit {
               return {
                 ...item,
                 date: moment(item.date).format('HH:mm:ss DD/MM/YYYY'),
-                dataInfo: JSON.parse(item.dataInfo),
+                dataInfo: item.dataInfo ? JSON.parse(item.dataInfo) : null,
+                productIds: JSON.parse(item.productIds).map((el: any) => {
+                  return {
+                    ...el,
+                    product: {
+                      ...el.product,
+                      product: {
+                        ...el.product.product,
+                        properties: el.product.product.properties
+                          ? JSON.parse(el.product.product.properties)
+                          : null,
+                      },
+                    },
+                  };
+                }),
               };
             });
           } else {
@@ -131,6 +145,7 @@ export class OrderComponent implements OnInit {
     });
   }
   async handleViewInfoOrder(item: any) {
+    console.log('item :>> ', item);
     const modal = await this.modal.create({
       component: XuLyOrderComponent,
       componentProps: {
