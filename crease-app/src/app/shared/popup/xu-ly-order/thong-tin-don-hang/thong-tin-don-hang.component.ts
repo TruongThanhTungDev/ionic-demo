@@ -62,7 +62,7 @@ export class ThongTinDonHangOrder implements OnInit {
       this.products[index].price =
         this.products[index].price * this.products[index].quantity;
     } else {
-      if (this.products[index].quantity == 0) {
+      if (this.products[index].quantity == 1) {
         this.isToastOpen = true;
         this.messageToast = 'Số lượng phải lớn hơn 0';
         return;
