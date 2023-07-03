@@ -6,12 +6,12 @@
   </label>
 
   <ul class="dropdown-menu">
-    <li *ngFor="let date of range" class="dropdown-item"
+    <li *ngFor="let date of range" class="dropdown-item text-13px"
       [ngClass]="dateRange.startDate === date.startDate && dateRange.endDate === date.endDate ? 'bg-primary text-white' : ''"
       (click)="setDate(date.startDate, date.endDate)">
       {{ date.name }}
     </li>
-    <li class="dropdown-item" (click)="openModalFilter(true)">
+    <li class="dropdown-item text-13px" (click)="openModalFilter(true)">
       Tùy chọn
     </li>
   </ul>

@@ -138,6 +138,13 @@ ion-content::part(background) {
   --border-radius: 6px !important;
   --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4) !important;
 }
+.modal-80 {
+  --width: 90% !important;
+  --min-width: 250px !important;
+  --height: 80% !important;
+  --border-radius: 6px !important;
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4) !important;
+}
 .modal-50 {
   --width: 90% !important;
   --min-width: 250px !important;
@@ -172,6 +179,21 @@ ion-content::part(background) {
   padding: 0 !important;
   li {
     border-radius: 6px !important;
+  }
+}
+
+/*---------NG Select----------*/
+.form-group {
+  .ng-select .ng-select-container {
+    min-height: 40px;
+    border: 1px solid #006eb9;
+  }
+  .form-control {
+    border-radius: 5px;
+    border: 1px solid #006eb9;
+  }
+  i {
+    width: 10px;
   }
 }
 

@@ -34,6 +34,7 @@ export class XuLyOrderComponent implements OnInit {
   price: any;
   cogs: any;
   dataOrder: any;
+  status: any;
   listProduct: any;
   cauHinhDonhang: any;
   plugins = new Plugin();
@@ -59,6 +60,7 @@ export class XuLyOrderComponent implements OnInit {
       this.date = this.data.date;
       this.price = this.data.price;
       this.cogs = this.data.cogs;
+      this.status = this.data.status;
       if (this.data.dataInfo) {
         this.street = this.data.dataInfo.street;
         this.ward = this.data.dataInfo.ward;

@@ -110,11 +110,11 @@
               <span class="mx-1">Sản phẩm:</span>
               <span>{{product}}</span>
             </div>
-            <div>
+            <!-- <div>
               <i class="fa-solid fa-box"></i>
               <span class="mx-1">Mẫu mã:</span>
               <span>A</span>
-            </div>
+            </div> -->
           </div>
         </ion-card-content>
       </ion-card>
@@ -159,7 +159,6 @@
           <div class="d-flex justify-content-between align-items-start mb-3">
             <div>
               <h5 class="fw-bold">{{product}}</h5>
-              <div class="text-secondary">ABC123</div>
             </div>
             <h5 class="fw-bold">{{plugins.formatNumber(price)}}đ</h5>
           </div>
@@ -211,7 +210,8 @@
               </h2>
             </div>
           </div>
-          <thong-tin-don-hang [isModalOpen]="isShowEditInfoOrder" [price]="price" [product]="product"
+          <thong-tin-don-hang [isModalOpen]="isShowEditInfoOrder" [cogs]="cogs" [price]="price" [products]="listProduct"
+            [productName]="product" [shopCode]="shopCode" [status]="status"
             (handleOpenModal)="editOrder($event)"></thong-tin-don-hang>
         </ion-card-content>
       </ion-card>

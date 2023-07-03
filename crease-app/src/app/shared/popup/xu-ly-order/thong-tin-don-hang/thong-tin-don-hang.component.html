@@ -1,4 +1,4 @@
-<ion-modal [isOpen]="isModalOpen" class="modal-50" (didDismiss)="setOpen(false)" style="--height: 90%">
+<ion-modal [isOpen]="isModalOpen" class="modal-80" (didDismiss)="setOpen(false)" style="--height: 90%">
   <ng-template>
     <ion-header>
       <ion-toolbar mode="md" class="new-toolbar-background">
@@ -8,30 +8,59 @@
     <ion-content class="ion-padding">
       <div class="mb-3">
         <div>
-          <h5 class="fw-bold">{{product}}</h5>
-          <div class="text-secondary">ABC123</div>
+          <h5 class="fw-bold text-16px">{{productName}}</h5>
         </div>
       </div>
-      <div class="text-primary mb-1">
-        <label>Phí ship</label>
-        <input type="text" class="form-control">
-      </div>
-      <div class="text-primary mb-1">
-        <label>Giảm giá</label>
-        <input type="text" class="form-control">
-      </div>
-      <div class="row text-primary mb-1 align-items-end justify-content-between">
-        <div class="col-8">
-          <label>Loại sản phẩm</label>
-          <input type="text" class="form-control">
+      <div class="text-14px">
+        <div class="text-primary mb-1">
+          <label>Phí ship</label>
+          <input [(ngModel)]="cogs" onlyNumber type="text" class="form-control">
         </div>
-        <div class="col-4">
-          <button class="btn btn-primary w-100">Thêm</button>
+        <div class="text-primary mb-1">
+          <label>Giảm giá</label>
+          <input type="text" onlyNumber class="form-control">
+        </div>
+        <div class="row text-primary mb-1 align-items-end justify-content-between mb-3">
+          <div class="col-12 form-group form-outline">
+            <label>Loại sản phẩm</label>
+            <ng-select [multiple]="false" class="pb-0" [disabled]="disableInput">
+              <ng-option *ngFor="let obj of listProduct" [value]="obj">{{ obj.product ? obj.product.name : "" }} | {{
+                obj.code }} |
+                {{ obj.properties }} | {{ obj ? plugins.formatNumber(obj.price) : 0 }}đ <br />
+                CTB:
+                <span class="text-primary bold">{{ obj.availableQuantity }}</span>
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+        <div class="text-secondary text-12px">
+          <div *ngFor="let item of products; index as i " class="row mb-2 align-items-start">
+            <div class="col-5">
+              <div>
+                {{i + 1}} - <span>{{item.product.name}}</span> - <span>{{item.product.code}}</span>
+              </div>
+              <div>
+                {{item.product.properties}}
+              </div>
+            </div>
+            <div class="row col-4 text-16px px-0">
+              <div class="btn-number-left" (click)="onChangeQuantityClick(i, false)">-</div>
+              <input type="text" [(ngModel)]="item.quantity" onlyNumber min="1"
+                class="col-5 text-center text-12px border-primary" style="border: 1px solid; outline: none;"
+                (change)="onChangeQuantity(i)">
+              <div class="btn-number-right" (click)="onChangeQuantityClick(i, true)">+</div>
+            </div>
+            <div class="text-end col-3" style="padding-right: 0">
+              {{plugins.formatNumber(item.price)}}đ
+            </div>
+          </div>
         </div>
       </div>
       <div class="text-end">
         <button class="btn btn-sm btn-primary fw-bold px-3" (click)="saveInfo()">Lưu</button>
       </div>
+      <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+        (didDismiss)="setOpenToast(false)"></ion-toast>
     </ion-content>
   </ng-template>
 </ion-modal>
