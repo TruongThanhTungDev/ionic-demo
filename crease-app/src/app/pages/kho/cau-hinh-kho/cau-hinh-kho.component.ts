@@ -248,6 +248,7 @@ export class CauhinhKhoComponent implements OnInit {
         (res: HttpResponse<any>) => {
           if (res.status === 200) {
             this.localData = res.body.RESULT;
+            this.localStorage.store('warehouseId',this.selectedItem.id)
             // this.loading.dismiss();
           } else {
             // this.loading.dismiss();

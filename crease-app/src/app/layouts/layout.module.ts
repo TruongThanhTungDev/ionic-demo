@@ -17,11 +17,12 @@ import { CostRecordComponent } from '../pages/ban-ghi-chi-phi/ban-ghi-chi-phi.co
 import { CostMarketingComponent } from '../pages/cost-marketing/cost.marketing.component';
 import { CallLogsStatisticComponent } from '../pages/callLogs-statistic/callLogs-statistic.component';
 import { UtmStatisticComponent } from '../pages/utm-statistic-marketing/utm-statistic-marketing.component';
-import { CauhinhKhoComponent } from '../pages/cau-hinh-kho/cau-hinh-kho.component';
+import { CauhinhKhoComponent } from '../pages/kho/cau-hinh-kho/cau-hinh-kho.component';
 import { StatiscalRevenue } from '../pages/statiscal-revenue/statiscal-revenue.component';
 import { StatiscalCostComponent } from '../pages/statiscal-cost/statiscal-cost.component';
 import { OrderComponent } from '../pages/order/order.component';
 import { OrderStatisticComponent } from '../pages/statiscal-order/order-statistic.component';
+import { lichsunhapxuatComponent } from '../pages/kho/lich-su-xuat-nhap/lich-su-nhap-xuat.component';
 
 @NgModule({
   imports: [
@@ -49,6 +50,7 @@ import { OrderStatisticComponent } from '../pages/statiscal-order/order-statisti
     StatiscalCostComponent,
     OrderComponent,
     OrderStatisticComponent,
+    lichsunhapxuatComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
