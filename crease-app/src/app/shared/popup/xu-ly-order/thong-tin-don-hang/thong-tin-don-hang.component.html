@@ -14,11 +14,15 @@
       <div class="text-14px">
         <div class="text-primary mb-1">
           <label>Phí ship</label>
-          <input [(ngModel)]="cogs" onlyNumber type="text" class="form-control">
+          <input [(ngModel)]="cogs" [(ngModel)]="deliveryFee" onlyNumber type="text" class="form-control">
         </div>
         <div class="text-primary mb-1">
           <label>Giảm giá</label>
-          <input type="text" onlyNumber class="form-control">
+          <input type="text" [(ngModel)]="discount" onlyNumber class="form-control">
+        </div>
+        <div class="text-primary mb-1">
+          <label>Chi phí hoàn</label>
+          <input type="text" [(ngModel)]="cogsField" onlyNumber class="form-control">
         </div>
         <div class="row text-primary mb-1 align-items-end justify-content-between mb-3">
           <div class="col-12 form-group form-outline">
@@ -34,7 +38,7 @@
           </div>
         </div>
         <div class="text-secondary text-12px">
-          <div *ngFor="let item of products; index as i " class="row mb-2 align-items-start">
+          <div *ngFor="let item of productOption; index as i " class="row mb-2 align-items-start">
             <div class="col-5">
               <div>
                 {{i + 1}} - <span>{{item.product.name}}</span> - <span>{{item.product.code}}</span>
@@ -46,7 +50,7 @@
             <div class="row col-4 text-16px px-0">
               <div class="btn-number-left" (click)="onChangeQuantityClick(i, false)">-</div>
               <input type="text" [(ngModel)]="item.quantity" onlyNumber min="1"
-                class="col-5 text-center text-12px border-primary" style="border: 1px solid; outline: none;"
+                class="col-5 text-center text-12px border-primary bg-white" style="border: 1px solid; outline: none;"
                 (change)="onChangeQuantity(i)">
               <div class="btn-number-right" (click)="onChangeQuantityClick(i, true)">+</div>
             </div>

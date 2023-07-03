@@ -182,7 +182,7 @@
                 Thành tiền
               </div>
               <div>
-                0đ
+                {{plugins.formatNumber(totalMoney)}}đ
               </div>
             </div>
             <div class="d-flex justify-content-between align-items-center fw-bold text-12px mb-1">
@@ -190,7 +190,7 @@
                 Giảm giá
               </div>
               <div>
-                0đ
+                {{plugins.formatNumber(discount)}}đ
               </div>
             </div>
             <div class="d-flex justify-content-between align-items-center fw-bold text-12px mb-2">
@@ -198,12 +198,20 @@
                 Phí ship
               </div>
               <div>
+                {{plugins.formatNumber(deliveryFee)}}đ
+              </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center fw-bold text-12px mb-2">
+              <div>
+                Chi phí hoàn
+              </div>
+              <div>
                 {{plugins.formatNumber(cogs)}}đ
               </div>
             </div>
             <div class="d-flex justify-content-between align-items-center text-primary mb-1">
               <h2 class="fw-bold">
-                Thành tiền
+                Tổng thanh toán
               </h2>
               <h2 class="fw-bold">
                 {{plugins.formatNumber(price)}}đ
@@ -211,8 +219,8 @@
             </div>
           </div>
           <thong-tin-don-hang [isModalOpen]="isShowEditInfoOrder" [cogs]="cogs" [price]="price" [products]="listProduct"
-            [productName]="product" [shopCode]="shopCode" [status]="status"
-            (handleOpenModal)="editOrder($event)"></thong-tin-don-hang>
+            [productName]="product" [shopCode]="shopCode" [status]="status" (handleOpenModal)="editOrder($event)"
+            (editValue)="handleEditOrder($event)"></thong-tin-don-hang>
         </ion-card-content>
       </ion-card>
     </div>

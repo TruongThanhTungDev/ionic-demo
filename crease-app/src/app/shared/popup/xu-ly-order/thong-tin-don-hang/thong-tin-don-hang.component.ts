@@ -20,6 +20,10 @@ export class ThongTinDonHangOrder implements OnInit {
   @Input() shopCode: any;
   @Input() status: any;
   listProduct: any;
+  productOption: any;
+  cogsField = 0;
+  discount = 0;
+  deliveryFee = 0;
   info: any;
   plugins = new Plugin();
   REQUEST_SUB_PRODUCT_URL = '/api/v1/sub-product';
@@ -33,6 +37,10 @@ export class ThongTinDonHangOrder implements OnInit {
   }
   ngOnInit() {
     this.loadDataProduct();
+    this.productOption = [...this.products];
+    if (this.cogs) {
+      this.cogsField = this.cogs;
+    }
   }
   get disableInput() {
     return this.info.role === 'admin' && this.status === 8;
@@ -58,26 +66,31 @@ export class ThongTinDonHangOrder implements OnInit {
   onChangeQuantityClick(index: number, isPlus: any) {
     if (this.disableInput) return;
     if (isPlus) {
-      this.products[index].quantity += 1;
-      this.products[index].price =
-        this.products[index].price * this.products[index].quantity;
+      this.productOption[index].quantity += 1;
+      this.productOption[index].price +=
+        this.productOption[index].product.price *
+        this.productOption[index].quantity;
     } else {
-      if (this.products[index].quantity == 1) {
+      if (this.productOption[index].quantity == 1) {
         this.isToastOpen = true;
         this.messageToast = 'Số lượng phải lớn hơn 0';
         return;
       }
-      this.products[index].quantity -= 1;
-      this.products[index].price =
-        this.products[index].price / this.products[index].quantity;
+      this.productOption[index].quantity -= 1;
+      this.productOption[index].price =
+        this.productOption[index].product.price *
+        this.productOption[index].quantity;
     }
   }
   onChangeQuantity(index: number) {
-    if (this.products[index].quantity <= 0) {
+    if (this.productOption[index].quantity <= 0) {
       this.isToastOpen = true;
       this.messageToast = 'Số lượng phải lớn hơn 0';
       return;
     }
+    this.productOption[index].price =
+      this.productOption[index].product.price *
+      this.productOption[index].quantity;
   }
   setOpenToast(open: boolean) {
     this.isToastOpen = open;
@@ -85,9 +98,15 @@ export class ThongTinDonHangOrder implements OnInit {
   setOpen(open: boolean) {
     this.isModalOpen = open;
     this.handleOpenModal.emit(open);
+    this.isToastOpen = false;
   }
   saveInfo() {
-    const value = {};
+    const value = {
+      products: this.productOption,
+      deliveryFee: this.deliveryFee,
+      discount: this.discount,
+      cogs: this.cogsField,
+    };
     this.editValue.emit(value);
     this.setOpen(false);
   }

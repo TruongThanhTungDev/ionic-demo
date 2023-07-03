@@ -36,6 +36,10 @@ export class XuLyOrderComponent implements OnInit {
   dataOrder: any;
   status: any;
   listProduct: any;
+  totalMoney = 0;
+  totalCost = 0;
+  discount = 0;
+  deliveryFee = 0;
   cauHinhDonhang: any;
   plugins = new Plugin();
   isToastOpen = false;
@@ -61,6 +65,8 @@ export class XuLyOrderComponent implements OnInit {
       this.price = this.data.price;
       this.cogs = this.data.cogs;
       this.status = this.data.status;
+      this.discount = this.discount;
+      this.deliveryFee = this.deliveryFee;
       if (this.data.dataInfo) {
         this.street = this.data.dataInfo.street;
         this.ward = this.data.dataInfo.ward;
@@ -71,6 +77,7 @@ export class XuLyOrderComponent implements OnInit {
       if (this.data.productIds && this.data.productIds.length) {
         this.listProduct = this.data.productIds;
       }
+      this.getTotalMoney();
     }
     // this.loadCauHinhDonHang();
   }
@@ -127,6 +134,23 @@ export class XuLyOrderComponent implements OnInit {
   }
   editOrder(open: any) {
     this.isShowEditInfoOrder = open;
+  }
+  handleEditOrder(value: any) {
+    this.listProduct = value.products;
+    this.deliveryFee = parseInt(value.deliveryFee);
+    this.discount = parseInt(value.discount);
+    this.cogs = parseInt(value.cogs);
+    this.getTotalMoney();
+    this.getPrice();
+  }
+  getTotalMoney() {
+    this.totalMoney = this.listProduct.reduce(
+      (sum: any, item: any) => sum + item.price,
+      0
+    );
+  }
+  getPrice() {
+    this.price = this.totalMoney - this.discount + this.deliveryFee;
   }
   cancel() {
     this.modal.dismiss();
