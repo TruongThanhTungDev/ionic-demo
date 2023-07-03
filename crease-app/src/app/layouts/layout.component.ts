@@ -96,7 +96,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       { ma: '/kho/nhap-hang', title: 'Nhập hàng' },
       { ma: '/kho/xuat-hang', title: 'Xuất hàng' },
       { ma: '/dashboard', title: 'Bảng điều khiển' },
-      { ma: '/kho/lich-su-xuat-nhap', title: 'Lịch sử nhập xuất' },
+      { ma: '/kho/lich-su-nhap-xuat', title: 'Lịch sử nhập xuất' },
       { ma: '/kho/quan-ly-kho', title: 'Cấu hình kho hàng' },
       { ma: '/kho/hang-loi', title: 'Hàng lỗi' },
     ];
