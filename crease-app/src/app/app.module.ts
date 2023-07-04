@@ -38,6 +38,7 @@ import { PhanQuyenKhoComponent } from './shared/popup/them-sua-kho/phan-quyen-kh
 import { ThongTinGhiChuOrderComponent } from './shared/popup/xu-ly-order/thong-tin-ghi-chu/thong-tin-ghi-chu.component';
 import { ThongTinDonHangOrder } from './shared/popup/xu-ly-order/thong-tin-don-hang/thong-tin-don-hang.component';
 import { XulyPhieuNhapComponent } from './shared/popup/them-sua-kho/them-sua-phieu-nhap/xu-ly-phieu-nhap.component';
+import { GiaoViecOrder } from './shared/popup/giao-viec/giao-viec.component';
 @NgModule({
   declarations: [
     OnlyNumberDirective,
@@ -59,6 +60,7 @@ import { XulyPhieuNhapComponent } from './shared/popup/them-sua-kho/them-sua-phi
     ThongTinGhiChuOrderComponent,
     ThongTinDonHangOrder,
     XulyPhieuNhapComponent,
+    GiaoViecOrder,
   ],
   imports: [
     HttpClientModule,

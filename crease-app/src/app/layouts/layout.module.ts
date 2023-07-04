@@ -24,6 +24,7 @@ import { OrderComponent } from '../pages/order/order.component';
 import { OrderStatisticComponent } from '../pages/statiscal-order/order-statistic.component';
 import { lichsunhapxuatComponent } from '../pages/kho/lich-su-xuat-nhap/lich-su-nhap-xuat.component';
 import { NhapHangComponent } from '../pages/kho/nhap-hang/nhap-hang.component';
+import { DataOrderComponent } from '../pages/data-order/data-order.component';
 
 @NgModule({
   imports: [
@@ -53,6 +54,7 @@ import { NhapHangComponent } from '../pages/kho/nhap-hang/nhap-hang.component';
     OrderStatisticComponent,
     lichsunhapxuatComponent,
     NhapHangComponent,
+    DataOrderComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

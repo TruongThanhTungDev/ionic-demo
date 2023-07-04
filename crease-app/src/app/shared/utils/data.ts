@@ -86,7 +86,7 @@ export const ROUTES = [
         params: { shopCode: 'KHBOM' },
       },
       {
-        path: '/notF',
+        path: '/data-after-order',
         title: 'Đơn hàng',
         icon: 'nc-basket',
         class: '',
@@ -354,7 +354,6 @@ export const ROUTES = [
         role: 'admin',
         params: '',
       },
-      
     ],
   },
 ];

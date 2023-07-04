@@ -21,7 +21,7 @@
     </div>
     <div>
       <div class="position-relative w-50 mb-3">
-        <select [(ngModel)]="statusOrder" class="form-control">
+        <select [(ngModel)]="statusOrder" class="form-control" (change)="saveInfo(statusOrder)">
           <option [value]="2">Đang xử lý</option>
           <option [value]="3">KNM L1</option>
           <option [value]="4">KNM L2</option>

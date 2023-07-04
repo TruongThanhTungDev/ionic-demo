@@ -9,10 +9,10 @@ import { Plugin } from 'src/app/plugins/plugins';
 import { XuLyOrderComponent } from 'src/app/shared/popup/xu-ly-order/xu-ly-order.component';
 
 @Component({
-  selector: 'order-component',
-  templateUrl: './order.component.html',
+  selector: 'data-order-component',
+  templateUrl: './data-order.component.html',
 })
-export class OrderComponent implements OnInit {
+export class DataOrderComponent implements OnInit {
   dateRange = {
     startDate: moment().utc().format('YYYY-MM-DD'),
     endDate: moment().utc().format('YYYY-MM-DD'),
@@ -20,7 +20,7 @@ export class OrderComponent implements OnInit {
   itemsPerPage = 10;
   page = 1;
   totalItems = 0;
-  ftTrangThai: any = '0,1,2,3,4,5,6,9';
+  ftTrangThai: any = '7,8,10,11,12,13,14,15,16,17,18,19,20';
   shopCode = '';
   info: any;
   listData: any;

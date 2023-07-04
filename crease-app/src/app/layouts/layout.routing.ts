@@ -16,6 +16,7 @@ import { OrderComponent } from '../pages/order/order.component';
 import { OrderStatisticComponent } from '../pages/statiscal-order/order-statistic.component';
 import { lichsunhapxuatComponent } from '../pages/kho/lich-su-xuat-nhap/lich-su-nhap-xuat.component';
 import { NhapHangComponent } from '../pages/kho/nhap-hang/nhap-hang.component';
+import { DataOrderComponent } from '../pages/data-order/data-order.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -91,5 +92,9 @@ export const LayoutRoutes: Routes = [
   {
     path: 'kho/nhap-hang',
     component: NhapHangComponent,
+  },
+  {
+    path: 'data-after-order',
+    component: DataOrderComponent,
   },
 ];

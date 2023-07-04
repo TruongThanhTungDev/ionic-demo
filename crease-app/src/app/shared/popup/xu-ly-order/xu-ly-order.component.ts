@@ -87,8 +87,7 @@ export class XuLyOrderComponent implements OnInit {
   }
   get valid() {
     if (
-      this.discount < 0 ||
-      !/^[0-9]+$/.test(this.discount.toString()) ||
+      parseInt(this.discount.toString()) < 0 ||
       this.discount.toString().length > 15
     ) {
       this.isToastOpen = true;
@@ -98,11 +97,7 @@ export class XuLyOrderComponent implements OnInit {
       return false;
     }
 
-    if (
-      this.deliveryFee < 0 ||
-      !/^[0-9]+$/.test(this.deliveryFee.toString()) ||
-      this.deliveryFee.toString().length > 15
-    ) {
+    if (this.deliveryFee < 0 || this.deliveryFee.toString().length > 15) {
       this.isToastOpen = true;
       this.messageToast =
         'Giá tiền phải là số dương và không được lớn hơn 15 kí tự!';
@@ -110,11 +105,7 @@ export class XuLyOrderComponent implements OnInit {
       return false;
     }
 
-    if (
-      this.cogs < 0 ||
-      !/^[0-9]+$/.test(this.cogs) ||
-      this.cogs.toString().length > 15
-    ) {
+    if (this.cogs < 0 || this.cogs.toString().length > 15) {
       this.isToastOpen = true;
       this.messageToast =
         'Giá tiền phải là số dương và không được lớn hơn 15 kí tự!';
@@ -297,6 +288,9 @@ export class XuLyOrderComponent implements OnInit {
                       this.messageToast = res.body.MESSAGE
                         ? res.body.MESSAGE
                         : 'Lưu thông tin thành công';
+                      this.totalMoney = 0;
+                      this.deliveryFee = 0;
+                      this.discount = 0;
                     } else {
                       this.isToastOpen = true;
                       this.messageToast = res.body.MESSAGE
