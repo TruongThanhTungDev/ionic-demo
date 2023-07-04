@@ -23,6 +23,7 @@ import { StatiscalCostComponent } from '../pages/statiscal-cost/statiscal-cost.c
 import { OrderComponent } from '../pages/order/order.component';
 import { OrderStatisticComponent } from '../pages/statiscal-order/order-statistic.component';
 import { lichsunhapxuatComponent } from '../pages/kho/lich-su-xuat-nhap/lich-su-nhap-xuat.component';
+import { NhapHangComponent } from '../pages/kho/nhap-hang/nhap-hang.component';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { lichsunhapxuatComponent } from '../pages/kho/lich-su-xuat-nhap/lich-su-
     OrderComponent,
     OrderStatisticComponent,
     lichsunhapxuatComponent,
+    NhapHangComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

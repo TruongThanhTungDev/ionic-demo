@@ -15,6 +15,7 @@ import { StatiscalCostComponent } from '../pages/statiscal-cost/statiscal-cost.c
 import { OrderComponent } from '../pages/order/order.component';
 import { OrderStatisticComponent } from '../pages/statiscal-order/order-statistic.component';
 import { lichsunhapxuatComponent } from '../pages/kho/lich-su-xuat-nhap/lich-su-nhap-xuat.component';
+import { NhapHangComponent } from '../pages/kho/nhap-hang/nhap-hang.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -86,5 +87,9 @@ export const LayoutRoutes: Routes = [
   {
     path: 'kho/lich-su-nhap-xuat',
     component: lichsunhapxuatComponent,
+  },
+  {
+    path: 'kho/nhap-hang',
+    component: NhapHangComponent,
   },
 ];

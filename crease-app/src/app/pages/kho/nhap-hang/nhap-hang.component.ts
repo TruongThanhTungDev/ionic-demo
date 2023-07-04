@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 import { OPERATIONS, ROLE } from 'src/app/app.constant';
-import { Plugin } from 'src/app/shared/utils/plugins';
 import {
   ActionSheetController,
   LoadingController,
@@ -14,43 +13,49 @@ import { Store, select } from '@ngrx/store';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as dayjs from 'dayjs';
 import * as moment from 'moment';
-
+import { XulyPhieuNhapComponent } from 'src/app/shared/popup/them-sua-kho/them-sua-phieu-nhap/xu-ly-phieu-nhap.component';
 @Component({
-  selector: 'lichsunhapxuat-component',
-  templateUrl: './lich-su-nhap-xuat.component.html',
+  selector: 'nhaphang-component',
+  templateUrl: './nhap-hang.component.html',
 })
-export class lichsunhapxuatComponent implements OnInit {
+export class NhapHangComponent implements OnInit {
+  @Input() data: any;
+  @Input() title: any;
+  @Input() type: any;
   REQUEST_URL = "/api/v1/bol";
+  REQUEST_URL_SHOP = '/api/v1/shop';
+  REQUEST_URL_ACCOUNT = '/api/v1/account';
   itemsPerPage = 10;
   page = 1;
   totalItems = 0;
   previousPage = 1;
   sort = 'id';
   sortType = true;
-
+  typeModal = 'add';
   source: any;
   dataAdapter: any;
   listData: any;
   info: any;
+  selectedItem: any;
   isToastOpen: any;
   messageToast: any;
-  isBackHeader: any;
+  isOpenDeleteModal = false;
+  isOpenFilterModal = false;
+  isOpenDecentralModal = false;
+  isOpenPhieuNhapHang = false;
+  isOpenModalOpen = false;
   isOpenDatePicker:any;
-  isOpenFilterModal:any;
-  plugins = new Plugin();
-  shop:any;
+  isBackHeader: any;
+  
   khoId:any;
   tenKho:any;
   kho:any;
   nhaCungCap:any;
+  khoType:any;
   nguoiTao:any;
   trangThai:any;
-  type:any;
-  tonghang:any;
-  thongKe: any = {
-    nhap: 0,
-    xuat: 0,
-  };
+  shopCode:any;
+  shop:any;
   dateRange = {
     startDate: dayjs().startOf('month'),
     endDate: dayjs().endOf('month'),
@@ -59,22 +64,25 @@ export class lichsunhapxuatComponent implements OnInit {
     private dmService: DanhMucService,
     private localStorage: LocalStorageService,
     private loading: LoadingController,
+    private modal: ModalController,
     private route: ActivatedRoute,
     private store: Store<any>,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private actionSheetCtrl: ActionSheetController
   ) {
     this.info = this.localStorage.retrieve('authenticationtoken');
     this.store.subscribe((state) => {
       this.isBackHeader = state.common.isBackHeader;
+      this.selectedItem = null;
     });
-    this.shop = this.localStorage.retrieve("shop");
+    this.shopCode = this.localStorage.retrieve('shopCode');
+    this.shop = this.localStorage.retrieve('shop');
     this.khoId = this.localStorage.retrieve("warehouseId");
-   
   }
+  
   ngOnInit(): void {
     this.loadData();
   }
-  
   public filterData() {
     var date = JSON.parse(JSON.stringify(this.dateRange));
     let startDate = moment(date.startDate).format('YYYYMMDD') ;
@@ -84,9 +92,6 @@ export class lichsunhapxuatComponent implements OnInit {
       `createAt>=${startDate};createAt<=${endDate};shop.code==`+
       this.shop.code
     );
-    if (this.tenKho) {
-      filter.push(`warehouse.name=="*${this.tenKho.trim()}*"`);
-    }
     if (this.khoId) {
       filter.push(`warehouse.id==${this.khoId}`);
     }
@@ -98,13 +103,16 @@ export class lichsunhapxuatComponent implements OnInit {
     }
     if (this.trangThai) {
       filter.push(`status==${this.trangThai}`);
-    }
-    if(this.type){
-      filter.push(`type==${this.type}`)
+    } 
+    if(this.khoType){
+      filter.push(`type==${this.khoType}`)
     }else{
-      filter.push(`(type==2,type==1)`)
+      filter.push(`(type==1)`)
     }    
     return filter.join(";");
+     
+    
+    
   }
 
   async loadData() {
@@ -146,8 +154,7 @@ export class lichsunhapxuatComponent implements OnInit {
         this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
         console.error();
       }
-    );
-    
+    );    
   }
   customListData(): any {
     for (let i = 0; i < this.listData.length; i++) {
@@ -157,7 +164,13 @@ export class lichsunhapxuatComponent implements OnInit {
       this.loadDataSub(this.listData[i].boLDetailList, i);
     }
   }
-
+  refreshData() {
+    this.dateRange = {
+      startDate: dayjs().startOf('month'),
+      endDate: dayjs().endOf('month'),
+    };
+    this.loadData();
+  }
   loadDataSub(list: any, i: any): void {
     this.listData[i].soMauMa = list.length;
     let tongSoHang = 0;
@@ -175,14 +188,6 @@ export class lichsunhapxuatComponent implements OnInit {
     this.listData[i].conTrongKho = conTrongKho;
     this.listData[i].tongSoTien = tongSoTien;
   }
-  refreshData() {
-    this.dateRange = {
-      startDate: dayjs().startOf('month'),
-      endDate: dayjs().endOf('month'),
-    };
-    this.loadData();
-  }
-  
   async isLoading() {
     const isLoading = await this.loading.create({
       spinner: 'circles',
@@ -200,23 +205,6 @@ export class lichsunhapxuatComponent implements OnInit {
     this.dateRange.endDate = event.endDate;
     this.loadData();
   }
-
-  changePagination(e: any) {
-    this.page = e;
-    this.loadData();
-  }
-  openModalFilter(isOpen: boolean) {
-    this.isOpenFilterModal = isOpen;
-    if (!isOpen) {
-      this.loadData();
-    }
-    
-  }
-  async getFilter() {
-    await this.loadData();
-    this.isOpenFilterModal = false;
-  }
-  
   public convertStatus(status: any) {
     if(status===0) {
         return 'Mới';
@@ -235,15 +223,51 @@ export class lichsunhapxuatComponent implements OnInit {
   }
     return status;
   }
-  public convertType(type: any) {
-    if(type===1) {
-        return 'Nhập hàng';
-    }
-    else if(type===2){
-        return 'Xuất hàng';
-    }
-    return type;
+  changePagination(e: any) {
+    this.page = e;
+    this.loadData();
   }
-  
+  async addPhieuNhap() {
+    const modal = await this.modal.create({
+      component: XulyPhieuNhapComponent,
+      componentProps: {
+        title: 'Nhập hàng',
+        data: null,
+        type: 'add',
+      },
+      
+      backdropDismiss: false,
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.loadData();
+    }
+  }
+  async editInfoPhieuNhap(item: any) {
+    const modal = await this.modal.create({
+      component: XulyPhieuNhapComponent,
+      componentProps: {
+        title: 'Nhập hàng',
+        data: item,
+        type: 'edit',
+      },
+      
+      backdropDismiss: false,
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.loadData();
+    }
+  }
+  selectItem(item: any) {
+    if (this.selectedItem && this.selectedItem.id === item.id) {
+      this.selectedItem = null;
+    } else {
+      this.selectedItem = item;
+    }
+  }
+
   
 }

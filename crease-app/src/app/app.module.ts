@@ -26,7 +26,7 @@ import { ThemSuaCostTypeComponent } from './shared/popup/them-sua-loai-chi-phi/t
 import { ThemSuaCostRecord } from './shared/popup/them-sua-ban-ghi-chi-phi/them-sua-ban-ghi-chi-phi-component';
 import { ThemSuaUtmComponent } from './shared/popup/them-sua-utm/them-sua-utm.component';
 import { ThemSuaCostMarketing } from './shared/popup/them-sua-cost-marketing/them-sua-cost-marketing.component';
-import { ThemSuaKhoComponent } from './shared/popup/them-sua-kho/them-sua-kho.component';
+import { ThemSuaKhoComponent } from './shared/popup/them-sua-kho/them-sua-kho/them-sua-kho.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { CheckInComponent } from './shared/popup/check-in/check-in.component';
 import { CheckOutComponent } from './shared/popup/check-out/check-out.component';
@@ -37,6 +37,7 @@ import { ThongTinDiaChiOrder } from './shared/popup/xu-ly-order/thong-tin-dia-ch
 import { PhanQuyenKhoComponent } from './shared/popup/them-sua-kho/phan-quyen-kho/phan-quyen-kho.component';
 import { ThongTinGhiChuOrderComponent } from './shared/popup/xu-ly-order/thong-tin-ghi-chu/thong-tin-ghi-chu.component';
 import { ThongTinDonHangOrder } from './shared/popup/xu-ly-order/thong-tin-don-hang/thong-tin-don-hang.component';
+import { XulyPhieuNhapComponent } from './shared/popup/them-sua-kho/them-sua-phieu-nhap/xu-ly-phieu-nhap.component';
 @NgModule({
   declarations: [
     OnlyNumberDirective,
@@ -57,6 +58,7 @@ import { ThongTinDonHangOrder } from './shared/popup/xu-ly-order/thong-tin-don-h
     PhanQuyenKhoComponent,
     ThongTinGhiChuOrderComponent,
     ThongTinDonHangOrder,
+    XulyPhieuNhapComponent,
   ],
   imports: [
     HttpClientModule,
