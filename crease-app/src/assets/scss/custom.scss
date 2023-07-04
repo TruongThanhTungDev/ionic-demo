@@ -195,6 +195,11 @@ ion-content::part(background) {
   i {
     width: 10px;
   }
+  .ng-value-label {
+    position: absolute;
+    top: 0;
+    left: 12px;
+  }
 }
 
 /*--------Ionic search bar----------*/

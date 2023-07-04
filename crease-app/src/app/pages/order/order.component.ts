@@ -91,22 +91,11 @@ export class OrderComponent implements OnInit {
             this.listData = res.body.RESULT.content.map((item: any) => {
               return {
                 ...item,
-                date: moment(item.date).format('HH:mm:ss DD/MM/YYYY'),
+                date: moment(item.date, 'YYYYMMDDHHmmss').format(
+                  'HH:mm:ss DD/MM/YYYY'
+                ),
                 dataInfo: item.dataInfo ? JSON.parse(item.dataInfo) : null,
-                productIds: JSON.parse(item.productIds).map((el: any) => {
-                  return {
-                    ...el,
-                    product: {
-                      ...el.product,
-                      product: {
-                        ...el.product.product,
-                        properties: el.product.product.properties
-                          ? JSON.parse(el.product.product.properties)
-                          : null,
-                      },
-                    },
-                  };
-                }),
+                productIds: JSON.parse(item.productIds),
               };
             });
           } else {

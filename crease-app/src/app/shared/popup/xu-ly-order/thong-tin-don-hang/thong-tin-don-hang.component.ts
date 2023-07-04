@@ -1,5 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 import { Plugin } from 'src/app/plugins/plugins';
@@ -24,14 +25,18 @@ export class ThongTinDonHangOrder implements OnInit {
   cogsField = 0;
   discount = 0;
   deliveryFee = 0;
+  selectedProduct: any;
   info: any;
+  configInfo: any;
   plugins = new Plugin();
   REQUEST_SUB_PRODUCT_URL = '/api/v1/sub-product';
+  REQUEST_CONFIG_URL = '/api/v1/config';
   isToastOpen = false;
   messageToast: any;
   constructor(
     private dmService: DanhMucService,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private loading: LoadingController
   ) {
     this.info = this.localStorage.retrieve('authenticationToken');
   }
@@ -45,7 +50,8 @@ export class ThongTinDonHangOrder implements OnInit {
   get disableInput() {
     return this.info.role === 'admin' && this.status === 8;
   }
-  public loadDataProduct() {
+  public async loadDataProduct() {
+    await this.isLoading();
     this.dmService
       .getOption(
         null,
@@ -56,9 +62,11 @@ export class ThongTinDonHangOrder implements OnInit {
       )
       .subscribe(
         (res: HttpResponse<any>) => {
+          this.loading.dismiss();
           this.listProduct = res.body.RESULT.content;
         },
         () => {
+          this.loading.dismiss();
           console.error();
         }
       );
@@ -66,20 +74,21 @@ export class ThongTinDonHangOrder implements OnInit {
   onChangeQuantityClick(index: number, isPlus: any) {
     if (this.disableInput) return;
     if (isPlus) {
-      this.productOption[index].quantity += 1;
-      this.productOption[index].price +=
-        this.productOption[index].product.price *
-        this.productOption[index].quantity;
-    } else {
-      if (this.productOption[index].quantity == 1) {
-        this.isToastOpen = true;
-        this.messageToast = 'Số lượng phải lớn hơn 0';
-        return;
-      }
-      this.productOption[index].quantity -= 1;
+      this.productOption[index].quantity++;
       this.productOption[index].price =
         this.productOption[index].product.price *
         this.productOption[index].quantity;
+      this.getCost();
+    } else {
+      this.productOption[index].quantity--;
+      if (this.productOption[index].quantity == 0) {
+        this.productOption.splice(index, 1);
+        return;
+      }
+      this.productOption[index].price =
+        this.productOption[index].product.price *
+        this.productOption[index].quantity;
+      this.getCost();
     }
   }
   onChangeQuantity(index: number) {
@@ -91,6 +100,38 @@ export class ThongTinDonHangOrder implements OnInit {
     this.productOption[index].price =
       this.productOption[index].product.price *
       this.productOption[index].quantity;
+    this.getCost();
+  }
+  onChangeProduct(event: any) {
+    this.selectedProduct = event;
+    const item = {
+      price: event.price,
+      product: event,
+      quantity: 1,
+    };
+    this.productOption.push(item);
+    setTimeout(() => {
+      this.selectedProduct = null;
+    }, 200);
+  }
+  public getCost() {
+    let entity = { code: 'CPVC' + this.shopCode };
+    this.dmService
+      .getOption(
+        null,
+        this.REQUEST_CONFIG_URL,
+        '/search?filter=code==' +
+          entity.code +
+          ';status==1&sort=id,asc&size=1&page=0'
+      )
+      .subscribe(
+        (res: HttpResponse<any>) => {
+          this.configInfo = res.body.RESULT.content[0];
+        },
+        () => {
+          console.error();
+        }
+      );
   }
   setOpenToast(open: boolean) {
     this.isToastOpen = open;
@@ -105,9 +146,18 @@ export class ThongTinDonHangOrder implements OnInit {
       products: this.productOption,
       deliveryFee: this.deliveryFee,
       discount: this.discount,
-      cogs: this.cogsField,
+      config: this.configInfo,
     };
     this.editValue.emit(value);
     this.setOpen(false);
+  }
+  public async isLoading() {
+    const isLoading = await this.loading.create({
+      spinner: 'circles',
+      keyboardClose: true,
+      message: 'Đang tải',
+      translucent: true,
+    });
+    return await isLoading.present();
   }
 }

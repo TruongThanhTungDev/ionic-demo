@@ -47,11 +47,18 @@
       <ion-card [hidden]="(optionChart != 1) || (listPieChart && !listPieChart.length)">
         <ion-card-content>
           <div class="chart" id="pie-chart" style="height: 400px;"></div>
+          <div class="fw-bold text-center" style="color: #187CC0">
+            Tổng: {{totalStatus}}
+          </div>
         </ion-card-content>
       </ion-card>
+      <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê Doanh thu</h5>
       <ion-card [hidden]="valueChart && !valueChart.length">
         <ion-card-content>
           <div class="chart" id="chart" style="height: 400px;"></div>
+          <div class="fw-bold text-center" style="color: #187CC0">
+            Tổng: {{totalChart}}
+          </div>
         </ion-card-content>
       </ion-card>
     </div>

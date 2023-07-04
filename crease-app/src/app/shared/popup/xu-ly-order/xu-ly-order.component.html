@@ -7,7 +7,7 @@
     </ion-buttons>
     <ion-title class="text-14px fw-bold">{{ title }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="confirm()" [strong]="true">Lưu</ion-button>
+      <ion-button (click)="saveInfo(data.status)" [strong]="true">Lưu</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -22,15 +22,13 @@
     <div>
       <div class="position-relative w-50 mb-3">
         <select [(ngModel)]="statusOrder" class="form-control">
-          <option *ngIf="!isUser" value="0,1,2,3,4,5,6,9">Tất cả</option>
-          <option *ngIf="!isUser" value="0">Mới</option>
-          <option value="1">Đã tiếp nhận</option>
-          <option value="2">Đang xử lý</option>
-          <option value="3">KNM L1</option>
-          <option value="4">KNM L2</option>
-          <option value="5">KNM L3</option>
-          <option value="6">Thất bại</option>
-          <option value="9">Trùng</option>
+          <option [value]="2">Đang xử lý</option>
+          <option [value]="3">KNM L1</option>
+          <option [value]="4">KNM L2</option>
+          <option [value]="5">KNM L3</option>
+          <option [value]="6">Thất bại</option>
+          <option [value]="7">Thành công</option>
+          <option [value]="9">Trùng</option>
         </select>
         <i class="fa-solid fa-chevron-down position-absolute arrow-input"></i>
       </div>
