@@ -5,7 +5,7 @@
   <ion-content class="ion-padding">
     <div class="mb-1">
       <button *ngIf="info.role === 'user'" class="btn btn-blue text-13px fw-bold" style="margin-right: 6px;"
-        [disabled]="!disableAssignButton" (click)="handleAssginWork()">Giao
+        [disabled]="disableAssignButton" (click)="handleAssginWork()">Giao
         việc ({{listCheck.length || 0}})</button>
       <button *ngIf="isAdmin" class="btn btn-yellow text-13px fw-bold" style="margin-right: 6px;"
         (click)="handleFastAssginWork()">Giao
