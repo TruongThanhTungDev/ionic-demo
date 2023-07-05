@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar mode="md" class="new-toolbar-background">
+    <ion-buttons slot="start">
+      <button class="bg-content rounded-circle" (click)="cancel()">
+        <i class="fa-solid fa-arrow-left" style=" padding: 8px 8px;font-size:20px;margin-right: 6px;color: #2c5fb6"></i>
+      </button>
+    </ion-buttons>
+    <ion-title class="text-14px fw-bold">Giao việc</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="assignWork()" [strong]="true">Lưu</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding w-100">
+  <div class="">
+    <h4 class="bold text-primary">Chọn trạng thái</h4>
+  </div>
+  <div class="form-group form-outline">
+    <select name="" id="" class="form-control" [(ngModel)]="status">
+      <option value="1">Đã tiếp nhận</option>
+      <option value="2">Đang xử lý</option>
+      <option value="3">KNM L1</option>
+      <option value="4">KNM L2</option>
+      <option value="5">KNM L3</option>
+      <option value="6">Thất bại</option>
+      <option *ngIf="!isHideOption" value="8">Đã in đơn</option>
+    </select>
+  </div>
+  <div class="position-relative" *ngFor="let item of listWork">
+    <div class="position-absolute form-check" style="bottom: 0.5rem!important; right:0.5rem; z-index: 10">
+    </div>
+    <ion-card class="mx-0">
+      <ion-card-content>
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="fw-bold">
+            {{item.name}}</h5>
+          <div class="fw-bold text-warning">
+            {{plugins.formatNumber(item.price)}} đ
+          </div>
+        </div>
+        <p class="text-10px">
+          {{item.date}}</p>
+        <p class="text-primary text-10px text-secondary mb-2">
+          <span class="fw-bold">Số điện thoại:</span> {{item.phone}}
+        </p>
+        <button *ngIf="item.status === 0" class="btn btn-sm btn-primary text-13px fw-bold">Mới</button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+    (didDismiss)="setOpen(false)"></ion-toast>
+</ion-content>

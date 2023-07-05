@@ -21,7 +21,7 @@ export class ThongTinDonHangOrder implements OnInit {
   @Input() shopCode: any;
   @Input() status: any;
   listProduct: any;
-  productOption: any;
+  productOption: any[] = [];
   cogsField = 0;
   discount = 0;
   deliveryFee = 0;

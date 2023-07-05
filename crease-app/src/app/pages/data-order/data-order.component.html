@@ -3,13 +3,6 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-content class="ion-padding">
-    <div class="mb-1" *ngIf="isAdmin">
-      <button *ngIf="info.role === 'user'" class="btn btn-blue text-13px fw-bold" style="margin-right: 6px;"
-        [disabled]="enabledAssignButton">Giao
-        việc (0)</button>
-      <button class="btn btn-yellow text-13px fw-bold" style="margin-right: 6px;">Giao việc nhanh</button>
-      <button *ngIf="!isBackHeader" class="btn btn-success text-13px fw-bold" (click)="handleSelect()">Chọn</button>
-    </div>
     <div class="mb-3 d-flex align-items-center">
       <button class="btn btn-primary col-4 text-13px" (click)="refreshData()">
         <i class="fa fa-refresh"></i>

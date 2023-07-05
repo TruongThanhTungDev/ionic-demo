@@ -7,6 +7,7 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 import { Plugin } from 'src/app/plugins/plugins';
 import { GiaoViecNhanhPopup } from 'src/app/shared/popup/giao-viec-nhanh/giao-viec-nhanh.component';
+import { GiaoViecOrder } from 'src/app/shared/popup/giao-viec/giao-viec.component';
 import { XuLyOrderComponent } from 'src/app/shared/popup/xu-ly-order/xu-ly-order.component';
 
 @Component({
@@ -50,23 +51,17 @@ export class OrderComponent implements OnInit {
   get isAdmin() {
     return this.info.role === 'admin';
   }
-  get enabledAssignButton() {
-    const result = this.listCheck.every((item) => {
-      return (
-        item.status === 6 ||
-        item.status === 7 ||
-        item.status === 8 ||
-        item.status === 9 ||
-        item.status === 10 ||
-        item.status === 11
-      );
-    });
-    return this.listCheck.length && result;
+  get disableAssignButton() {
+    const result = this.listCheck.every((item) => item.status == 0);
+    return !this.listCheck.length || (this.listCheck.length && !result);
   }
   ngOnInit() {
     this.loadData();
     this.store.subscribe((state) => {
       this.isBackHeader = state.common.isBackHeader;
+      if (!this.isBackHeader) {
+        this.listCheck = [];
+      }
     });
   }
 
@@ -148,6 +143,7 @@ export class OrderComponent implements OnInit {
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm') {
       this.loadData();
+      this.listCheck = [];
     }
   }
 
@@ -156,6 +152,21 @@ export class OrderComponent implements OnInit {
       component: GiaoViecNhanhPopup,
       componentProps: {
         shopCode: this.shopCode,
+      },
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.loadData();
+    }
+  }
+
+  async handleAssginWork() {
+    const modal = await this.modal.create({
+      component: GiaoViecOrder,
+      componentProps: {
+        shopCode: this.shopCode,
+        listWork: this.listCheck,
       },
     });
     modal.present();

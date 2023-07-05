@@ -8,6 +8,7 @@ import {
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 import { Plugin } from '../../utils/plugins';
+import * as moment from 'moment';
 
 @Component({
   selector: 'giao-viec-nhanh',
@@ -19,8 +20,8 @@ export class GiaoViecNhanhPopup implements OnInit {
   REQUEST_DATA_URL = '/api/v1/data';
   REQUEST_WORK_URL = '/api/v1/work';
   listWork: any[] = [];
-  listEmployee: any;
-  listSelect: any[] = [];
+  listEmployee: any[] = [];
+  listUserSelect: any[] = [];
   listWorkSelected: any[] = [];
   selectedUser: any;
   totalWork = 0;
@@ -32,7 +33,6 @@ export class GiaoViecNhanhPopup implements OnInit {
     private modal: ModalController,
     private dmService: DanhMucService,
     private loading: LoadingController,
-    private actionSheetCtrl: ActionSheetController,
     private localStorage: LocalStorageService
   ) {}
   get checkAll() {
@@ -46,7 +46,7 @@ export class GiaoViecNhanhPopup implements OnInit {
       this.messageToast = 'Phải chọn ít nhất một đơn hàng';
       return false;
     }
-    if (!this.listSelect.length) {
+    if (!this.listUserSelect.length) {
       this.isToastOpen = true;
       this.messageToast = 'Phải chọn ít nhất một nhân viên';
       return false;
@@ -133,7 +133,7 @@ export class GiaoViecNhanhPopup implements OnInit {
       (item: any) => item.id === event.id
     );
     if (index !== -1) {
-      this.listSelect.push(event);
+      this.listUserSelect.push(event);
       this.customDataSelect();
       this.listEmployee.splice(index, 1);
       this.listEmployee = this.listEmployee.map((item: any) => item);
@@ -143,28 +143,32 @@ export class GiaoViecNhanhPopup implements OnInit {
     }, 200);
   }
   removeUser(user: any) {
-    const index = this.listSelect.findIndex((item: any) => item.id === user.id);
+    const index = this.listUserSelect.findIndex(
+      (item: any) => item.id === user.id
+    );
     if (index !== -1) {
-      this.listSelect.splice(index, 1);
+      this.listUserSelect.splice(index, 1);
       this.customDataSelect();
       this.listEmployee.push(user);
     }
   }
   customDataSelect() {
     const phanNguyen = Math.floor(
-      this.listWorkSelected.length / this.listSelect.length
+      this.listWorkSelected.length / this.listUserSelect.length
     );
-    const phanDu = this.listWorkSelected.length % this.listSelect.length;
-    this.listSelect = this.listSelect.map((item: any, index: number) => {
-      let soLuong = phanNguyen;
-      if (index < phanDu) {
-        soLuong++;
+    const phanDu = this.listWorkSelected.length % this.listUserSelect.length;
+    this.listUserSelect = this.listUserSelect.map(
+      (item: any, index: number) => {
+        let soLuong = phanNguyen;
+        if (index < phanDu) {
+          soLuong++;
+        }
+        return {
+          ...item,
+          totalWork: soLuong ? soLuong : 0,
+        };
       }
-      return {
-        ...item,
-        totalWork: soLuong ? soLuong : 0,
-      };
-    });
+    );
   }
   getCheckAll() {
     if (!this.checkAll) {
@@ -187,14 +191,49 @@ export class GiaoViecNhanhPopup implements OnInit {
   }
   assignWork() {
     if (this.isValid) {
-      const listWorkAssign = this.listWork.slice(0, this.totalWork);
-      const phanNguyen = Math.floor(
-        listWorkAssign.length / this.listSelect.length
-      );
-      console.log('phanNguyen :>> ', phanNguyen);
+      let index = 0;
+      const listAssign = [...this.listWorkSelected];
+      this.listUserSelect.forEach((employee: any) => {
+        const totalWork = employee.totalWork;
+        const nhanVienId = employee.account.id;
+        for (let i = index; i < index + totalWork; i++) {
+          if (i >= listAssign.length) break;
+          listAssign[i].nhanVienId = nhanVienId;
+          listAssign[i].dateChanged = moment(new Date()).format(
+            'YYYYMMDDHHmmss'
+          );
+          listAssign[i].dateChangedOnly = moment(new Date()).format('YYYYMMDD');
+          listAssign[i].status =
+            listAssign[i].status === 0 ? 1 : listAssign[i].status;
+        }
+        index += totalWork;
+      });
+      this.saveInfo(listAssign);
     }
   }
-  saveInfo() {}
+  saveInfo(list: any) {
+    const entity = {
+      dataList: list,
+    };
+    this.dmService
+      .postOption(entity, this.REQUEST_DATA_URL, '/assignWork')
+      .subscribe(
+        (res: HttpResponse<any>) => {
+          if (res.body.CODE === 200) {
+            this.isToastOpen = true;
+            this.messageToast = 'Giao việc thành công!';
+            this.confirm();
+          } else {
+            this.isToastOpen = true;
+            this.messageToast = 'Giao việc thất bại!';
+          }
+        },
+        (error: any) => {
+          this.isToastOpen = true;
+          this.messageToast = 'Đã có lỗi xảy ra!';
+        }
+      );
+  }
   setOpen(open: boolean) {
     this.isToastOpen = open;
   }
