@@ -201,6 +201,11 @@ ion-content::part(background) {
     left: 12px;
   }
 }
+.custom-label {
+  .ng-value-label {
+    top: 10px !important;
+  }
+}
 
 /*--------Ionic search bar----------*/
 .search-bar {

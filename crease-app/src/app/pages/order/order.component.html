@@ -6,8 +6,9 @@
     <div class="mb-1" *ngIf="isAdmin">
       <button *ngIf="info.role === 'user'" class="btn btn-blue text-13px fw-bold" style="margin-right: 6px;"
         [disabled]="enabledAssignButton">Giao
-        việc (0)</button>
-      <button class="btn btn-yellow text-13px fw-bold" style="margin-right: 6px;">Giao việc nhanh</button>
+        việc ({{listCheck.length || 0}})</button>
+      <button class="btn btn-yellow text-13px fw-bold" style="margin-right: 6px;" (click)="handleFastAssginWork()">Giao
+        việc nhanh</button>
       <button *ngIf="!isBackHeader" class="btn btn-success text-13px fw-bold" (click)="handleSelect()">Chọn</button>
     </div>
     <div class="mb-3 d-flex align-items-center">
@@ -71,13 +72,13 @@
       <ion-segment *ngIf="!isBackHeader;else elseFooter" class="w-100" color="dark" value="order">
         <ion-segment-button value="utm" routerLink="/data"
           style="border: none;font-size: 10px; width: 33.33%;  background: #035287;">
-          <ion-label text-wrap class="fw-bold text-white">Đơn hàng</ion-label>
+          <ion-label text-wrap class="fw-bold text-white">Order</ion-label>
         </ion-segment-button>
         <ion-segment-button value="data" routerLink="/data-after-order" style="font-size: 10px;width: 33.33%;">
-          <ion-label text-wrap class="fw-bold">Danh sách hàng hoàn</ion-label>
+          <ion-label text-wrap class="fw-bold">Đơn hàng</ion-label>
         </ion-segment-button>
         <ion-segment-button value="cost" routerLink="/notF" style="width: 33.33%;font-size: 10px;">
-          <ion-label text-wrap class="fw-bold">Đã in đơn</ion-label>
+          <ion-label text-wrap class="fw-bold">Danh sách hàng hoàn</ion-label>
         </ion-segment-button>
       </ion-segment>
       <ng-template #elseFooter>

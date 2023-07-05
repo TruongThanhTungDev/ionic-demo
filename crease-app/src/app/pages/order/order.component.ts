@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 import { Plugin } from 'src/app/plugins/plugins';
+import { GiaoViecNhanhPopup } from 'src/app/shared/popup/giao-viec-nhanh/giao-viec-nhanh.component';
 import { XuLyOrderComponent } from 'src/app/shared/popup/xu-ly-order/xu-ly-order.component';
 
 @Component({
@@ -134,7 +135,6 @@ export class OrderComponent implements OnInit {
     });
   }
   async handleViewInfoOrder(item: any) {
-    console.log('item :>> ', item);
     const modal = await this.modal.create({
       component: XuLyOrderComponent,
       componentProps: {
@@ -142,6 +142,20 @@ export class OrderComponent implements OnInit {
         data: item,
         shopCode: this.shopCode,
         type: 'edit',
+      },
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.loadData();
+    }
+  }
+
+  async handleFastAssginWork() {
+    const modal = await this.modal.create({
+      component: GiaoViecNhanhPopup,
+      componentProps: {
+        shopCode: this.shopCode,
       },
     });
     modal.present();
