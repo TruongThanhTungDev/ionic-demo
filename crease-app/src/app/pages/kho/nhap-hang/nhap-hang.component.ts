@@ -13,7 +13,7 @@ import { Store, select } from '@ngrx/store';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as dayjs from 'dayjs';
 import * as moment from 'moment';
-import { XulyPhieuNhapComponent } from 'src/app/shared/popup/them-sua-kho/them-sua-phieu-nhap/xu-ly-phieu-nhap.component';
+import { XulyPhieuNhapComponent } from 'src/app/shared/popup/them-sua-kho/them-sua-phieu-nhap/xu-ly-phieu-nhap/xu-ly-phieu-nhap.component';
 @Component({
   selector: 'nhaphang-component',
   templateUrl: './nhap-hang.component.html',
