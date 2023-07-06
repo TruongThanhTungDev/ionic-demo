@@ -76,6 +76,7 @@ export class XulyPhieuNhapComponent implements OnInit {
   
   async editPhieuNhap(open: any) {
     this.isShowPhieuNhap = open;
+    
   }
   handleEditPhieuNhap(value: any) {
     this.createAt = value.createAt;
@@ -84,6 +85,7 @@ export class XulyPhieuNhapComponent implements OnInit {
     this.discount = value.discount;
     this.note= value.note;
     this.isShowPhieuNhap = value.isOpen;
+    console.log(this.isShowPhieuNhap)
   }
   setOpen(isOpen: boolean) {
     this.isToastOpen = isOpen;
