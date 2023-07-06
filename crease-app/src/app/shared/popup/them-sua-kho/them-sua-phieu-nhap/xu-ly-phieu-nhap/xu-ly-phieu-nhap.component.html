@@ -19,7 +19,7 @@
                 <div class="mb-3">
                   <h6 class="text-secondary fw-bold">{{id}}</h6>
                   <h6 class="fw-bold">
-                    Người tạo: {{creatorName}} 
+                    Người tạo: {{creatorName ? creatorName: this.info.fullName}} 
                   </h6>
                 </div>
               </div> 
@@ -45,7 +45,7 @@
                             Thông tin phiếu nhập 
                           </div>
                           <div>
-                            <i class="fa fa-pen"></i>
+                            <i class="fa fa-pen" (click)="editPhieuNhap(true)"></i>
                           </div>
                         </div>
                       </ion-card-title>
@@ -76,7 +76,10 @@
                           <ng-container>{{note ? note :''}}</ng-container>
                         </div>
                       </div>
-                    </ion-card-content>
+                    <thong-tin-phieu-nhap [createAt]="createAt" [estimatedReturnDate]="estimatedReturnDate" [tranportFee]="tranportFee" [discount]="discount" [note]="note"
+                     [isModalOpen]="isShowPhieuNhap" (handleOpenModal)="editPhieuNhap($event)"
+                    (editValue)="handleEditPhieuNhap($event)"></thong-tin-phieu-nhap>
+                    </ion-card-content>                    
                   </ion-card>
                   <ion-card>
                     <ion-card-header style="padding-bottom: 7px">
@@ -94,20 +97,49 @@
                         </div>
                       </div>
                       <div class="row mt-3">
-                        <div class="col-12 col-md-8 offset-md-2">
-                          <table class="table">
-                            <tbody>
-                              <tr>
-                                <td>
-                                  <ion-avatar slot="start" style="width: 20px;height: 20px; margin-right:0px">
-                                    <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-                                  </ion-avatar>
-                                </td>
-                                <td ></td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
+                         <div  *ngFor="let item of subProductList">
+                            <div class="row">
+                              <div class="col-6 d-flex align-items-center" style="font-size: 16px"> {{item.subProduct ? item.subProduct.product.name:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-6 d-flex align-items-center justify-content-between" style="border: 1px solid #006EB9;font-size: 10px; padding:0px">
+                                <div class="col-6 align-items-center" style="background-color:#006EB9;color:#FFFFFF">
+                                 <ng-container> {{item.subProduct?item.subProduct.product.code:''}}</ng-container>
+                                </div>
+                                <div class="col-6 align-items-center" style=";">
+                                 <ng-container>{{item.subProduct?item.subProduct.code:''}}</ng-container>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 d-flex align-items-center" style="font-size: 10px"> Thuộc tính:
+                                  <ng-container>{{item.subProduct?item.subProduct.properties:''}}</ng-container>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 d-flex align-items-center" style="font-size: 10px">Kho:
+                                  <ng-container>{{item.subProduct?item.subProduct.warehouse.name:''}}</ng-container>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 d-flex align-items-center" style="font-size: 10px">Tổng:
+                                  <ng-container>{{item.price && item.totalQuantity ? item.price * item.totalQuantity
+                                  : 0}}</ng-container>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <div class="mr-3 col-4">Có thể bán:
+                                <ng-container>{{item?item.availableQuantity :''}}</ng-container>
+                              </div>
+                              <div class="mr-3 col-4">Số lượng:
+                                 <ng-container>{{item?item.totalQuantity :''}}</ng-container>
+                              </div>
+                              <div class="mr-3 col-4">Giá nhập:
+                                <ng-container>{{item?item.price :''}}</ng-container>
+                              </div>
+                            </div>
+                          </div>
                       </div>
                     </ion-card-content>
                   </ion-card>

@@ -5,7 +5,7 @@
     </ion-refresher>
        
     <div class="mb-3 d-flex align-items-center">
-      <button class="btn btn-sm" style="background-color: #46C851;">
+      <button class="btn btn-sm" style="background-color: #46C851;" (click)="addPhieuNhap()">
        <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
       </button>
       <button class="btn btn-primary col-3" style="font-size:13px; padding: 5px 0px ;margin-left:6px" (click)="refreshData()">
@@ -16,14 +16,14 @@
     </div>
     <div *ngIf="listData && listData.length; else elseBlock" class="position-relative">
       <div class="position-relative"
-        *ngFor=" let item of listData | paginate : { itemsPerPage: 10, currentPage: page, totalItems }">
+        *ngFor=" let item of listData | paginate : { itemsPerPage: 10, currentPage: page, totalItems }; index as i">
         <ion-card [class]="selectedItem && selectedItem.id === item.id ? 'card-active' : ''"
           (click)="isBackHeader ? selectItem(item) : editInfoPhieuNhap(item)">
         <ion-card-content>
             <div class="row fw-bold d-flex align-items-start" style="margin-bottom:10px">
               <div class="col-8">
                 <div class="row d-flex flex-column" style="text-align: start; font-size: 9px;">
-                  <div>ID: {{item.id}}</div>
+                  <div>ID: {{('000'+ i + 1).slice(-3)}}</div>
                   <div>{{item.creatorName}}</div>
                   <div>Kho: {{item.warehouseName}} | Nhà cung cấp: {{item.supplierInfo}}</div>
                 </div>

@@ -37,9 +37,10 @@ import { ThongTinDiaChiOrder } from './shared/popup/xu-ly-order/thong-tin-dia-ch
 import { PhanQuyenKhoComponent } from './shared/popup/them-sua-kho/phan-quyen-kho/phan-quyen-kho.component';
 import { ThongTinGhiChuOrderComponent } from './shared/popup/xu-ly-order/thong-tin-ghi-chu/thong-tin-ghi-chu.component';
 import { ThongTinDonHangOrder } from './shared/popup/xu-ly-order/thong-tin-don-hang/thong-tin-don-hang.component';
-import { XulyPhieuNhapComponent } from './shared/popup/them-sua-kho/them-sua-phieu-nhap/xu-ly-phieu-nhap.component';
+import { XulyPhieuNhapComponent } from './shared/popup/them-sua-kho/them-sua-phieu-nhap/xu-ly-phieu-nhap/xu-ly-phieu-nhap.component';
 import { GiaoViecOrder } from './shared/popup/giao-viec/giao-viec.component';
 import { GiaoViecNhanhPopup } from './shared/popup/giao-viec-nhanh/giao-viec-nhanh.component';
+import { ThemThongTinPhieuNhapComponent } from './shared/popup/them-sua-kho/them-sua-phieu-nhap/them-thong-tin-phieu-nhap/them-thong-tin-phieu-nhap.component';
 @NgModule({
   declarations: [
     OnlyNumberDirective,
@@ -63,6 +64,7 @@ import { GiaoViecNhanhPopup } from './shared/popup/giao-viec-nhanh/giao-viec-nha
     XulyPhieuNhapComponent,
     GiaoViecOrder,
     GiaoViecNhanhPopup,
+    ThemThongTinPhieuNhapComponent,
   ],
   imports: [
     HttpClientModule,
