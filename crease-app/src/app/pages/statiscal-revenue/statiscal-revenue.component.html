@@ -74,18 +74,36 @@
   </ion-content>
   <ion-footer [translucent]="true" *ngIf="info.role ==='admin'">
     <ion-toolbar mode="md" class="footer-container">
-      <ion-segment class="w-100" color="dark" value="revenue">
-        <ion-segment-button value="utm" routerLink="/utm-statistic"
-          style="border: none;font-size: 10px; width: 33.33%;">
+      <ion-segment [scrollable]="true" color="dark" value="revenue">
+        <ion-segment-button value="utm" routerLink="/utm-statistic" style="border: none;font-size: 10px">
           <ion-label text-wrap class="fw-bold">Thông kê hiệu suất
             marketing</ion-label>
         </ion-segment-button>
         <ion-segment-button value="revenue" routerLink="/statiscal-revenue"
-          style="font-size: 10px;width: 33.33%; background: #035287;">
-          <ion-label text-wrap class="fw-bold text-white">Thống kê doanh thu</ion-label>
+          style="font-size: 10px;;background: #035287;">
+          <ion-label class="fw-bold text-white">Thống kê doanh thu</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="cost" routerLink="/statiscal-cost" style="width: 33.33%;font-size: 10px;">
-          <ion-label text-wrap class="fw-bold">Thống kê chi phí</ion-label>
+        <ion-segment-button value="cost" routerLink="/statiscal-cost" style="font-size: 10px;">
+          <ion-label class="fw-bold">Thống kê chi phí</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="statistic-performance-sale" routerLink="/statistic-performance-sale"
+          style="font-size: 10px;">
+          <ion-label class="fw-bold">Thống kê hiệu suất sale</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="statistic-order" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Thống kê đơn hàng</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="statistic-product" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Thống kê sản phẩm</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="statistic-shipping" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Thống kê vận chuyển</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="calllogs" routerLink="/calllogs" style="font-size:10px">
+          <ion-label class="fw-bold">Thống kê cuộc gọi</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="total-cost" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Tài chính tổng hơp</ion-label>
         </ion-segment-button>
       </ion-segment>
     </ion-toolbar>

@@ -1,0 +1,69 @@
+.utm-card {
+  border-radius: 6px;
+}
+div[slot="content"] {
+  background: #ffc3c3 !important;
+}
+ion-item[slot="header"] {
+  --background: #ffffff;
+}
+
+ion-item::part(native) {
+  border-color: #fff;
+}
+.custom-icon {
+  color: #006eb9;
+}
+
+.show-mvp {
+  animation: slideRight 0.3s ease-in-out;
+}
+.show-statistic {
+  animation: slideLeft 0.3s ease-in-out;
+}
+
+@keyframes slideRight {
+  0% {
+    transform: translateX(150%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin-bottom: 6px;
+  &_mvp {
+    background: rgb(255, 236, 64);
+  }
+  &_silver {
+    background: #a7b1c9;
+  }
+  &_cu {
+    background: #d89244;
+  }
+}
+.border-mvp {
+  border: 6px solid rgb(255, 236, 64);
+}
+.border-silver {
+  border: 6px solid #a7b1c9;
+}
+.border-cu {
+  border: 6px solid #d89244;
+}
+
+@keyframes slideLeft {
+  0% {
+    transform: translateX(-150%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

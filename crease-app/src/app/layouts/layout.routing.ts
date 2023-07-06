@@ -17,6 +17,7 @@ import { OrderStatisticComponent } from '../pages/statiscal-order/order-statisti
 import { lichsunhapxuatComponent } from '../pages/kho/lich-su-xuat-nhap/lich-su-nhap-xuat.component';
 import { NhapHangComponent } from '../pages/kho/nhap-hang/nhap-hang.component';
 import { DataOrderComponent } from '../pages/data-order/data-order.component';
+import { UtmStatisticSaleComponent } from '../pages/utm-statistic-sale/utm-statistic-sale.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -96,5 +97,9 @@ export const LayoutRoutes: Routes = [
   {
     path: 'data-after-order',
     component: DataOrderComponent,
+  },
+  {
+    path: 'statistic-performance-sale',
+    component: UtmStatisticSaleComponent,
   },
 ];
