@@ -4,7 +4,8 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <div class="mb-3 d-flex align-items-center">
-      <button class="btn btn-primary col-4" style="font-size:13px; padding: 7px 0px ;margin-left:12px" (click)="refreshData()">
+      <button class="btn btn-primary col-4" style="font-size:13px; padding: 7px 0px ;margin-left:12px"
+        (click)="refreshData()">
         <i class="fa fa-refresh"></i>
         Làm mới
       </button>
@@ -29,7 +30,7 @@
               </div>
               <div class="col-3">
                 <div class="text-end">
-                  <span  style="font-size:10px; margin-right:4px ;color:#187CC0">File ghi âm</span>
+                  <span style="font-size:10px; margin-right:4px ;color:#187CC0">File ghi âm</span>
                 </div>
               </div>
               <div class="col-2" style="margin-top:3px">
@@ -51,7 +52,7 @@
                 <div class="col-5 " style="padding: 0px 14px 0px 0px;" title="">
                   {{ convertDateTime(item.calldate) }}
                 </div>
-                <div class="col-4 " style="adding: 0px 0px 0px 30px;" title="">
+                <div class="col-4 " style="padding: 0px 0px 0px 30px;" title="">
                   {{ item.blacklist }}
                 </div>
               </div>
@@ -71,15 +72,35 @@
   </ion-content>
   <ion-footer [translucent]="true">
     <ion-toolbar mode="md" class="footer-container">
-      <ion-segment color="dark" value="account">
-        <ion-segment-button value="notF" routerLink="/notF">
-          <ion-label class="fw-bold" style="font-size: 8px">Thống kê vận chuyển</ion-label>
+      <ion-segment [scrollable]="true" color="dark" value="calllogs">
+        <ion-segment-button value="utm" routerLink="/utm-statistic" style="border: none;font-size: 10px">
+          <ion-label text-wrap class="fw-bold">Thông kê hiệu suất
+            marketing</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="calllogs" routerLink="/calllogs" style="background: #035287">
-          <ion-label class="fw-bold text-white" style="font-size: 8px">Thống kê cuộc gọi</ion-label>
+        <ion-segment-button value="revenue" routerLink="/statiscal-revenue" style="font-size: 10px;">
+          <ion-label class="fw-bold">Thống kê doanh thu</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="notF" routerLink="/notF">
-          <ion-label class="fw-bold" style="font-size: 8px">Tài chính tổng hợp</ion-label>
+        <ion-segment-button value="cost" routerLink="/statiscal-cost" style="font-size: 10px;">
+          <ion-label class="fw-bold">Thống kê chi phí</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="statistic-performance-sale" routerLink="/statistic-performance-sale"
+          style="font-size: 10px;">
+          <ion-label class="fw-bold">Thống kê hiệu suất sale</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="statistic-order" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Thống kê đơn hàng</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="statistic-product" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Thống kê sản phẩm</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="statistic-shipping" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Thống kê vận chuyển</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="calllogs" routerLink="/calllogs" style="font-size:10px;background: #035287;">
+          <ion-label class="fw-bold text-white">Thống kê cuộc gọi</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="total-cost" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Tài chính tổng hơp</ion-label>
         </ion-segment-button>
       </ion-segment>
     </ion-toolbar>
@@ -110,28 +131,28 @@
       <label>Trạng thái</label>
       <div>
         <div class="form-check form-check-inline">
-          <input [(ngModel)]="status" class="form-check-input" type="radio" name="inlineRadioOptions"
-            id="inlineRadio1" value="">
+          <input [(ngModel)]="status" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+            value="">
           <label class="form-check-label" for="inlineRadio1">Tất cả</label>
         </div>
         <div class="form-check form-check-inline">
-          <input [(ngModel)]="status" class="form-check-input" type="radio" name="inlineRadioOptions"
-            id="inlineRadio1" value="ANSWERED">
+          <input [(ngModel)]="status" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+            value="ANSWERED">
           <label class="form-check-label" for="inlineRadio1">Trả lời</label>
         </div>
         <div class="form-check form-check-inline">
-          <input [(ngModel)]="status" class="form-check-input" type="radio" name="inlineRadioOptions"
-            id="inlineRadio2" value="NO ANSWER">
+          <input [(ngModel)]="status" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+            value="NO ANSWER">
           <label class="form-check-label" for="inlineRadio2">Không trả lời</label>
         </div>
         <div class="form-check form-check-inline">
-          <input [(ngModel)]="status" class="form-check-input" type="radio" name="inlineRadioOptions"
-            id="inlineRadio3" value="BUSY">
+          <input [(ngModel)]="status" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
+            value="BUSY">
           <label class="form-check-label" for="inlineRadio3">Bận</label>
         </div>
         <div class="form-check form-check-inline">
-          <input [(ngModel)]="status" class="form-check-input" type="radio" name="inlineRadioOptions"
-            id="inlineRadio3" value="CONGESTION">
+          <input [(ngModel)]="status" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
+            value="CONGESTION">
           <label class="form-check-label" for="inlineRadio3">Ngoài vùng phỏ sóng</label>
         </div>
       </div>

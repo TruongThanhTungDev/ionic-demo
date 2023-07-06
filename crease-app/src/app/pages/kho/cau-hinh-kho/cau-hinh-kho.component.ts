@@ -11,7 +11,7 @@ import {
 } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ThemSuaKhoComponent } from 'src/app/shared/popup/them-sua-kho/them-sua-kho.component';
+import { ThemSuaKhoComponent } from 'src/app/shared/popup/them-sua-kho/them-sua-kho/them-sua-kho.component';
 import { PhanQuyenKhoComponent } from 'src/app/shared/popup/them-sua-kho/phan-quyen-kho/phan-quyen-kho.component';
 @Component({
   selector: 'cauhinhkho-component',
@@ -248,6 +248,7 @@ export class CauhinhKhoComponent implements OnInit {
         (res: HttpResponse<any>) => {
           if (res.status === 200) {
             this.localData = res.body.RESULT;
+            this.localStorage.store('warehouseId',this.selectedItem.id)
             // this.loading.dismiss();
           } else {
             // this.loading.dismiss();

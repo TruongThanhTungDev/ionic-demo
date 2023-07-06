@@ -9,11 +9,15 @@ import { CostRecordComponent } from '../pages/ban-ghi-chi-phi/ban-ghi-chi-phi.co
 import { CostMarketingComponent } from '../pages/cost-marketing/cost.marketing.component';
 import { CallLogsStatisticComponent } from '../pages/callLogs-statistic/callLogs-statistic.component';
 import { UtmStatisticComponent } from '../pages/utm-statistic-marketing/utm-statistic-marketing.component';
-import { CauhinhKhoComponent } from '../pages/cau-hinh-kho/cau-hinh-kho.component';
+import { CauhinhKhoComponent } from '../pages/kho/cau-hinh-kho/cau-hinh-kho.component';
 import { StatiscalRevenue } from '../pages/statiscal-revenue/statiscal-revenue.component';
 import { StatiscalCostComponent } from '../pages/statiscal-cost/statiscal-cost.component';
 import { OrderComponent } from '../pages/order/order.component';
 import { OrderStatisticComponent } from '../pages/statiscal-order/order-statistic.component';
+import { lichsunhapxuatComponent } from '../pages/kho/lich-su-xuat-nhap/lich-su-nhap-xuat.component';
+import { NhapHangComponent } from '../pages/kho/nhap-hang/nhap-hang.component';
+import { DataOrderComponent } from '../pages/data-order/data-order.component';
+import { UtmStatisticSaleComponent } from '../pages/utm-statistic-sale/utm-statistic-sale.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -81,5 +85,21 @@ export const LayoutRoutes: Routes = [
   {
     path: 'order-shipping',
     component: OrderStatisticComponent,
+  },
+  {
+    path: 'kho/lich-su-nhap-xuat',
+    component: lichsunhapxuatComponent,
+  },
+  {
+    path: 'kho/nhap-hang',
+    component: NhapHangComponent,
+  },
+  {
+    path: 'data-after-order',
+    component: DataOrderComponent,
+  },
+  {
+    path: 'statistic-performance-sale',
+    component: UtmStatisticSaleComponent,
   },
 ];

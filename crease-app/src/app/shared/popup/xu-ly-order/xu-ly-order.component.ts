@@ -4,10 +4,13 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 import { ThongTinKhachHangOrder } from './thong-tin-khach-hang/thong-tin-khach-hang.component';
 import { HttpResponse } from '@angular/common/http';
+import { Plugin } from '../../utils/plugins';
+import * as moment from 'moment';
 
 @Component({
   selector: 'xuLyOder-cmp',
   templateUrl: './xu-ly-order.component.html',
+  styleUrls: ['./xu-ly-order.component.scss'],
 })
 export class XuLyOrderComponent implements OnInit {
   @Input() data: any;
@@ -15,8 +18,13 @@ export class XuLyOrderComponent implements OnInit {
   @Input() type: any;
   @Input() shopCode: any;
   REQUEST_URL_DATA_CONFIG = '/api/v1/dataconfig';
+  REQUEST_PRODUCT_URL = '/api/v1/product';
+  REQUEST_DATA_URL = '/api/v1/data';
   isShowEditInfoCustomer = false;
   isShowEditAddressCustomer = false;
+  isShowEditNoteCustomer = false;
+  isShowEditInfoOrder = false;
+  isShowTracking = false;
   statusOrder = '0,1,2,3,4,5,6,9';
   info: any;
   name: any;
@@ -25,7 +33,23 @@ export class XuLyOrderComponent implements OnInit {
   district: any;
   province: any;
   street: any;
+  product: any;
+  note: any;
+  date: any;
+  price: any;
+  cogs: any;
+  dataOrder: any;
+  status: any;
+  listProduct: any;
+  shippingCode: any;
+  listTracking: any[] = [];
+  totalMoney = 0;
+  totalCost = 0;
+  discount = 0;
+  deliveryFee = 0;
+  config: any;
   cauHinhDonhang: any;
+  plugins = new Plugin();
   isToastOpen = false;
   messageToast: any;
   constructor(
@@ -39,15 +63,77 @@ export class XuLyOrderComponent implements OnInit {
   get isUser() {
     return this.info.role === 'user';
   }
+  get validSuccess() {
+    if (this.listProduct.length == 0) {
+      this.isToastOpen = true;
+      this.messageToast =
+        'Phải chọn sản phẩm trước khi chuyển sang trạng thái thành công!';
+      return false;
+    }
+    if (!this.province) {
+      this.isToastOpen = true;
+      this.messageToast = 'Bạn chưa chọn thông tin Tỉnh/Thành phố';
+      return false;
+    } else if (!this.district) {
+      this.isToastOpen = true;
+      this.messageToast = 'Bạn chưa chọn thông tin Quận/Huyện';
+      return false;
+    } else if (!this.ward) {
+      this.isToastOpen = true;
+      this.messageToast = 'Bạn chưa chọn thông tin Xã/Phường';
+      return false;
+    } else if (!this.street) {
+      this.isToastOpen = true;
+      this.messageToast = 'Bạn chưa nhập thông tin địa chỉ';
+      return false;
+    }
+    return true;
+  }
+  get valid() {
+    if (
+      parseInt(this.discount.toString()) < 0 ||
+      this.discount.toString().length > 15
+    ) {
+      this.isToastOpen = true;
+      this.messageToast =
+        'Giá tiền phải là số dương và không được lớn hơn 15 kí tự!';
+      this.discount = 0;
+      return false;
+    }
+
+    if (this.deliveryFee < 0 || this.deliveryFee.toString().length > 15) {
+      this.isToastOpen = true;
+      this.messageToast =
+        'Giá tiền phải là số dương và không được lớn hơn 15 kí tự!';
+      this.deliveryFee = 0;
+      return false;
+    }
+    return true;
+  }
   ngOnInit() {
-    if (this.type === 'edit') {
+    if (this.data) {
       this.name = this.data.name;
       this.phone = this.data.phone;
       this.statusOrder = this.data.status;
-      this.street = this.data.dataInfo.street;
-      this.ward = this.data.dataInfo.ward;
-      this.province = this.data.dataInfo.province;
-      this.district = this.data.dataInfo.district;
+      this.product = this.data.product;
+      this.date = this.data.date;
+      this.price = this.data.price;
+      this.cogs = this.data.cogs;
+      this.status = this.data.status;
+      this.discount = this.data.discount;
+      this.deliveryFee = this.data.deliveryFee;
+      this.shippingCode = this.data.shippingCode;
+      this.note = this.data.note;
+      if (this.data.dataInfo) {
+        this.street = this.data.dataInfo.street;
+        this.ward = this.data.dataInfo.ward;
+        this.province = this.data.dataInfo.province;
+        this.district = this.data.dataInfo.district;
+      }
+      if (this.data.productIds && this.data.productIds.length) {
+        this.listProduct = this.data.productIds;
+      }
+      this.getTotalMoney();
     }
     // this.loadCauHinhDonHang();
   }
@@ -96,6 +182,215 @@ export class XuLyOrderComponent implements OnInit {
     this.district = value.district;
     this.isShowEditAddressCustomer = value.isOpen;
   }
+  handleEditNote(value: any) {
+    this.note = value.note;
+    this.isShowEditNoteCustomer = false;
+  }
+  editOrder(open: any) {
+    this.isShowEditInfoOrder = open;
+  }
+  handleEditOrder(value: any) {
+    this.listProduct = value.products;
+    this.deliveryFee = parseInt(value.deliveryFee);
+    this.discount = parseInt(value.discount);
+    this.cogs = parseInt(value.cogs);
+    this.getTotalMoney();
+    this.getPrice();
+  }
+  getTotalMoney() {
+    this.totalMoney = this.listProduct.reduce(
+      (sum: any, item: any) => sum + item.price,
+      0
+    );
+  }
+  getPrice() {
+    this.price = this.totalMoney - this.discount + this.deliveryFee;
+  }
+  async saveInfo(status: any) {
+    if (!this.valid) return;
+    if (
+      status === 7 ||
+      status === 6 ||
+      status === 8 ||
+      status === 9 ||
+      status === 10 ||
+      status === 11 ||
+      status === 12
+    ) {
+      this.data.saleId = this.data.saleAccount
+        ? this.data.saleAccount.id
+        : this.info.id;
+    }
+    const dateChanged = parseInt(moment(new Date()).format('YYYYMMDDHHmmss'));
+    const dataInfo = {
+      ...this.data.dataInfo,
+      ward: this.ward,
+      district: this.district,
+      province: this.province,
+      street: this.street,
+    };
+    if (status === 6) {
+      this.data.price = 0;
+    } else if (status === 7 || status === 8 || status === 9) {
+      if (this.validSuccess) {
+        if (!this.data.cost) {
+          if (!this.config) {
+            this.data.cost = 0;
+          } else if (
+            this.data.dateOnly < this.config.fromDate ||
+            this.data.dateOnly > this.config.toDate
+          ) {
+            this.data.cost = this.config.defaultValue;
+          } else {
+            this.data.cost = this.config.value;
+          }
+        }
+        const arr = this.listProduct.map((item: any) => {
+          return {
+            id: item.product.id,
+            quantity: item.quantity,
+          };
+        });
+        const body = { list: arr };
+        this.dmService
+          .postOption(body, this.REQUEST_PRODUCT_URL, '/price-import')
+          .subscribe(
+            (res: HttpResponse<any>) => {
+              if (res.body.CODE == 200) {
+                this.data.totalProductValue = res.body.RESULT.costImport;
+                const payload = {
+                  ...this.data,
+                  date: parseInt(
+                    moment(this.data.date, 'HH:mm:ss DD/MM/YYYY').format(
+                      'YYYYMMDDHHmmss'
+                    )
+                  ),
+                  dateChanged,
+                  name: this.name,
+                  phone: this.phone,
+                  product: this.product,
+                  note: this.note,
+                  dataInfo: JSON.stringify(dataInfo),
+                  productIds: JSON.stringify(this.listProduct),
+                  status,
+                  price: this.price,
+                };
+                this.dmService.update(payload, this.REQUEST_DATA_URL).subscribe(
+                  (res: HttpResponse<any>) => {
+                    if (res.status === 200) {
+                      this.isToastOpen = true;
+                      this.messageToast = res.body.MESSAGE
+                        ? res.body.MESSAGE
+                        : 'Lưu thông tin thành công';
+                      this.totalMoney = 0;
+                      this.deliveryFee = 0;
+                      this.discount = 0;
+                    } else {
+                      this.isToastOpen = true;
+                      this.messageToast = res.body.MESSAGE
+                        ? res.body.MESSAGE
+                        : 'Có lỗi xảy ra, vui lòng thử lại';
+                    }
+                  },
+                  () => {
+                    this.isToastOpen = true;
+                    this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
+                  }
+                );
+              } else {
+                this.isToastOpen = true;
+                this.messageToast = res.body.MESSAGE
+                  ? res.body.MESSAGE
+                  : 'Có lỗi xảy ra, vui lòng thử lại';
+              }
+            },
+            () => {
+              this.isToastOpen = true;
+              this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
+              console.error();
+            }
+          );
+      }
+      return;
+    } else if (status === 10) {
+      if (this.data.cost == null || this.data.cost == 0) {
+        if (!this.config) {
+          this.data.cost = 0;
+        } else if (
+          this.data.dateOnly < this.config.fromDate ||
+          this.data.dateOnly > this.config.toDate
+        ) {
+          this.data.cost = this.config.defaultValue;
+        } else {
+          this.data.cost = this.config.value;
+        }
+      }
+      this.data.cost;
+      this.data.deliveryFee = 0;
+      this.data.discount = 0;
+    } else {
+      this.data.cost = 0;
+      this.data.deliveryFee = 0;
+      this.data.discount = 0;
+    }
+    const payload = {
+      ...this.data,
+      dateChanged,
+      date: parseInt(
+        moment(this.data.date, 'HH:mm:ss DD/MM/YYYY').format('YYYYMMDDHHmmss')
+      ),
+      name: this.name,
+      phone: this.phone,
+      product: this.product,
+      note: this.note,
+      dataInfo: JSON.stringify(dataInfo),
+      productIds: JSON.stringify(this.listProduct),
+      status,
+      price: this.price,
+    };
+    this.dmService.update(payload, this.REQUEST_DATA_URL).subscribe(
+      (res: HttpResponse<any>) => {
+        if (status !== -1) {
+          this.modal.dismiss(null, 'confirm');
+        }
+        this.isToastOpen = true;
+        this.messageToast = res.body.MESSAGE
+          ? res.body.MESSAGE
+          : 'Lưu thông tin thành công';
+      },
+      () => {
+        this.isToastOpen = true;
+        this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
+      }
+    );
+  }
+  async getTracking() {
+    await this.isLoading();
+    this.dmService
+      .get('/api/v1/data/tracking?code=' + this.data.shippingCode)
+      .subscribe(
+        (res: HttpResponse<any>) => {
+          if (res.body) {
+            if (res.body.CODE === 200) {
+              this.loading.dismiss();
+              this.listTracking = res.body.RESULT;
+            } else {
+              this.loading.dismiss();
+              this.isToastOpen = true;
+              this.messageToast = res.body.MESSAGE
+                ? res.body.MESSAGE
+                : 'Có lỗi xảy ra, vui lòng thử lại';
+            }
+          }
+        },
+        () => {
+          this.loading.dismiss();
+          this.isToastOpen = true;
+          this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
+          console.error();
+        }
+      );
+  }
   cancel() {
     this.modal.dismiss();
   }
@@ -113,5 +408,11 @@ export class XuLyOrderComponent implements OnInit {
   }
   setOpen(isOpen: boolean) {
     this.isToastOpen = isOpen;
+  }
+  setShowTracking(show: boolean) {
+    this.isShowTracking = show;
+    if (show) {
+      this.getTracking();
+    }
   }
 }

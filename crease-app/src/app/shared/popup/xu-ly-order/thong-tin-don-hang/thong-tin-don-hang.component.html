@@ -1,0 +1,149 @@
+<ion-card class="mb-3">
+  <ion-card-content>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <div class="d-flex align-items-center">
+        <div class="dot-green" style="margin-right: 6px;"></div>
+        <div class="fw-bold text-16px">
+          Thông tin đơn hàng
+        </div>
+      </div>
+      <div class="text-primary">
+        <i class="fa fa-pen" (click)="setOpen(true)"></i>
+      </div>
+    </div>
+    <div class="text-12px mb-3">
+      <div>
+        {{date}}
+      </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-start mb-3">
+      <div>
+        <h5 class="fw-bold">{{productName}}</h5>
+      </div>
+      <h5 class="fw-bold">{{plugins.formatNumber(price)}}đ</h5>
+    </div>
+    <div class="text-12px text-secondary border-bottom pb-3 mb-3">
+      <div *ngFor="let product of products; index as i" class="row mb-2">
+        <div class="col-6">
+          <div>
+            {{i + 1}} - {{product.product.name}} - {{product.product.product.code}}
+          </div>
+          <div>
+            ({{product.product.properties}})
+          </div>
+        </div>
+        <div class="col-2 text-center">x{{product.quantity}}</div>
+        <div class="col-4 text-end">{{plugins.formatNumber(product.price)}}đ</div>
+      </div>
+    </div>
+    <div>
+      <div class="d-flex justify-content-between align-items-center fw-bold text-12px mb-1">
+        <div>
+          Thành tiền
+        </div>
+        <div>
+          {{plugins.formatNumber(totalMoney)}}đ
+        </div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center fw-bold text-12px mb-1">
+        <div>
+          Giảm giá
+        </div>
+        <div>
+          {{plugins.formatNumber(discount)}}đ
+        </div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center fw-bold text-12px mb-2">
+        <div>
+          Phí ship
+        </div>
+        <div>
+          {{plugins.formatNumber(deliveryFee)}}đ
+        </div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center fw-bold text-12px mb-2">
+        <div>
+          Chi phí hoàn
+        </div>
+        <div>
+          {{plugins.formatNumber(cogs)}}đ
+        </div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center text-primary mb-1">
+        <h2 class="fw-bold">
+          Tổng thanh toán
+        </h2>
+        <h2 class="fw-bold">
+          {{plugins.formatNumber(price)}}đ
+        </h2>
+      </div>
+    </div>
+  </ion-card-content>
+</ion-card>
+<ion-modal [isOpen]="isModalOpen" class="modal-80" (didDismiss)="setOpen(false)" style="--height: 90%">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar mode="md" class="new-toolbar-background">
+        <ion-title class="fw-bold">Thông tin đơn hàng</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="mb-3">
+        <div>
+          <h5 class="fw-bold text-16px">{{productName}}</h5>
+        </div>
+      </div>
+      <div class="text-14px">
+        <div class="text-primary mb-1">
+          <label>Phí ship</label>
+          <input [(ngModel)]="cogs" [(ngModel)]="deliveryFee" onlyNumber type="text" class="form-control">
+        </div>
+        <div class="text-primary mb-1">
+          <label>Giảm giá</label>
+          <input type="text" [(ngModel)]="discount" onlyNumber class="form-control">
+        </div>
+        <div class="row text-primary mb-1 align-items-end justify-content-between mb-3">
+          <div class="col-12 form-group form-outline">
+            <label>Loại sản phẩm</label>
+            <ng-select [multiple]="false" [(ngModel)]="selectedProduct" class="pb-0" [disabled]="disableInput"
+              (change)="onChangeProduct($event)">
+              <ng-option *ngFor="let obj of listProduct" [value]="obj">{{ obj.product ? obj.product.name : "" }} | {{
+                obj.code }} |
+                {{ obj.properties }} | {{ obj ? plugins.formatNumber(obj.price) : 0 }}đ <br />
+                CTB:
+                <span class="text-primary bold">{{ obj.availableQuantity }}</span>
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+        <div class="text-secondary text-12px">
+          <div *ngFor="let item of productOption; index as i " class="row mb-2 align-items-start">
+            <div class="col-5">
+              <div>
+                {{i + 1}} - <span>{{item.product.name}}</span> - <span>{{item.product.code}}</span>
+              </div>
+              <div>
+                {{item.product.properties}}
+              </div>
+            </div>
+            <div class="row col-4 text-16px px-0">
+              <div class="btn-number-left" (click)="onChangeQuantityClick(i, false)">-</div>
+              <input type="text" [(ngModel)]="item.quantity" onlyNumber min="1"
+                class="col-5 text-center text-12px border-primary bg-white" style="border: 1px solid; outline: none;"
+                (change)="onChangeQuantity(i)">
+              <div class="btn-number-right" (click)="onChangeQuantityClick(i, true)">+</div>
+            </div>
+            <div class="text-end col-3" style="padding-right: 0">
+              {{plugins.formatNumber(item.price)}}đ
+            </div>
+          </div>
+        </div>
+      </div>
+      <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+        (didDismiss)="setOpenToast(false)"></ion-toast>
+    </ion-content>
+    <ion-footer mode="md" class="p-2 text-end">
+      <button class="btn btn-sm btn-primary fw-bold px-3" (click)="saveInfo()">Lưu</button>
+    </ion-footer>
+  </ng-template>
+</ion-modal>

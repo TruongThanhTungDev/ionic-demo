@@ -22,9 +22,9 @@
       </div>
     </div>
     <div *ngIf="!isShowMvp" class="show-statistic">
-      <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê hiệu suất Marketing</h5>
-      <ion-accordion-group *ngIf="listData && listData.details.length; else elseData">
-        <ion-accordion *ngFor="let item of listData.details" mode="md" [value]="item.account" class="mb-2 rounded">
+      <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê hiệu suất Sale</h5>
+      <ion-accordion-group *ngIf="listData && listData.statistics.length; else elseData">
+        <ion-accordion *ngFor="let item of listData.statistics" mode="md" [value]="item.salerName" class="mb-2 rounded">
           <ion-item slot="header">
             <ion-icon class="ion-accordion-toggle-icon custom-icon" name="chevron-down-outline" slot="end">
             </ion-icon>
@@ -42,15 +42,15 @@
                       Tên
                     </div>
                     <p>
-                      {{item.fullName}}
+                      {{item.salerName}}
                     </p>
                   </div>
                   <div>
                     <div class="fw-bold">
-                      Data
+                      Doanh số
                     </div>
                     <p>
-                      {{plugins.formatNumber(item.totalData)}}
+                      {{plugins.formatNumber(item.sales)}}
                     </p>
                   </div>
                 </div>
@@ -58,38 +58,56 @@
             </ion-label>
           </ion-item>
           <div class="ion-padding" slot="content">
-            <table class="text-12px mb-3">
-              <thead>
-                <tr class="w-100 fw-normal">
-                  <th class="fw-normal" style="width: 33.33%;">Đơn hàng chốt</th>
-                  <th class="fw-normal" style="width: 33.33%;">TLC</th>
-                  <th class="fw-normal" style="width: 33.33%;">Chi phí Ads/đơn hàng</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="fw-bold">
-                  <td>{{plugins.formatNumber(item.totalOrder)}}</td>
-                  <td>{{item.tlc}}%</td>
-                  <td>{{plugins.formatNumber(item.adsTotalOrder)}}đ</td>
-                </tr>
-              </tbody>
-            </table>
-            <table class="text-12px">
-              <thead>
-                <tr class="w-100">
-                  <th class="fw-normal" style="width: 33.33%;">Chi phí Ads/data</th>
-                  <th class="fw-normal" style="width: 33.33%;">Chi phí Ads/doanh số</th>
-                  <th class="fw-normal" style="width: 33.33%;">Doanh số</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="fw-bold">
-                  <td>{{plugins.formatNumber(item.adsTotalData)}}đ</td>
-                  <td>{{item.adsRevenue}}%</td>
-                  <td>{{plugins.formatNumber(item.revenue)}}đ</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="row mb-3 text-12px">
+              <div class="fw-normal col-4" style="min-width: 33.33%;">
+                <div>Đơn giao</div>
+                <div class="fw-bold">{{plugins.formatNumber(item.totalOrderAssigned)}}</div>
+              </div>
+              <div class="fw-normal col-4" style="min-width: 33.33%;">
+                <div>
+                  Đơn xử lý
+                </div>
+                <div class="fw-bold">{{plugins.formatNumber(item.totalOrderProcessed)}}</div>
+              </div>
+              <div class="fw-normal col-4" style="min-width: 33.33%;">
+                <div>Tỉ lệ đơn xử lý</div>
+                <div class="fw-bold">{{item.orderProcessingRate}}%</div>
+              </div>
+            </div>
+            <div class="row mb-3 text-12px">
+              <div class="fw-normal col-4" style="min-width: 33.33%;">
+                <div>Đơn xử lý thành công</div>
+                <div class="fw-bold">{{plugins.formatNumber(item.totalOrderSuccess)}}</div>
+              </div>
+              <div class="fw-normal col-4" style="min-width: 33.33%;">
+                <div>
+                  Tỉ lệ đơn thành công
+                </div>
+                <div class="fw-bold">{{item.orderSuccessRate}}%</div>
+              </div>
+              <div class="fw-normal col-4" style="min-width: 33.33%;">
+                <div>GTTB đơn hàng</div>
+                <div class="fw-bold">{{plugins.formatNumber(item.averageOrderValue)}}đ</div>
+              </div>
+            </div>
+            <div class="row text-12px">
+              <div class="fw-normal col-4" style="min-width: 33.33%;">
+                <div>Tỉ lệ chốt</div>
+                <div class="fw-bold">{{item.closeRate}}%</div>
+              </div>
+              <div class="fw-normal col-4" style="min-width: 33.33%;">
+                <div>
+                  Doanh thu ước tính
+                </div>
+                <div class="fw-bold">{{plugins.formatNumber(item.revenue)}}đ</div>
+              </div>
+              <div class="fw-normal col-4" style="min-width: 33.33%;">
+                <div>
+                  Doanh số
+                </div>
+                <div class="fw-bold">{{plugins.formatNumber(item.sales)}}đ</div>
+              </div>
+            </div>
           </div>
         </ion-accordion>
       </ion-accordion-group>
@@ -102,7 +120,7 @@
     </div>
     <div *ngIf="isShowMvp" class="show-mvp">
       <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">MVP Tháng</h5>
-      <div *ngIf="listMvp && listMvp.length; else elseMvp">
+      <div *ngIf="listData.mvp && listData.mvp.length; else elseMvp">
         <div class="mt-5 d-flex justify-content-center">
           <div class="d-flex flex-column justify-content-center align-items-center">
             <div class="text-24px fw-bold text-primary">
@@ -115,10 +133,10 @@
             </ion-avatar>
             <div class="text-center mt-1">
               <div class="text-13px">
-                {{listMvp[1].fullName}}
+                {{listData.mvp[1].salerName}}
               </div>
               <p class="text-24px fw-bold">
-                {{listMvp[1].count}}
+                {{plugins.formatNumber(listData.mvp[1].count)}}
               </p>
             </div>
           </div>
@@ -133,10 +151,10 @@
             </ion-avatar>
             <div class="text-center mt-1">
               <div class="text-13px">
-                {{listMvp[0].fullName}}
+                {{listData.mvp[0].salerName}}
               </div>
               <p class="text-24px fw-bold">
-                {{listMvp[0].count}}
+                {{plugins.formatNumber(listData.mvp[0].sales)}}
               </p>
             </div>
           </div>
@@ -151,15 +169,15 @@
             </ion-avatar>
             <div class="text-center mt-1">
               <div class="text-13px">
-                {{listMvp[2].fullName}}
+                {{listData.mvp[2].salerName}}
               </div>
               <p class="text-24px fw-bold">
-                {{listMvp[2].count}}
+                {{plugins.formatNumber(listData.mvp[2].sales)}}
               </p>
             </div>
           </div>
         </div>
-        <div *ngFor="let item of listMvp; index as i">
+        <div *ngFor="let item of listData.mvp; index as i">
           <ion-card *ngIf="i >=3">
             <ion-card-content>
               <div class="row align-items-center text-12px">
@@ -177,15 +195,15 @@
                     Tên
                   </div>
                   <p class="line-clamp-1">
-                    {{item.fullName}}
+                    {{item.salerName}}
                   </p>
                 </div>
                 <div class="col-3">
                   <div class="fw-bold text-center">
-                    Data
+                    Doanh số
                   </div>
                   <p class="text-center">
-                    {{plugins.formatNumber(item.count)}}
+                    {{plugins.formatNumber(item.sales)}}
                   </p>
                 </div>
               </div>
@@ -203,10 +221,9 @@
   </ion-content>
   <ion-footer [translucent]="true" *ngIf="info.role ==='admin'">
     <ion-toolbar mode="md" class="footer-container">
-      <ion-segment [scrollable]="true" color="dark" value="utm">
-        <ion-segment-button value="utm" routerLink="/utm-statistic"
-          style="border: none;font-size: 10px;background: #035287; ">
-          <ion-label text-wrap class="fw-bold text-white">Thông kê hiệu suất
+      <ion-segment [scrollable]="true" color="dark" value="statistic-performance-sale">
+        <ion-segment-button value="utm" routerLink="/utm-statistic" style="border: none;font-size: 10px;">
+          <ion-label text-wrap class="fw-bold">Thông kê hiệu suất
             marketing</ion-label>
         </ion-segment-button>
         <ion-segment-button value="revenue" routerLink="/statiscal-revenue" style="font-size: 10px;">
@@ -216,8 +233,8 @@
           <ion-label class="fw-bold">Thống kê chi phí</ion-label>
         </ion-segment-button>
         <ion-segment-button value="statistic-performance-sale" routerLink="/statistic-performance-sale"
-          style="font-size: 10px;">
-          <ion-label class="fw-bold">Thống kê hiệu suất sale</ion-label>
+          style="font-size: 10px; background: #035287; ">
+          <ion-label class="fw-bold text-white">Thống kê hiệu suất sale</ion-label>
         </ion-segment-button>
         <ion-segment-button value="statistic-order" routerLink="/notF" style="font-size:10px">
           <ion-label class="fw-bold">Thống kê đơn hàng</ion-label>

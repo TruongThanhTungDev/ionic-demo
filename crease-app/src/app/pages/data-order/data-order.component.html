@@ -3,16 +3,6 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-content class="ion-padding">
-    <div class="mb-1">
-      <button *ngIf="info.role === 'user'" class="btn btn-blue text-13px fw-bold" style="margin-right: 6px;"
-        [disabled]="disableAssignButton" (click)="handleAssginWork()">Giao
-        việc ({{listCheck.length || 0}})</button>
-      <button *ngIf="isAdmin" class="btn btn-yellow text-13px fw-bold" style="margin-right: 6px;"
-        (click)="handleFastAssginWork()">Giao
-        việc nhanh</button>
-      <button *ngIf="!isBackHeader && info.role !=='admin'" class="btn btn-success text-13px fw-bold"
-        (click)="handleSelect()">Chọn</button>
-    </div>
     <div class="mb-3 d-flex align-items-center">
       <button class="btn btn-primary col-4 text-13px" (click)="refreshData()">
         <i class="fa fa-refresh"></i>
@@ -44,17 +34,34 @@
               <p class="text-primary text-10px text-secondary mb-2">
                 <span class="fw-bold">Số điện thoại:</span> {{item.phone}}
               </p>
-              <button *ngIf="item.status === 0" class="btn btn-sm btn-primary text-13px fw-bold">Mới</button>
-              <button *ngIf="item.status === 1" class="btn btn-sm btn-blue text-13px fw-bold">Đã tiếp nhận</button>
-              <button *ngIf="item.status === 2" class="btn btn-sm btn-orange text-13px fw-bold">Đang xử lý</button>
-              <button *ngIf="item.status === 3" class="btn btn-sm btn-warning text-white text-13px fw-bold">KNM
-                L1</button>
-              <button *ngIf="item.status === 4" class="btn btn-sm btn-warning text-white text-13px fw-bold">KNM
-                L2</button>
-              <button *ngIf="item.status === 5" class="btn btn-sm btn-warning text-white text-13px fw-bold">KNM
-                L3</button>
-              <button *ngIf="item.status === 6" class="btn btn-sm btn-danger text-13px fw-bold">Thất bại</button>
-              <button *ngIf="item.status === 9" class="btn btn-sm btn-gray text-13px fw-bold">Trùng</button>
+              <button *ngIf="item.status === 7" class="btn btn-sm btn-success text-13px fw-bold">Thành công</button>
+              <button *ngIf="item.status === 8" class="btn btn-sm btn-blue text-13px fw-bold">Đã in đơn</button>
+              <button *ngIf="item.status === 10" class="btn btn-sm btn-orange text-13px fw-bold"
+                style="background: #CBE4D5;color: #5F7161;">Đã chuyển kho
+                giao</button>
+              <button *ngIf="item.status === 11" class="btn btn-sm btn-danger text-white text-13px fw-bold">Đơn gửi
+                giao hàng lỗi</button>
+              <button *ngIf="item.status === 12" class="btn btn-sm btn-warning text-white text-13px fw-bold"
+                style="background: #7DAEED;color: #04408D;">Đã giao
+                hàng</button>
+              <button *ngIf="item.status === 13" class="btn btn-sm btn-warning text-white text-13px fw-bold"
+                style="background: #C4D6A0;color: #7F8C64;">Đang giao
+                hàng</button>
+              <button *ngIf="item.status === 14" class="btn btn-sm btn-danger text-13px fw-bold"
+                style="background: #EE91AC;color: #FF2363;">Hoãn giao hàng</button>
+              <button *ngIf="item.status === 15" class="btn btn-sm btn-gray text-13px fw-bold"
+                style="background: #D1E9DC;color: #6C9379;">Đã đối soát</button>
+              <button *ngIf="item.status === 16" class="btn btn-sm btn-gray text-13px fw-bold"
+                style="background: #B8CFC7;color: #367D65;">Xác nhận hoàn</button>
+              <button *ngIf="item.status === 17" class="btn btn-sm btn-gray text-13px fw-bold"
+                style="background: #CACCDB;color: #5C6290;">Hoãn hàng trả</button>
+              <button *ngIf="item.status === 18" class="btn btn-sm btn-gray text-13px fw-bold"
+                style="background: #7FBDAD;color: #33675A;">Đang chuyển kho
+                trả</button>
+              <button *ngIf="item.status === 19" class="btn btn-sm btn-gray text-13px fw-bold"
+                style="background: #F1D8F6;color: #B15CC1;">Đã trả hàng toàn
+                bộ</button>
+              <button *ngIf="item.status === 20" class="btn btn-sm btn-danger text-13px fw-bold">Hủy đơn</button>
             </ion-card-content>
           </ion-card>
         </div>
@@ -72,12 +79,12 @@
   <ion-footer [translucent]="true">
     <ion-toolbar mode="md" class="footer-container">
       <ion-segment *ngIf="!isBackHeader;else elseFooter" class="w-100" color="dark" value="order">
-        <ion-segment-button value="utm" routerLink="/data"
-          style="border: none;font-size: 10px; width: 33.33%;  background: #035287;">
-          <ion-label text-wrap class="fw-bold text-white">Order</ion-label>
+        <ion-segment-button value="utm" routerLink="/data" style="border: none;font-size: 10px; width: 33.33%;">
+          <ion-label text-wrap class="fw-bold">Order</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="data" routerLink="/data-after-order" style="font-size: 10px;width: 33.33%;">
-          <ion-label text-wrap class="fw-bold">Đơn hàng</ion-label>
+        <ion-segment-button value="data" routerLink="/data-after-order"
+          style="font-size: 10px;width: 33.33%;background: #035287;">
+          <ion-label text-wrap class="fw-bold text-white">Đơn hàng</ion-label>
         </ion-segment-button>
         <ion-segment-button value="cost" routerLink="/notF" style="width: 33.33%;font-size: 10px;">
           <ion-label text-wrap class="fw-bold">Danh sách hàng hoàn</ion-label>

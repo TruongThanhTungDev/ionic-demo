@@ -34,6 +34,8 @@ export class StatiscalRevenue implements OnInit {
   thatBai = 0;
   thanhCong = 0;
   refundRate = 0;
+  totalStatus = 0;
+  totalChart = 0;
   listStatus = [
     { id: 0, label: 'Chờ xử lý' },
     { id: 1, label: 'Đang xử lý' },
@@ -104,6 +106,7 @@ export class StatiscalRevenue implements OnInit {
             this.loading.dismiss();
             this.listPieChart = res.body.RESULT;
             for (let item of this.listPieChart) {
+              this.totalStatus = this.totalStatus + item.sum;
               if (item.status == 0) {
                 this.moi += item.count;
               } else if (
@@ -219,6 +222,7 @@ export class StatiscalRevenue implements OnInit {
                 (this.valueChart[i] + item.revenue) *
                 (1 - this.refundRate / 100.0);
             }
+            this.totalChart = this.totalChart + item.revenue;
           }
         }
         this.createChart();
@@ -423,13 +427,7 @@ export class StatiscalRevenue implements OnInit {
         text: undefined,
       },
       tooltip: {
-        pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>',
-      },
-      legend: {
-        align: 'right',
-        verticalAlign: 'middle',
-        layout: 'vertical',
-        itemMarginBottom: 20,
+        pointFormat: '{point.name}: {point.y} ({point.percentage:.1f}%)',
       },
       plotOptions: {
         pie: {

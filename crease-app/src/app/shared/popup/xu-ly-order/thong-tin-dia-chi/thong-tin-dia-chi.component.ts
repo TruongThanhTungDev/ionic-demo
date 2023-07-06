@@ -10,12 +10,12 @@ import { DanhMucService } from 'src/app/danhmuc.services';
 export class ThongTinDiaChiOrder implements OnInit {
   @Output() handleOpenModal = new EventEmitter<any>();
   @Output() editValue = new EventEmitter<any>();
-  @Input() isModalOpen: any;
   @Input() street: any;
   @Input() ward: any;
   @Input() province: any;
   @Input() district: any;
   REQUEST_ADDRESS_URL = '/api/v1/address';
+  isModalOpen = false;
   listProvince: any;
   listDistrict: any;
   listWard: any;
@@ -25,6 +25,7 @@ export class ThongTinDiaChiOrder implements OnInit {
   provinceName = '';
   districtName = '';
   wardName = '';
+  streetName = '';
   constructor(
     private modal: ModalController,
     private dmService: DanhMucService,
@@ -43,10 +44,36 @@ export class ThongTinDiaChiOrder implements OnInit {
       await this.getWard();
       this.findWard(this.ward);
     }
+    if (this.street) {
+      this.provinceId = '';
+      this.districtId = '';
+      this.wardId = '';
+      this.provinceName = '';
+      this.districtName = '';
+      this.wardName = '';
+      this.streetName = '';
+    }
   }
-  setOpen(open: boolean) {
+  async setOpen(open: boolean) {
     this.isModalOpen = open;
-    this.handleOpenModal.emit(open);
+    if (open) {
+      if (this.province) {
+        this.findProvince(this.province);
+      }
+      if (this.district) {
+        await this.getDistrict();
+        this.findDistrict(this.district);
+      }
+      if (this.ward) {
+        await this.getWard();
+        this.findWard(this.ward);
+      }
+      if (this.street) {
+        this.streetName = this.street;
+      }
+    } else {
+      this.streetName = '';
+    }
   }
   getProvince() {
     return new Promise((resolve, reject) => {
@@ -183,7 +210,7 @@ export class ThongTinDiaChiOrder implements OnInit {
   }
   saveInfo() {
     const value = {
-      street: this.street,
+      street: this.streetName,
       ward: this.wardName,
       district: this.districtName,
       province: this.provinceName,

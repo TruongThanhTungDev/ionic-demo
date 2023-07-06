@@ -59,7 +59,7 @@ export const ROUTES = [
         params: { shopCode: 'KHBOM' },
       },
       {
-        path: '/kho/lich-su-xuat-nhap',
+        path: '/kho/lich-su-nhap-xuat',
         title: 'Lịch sử xuất nhập',
         icon: '',
         class: '',
@@ -86,7 +86,7 @@ export const ROUTES = [
         params: { shopCode: 'KHBOM' },
       },
       {
-        path: '/notF',
+        path: '/data-after-order',
         title: 'Đơn hàng',
         icon: 'nc-basket',
         class: '',
@@ -354,7 +354,6 @@ export const ROUTES = [
         role: 'admin',
         params: '',
       },
-      
     ],
   },
 ];

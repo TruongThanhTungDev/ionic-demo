@@ -4,7 +4,7 @@
       <div class="d-flex align-items-center">
         <div class="dot-green" style="margin-right: 6px;"></div>
         <div class="fw-bold text-16px">
-          Thông tin khách hàng
+          Thông tin ghi chú
         </div>
       </div>
       <div class="text-primary">
@@ -12,16 +12,7 @@
       </div>
     </div>
     <div class="text-12px text-secondary">
-      <div class="mb-1">
-        <i class="fa fa-user"></i>
-        <span class="mx-1">Họ và tên:</span>
-        <span>{{name}}</span>
-      </div>
-      <div>
-        <i class="fa-solid fa-phone"></i>
-        <span class="mx-1">Số điện thoại:</span>
-        <span>{{phone}}</span>
-      </div>
+      <span>{{note}}</span>
     </div>
   </ion-card-content>
 </ion-card>
@@ -29,17 +20,13 @@
   <ng-template>
     <ion-header>
       <ion-toolbar mode="md" class="new-toolbar-background">
-        <ion-title class="fw-bold">Thông tin khách hàng</ion-title>
+        <ion-title class="fw-bold">Thông tin ghi chú</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
       <div class="mb-3">
-        <label class="text-primary">Họ và tên</label>
-        <input type="text" [(ngModel)]="nameInfo" class="form-control" placeholder="Họ và tên">
-      </div>
-      <div class="mb-3">
-        <label class="text-primary">Số điện thoại</label>
-        <input type="text" onlyNumber [(ngModel)]="phoneInfo" class="form-control" placeholder="Số điện thoại">
+        <label class="text-primary">Ghi chú</label>
+        <textarea [(ngModel)]="noteInfo" class="form-control" rows="7"></textarea>
       </div>
       <div class="text-end">
         <button class="btn btn-sm btn-primary fw-bold px-3" (click)="saveInfo()">Lưu</button>

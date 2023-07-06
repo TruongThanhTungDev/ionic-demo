@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar mode="md" class="new-toolbar-background">
+    <ion-buttons slot="start">
+      <button class="bg-content rounded-circle" (click)="cancel()">
+        <i class="fa-solid fa-arrow-left" style=" padding: 8px 8px;font-size:20px;margin-right: 6px;color: #2c5fb6"></i>
+      </button>
+    </ion-buttons>
+    <ion-title class="text-14px fw-bold">Giao việc nhanh</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="assignWork()" [strong]="true">Lưu</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding w-100">
+  <div class="form-group custom-label mb-3">
+    <ng-select [multiple]="false" [(ngModel)]="selectedUser" class="pb-0 text-12px" (change)="onChangeProduct($event)">
+      <ng-option *ngFor="let obj of listEmployee" [value]="obj" class="text-12px">
+        {{obj ? obj.account.fullName : ''}} - {{obj ? obj.account.userName : ''}}
+      </ng-option>
+    </ng-select>
+  </div>
+  <div class="overflow-auto border-bottom pb-2" style="height: 30%;">
+    <ion-card *ngFor="let user of listUserSelect" class="m-0 mb-1">
+      <ion-card-content class="row">
+        <div class="col-3">
+          <ion-avatar style="width: 45px; height: 45px;">
+            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+          </ion-avatar>
+        </div>
+        <div class="col-9 d-flex justify-content-between text-12px align-items-center">
+          <div>
+            <div class="fw-bold mb-1">
+              Tên
+            </div>
+            <div>
+              {{user.account.fullName}}
+            </div>
+            <div class="fst-italic text-secondary">
+              Số lượng đơn giao: {{user.totalWork}}
+            </div>
+          </div>
+          <div>
+            <i class="fa fa-trash text-danger" (click)="removeUser(user)"></i>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <div class="d-flex justify-content-between">
+    <div class="fw-bold my-1 text-16px">
+      Số lượng công việc cần xử lý: {{listWorkSelected.length}}/{{totalWork}}
+    </div>
+    <input class="form-check-input checkbox-in-card" type="checkbox" [checked]="checkAll" (change)="getCheckAll()">
+  </div>
+  <div class="position-relative" *ngFor="let item of listWork">
+    <div class="position-absolute form-check" style="bottom: 0.5rem!important; right:0.5rem; z-index: 10">
+      <input class="form-check-input checkbox-in-card" type="checkbox" [checked]="listWorkSelected.includes(item)"
+        (change)="selectWork(item)">
+    </div>
+    <ion-card class="mx-0" (click)="selectWork(item)"
+      [class]="listWorkSelected && listWorkSelected.includes(item) ? 'card-active' : ''">
+      <ion-card-content>
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="fw-bold"
+            [class]="listWorkSelected && listWorkSelected.includes(item) ? 'text-white' : 'text-dark'">
+            {{item.name}}</h5>
+          <div class="fw-bold text-warning">
+            {{plugins.formatNumber(item.price)}} đ
+          </div>
+        </div>
+        <p class="text-10px"
+          [class]="listWorkSelected && listWorkSelected.includes(item) ? 'text-white' : 'text-primary'">
+          {{item.date}}</p>
+        <p class="text-primary text-10px text-secondary mb-2">
+          <span class="fw-bold">Số điện thoại:</span> {{item.phone}}
+        </p>
+        <button *ngIf="item.status === 0" class="btn btn-sm btn-primary text-13px fw-bold">Mới</button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+    (didDismiss)="setOpen(false)"></ion-toast>
+</ion-content>
