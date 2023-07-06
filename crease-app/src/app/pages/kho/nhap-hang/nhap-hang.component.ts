@@ -13,7 +13,7 @@ import { Store, select } from '@ngrx/store';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as dayjs from 'dayjs';
 import * as moment from 'moment';
-import { XulyPhieuNhapComponent } from 'src/app/shared/popup/them-sua-kho/them-sua-phieu-nhap/xu-ly-phieu-nhap/xu-ly-phieu-nhap.component';
+import { XulyPhieuNhapComponent } from 'src/app/shared/popup/them-sua-kho/them-sua-phieu-nhap/xu-ly-phieu-nhap.component';
 @Component({
   selector: 'nhaphang-component',
   templateUrl: './nhap-hang.component.html',
@@ -22,7 +22,7 @@ export class NhapHangComponent implements OnInit {
   @Input() data: any;
   @Input() title: any;
   @Input() type: any;
-  REQUEST_URL = "/api/v1/bol";
+  REQUEST_URL = '/api/v1/bol';
   REQUEST_URL_SHOP = '/api/v1/shop';
   REQUEST_URL_ACCOUNT = '/api/v1/account';
   itemsPerPage = 10;
@@ -44,18 +44,18 @@ export class NhapHangComponent implements OnInit {
   isOpenDecentralModal = false;
   isOpenPhieuNhapHang = false;
   isOpenModalOpen = false;
-  isOpenDatePicker:any;
+  isOpenDatePicker: any;
   isBackHeader: any;
-  
-  khoId:any;
-  tenKho:any;
-  kho:any;
-  nhaCungCap:any;
-  khoType:any;
-  nguoiTao:any;
-  trangThai:any;
-  shopCode:any;
-  shop:any;
+
+  khoId: any;
+  tenKho: any;
+  kho: any;
+  nhaCungCap: any;
+  khoType: any;
+  nguoiTao: any;
+  trangThai: any;
+  shopCode: any;
+  shop: any;
   dateRange = {
     startDate: dayjs().startOf('month'),
     endDate: dayjs().endOf('month'),
@@ -77,20 +77,19 @@ export class NhapHangComponent implements OnInit {
     });
     this.shopCode = this.localStorage.retrieve('shopCode');
     this.shop = this.localStorage.retrieve('shop');
-    this.khoId = this.localStorage.retrieve("warehouseId");
+    this.khoId = this.localStorage.retrieve('warehouseId');
   }
-  
+
   ngOnInit(): void {
     this.loadData();
   }
   public filterData() {
     var date = JSON.parse(JSON.stringify(this.dateRange));
-    let startDate = moment(date.startDate).format('YYYYMMDD') ;
-    let endDate = moment(date.endDate).format('YYYYMMDD') ;
+    let startDate = moment(date.startDate).format('YYYYMMDD');
+    let endDate = moment(date.endDate).format('YYYYMMDD');
     let filter = [];
     filter.push(
-      `createAt>=${startDate};createAt<=${endDate};shop.code==`+
-      this.shop.code
+      `createAt>=${startDate};createAt<=${endDate};shop.code==` + this.shop.code
     );
     if (this.khoId) {
       filter.push(`warehouse.id==${this.khoId}`);
@@ -103,32 +102,28 @@ export class NhapHangComponent implements OnInit {
     }
     if (this.trangThai) {
       filter.push(`status==${this.trangThai}`);
-    } 
-    if(this.khoType){
-      filter.push(`type==${this.khoType}`)
-    }else{
-      filter.push(`(type==1)`)
-    }    
-    return filter.join(";");
-     
-    
-    
+    }
+    if (this.khoType) {
+      filter.push(`type==${this.khoType}`);
+    } else {
+      filter.push(`(type==1)`);
+    }
+    return filter.join(';');
   }
 
   async loadData() {
-    
     if (this.info.role !== 'admin') return;
     var date = JSON.parse(JSON.stringify(this.dateRange));
     let startDate = moment(date.startDate).format('YYYYMMDD') + '000000';
     let endDate = moment(date.endDate).format('YYYYMMDD') + '235959';
     const params = {
-      sort: ["id", "desc"],
+      sort: ['id', 'desc'],
       page: this.page - 1,
       size: this.itemsPerPage,
-      filter:this.filterData(),
+      filter: this.filterData(),
     };
     await this.isLoading();
-    this.dmService.getOption(params,this.REQUEST_URL,'/search').subscribe(
+    this.dmService.getOption(params, this.REQUEST_URL, '/search').subscribe(
       (res: HttpResponse<any>) => {
         if (res.status === 200) {
           this.page = res.body ? res.body.RESULT.number + 1 : 1;
@@ -136,8 +131,8 @@ export class NhapHangComponent implements OnInit {
           this.listData = res.body.RESULT.content.map((item: any) => {
             return {
               ...item,
-              warehouseName: item.warehouse ? item.warehouse.name:'',
-              creatorName: item.creator ? item.creator.fullName :'',
+              warehouseName: item.warehouse ? item.warehouse.name : '',
+              creatorName: item.creator ? item.creator.fullName : '',
             };
           });
           this.customListData();
@@ -154,13 +149,13 @@ export class NhapHangComponent implements OnInit {
         this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
         console.error();
       }
-    );    
+    );
   }
   customListData(): any {
     for (let i = 0; i < this.listData.length; i++) {
       this.listData[i].createAt = this.listData[i].createAt
-        ? moment(this.listData[i].createAt, "YYYYMMDD").format("DD/MM/YYYY")
-        : "";
+        ? moment(this.listData[i].createAt, 'YYYYMMDD').format('DD/MM/YYYY')
+        : '';
       this.loadDataSub(this.listData[i].boLDetailList, i);
     }
   }
@@ -206,21 +201,17 @@ export class NhapHangComponent implements OnInit {
     this.loadData();
   }
   public convertStatus(status: any) {
-    if(status===0) {
-        return 'Mới';
-    }
-    else if(status===1){
-        return 'Đã xác nhận';
-    }
-    else if(status===2){
-        return 'Đang vận chuyển';
-    }
-    else if(status===3){
-        return 'Đã hoàn thành';
-    }
-    else if(status===10){
+    if (status === 0) {
+      return 'Mới';
+    } else if (status === 1) {
+      return 'Đã xác nhận';
+    } else if (status === 2) {
+      return 'Đang vận chuyển';
+    } else if (status === 3) {
+      return 'Đã hoàn thành';
+    } else if (status === 10) {
       return 'Đã hủy';
-  }
+    }
     return status;
   }
   changePagination(e: any) {
@@ -235,7 +226,7 @@ export class NhapHangComponent implements OnInit {
         data: null,
         type: 'add',
       },
-      
+
       backdropDismiss: false,
     });
     modal.present();
@@ -252,7 +243,7 @@ export class NhapHangComponent implements OnInit {
         data: item,
         type: 'edit',
       },
-      
+
       backdropDismiss: false,
     });
     modal.present();
@@ -268,6 +259,4 @@ export class NhapHangComponent implements OnInit {
       this.selectedItem = item;
     }
   }
-
-  
 }

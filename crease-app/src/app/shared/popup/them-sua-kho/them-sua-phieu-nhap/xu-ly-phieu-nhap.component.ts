@@ -19,22 +19,22 @@ export class XulyPhieuNhapComponent implements OnInit {
   @Input() shopCode: any;
 
   messageToast: any;
-  subProductList:any[]=[]
-  listSanPham=[]
+  subProductList: any[] = [];
+  listSanPham = [];
   isToastOpen: any;
-  isShowPhieuNhap=false;
+  isShowPhieuNhap = false;
 
-  shop:any;
-  khoId:any;
-  info:any;
-  id:any;
-  creatorName:any;
-  createAt:any;
-  estimatedReturnDate:any;
-  tranportFee:any;
-  discount:any;
-  note:any;
-  status:any;
+  shop: any;
+  khoId: any;
+  info: any;
+  id: any;
+  creatorName: any;
+  createAt: any;
+  estimatedReturnDate: any;
+  tranportFee: any;
+  discount: any;
+  note: any;
+  status: any;
   ngOnInit(): void {
     this.info = this.localStorage.retrieve('authenticationtoken');
     if (this.data) {
@@ -56,10 +56,8 @@ export class XulyPhieuNhapComponent implements OnInit {
         }
       });
       this.subProductList = subProductList;
-    }    
-    
-    
-  }         
+    }
+  }
   constructor(
     private modalNhap: ModalController,
     private dmService: DanhMucService,
@@ -68,24 +66,24 @@ export class XulyPhieuNhapComponent implements OnInit {
   ) {
     this.info = this.localStorage.retrieve('authenticationToken');
     this.shop = this.localStorage.retrieve('shop');
-    this.khoId = this.localStorage.retrieve("warehouseId");
+    this.khoId = this.localStorage.retrieve('warehouseId');
   }
   cancel() {
     this.modalNhap.dismiss();
   }
-  
+
   async editPhieuNhap(open: any) {
+    console.log('open :>> ', open);
     this.isShowPhieuNhap = open;
-    
   }
   handleEditPhieuNhap(value: any) {
     this.createAt = value.createAt;
     this.estimatedReturnDate = value.estimatedReturnDate;
     this.tranportFee = value.tranportFee;
     this.discount = value.discount;
-    this.note= value.note;
+    this.note = value.note;
     this.isShowPhieuNhap = value.isOpen;
-    console.log(this.isShowPhieuNhap)
+    console.log(this.isShowPhieuNhap);
   }
   setOpen(isOpen: boolean) {
     this.isToastOpen = isOpen;

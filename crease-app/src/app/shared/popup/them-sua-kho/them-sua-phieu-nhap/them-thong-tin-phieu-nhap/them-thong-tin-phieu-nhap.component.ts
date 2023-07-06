@@ -9,12 +9,10 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { OPERATIONS } from 'src/app/app.constant';
 import { DanhMucService } from 'src/app/danhmuc.services';
 @Component({
-  selector: 'xu-ly-phieu-nhap',
+  selector: 'thong-tin-phieu-nhap',
   templateUrl: './them-thong-tin-phieu-nhap.component.html',
-  
 })
 export class ThemThongTinPhieuNhapComponent implements OnInit {
- 
   @Output() handleOpenModal = new EventEmitter<any>();
   @Output() editValue = new EventEmitter<any>();
   @Input() data: any;
@@ -22,21 +20,18 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
   @Input() type: any;
   @Input() shopCode: any;
   @Input() isModalOpen: any;
-  @Input() createAt:any;
-  @Input() estimatedReturnDate:any;
-  @Input() tranportFee:any;
-  @Input() discount:any;
-  @Input() note:any;
-  ftCreateAt:any;
-  ftEstimatedReturnDate:any;
-  ftTranportFee:any;
-  ftDiscount:any;
-  ftNote:any;
+  @Input() createAt: any;
+  @Input() estimatedReturnDate: any;
+  @Input() tranportFee: any;
+  @Input() discount: any;
+  @Input() note: any;
+  ftCreateAt: any;
+  ftEstimatedReturnDate: any;
+  ftTranportFee: any;
+  ftDiscount: any;
+  ftNote: any;
 
-  
-  ngOnInit(): void {
-  
-  }
+  ngOnInit(): void {}
   constructor(
     private modal: ModalController,
     private dmService: DanhMucService,
@@ -46,7 +41,6 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
   setOpen(open: boolean) {
     this.isModalOpen = open;
     this.handleOpenModal.emit(open);
-   
   }
 
   saveInfo() {
@@ -71,8 +65,8 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
   //   this.dmService.query(params, "/api/v1/product").subscribe(
   //       (res: HttpResponse<any>) => {
   //         if (res.status === 200) {
-  //           this.listSanPham = res.body.RESULT.content;           
-  //         } else {        
+  //           this.listSanPham = res.body.RESULT.content;
+  //         } else {
   //           this.isToastOpen = true;
   //           this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
   //         }
