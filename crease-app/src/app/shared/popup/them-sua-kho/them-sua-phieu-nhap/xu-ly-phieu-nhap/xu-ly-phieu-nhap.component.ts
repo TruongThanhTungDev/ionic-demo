@@ -17,8 +17,15 @@ export class XulyPhieuNhapComponent implements OnInit {
   @Input() title: any;
   @Input() type: any;
   @Input() shopCode: any;
-  messageToast: any;
 
+  messageToast: any;
+  subProductList:any[]=[]
+  listSanPham=[]
+  isToastOpen: any;
+  isShowPhieuNhap=false;
+
+  shop:any;
+  khoId:any;
   info:any;
   id:any;
   creatorName:any;
@@ -28,16 +35,8 @@ export class XulyPhieuNhapComponent implements OnInit {
   discount:any;
   note:any;
   status:any;
-  subProductList:any[]=[]
-  item:any
-  listSanPham=[]
-  isToastOpen: any;
-  shop:any;
-  khoId:any;
-  
   ngOnInit(): void {
     this.info = this.localStorage.retrieve('authenticationtoken');
-    console.log(this.info)
     if (this.data) {
       this.id = this.data.id;
       this.creatorName = this.data.creatorName;
@@ -48,7 +47,6 @@ export class XulyPhieuNhapComponent implements OnInit {
       this.note = this.data.note;
       this.status = this.data.status;
     }
-    console.log(this.data)
     if (this.data && this.data.boLDetailList) {
       const subProductList: any[] = [];
       this.data.boLDetailList.forEach((item: any) => {
@@ -61,8 +59,7 @@ export class XulyPhieuNhapComponent implements OnInit {
     }    
     
     
-  }       
-   
+  }         
   constructor(
     private modalNhap: ModalController,
     private dmService: DanhMucService,
@@ -76,27 +73,19 @@ export class XulyPhieuNhapComponent implements OnInit {
   cancel() {
     this.modalNhap.dismiss();
   }
-  getSanPham(khoId: any): void {
-    const params = {
-      sort: ["id", "desc"],
-      page: 0,
-      size: 10000,
-      filter: "status==1;shopcode==" + this.shopCode + ';warehouseId==' + khoId,
-    };
-    this.dmService.query(params, "/api/v1/product").subscribe(
-        (res: HttpResponse<any>) => {
-          if (res.status === 200) {
-            this.listSanPham = res.body.RESULT.content;           
-          } else {        
-            this.isToastOpen = true;
-            this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
-          }
-        },
-        () => {
-          this.isToastOpen = true;
-          this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
-          console.error();
-        }
-      );
+  
+  async editPhieuNhap(open: any) {
+    this.isShowPhieuNhap = open;
+  }
+  handleEditPhieuNhap(value: any) {
+    this.createAt = value.createAt;
+    this.estimatedReturnDate = value.estimatedReturnDate;
+    this.tranportFee = value.tranportFee;
+    this.discount = value.discount;
+    this.note= value.note;
+    this.isShowPhieuNhap = value.isOpen;
+  }
+  setOpen(isOpen: boolean) {
+    this.isToastOpen = isOpen;
   }
 }

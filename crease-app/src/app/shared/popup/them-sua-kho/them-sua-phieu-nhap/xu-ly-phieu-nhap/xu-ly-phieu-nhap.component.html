@@ -19,7 +19,7 @@
                 <div class="mb-3">
                   <h6 class="text-secondary fw-bold">{{id}}</h6>
                   <h6 class="fw-bold">
-                    Người tạo: {{this.info.fullName}} 
+                    Người tạo: {{creatorName ? creatorName: this.info.fullName}} 
                   </h6>
                 </div>
               </div> 
@@ -45,7 +45,7 @@
                             Thông tin phiếu nhập 
                           </div>
                           <div>
-                            <i class="fa fa-pen"></i>
+                            <i class="fa fa-pen" (click)="editPhieuNhap(true)"></i>
                           </div>
                         </div>
                       </ion-card-title>
@@ -76,7 +76,10 @@
                           <ng-container>{{note ? note :''}}</ng-container>
                         </div>
                       </div>
-                    </ion-card-content>
+                    <thong-tin-phieu-nhap [createAt]="createAt" [estimatedReturnDate]="estimatedReturnDate" [tranportFee]="tranportFee" [discount]="discount" [note]="note"
+                     [isModalOpen]="isShowPhieuNhap" (handleOpenModal)="editPhieuNhap($event)"
+                    (editValue)="handleEditPhieuNhap($event)"></thong-tin-phieu-nhap>
+                    </ion-card-content>                    
                   </ion-card>
                   <ion-card>
                     <ion-card-header style="padding-bottom: 7px">
