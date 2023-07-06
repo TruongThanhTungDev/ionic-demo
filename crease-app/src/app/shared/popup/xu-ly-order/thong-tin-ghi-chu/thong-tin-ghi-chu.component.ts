@@ -1,27 +1,31 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'thong-tin-ghi-chut',
+  selector: 'thong-tin-ghi-chu',
   templateUrl: './thong-tin-ghi-chu.component.html',
 })
 export class ThongTinGhiChuOrderComponent implements OnInit {
   ngOnInit(): void {
-    if (this.note) {
+    this.noteInfo = this.note;
+  }
+  @Output() editValue = new EventEmitter<any>();
+  @Input() note: any;
+  noteInfo: any;
+  isModalOpen = false;
+  setOpen(open: boolean) {
+    this.isModalOpen = open;
+    if (!open) {
+      this.noteInfo = '';
+    } else {
       this.noteInfo = this.note;
     }
   }
-  @Output() handleOpenModal = new EventEmitter<any>();
-  @Output() editValue = new EventEmitter<any>();
-  @Input() isModalOpen: any;
-  @Input() note: any;
-  noteInfo: any;
-  setOpen(open: boolean) {
+  editNoteCustomer(open: any) {
     this.isModalOpen = open;
-    this.handleOpenModal.emit(open);
   }
   saveInfo() {
     const value = {
-      note: this.note,
+      note: this.noteInfo,
     };
     this.editValue.emit(value);
     this.setOpen(false);

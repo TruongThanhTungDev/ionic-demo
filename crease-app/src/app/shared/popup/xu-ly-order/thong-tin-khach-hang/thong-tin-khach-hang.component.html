@@ -1,3 +1,30 @@
+<ion-card class="mb-3">
+  <ion-card-content>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <div class="d-flex align-items-center">
+        <div class="dot-green" style="margin-right: 6px;"></div>
+        <div class="fw-bold text-16px">
+          Thông tin khách hàng
+        </div>
+      </div>
+      <div class="text-primary">
+        <i class="fa fa-pen" (click)="setOpen(true)"></i>
+      </div>
+    </div>
+    <div class="text-12px text-secondary">
+      <div class="mb-1">
+        <i class="fa fa-user"></i>
+        <span class="mx-1">Họ và tên:</span>
+        <span>{{name}}</span>
+      </div>
+      <div>
+        <i class="fa-solid fa-phone"></i>
+        <span class="mx-1">Số điện thoại:</span>
+        <span>{{phone}}</span>
+      </div>
+    </div>
+  </ion-card-content>
+</ion-card>
 <ion-modal [isOpen]="isModalOpen" class="modal-50" (didDismiss)="setOpen(false)">
   <ng-template>
     <ion-header>
@@ -8,11 +35,11 @@
     <ion-content class="ion-padding">
       <div class="mb-3">
         <label class="text-primary">Họ và tên</label>
-        <input type="text" [(ngModel)]="name" class="form-control" placeholder="Họ và tên">
+        <input type="text" [(ngModel)]="nameInfo" class="form-control" placeholder="Họ và tên">
       </div>
       <div class="mb-3">
         <label class="text-primary">Số điện thoại</label>
-        <input type="text" onlyNumber [(ngModel)]="phone" class="form-control" placeholder="Số điện thoại">
+        <input type="text" onlyNumber [(ngModel)]="phoneInfo" class="form-control" placeholder="Số điện thoại">
       </div>
       <div class="text-end">
         <button class="btn btn-sm btn-primary fw-bold px-3" (click)="saveInfo()">Lưu</button>

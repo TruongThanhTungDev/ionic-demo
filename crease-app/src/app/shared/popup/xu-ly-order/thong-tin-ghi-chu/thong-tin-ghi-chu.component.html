@@ -1,3 +1,21 @@
+<ion-card class="mb-3">
+  <ion-card-content>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <div class="d-flex align-items-center">
+        <div class="dot-green" style="margin-right: 6px;"></div>
+        <div class="fw-bold text-16px">
+          Thông tin ghi chú
+        </div>
+      </div>
+      <div class="text-primary">
+        <i class="fa fa-pen" (click)="setOpen(true)"></i>
+      </div>
+    </div>
+    <div class="text-12px text-secondary">
+      <span>{{note}}</span>
+    </div>
+  </ion-card-content>
+</ion-card>
 <ion-modal [isOpen]="isModalOpen" class="modal-50" (didDismiss)="setOpen(false)">
   <ng-template>
     <ion-header>
@@ -8,7 +26,7 @@
     <ion-content class="ion-padding">
       <div class="mb-3">
         <label class="text-primary">Ghi chú</label>
-        <textarea [(ngModel)]="note" class="form-control" rows="7"></textarea>
+        <textarea [(ngModel)]="noteInfo" class="form-control" rows="7"></textarea>
       </div>
       <div class="text-end">
         <button class="btn btn-sm btn-primary fw-bold px-3" (click)="saveInfo()">Lưu</button>

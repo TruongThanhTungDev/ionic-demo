@@ -56,6 +56,7 @@ export class XulyPhieuNhapComponent implements OnInit {
         }
       });
       this.subProductList = subProductList;
+      console.log('this.subProductList :>> ', this.subProductList);
     }
   }
   constructor(

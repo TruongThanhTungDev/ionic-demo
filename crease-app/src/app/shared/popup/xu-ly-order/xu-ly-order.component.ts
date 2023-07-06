@@ -108,14 +108,6 @@ export class XuLyOrderComponent implements OnInit {
       this.deliveryFee = 0;
       return false;
     }
-
-    if (this.cogs < 0 || this.cogs.toString().length > 15) {
-      this.isToastOpen = true;
-      this.messageToast =
-        'Giá tiền phải là số dương và không được lớn hơn 15 kí tự!';
-      this.cogs = 0;
-      return false;
-    }
     return true;
   }
   ngOnInit() {
@@ -131,12 +123,12 @@ export class XuLyOrderComponent implements OnInit {
       this.discount = this.data.discount;
       this.deliveryFee = this.data.deliveryFee;
       this.shippingCode = this.data.shippingCode;
+      this.note = this.data.note;
       if (this.data.dataInfo) {
         this.street = this.data.dataInfo.street;
         this.ward = this.data.dataInfo.ward;
         this.province = this.data.dataInfo.province;
         this.district = this.data.dataInfo.district;
-        this.note = this.data.dataInfo.note;
       }
       if (this.data.productIds && this.data.productIds.length) {
         this.listProduct = this.data.productIds;
@@ -189,9 +181,6 @@ export class XuLyOrderComponent implements OnInit {
     this.province = value.province;
     this.district = value.district;
     this.isShowEditAddressCustomer = value.isOpen;
-  }
-  editNoteCustomer(open: any) {
-    this.isShowEditNoteCustomer = open;
   }
   handleEditNote(value: any) {
     this.note = value.note;

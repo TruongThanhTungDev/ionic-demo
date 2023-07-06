@@ -13,24 +13,27 @@ import { Plugin } from 'src/app/plugins/plugins';
 export class ThongTinDonHangOrder implements OnInit {
   @Output() handleOpenModal = new EventEmitter<any>();
   @Output() editValue = new EventEmitter<any>();
-  @Input() isModalOpen: any;
   @Input() price: any;
   @Input() products: any;
   @Input() productName: any;
   @Input() cogs: any;
   @Input() shopCode: any;
   @Input() status: any;
+  @Input() date: any;
   listProduct: any;
   productOption: any[] = [];
   cogsField = 0;
   discount = 0;
   deliveryFee = 0;
+  totalMoney = 0;
+  totalCost = 0;
   selectedProduct: any;
   info: any;
   configInfo: any;
   plugins = new Plugin();
   REQUEST_SUB_PRODUCT_URL = '/api/v1/sub-product';
   REQUEST_CONFIG_URL = '/api/v1/config';
+  isModalOpen = false;
   isToastOpen = false;
   messageToast: any;
   constructor(
@@ -42,7 +45,8 @@ export class ThongTinDonHangOrder implements OnInit {
   }
   ngOnInit() {
     this.loadDataProduct();
-    this.productOption = [...this.products];
+    this.getTotalMoney();
+    this.productOption = this.deepClone(this.products);
     if (this.cogs) {
       this.cogsField = this.cogs;
     }
@@ -133,13 +137,25 @@ export class ThongTinDonHangOrder implements OnInit {
         }
       );
   }
+  getTotalMoney() {
+    this.totalMoney = this.products.reduce(
+      (sum: any, item: any) => sum + item.price,
+      0
+    );
+  }
   setOpenToast(open: boolean) {
     this.isToastOpen = open;
   }
   setOpen(open: boolean) {
     this.isModalOpen = open;
-    this.handleOpenModal.emit(open);
-    this.isToastOpen = false;
+    if (open) {
+      this.loadDataProduct();
+      this.getTotalMoney();
+      this.productOption = this.deepClone(this.products);
+      if (this.cogs) {
+        this.cogsField = this.cogs;
+      }
+    }
   }
   saveInfo() {
     const value = {
@@ -150,6 +166,7 @@ export class ThongTinDonHangOrder implements OnInit {
     };
     this.editValue.emit(value);
     this.setOpen(false);
+    this.getTotalMoney();
   }
   public async isLoading() {
     const isLoading = await this.loading.create({
@@ -159,5 +176,20 @@ export class ThongTinDonHangOrder implements OnInit {
       translucent: true,
     });
     return await isLoading.present();
+  }
+  deepClone(obj: any): any {
+    if (obj === null || typeof obj !== 'object') {
+      return obj;
+    }
+
+    let clone: any = Array.isArray(obj) ? [] : {};
+
+    for (let key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        clone[key] = this.deepClone(obj[key]);
+      }
+    }
+
+    return clone;
   }
 }

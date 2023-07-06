@@ -8,19 +8,30 @@ import { ModalController } from '@ionic/angular';
 export class ThongTinKhachHangOrder implements OnInit {
   @Output() handleOpenModal = new EventEmitter<any>();
   @Output() editValue = new EventEmitter<any>();
-  @Input() isModalOpen: any;
   @Input() name: any;
   @Input() phone: any;
+  isModalOpen = false;
+  nameInfo: any;
+  phoneInfo: any;
   constructor(private modal: ModalController) {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.nameInfo = this.name;
+    this.phoneInfo = this.phone;
+  }
   setOpen(open: boolean) {
     this.isModalOpen = open;
-    this.handleOpenModal.emit(open);
+    if (open) {
+      this.nameInfo = this.name;
+      this.phoneInfo = this.phone;
+    } else {
+      this.nameInfo = '';
+      this.phoneInfo = '';
+    }
   }
   saveInfo() {
     const value = {
-      name: this.name,
-      phone: this.phone,
+      name: this.nameInfo,
+      phone: this.phoneInfo,
     };
     this.editValue.emit(value);
     this.setOpen(false);

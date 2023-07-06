@@ -32,66 +32,9 @@
         </select>
         <i class="fa-solid fa-chevron-down position-absolute arrow-input"></i>
       </div>
-      <ion-card class="mb-3">
-        <ion-card-content>
-          <div class="d-flex align-items-center justify-content-between mb-3">
-            <div class="d-flex align-items-center">
-              <div class="dot-green" style="margin-right: 6px;"></div>
-              <div class="fw-bold text-16px">
-                Thông tin khách hàng
-              </div>
-            </div>
-            <div class="text-primary">
-              <i class="fa fa-pen" (click)="showEditInfoCustomer(true)"></i>
-            </div>
-          </div>
-          <div class="text-12px text-secondary">
-            <div class="mb-1">
-              <i class="fa fa-user"></i>
-              <span class="mx-1">Họ và tên:</span>
-              <span>{{name}}</span>
-            </div>
-            <div>
-              <i class="fa-solid fa-phone"></i>
-              <span class="mx-1">Số điện thoại:</span>
-              <span>{{phone}}</span>
-            </div>
-          </div>
-          <thong-tin-khach-hang [isModalOpen]="isShowEditInfoCustomer" [name]="name" [phone]="phone"
-            (handleOpenModal)="showEditInfoCustomer($event)" (editValue)="handleEditInfo($event)" />
-        </ion-card-content>
-      </ion-card>
-      <ion-card class="mb-3">
-        <ion-card-content>
-          <div class="d-flex align-items-center justify-content-between mb-3">
-            <div class="d-flex align-items-center">
-              <div class="dot-green" style="margin-right: 6px;"></div>
-              <div class="fw-bold text-16px">
-                Thông tin địa chỉ
-              </div>
-            </div>
-            <div class="text-primary">
-              <i class="fa fa-pen" (click)="editAddressCustomer(true)"></i>
-            </div>
-          </div>
-          <div class="text-12px text-secondary">
-            <div class="mb-1">
-              <i class="fa-solid fa-location-dot"></i>
-              <span class="mx-1">T/H/X:</span>
-              <span>{{this.province}}{{this.district ? ',' : ''}} {{this.district}}{{this.ward ? ',' : ''}}
-                {{this.ward}}</span>
-            </div>
-            <div>
-              <i class="fa-solid fa-location-dot"></i>
-              <span class="mx-1">Địa chỉ:</span>
-              <span>{{this.street}}</span>
-            </div>
-          </div>
-          <thong-tin-dia-chi [street]="street" [ward]="ward" [province]="province" [district]="district"
-            [isModalOpen]="isShowEditAddressCustomer" (handleOpenModal)="editAddressCustomer($event)"
-            (editValue)="handleEditAddress($event)"></thong-tin-dia-chi>
-        </ion-card-content>
-      </ion-card>
+      <thong-tin-khach-hang [name]="name" [phone]="phone" (editValue)="handleEditInfo($event)" />
+      <thong-tin-dia-chi [street]="street" [ward]="ward" [province]="province" [district]="district"
+        (editValue)="handleEditAddress($event)"></thong-tin-dia-chi>
       <ion-card class="mb-3">
         <ion-card-content>
           <div class="d-flex align-items-center justify-content-between mb-3">
@@ -108,119 +51,12 @@
               <span class="mx-1">Sản phẩm:</span>
               <span>{{product}}</span>
             </div>
-            <!-- <div>
-              <i class="fa-solid fa-box"></i>
-              <span class="mx-1">Mẫu mã:</span>
-              <span>A</span>
-            </div> -->
           </div>
         </ion-card-content>
       </ion-card>
-      <ion-card class="mb-3">
-        <ion-card-content>
-          <div class="d-flex align-items-center justify-content-between mb-3">
-            <div class="d-flex align-items-center">
-              <div class="dot-green" style="margin-right: 6px;"></div>
-              <div class="fw-bold text-16px">
-                Thông tin ghi chú
-              </div>
-            </div>
-            <div class="text-primary">
-              <i class="fa fa-pen" (click)="editNoteCustomer(true)"></i>
-            </div>
-          </div>
-          <div class="text-12px text-secondary">
-            <span>{{note}}</span>
-          </div>
-          <thong-tin-ghi-chut [isModalOpen]="isShowEditNoteCustomer" [note]="note"
-            (handleOpenModal)="editNoteCustomer($event)" (editValue)="handleEditNote($event)"></thong-tin-ghi-chut>
-        </ion-card-content>
-      </ion-card>
-      <ion-card class="mb-3">
-        <ion-card-content>
-          <div class="d-flex align-items-center justify-content-between mb-3">
-            <div class="d-flex align-items-center">
-              <div class="dot-green" style="margin-right: 6px;"></div>
-              <div class="fw-bold text-16px">
-                Thông tin đơn hàng
-              </div>
-            </div>
-            <div class="text-primary">
-              <i class="fa fa-pen" (click)="editOrder(true)"></i>
-            </div>
-          </div>
-          <div class="text-12px mb-3">
-            <div>
-              {{date}}
-            </div>
-          </div>
-          <div class="d-flex justify-content-between align-items-start mb-3">
-            <div>
-              <h5 class="fw-bold">{{product}}</h5>
-            </div>
-            <h5 class="fw-bold">{{plugins.formatNumber(price)}}đ</h5>
-          </div>
-          <div class="text-12px text-secondary border-bottom pb-3 mb-3">
-            <div *ngFor="let product of listProduct; index as i" class="row mb-2">
-              <div class="col-6">
-                <div>
-                  {{i + 1}} - {{product.product.name}} - {{product.product.product.code}}
-                </div>
-                <div>
-                  ({{product.product.properties}})
-                </div>
-              </div>
-              <div class="col-2 text-center">x{{product.quantity}}</div>
-              <div class="col-4 text-end">{{plugins.formatNumber(product.price)}}đ</div>
-            </div>
-          </div>
-          <div>
-            <div class="d-flex justify-content-between align-items-center fw-bold text-12px mb-1">
-              <div>
-                Thành tiền
-              </div>
-              <div>
-                {{plugins.formatNumber(totalMoney)}}đ
-              </div>
-            </div>
-            <div class="d-flex justify-content-between align-items-center fw-bold text-12px mb-1">
-              <div>
-                Giảm giá
-              </div>
-              <div>
-                {{plugins.formatNumber(discount)}}đ
-              </div>
-            </div>
-            <div class="d-flex justify-content-between align-items-center fw-bold text-12px mb-2">
-              <div>
-                Phí ship
-              </div>
-              <div>
-                {{plugins.formatNumber(deliveryFee)}}đ
-              </div>
-            </div>
-            <div class="d-flex justify-content-between align-items-center fw-bold text-12px mb-2">
-              <div>
-                Chi phí hoàn
-              </div>
-              <div>
-                {{plugins.formatNumber(cogs)}}đ
-              </div>
-            </div>
-            <div class="d-flex justify-content-between align-items-center text-primary mb-1">
-              <h2 class="fw-bold">
-                Tổng thanh toán
-              </h2>
-              <h2 class="fw-bold">
-                {{plugins.formatNumber(price)}}đ
-              </h2>
-            </div>
-          </div>
-          <thong-tin-don-hang [isModalOpen]="isShowEditInfoOrder" [cogs]="cogs" [price]="price" [products]="listProduct"
-            [productName]="product" [shopCode]="shopCode" [status]="status" (handleOpenModal)="editOrder($event)"
-            (editValue)="handleEditOrder($event)"></thong-tin-don-hang>
-        </ion-card-content>
-      </ion-card>
+      <thong-tin-ghi-chu [note]="note" (editValue)="handleEditNote($event)"></thong-tin-ghi-chu>
+      <thong-tin-don-hang [cogs]="cogs" [price]="price" [products]="listProduct" [productName]="product" [date]="date"
+        [shopCode]="shopCode" [status]="status" (editValue)="handleEditOrder($event)"></thong-tin-don-hang>
     </div>
   </div>
   <div *ngIf="isShowTracking" class="show-mvp p-3">

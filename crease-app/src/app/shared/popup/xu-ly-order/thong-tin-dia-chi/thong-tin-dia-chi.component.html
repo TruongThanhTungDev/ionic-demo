@@ -1,3 +1,31 @@
+<ion-card class="mb-3">
+  <ion-card-content>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <div class="d-flex align-items-center">
+        <div class="dot-green" style="margin-right: 6px;"></div>
+        <div class="fw-bold text-16px">
+          Thông tin địa chỉ
+        </div>
+      </div>
+      <div class="text-primary">
+        <i class="fa fa-pen" (click)="setOpen(true)"></i>
+      </div>
+    </div>
+    <div class="text-12px text-secondary">
+      <div class="mb-1">
+        <i class="fa-solid fa-location-dot"></i>
+        <span class="mx-1">T/H/X:</span>
+        <span>{{this.province}}{{this.district ? ',' : ''}} {{this.district}}{{this.ward ? ',' : ''}}
+          {{this.ward}}</span>
+      </div>
+      <div>
+        <i class="fa-solid fa-location-dot"></i>
+        <span class="mx-1">Địa chỉ:</span>
+        <span>{{this.street}}</span>
+      </div>
+    </div>
+  </ion-card-content>
+</ion-card>
 <ion-modal [isOpen]="isModalOpen" class="modal-50" style="--height: 60%!important" (didDismiss)="setOpen(false)">
   <ng-template>
     <ion-header>
