@@ -1,0 +1,146 @@
+
+          <ion-header>
+            <ion-toolbar mode="md" class="new-toolbar-background">
+              <ion-buttons slot="start">
+                <button class="bg-content rounded-circle" (click)="cancel()">
+                  <i class="fa-solid fa-arrow-left"
+                    style=" padding: 8px 8px; font-size: 20px; margin-right: 6px; color: #2c5fb6; "></i>
+                </button>
+              </ion-buttons>
+              <ion-title class="text-14px fw-bold">{{ title }}</ion-title>
+              <ion-buttons slot="end">
+                <ion-button  [strong]="true">Lưu</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <div class="text-primary">
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="mb-3">
+                  <h6 class="text-secondary fw-bold">{{id}}</h6>
+                  <h6 class="fw-bold">
+                    Người tạo: {{this.info.fullName}} 
+                  </h6>
+                </div>
+              </div> 
+              <div class="position-relative w-50 mb-3">
+                <select [(ngModel)]="status" class="form-control">
+                  <option  value="0,1,2,3,10">Tất cả</option>
+                  <option  value="0">Mới</option>
+                  <option value="1">Đã tiếp nhận</option>
+                  <option value="2">Đang vận chuyển</option>
+                  <option value="3">Đã hoàn thành</option>
+                  <option value="10">Đã hủy</option>
+                </select>
+                <i class="fa-solid fa-chevron-down position-absolute arrow-input"></i>
+              </div>        
+              <div class="position-relative">
+                <div class="position-relative">
+                  <ion-card >
+                    <ion-card-header style="padding-bottom: 7px">
+                      <ion-card-title class="fw-bold" style="font-size: 15px; color: #006eb9">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div>
+                            <span class="dot"></span>
+                            Thông tin phiếu nhập 
+                          </div>
+                          <div>
+                            <i class="fa fa-pen"></i>
+                          </div>
+                        </div>
+                      </ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                      <div class="row">
+                        <div class="col-6 d-flex align-items-center" style="font-size: 10px"> Thời gian tạo:
+                          <ng-container>{{createAt ? createAt :''}}</ng-container>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-6 d-flex align-items-center" style="font-size: 10px"> Ngày về dự kiến:
+                          <ng-container>{{estimatedReturnDate ? estimatedReturnDate :''}}</ng-container>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-6 d-flex align-items-center" style="font-size: 10px">Phí ship:
+                          <ng-container>{{tranportFee ? tranportFee :0}}</ng-container>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-6 d-flex align-items-center" style="font-size: 10px">Chiếu khấu:
+                          <ng-container>{{discount ? discount : 0}}</ng-container>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-6 d-flex align-items-center" style="font-size: 10px">Ghi chú:
+                          <ng-container>{{note ? note :''}}</ng-container>
+                        </div>
+                      </div>
+                    </ion-card-content>
+                  </ion-card>
+                  <ion-card>
+                    <ion-card-header style="padding-bottom: 7px">
+                      <ion-card-title class="fw-bold" style="font-size: 15px; color: #006eb9">
+                        <span class="dot"></span>
+                        Danh sách hàng nhập 
+                      </ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                      <div class="row fw-bold ">
+                        <div class="col-12 col-md-8 offset-md-2">
+                          <button class="btn btn-sm" style="background-color: #46C851;">
+                            <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="row mt-3">
+                         <div  *ngFor="let item of subProductList">
+                            <div class="row">
+                              <div class="col-6 d-flex align-items-center" style="font-size: 16px"> {{item.subProduct ? item.subProduct.product.name:''}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-6 d-flex align-items-center justify-content-between" style="border: 1px solid #006EB9;font-size: 10px; padding:0px">
+                                <div class="col-6 align-items-center" style="background-color:#006EB9;color:#FFFFFF">
+                                 <ng-container> {{item.subProduct?item.subProduct.product.code:''}}</ng-container>
+                                </div>
+                                <div class="col-6 align-items-center" style=";">
+                                 <ng-container>{{item.subProduct?item.subProduct.code:''}}</ng-container>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 d-flex align-items-center" style="font-size: 10px"> Thuộc tính:
+                                  <ng-container>{{item.subProduct?item.subProduct.properties:''}}</ng-container>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 d-flex align-items-center" style="font-size: 10px">Kho:
+                                  <ng-container>{{item.subProduct?item.subProduct.warehouse.name:''}}</ng-container>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 d-flex align-items-center" style="font-size: 10px">Tổng:
+                                  <ng-container>{{item.price && item.totalQuantity ? item.price * item.totalQuantity
+                                  : 0}}</ng-container>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <div class="mr-3 col-4">Có thể bán:
+                                <ng-container>{{item?item.availableQuantity :''}}</ng-container>
+                              </div>
+                              <div class="mr-3 col-4">Số lượng:
+                                 <ng-container>{{item?item.totalQuantity :''}}</ng-container>
+                              </div>
+                              <div class="mr-3 col-4">Giá nhập:
+                                <ng-container>{{item?item.price :''}}</ng-container>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                    </ion-card-content>
+                  </ion-card>
+                </div>
+              </div>
+            </div>
+          </ion-content>
