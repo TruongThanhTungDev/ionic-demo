@@ -134,14 +134,13 @@ export class DataOrderComponent implements OnInit {
     });
   }
   async handleViewInfoOrder(item: any) {
-    console.log('item :>> ', item);
     const modal = await this.modal.create({
       component: XuLyOrderComponent,
       componentProps: {
         title: 'Tất cả đơn hàng',
         data: item,
         shopCode: this.shopCode,
-        type: 'edit',
+        type: 'after-order',
       },
     });
     modal.present();

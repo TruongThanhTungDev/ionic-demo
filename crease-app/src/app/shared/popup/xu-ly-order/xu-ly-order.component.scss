@@ -1,0 +1,25 @@
+.dot-tracking::before {
+  position: absolute;
+  content: "";
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #c8e6ca;
+  left: -12px;
+  top: -1px;
+}
+.dot-tracking-start::before {
+  position: absolute;
+  content: "";
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid #c8e6ca;
+  background: #47ac4f;
+  left: -12px;
+  top: -1px;
+}
+
+.border-tracking {
+  border-left: 1px solid #c8e6ca;
+}

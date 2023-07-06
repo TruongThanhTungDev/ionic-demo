@@ -12,7 +12,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
-  <div>
+  <div *ngIf="!isShowTracking" class="show-statistic">
     <div class="mb-3">
       <h5 class="text-secondary fw-bold">Đơn hàng của:</h5>
       <h5 class="fw-bold">
@@ -223,6 +223,47 @@
       </ion-card>
     </div>
   </div>
+  <div *ngIf="isShowTracking" class="show-mvp p-3">
+    <h5 class="mb-1 fw-bold">Mã vận đơn</h5>
+    <div class="mb-4">
+      {{shippingCode}}
+    </div>
+    <div *ngIf="listTracking && listTracking.length; else elseTracking" style="margin-left: 10px">
+      <div class="position-relative border-tracking" [class]="i === 0 ? 'dot-tracking-start' : 'dot-tracking'"
+        *ngFor="let tracking of listTracking;index as i"
+        style="padding-left: 20px; padding-bottom: 20px; padding-top: 0">
+        <div class="text-16px mb-2 fw-bold" [class]="i === 0 ? 'text-success' : ''">
+          {{tracking.status}}
+        </div>
+        <div class="mb-2 text-13px">
+          <i class="fa fa-clock"></i>
+          {{tracking.time}}
+        </div>
+        <div class="mb-2 text-13px">
+          <i class="fa-solid fa-truck"></i>
+          {{tracking.note}}
+        </div>
+      </div>
+    </div>
+    <ng-template #elseTracking>
+      <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <i class="fa-solid fa-truck text-sub-content mb-3" style="font-size: 100px"></i>
+        <h5 class="text-sub-content">Không có dữ liệu!</h5>
+      </div>
+    </ng-template>
+  </div>
   <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
     (didDismiss)="setOpen(false)"></ion-toast>
 </ion-content>
+<ion-footer *ngIf="type === 'after-order'" [translucent]="true">
+  <ion-toolbar mode="md" class="footer-container">
+    <ion-segment color="dark" value="order">
+      <ion-segment-button value="order" style="font-size: 10px;" (click)="setShowTracking(false)">
+        <ion-label text-wrap class="fw-bold">Đơn hàng</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="data" style="font-size: 10px" (click)="setShowTracking(true)">
+        <ion-label text-wrap class="fw-bold">Tracking đơn hàng</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-footer>

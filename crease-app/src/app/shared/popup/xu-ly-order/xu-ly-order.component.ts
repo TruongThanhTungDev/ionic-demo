@@ -10,6 +10,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'xuLyOder-cmp',
   templateUrl: './xu-ly-order.component.html',
+  styleUrls: ['./xu-ly-order.component.scss'],
 })
 export class XuLyOrderComponent implements OnInit {
   @Input() data: any;
@@ -23,6 +24,7 @@ export class XuLyOrderComponent implements OnInit {
   isShowEditAddressCustomer = false;
   isShowEditNoteCustomer = false;
   isShowEditInfoOrder = false;
+  isShowTracking = false;
   statusOrder = '0,1,2,3,4,5,6,9';
   info: any;
   name: any;
@@ -39,6 +41,8 @@ export class XuLyOrderComponent implements OnInit {
   dataOrder: any;
   status: any;
   listProduct: any;
+  shippingCode: any;
+  listTracking: any[] = [];
   totalMoney = 0;
   totalCost = 0;
   discount = 0;
@@ -124,8 +128,9 @@ export class XuLyOrderComponent implements OnInit {
       this.price = this.data.price;
       this.cogs = this.data.cogs;
       this.status = this.data.status;
-      this.discount = this.discount;
-      this.deliveryFee = this.deliveryFee;
+      this.discount = this.data.discount;
+      this.deliveryFee = this.data.deliveryFee;
+      this.shippingCode = this.data.shippingCode;
       if (this.data.dataInfo) {
         this.street = this.data.dataInfo.street;
         this.ward = this.data.dataInfo.ward;
@@ -369,7 +374,33 @@ export class XuLyOrderComponent implements OnInit {
         this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
       }
     );
-    console.log('this.data :>> ', this.data);
+  }
+  async getTracking() {
+    await this.isLoading();
+    this.dmService
+      .get('/api/v1/data/tracking?code=' + this.data.shippingCode)
+      .subscribe(
+        (res: HttpResponse<any>) => {
+          if (res.body) {
+            if (res.body.CODE === 200) {
+              this.loading.dismiss();
+              this.listTracking = res.body.RESULT;
+            } else {
+              this.loading.dismiss();
+              this.isToastOpen = true;
+              this.messageToast = res.body.MESSAGE
+                ? res.body.MESSAGE
+                : 'Có lỗi xảy ra, vui lòng thử lại';
+            }
+          }
+        },
+        () => {
+          this.loading.dismiss();
+          this.isToastOpen = true;
+          this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
+          console.error();
+        }
+      );
   }
   cancel() {
     this.modal.dismiss();
@@ -388,5 +419,11 @@ export class XuLyOrderComponent implements OnInit {
   }
   setOpen(isOpen: boolean) {
     this.isToastOpen = isOpen;
+  }
+  setShowTracking(show: boolean) {
+    this.isShowTracking = show;
+    if (show) {
+      this.getTracking();
+    }
   }
 }
