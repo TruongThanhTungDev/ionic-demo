@@ -91,8 +91,8 @@
           <ion-card-content>
             <div class="row fw-bold ">
               <div class="col-12 col-md-8 offset-md-2">
-                <button class="btn btn-sm" style="background-color: #46C851;">
-                  <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
+                <button class="btn btn-sm" style="background-color: #46C851;" (click)="editSanPham(true)">
+                  <i class="fa-solid fa-plus" style="color: #ffffff;" ></i>
                 </button>
               </div>
             </div>
@@ -143,6 +143,11 @@
                 </div>
               </div>
             </div>
+            <thong-tin-san-pham [subproductName]="subproductName" [subproductCode]="subproductCode"
+              [subproductProperties]="subproductProperties" [wareHouseName]="wareHouseName" [totalQuantity]="totalQuantity" [availableQuantity]="availableQuantity" 
+              [totalPrice]="totalPrice" [isModalOpen]="isShowSanPham"
+              (handleOpenModal)="editSanPham($event)"
+              (editValue)="handleEditSanPham($event)"></thong-tin-san-pham>
           </ion-card-content>
         </ion-card>
       </div>

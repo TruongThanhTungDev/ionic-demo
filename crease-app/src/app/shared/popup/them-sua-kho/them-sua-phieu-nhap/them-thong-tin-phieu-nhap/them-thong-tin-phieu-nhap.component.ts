@@ -45,11 +45,11 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
 
   saveInfo() {
     const value = {
-      createAt: this.ftCreateAt,
-      estimatedReturnDate: this.ftEstimatedReturnDate,
-      tranportFee: this.ftTranportFee,
-      discount: this.ftDiscount,
-      note: this.ftNote,
+      createAt: this.createAt,
+      estimatedReturnDate: this.estimatedReturnDate,
+      tranportFee: this.tranportFee,
+      discount: this.discount,
+      note: this.note,
       isOpen: false,
     };
     this.editValue.emit(value);

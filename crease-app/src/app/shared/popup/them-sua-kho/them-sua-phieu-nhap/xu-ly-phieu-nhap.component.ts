@@ -23,7 +23,7 @@ export class XulyPhieuNhapComponent implements OnInit {
   listSanPham = [];
   isToastOpen: any;
   isShowPhieuNhap = false;
-
+  isShowSanPham=false;
   shop: any;
   khoId: any;
   info: any;
@@ -35,6 +35,13 @@ export class XulyPhieuNhapComponent implements OnInit {
   discount: any;
   note: any;
   status: any;
+  subproductName:any;
+  subproductCode:any; 
+  subproductProperties:any ;
+  wareHouseName:any;
+  totalQuantity:any ;
+  availableQuantity:any ;
+  totalPrice:any ;
   ngOnInit(): void {
     this.info = this.localStorage.retrieve('authenticationtoken');
     if (this.data) {
@@ -74,7 +81,6 @@ export class XulyPhieuNhapComponent implements OnInit {
   }
 
   async editPhieuNhap(open: any) {
-    console.log('open :>> ', open);
     this.isShowPhieuNhap = open;
   }
   handleEditPhieuNhap(value: any) {
@@ -88,5 +94,18 @@ export class XulyPhieuNhapComponent implements OnInit {
   }
   setOpen(isOpen: boolean) {
     this.isToastOpen = isOpen;
+  }
+  async editSanPham(open: any) {
+    this.isShowSanPham = open;
+  }
+  handleEditSanPham(value: any) {
+    this.subproductName = value.subproductName;
+    this.subproductCode = value.subproductCode;
+    this.subproductProperties = value.subproductProperties;
+    this.wareHouseName = value.wareHouseName;
+    this.totalQuantity = value.totalQuantity;
+    this.availableQuantity = value.availableQuantity;
+    this.totalPrice = value.totalPrice;
+    this.isShowSanPham = value.isOpen;
   }
 }
