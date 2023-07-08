@@ -20,11 +20,15 @@ export class ThemSanPhamComponent implements OnInit {
   @Input() type: any;
   @Input() shopCode: any;
   @Input() isModalOpen: any;
-  @Input() createAt: any;
-  @Input() estimatedReturnDate: any;
-  @Input() tranportFee: any;
-  @Input() discount: any;
-  @Input() note: any;
+  @Input() subProductName : any;
+  @Input() subProductCode: any;
+  @Input() subProductProperties : any;
+  @Input() wareHouseName : any;
+  @Input() totalQuantity : any;
+  @Input() availableQuantity: any;
+  @Input() totalPrice: any;
+  @Input() nhaCungCap:any;
+  @Input() price:any;
   listSanPham = [];
   listSanPhamCT = [];
   listKho=[];
@@ -33,8 +37,15 @@ export class ThemSanPhamComponent implements OnInit {
   info:any;
   shop:any;
   khoId:any;
+  khoName:any;
+  kho=null;
 
-  ngOnInit(): void {}
+
+  ngOnInit(): void {
+    this.getKho();
+   
+  }
+
   constructor(
     private modal: ModalController,
     private dmService: DanhMucService,
@@ -53,12 +64,14 @@ export class ThemSanPhamComponent implements OnInit {
 
   saveInfo() {
     const value = {
-      createAt: this.createAt,
-      estimatedReturnDate: this.estimatedReturnDate,
-      tranportFee: this.tranportFee,
-      discount: this.discount,
-      note: this.note,
-      isOpen: false,
+    subProductName : this.subProductName,
+    subProductCode : this.subProductCode,
+    subProductProperties : this.subProductProperties,
+    wareHouseName : this.wareHouseName,
+    totalQuantity : this.totalQuantity,
+    availableQuantity: this.availableQuantity,
+    totalPrice : this.totalPrice,
+    isOpen: false,
     };
     this.editValue.emit(value);
     this.setOpen(false);
@@ -68,7 +81,7 @@ export class ThemSanPhamComponent implements OnInit {
       sort: ["id", "desc"],
       page: 0,
       size: 10000,
-      filter: "status==1;shopcode==" + this.shopCode + ';warehouseId==' + khoId,
+      filter: "status==1;shopcode==" + this.shop.code + ';warehouseId==' + khoId,
     };
     this.dmService.query(params, "/api/v1/product").subscribe(
         (res: HttpResponse<any>) => {
@@ -91,7 +104,7 @@ export class ThemSanPhamComponent implements OnInit {
       sort: ["id", "asc"],
       page: 0,
       size: 1000,
-      filter: "id>0;staus>=0;shop.code==" + this.shopCode,
+      filter: "id>0;staus>=0;shop.code==" + this.shop.code,
     };
     this.dmService.query(params, "/api/v1/warehouse").subscribe(
       (res: HttpResponse<any>) => {
@@ -109,6 +122,12 @@ export class ThemSanPhamComponent implements OnInit {
       }
     );
   }
+  changeKho(e: any) {
+    this.kho = e;
+    this.getSanPham(e.id);
+  }
+  
+  
   getSanPhamCT(e: any) {
     if (e) {
       const params = {
@@ -143,5 +162,5 @@ export class ThemSanPhamComponent implements OnInit {
     list.forEach((e: any) => (e.ten = e.code + " | " + e.properties));
     return list;
   }
-
+  
 }
