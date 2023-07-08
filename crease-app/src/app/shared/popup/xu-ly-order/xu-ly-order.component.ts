@@ -430,12 +430,11 @@ export class XuLyOrderComponent implements OnInit {
                   (res: HttpResponse<any>) => {
                     if (res.status === 200) {
                       this.isToastOpen = true;
-                      this.messageToast = res.body.MESSAGE
-                        ? res.body.MESSAGE
-                        : 'Lưu thông tin thành công';
+                      this.messageToast = 'Lưu thông tin thành công';
                       this.totalMoney = 0;
                       this.deliveryFee = 0;
                       this.discount = 0;
+                      this.modal.dismiss(null, 'confirm');
                     } else {
                       this.isToastOpen = true;
                       this.messageToast = res.body.MESSAGE
