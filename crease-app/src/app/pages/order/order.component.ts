@@ -8,6 +8,7 @@ import { DanhMucService } from 'src/app/danhmuc.services';
 import { Plugin } from 'src/app/plugins/plugins';
 import { GiaoViecNhanhPopup } from 'src/app/shared/popup/giao-viec-nhanh/giao-viec-nhanh.component';
 import { GiaoViecOrder } from 'src/app/shared/popup/giao-viec/giao-viec.component';
+import { ThaoTacOrder } from 'src/app/shared/popup/thao-tac-order/thao-tac-order.component';
 import { XuLyOrderComponent } from 'src/app/shared/popup/xu-ly-order/xu-ly-order.component';
 
 @Component({
@@ -65,7 +66,7 @@ export class OrderComponent implements OnInit {
     return !this.listCheck.length || (this.listCheck.length && !result);
   }
   ngOnInit() {
-    // this.loadData();
+    this.loadData();
     this.store.subscribe((state) => {
       this.isBackHeader = state.common.isBackHeader;
       if (!this.isBackHeader) {
@@ -176,7 +177,20 @@ export class OrderComponent implements OnInit {
       this.loadData();
     }
   }
-
+  async handleAction() {
+    const modal = await this.modal.create({
+      component: ThaoTacOrder,
+      componentProps: {
+        shopCode: this.shopCode,
+        listWork: this.listCheck,
+      },
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.loadData();
+    }
+  }
   async handleAssginWork() {
     const modal = await this.modal.create({
       component: GiaoViecOrder,
