@@ -382,7 +382,7 @@ export class XuLyOrderComponent implements OnInit {
     // await this.isLoading()
     if (status === 6) {
       this.data.price = 0;
-    } else if (status === 7 || status === 8 || status === 9) {
+    } else if (status === 7 || status === 8 || status === 11) {
       if (this.validSuccess) {
         if (!this.data.cost) {
           if (!this.config) {
