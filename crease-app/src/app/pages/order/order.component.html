@@ -10,8 +10,7 @@
       <button *ngIf="isAdmin" class="btn btn-yellow text-13px fw-bold" style="margin-right: 6px;"
         (click)="handleFastAssginWork()">Giao
         việc nhanh</button>
-      <button *ngIf="!isBackHeader && info.role !=='admin'" class="btn btn-success text-13px fw-bold"
-        (click)="handleSelect()">Chọn</button>
+      <button *ngIf="!isBackHeader" class="btn btn-success text-13px fw-bold" (click)="handleSelect()">Chọn</button>
     </div>
     <div class="mb-3 d-flex align-items-center">
       <button class="btn btn-primary col-4 text-13px" (click)="refreshData()">
