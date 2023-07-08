@@ -40,7 +40,7 @@ export class XuLyOrderComponent implements OnInit {
   cogs: any;
   dataOrder: any;
   status: any;
-  listProduct: any;
+  listProduct: any[] = [];
   shippingCode: any;
   listTracking: any[] = [];
   totalMoney = 0;
@@ -52,6 +52,133 @@ export class XuLyOrderComponent implements OnInit {
   plugins = new Plugin();
   isToastOpen = false;
   messageToast: any;
+  listDropDownOrder = [
+    {
+      name: 'Mới',
+      value: 0,
+      className: 'btn-primary',
+    },
+    {
+      name: 'Đã tiếp nhận',
+      value: 1,
+      className: 'btn-blue',
+    },
+    {
+      name: 'Đang xử lý',
+      value: 2,
+      className: 'btn-orange',
+    },
+    {
+      name: 'KNM L1',
+      value: 3,
+      className: 'btn-warning',
+    },
+    {
+      name: 'KNM L2',
+      value: 4,
+      className: 'btn-warning',
+    },
+    {
+      name: 'KNM L3',
+      value: 5,
+      className: 'btn-warning',
+    },
+    {
+      name: 'Thất bại',
+      value: 6,
+      className: 'btn-danger',
+    },
+    {
+      name: 'Thành công',
+      value: 7,
+      className: 'btn-green',
+    },
+    {
+      name: 'Trùng',
+      value: 9,
+      className: 'btn-gray',
+    },
+  ];
+  listDropDownDataOrder = [
+    {
+      name: 'Thành công',
+      value: 7,
+      className: 'btn-success',
+      styleName: '',
+    },
+    {
+      name: 'Đã in đơn',
+      value: 8,
+      className: 'btn-blue',
+      styleName: '',
+    },
+    {
+      name: 'Đã chuyển kho giao',
+      value: 10,
+      className: '',
+      styleName: 'background: #CBE4D5;color: #5F7161',
+    },
+    {
+      name: 'Đơn gửi hàng lỗi',
+      value: 11,
+      className: 'btn-danger',
+      styleName: '',
+    },
+    {
+      name: 'Đã giao hàng',
+      value: 12,
+      className: '',
+      styleName: 'background: #7DAEED;color: #04408D;',
+    },
+    {
+      name: 'Đang giao hàng',
+      value: 13,
+      className: 'btn-warning',
+      styleName: 'background: #C4D6A0;color: #7F8C64',
+    },
+    {
+      name: 'Hoãn giao hàng',
+      value: 14,
+      className: '',
+      styleName: 'background: #EE91AC;color: #FF2363',
+    },
+    {
+      name: 'Đã đối soát',
+      value: 15,
+      className: '',
+      styleName: 'background: #D1E9DC;color: #6C9379',
+    },
+    {
+      name: 'Xác nhận hoàn',
+      value: 16,
+      className: '',
+      styleName: 'background: #B8CFC7;color: #367D65',
+    },
+    {
+      name: 'Hoãn hàng trả',
+      value: 17,
+      className: '',
+      styleName: 'background: #CACCDB;color: #5C6290;',
+    },
+    {
+      name: 'Đang chuyển kho trả',
+      value: 18,
+      className: '',
+      styleName: 'background: #7FBDAD;color: #33675A',
+    },
+    {
+      name: 'Đã trả hàng toàn bộ',
+      value: 19,
+      className: '',
+      styleName: 'background: #F1D8F6;color: #B15CC1',
+    },
+    {
+      name: 'Hủy đơn',
+      value: 20,
+      className: 'bg-danger',
+      styleName: '',
+    },
+  ];
   constructor(
     private modal: ModalController,
     private dmService: DanhMucService,
@@ -59,6 +186,24 @@ export class XuLyOrderComponent implements OnInit {
     private localStorage: LocalStorageService
   ) {
     this.info = this.localStorage.retrieve('authenticationToken');
+  }
+  get disableEdit() {
+    return (
+      this.info.role === 'user' &&
+      (this.status === 7 ||
+        this.status === 8 ||
+        this.status === 10 ||
+        this.status === 11 ||
+        this.status === 12 ||
+        this.status === 13 ||
+        this.status === 14 ||
+        this.status === 15 ||
+        this.status === 16 ||
+        this.status === 17 ||
+        this.status === 18 ||
+        this.status === 19 ||
+        this.status === 20)
+    );
   }
   get isUser() {
     return this.info.role === 'user';
@@ -91,8 +236,9 @@ export class XuLyOrderComponent implements OnInit {
   }
   get valid() {
     if (
-      parseInt(this.discount.toString()) < 0 ||
-      this.discount.toString().length > 15
+      this.discount &&
+      (parseInt(this.discount.toString()) < 0 ||
+        this.discount.toString().length > 15)
     ) {
       this.isToastOpen = true;
       this.messageToast =
@@ -101,7 +247,10 @@ export class XuLyOrderComponent implements OnInit {
       return false;
     }
 
-    if (this.deliveryFee < 0 || this.deliveryFee.toString().length > 15) {
+    if (
+      this.deliveryFee &&
+      (this.deliveryFee < 0 || this.deliveryFee.toString().length > 15)
+    ) {
       this.isToastOpen = true;
       this.messageToast =
         'Giá tiền phải là số dương và không được lớn hơn 15 kí tự!';
@@ -198,6 +347,7 @@ export class XuLyOrderComponent implements OnInit {
     this.getPrice();
   }
   getTotalMoney() {
+    if (this.listProduct && !this.listProduct.length) return;
     this.totalMoney = this.listProduct.reduce(
       (sum: any, item: any) => sum + item.price,
       0
@@ -229,6 +379,7 @@ export class XuLyOrderComponent implements OnInit {
       province: this.province,
       street: this.street,
     };
+    // await this.isLoading()
     if (status === 6) {
       this.data.price = 0;
     } else if (status === 7 || status === 8 || status === 9) {

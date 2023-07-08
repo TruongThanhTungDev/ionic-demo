@@ -5,6 +5,7 @@ import {
   LoadingController,
   ModalController,
 } from '@ionic/angular';
+import * as moment from 'moment';
 import { LocalStorageService } from 'ngx-webstorage';
 import { OPERATIONS } from 'src/app/app.constant';
 import { DanhMucService } from 'src/app/danhmuc.services';
@@ -25,18 +26,18 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
   @Input() tranportFee: any;
   @Input() discount: any;
   @Input() note: any;
-  ftCreateAt: any;
-  ftEstimatedReturnDate: any;
-  ftTranportFee: any;
-  ftDiscount: any;
-  ftNote: any;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.createAt= moment(this.createAt, 'DD/MM/YYYY').format('YYYY-MM-DD')
+    this.estimatedReturnDate= moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYY-MM-DD')
+  }
   constructor(
     private modal: ModalController,
     private dmService: DanhMucService,
     private loading: LoadingController
-  ) {}
+  ) {
+    
+  }
 
   setOpen(open: boolean) {
     this.isModalOpen = open;
@@ -45,37 +46,14 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
 
   saveInfo() {
     const value = {
-      createAt: this.ftCreateAt,
-      estimatedReturnDate: this.ftEstimatedReturnDate,
-      tranportFee: this.ftTranportFee,
-      discount: this.ftDiscount,
-      note: this.ftNote,
+      createAt: moment(this.createAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
+      estimatedReturnDate: moment(this.estimatedReturnDate, 'YYYY-MM-DD').format('DD/MM/YYYY'),
+      tranportFee: this.tranportFee,
+      discount: this.discount,
+      note: this.note,
       isOpen: false,
     };
     this.editValue.emit(value);
     this.setOpen(false);
   }
-  // getSanPham(khoId: any): void {
-  //   const params = {
-  //     sort: ["id", "desc"],
-  //     page: 0,
-  //     size: 10000,
-  //     filter: "status==1;shopcode==" + this.shopCode + ';warehouseId==' + khoId,
-  //   };
-  //   this.dmService.query(params, "/api/v1/product").subscribe(
-  //       (res: HttpResponse<any>) => {
-  //         if (res.status === 200) {
-  //           this.listSanPham = res.body.RESULT.content;
-  //         } else {
-  //           this.isToastOpen = true;
-  //           this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
-  //         }
-  //       },
-  //       () => {
-  //         this.isToastOpen = true;
-  //         this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
-  //         console.error();
-  //       }
-  //     );
-  // }
 }

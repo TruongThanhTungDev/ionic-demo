@@ -1,6 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
+import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 
 @Component({
@@ -14,6 +15,7 @@ export class ThongTinDiaChiOrder implements OnInit {
   @Input() ward: any;
   @Input() province: any;
   @Input() district: any;
+  @Input() status: any;
   REQUEST_ADDRESS_URL = '/api/v1/address';
   isModalOpen = false;
   listProvince: any;
@@ -26,11 +28,46 @@ export class ThongTinDiaChiOrder implements OnInit {
   districtName = '';
   wardName = '';
   streetName = '';
+  info: any;
   constructor(
     private modal: ModalController,
     private dmService: DanhMucService,
-    private loading: LoadingController
-  ) {}
+    private loading: LoadingController,
+    private localStorage: LocalStorageService
+  ) {
+    this.info = this.localStorage.retrieve('authenticationToken');
+  }
+  get disableEdit() {
+    return (
+      (this.info.role === 'admin' &&
+        (this.status === 8 ||
+          this.status === 10 ||
+          this.status === 11 ||
+          this.status === 12 ||
+          this.status === 13 ||
+          this.status === 14 ||
+          this.status === 15 ||
+          this.status === 16 ||
+          this.status === 17 ||
+          this.status === 18 ||
+          this.status === 19 ||
+          this.status === 20)) ||
+      (this.info.role === 'user' &&
+        (this.status === 7 ||
+          this.status === 8 ||
+          this.status === 10 ||
+          this.status === 11 ||
+          this.status === 12 ||
+          this.status === 13 ||
+          this.status === 14 ||
+          this.status === 15 ||
+          this.status === 16 ||
+          this.status === 17 ||
+          this.status === 18 ||
+          this.status === 19 ||
+          this.status === 20))
+    );
+  }
   async ngOnInit() {
     await this.getProvince();
     if (this.province) {

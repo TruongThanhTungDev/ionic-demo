@@ -8,23 +8,25 @@
     <ion-content class="ion-padding">
       <div class="mb-3">
         <label class="text-primary">Thời gian tạo</label>
-        <input type="text" [(ngModel)]="ftCreateAt" class="form-control" placeholder="thời gian tạo">
+        <input type="date" [(ngModel)]="createAt" class="form-control" placeholder="thời gian tạo">
       </div>
       <div class="mb-3">
         <label class="text-primary">Ngày về  dự kiến</label>
-        <input type="text" [(ngModel)]="ftEstimatedReturnDate" class="form-control" placeholder="Ngày về  dự kiến">
+        <input type="date" [(ngModel)]="estimatedReturnDate" class="form-control" placeholder="Ngày về dự kiến">
       </div>
-      <div class="mb-3">
-        <label class="text-primary">Phí vận chuyển</label>
-        <input type="text" [(ngModel)]="ftTranportFee" class="form-control" placeholder="Phí vận chuyển">
-      </div>
-      <div class="mb-3">
-        <label class="text-primary">Chiết khấu</label>
-        <input type="text" [(ngModel)]="ftDiscount" class="form-control" placeholder="Chiết khấu">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="text-primary">Phí vận chuyển</label>
+          <input type="text" [(ngModel)]="tranportFee" class="form-control" placeholder="Phí vận chuyển">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="text-primary">Chiết khấu</label>
+          <input type="text" [(ngModel)]="discount" class="form-control" placeholder="Chiết khấu">
+        </div>
       </div>
       <div class="mb-3">
         <label class="text-primary">Ghi chú</label>
-        <input type="text" [(ngModel)]="ftNote" class="form-control" placeholder="Ghi chú">
+        <input type="text" [(ngModel)]="note" class="form-control" placeholder="Ghi chú">
       </div>
       <div class="text-end">
         <button class="btn btn-sm btn-primary fw-bold px-3" (click)="saveInfo()">Lưu</button>

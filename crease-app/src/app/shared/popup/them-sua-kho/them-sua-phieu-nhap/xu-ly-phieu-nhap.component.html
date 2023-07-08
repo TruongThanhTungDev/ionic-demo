@@ -14,15 +14,15 @@
 </ion-header>
 <ion-content>
   <div class="text-primary">
-    <div class="d-flex align-items-center justify-content-between">
-      <div class="mb-3">
-        <h6 class="text-secondary fw-bold">{{id}}</h6>
+    <div class="d-flex align-items-end justify-content-start">
+      <div class="mt-1" style="margin-left:8px">
+        <h6 class="text-secondary fw-bold">#{{id}}</h6>
         <h6 class="fw-bold">
           Người tạo: {{creatorName ? creatorName: this.info.fullName}}
         </h6>
       </div>
     </div>
-    <div class="position-relative w-50 mb-3">
+    <div class="position-relative w-30 mb-3" style="margin-left:7px">
       <select [(ngModel)]="status" class="form-control">
         <option value="0,1,2,3,10">Tất cả</option>
         <option value="0">Mới</option>
@@ -91,8 +91,8 @@
           <ion-card-content>
             <div class="row fw-bold ">
               <div class="col-12 col-md-8 offset-md-2">
-                <button class="btn btn-sm" style="background-color: #46C851;">
-                  <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
+                <button class="btn btn-sm" style="background-color: #46C851;" (click)="editSanPham(true)">
+                  <i class="fa-solid fa-plus" style="color: #ffffff;" ></i>
                 </button>
               </div>
             </div>
@@ -105,7 +105,7 @@
                 </div>
                 <div class="row">
                   <div class="col-6 d-flex align-items-center justify-content-between"
-                    style="border: 1px solid #006EB9;font-size: 10px; padding:0px">
+                    style="border: 1px solid #006EB9;font-size: 10px; padding:0px; margin-left:10px">
                     <div class="col-6 align-items-center" style="background-color:#006EB9;color:#FFFFFF">
                       <ng-container> {{item.subProduct?item.subProduct.product.code:''}}</ng-container>
                     </div>
@@ -130,19 +130,32 @@
                       : 0}}</ng-container>
                   </div>
                 </div>
-                <div class="d-flex align-items-center">
-                  <div class="mr-3 col-4">Có thể bán:
-                    <ng-container>{{item?item.availableQuantity :''}}</ng-container>
+                <div>
+                <div class="row fw-bold ">
+                  <div class="col-4 " style="text-align:start ;font-size: 9px">Có thể bán:</div>
+                  <div class="col-4 " style="text-align:center ; font-size: 9px">Số lượng:</div>
+                  <div class="col-4 " style="text-align:center ;font-size: 9px">Giá nhập:</div>
+                </div>
+                <div class="row text-10px ">
+                  <div class="col-4 " style="text-align:start ;">
+                    {{item?item.availableQuantity :''}}
                   </div>
-                  <div class="mr-3 col-4">Số lượng:
-                    <ng-container>{{item?item.totalQuantity :''}}</ng-container>
+                  <div class="col-4  " style="text-align:center ;" >
+                  {{item?item.totalQuantity :''}}
                   </div>
-                  <div class="mr-3 col-4">Giá nhập:
-                    <ng-container>{{item?item.price :''}}</ng-container>
+                  <div class="col-4 " style="text-align:center; padding:0px 8px">
+                    {{item?item.price :''}}
+                  </div>
                   </div>
                 </div>
+              
               </div>
             </div>
+            <thong-tin-san-pham [subProductName]="subProductName" [subProductCode]="subProductCode" [productCode]="productCode" [price]="price"
+              [subProductProperties]="subProductProperties" [wareHouseName]="wareHouseName" [totalQuantity]="totalQuantity" [availableQuantity]="availableQuantity" 
+              [totalPrice]="totalPrice" [isModalOpen]="isShowSanPham"
+              (handleOpenModal)="editSanPham($event)"
+              (editValue)="handleEditSanPham($event)"></thong-tin-san-pham>
           </ion-card-content>
         </ion-card>
       </div>

@@ -28,8 +28,18 @@ export class DataOrderComponent implements OnInit {
   listCheck: any[] = [];
   isToastOpen = false;
   isBackHeader = false;
+  isOpenFilterModal = false;
   REQUEST_URL = '/api/v1/data';
   plugins = new Plugin();
+  ftKhachHang: any;
+  ftSdt = '';
+  ftThoiGian = '';
+  ftNhanVien = '';
+  ftSanPham = '';
+  ftDoanhSo = '';
+  ftMaVanChuyen = '';
+  ftTaiKhoanVC = '';
+  ftNguoiVC = '';
   constructor(
     private dmService: DanhMucService,
     private localStorage: LocalStorageService,
@@ -48,6 +58,9 @@ export class DataOrderComponent implements OnInit {
   }
   get isAdmin() {
     return this.info.role === 'admin';
+  }
+  get isUser() {
+    return this.info.role === 'user';
   }
   get enabledAssignButton() {
     const result = this.listCheck.every((item) => {
@@ -122,6 +135,20 @@ export class DataOrderComponent implements OnInit {
     if (endDate) comparesArray.push(`date <= ${endDate} `);
     if (this.ftTrangThai || this.ftTrangThai >= 0)
       comparesArray.push(`status=in=(${this.ftTrangThai})`);
+    if (this.ftKhachHang)
+      comparesArray.push(`name=="*${this.ftKhachHang.trim()}*"`);
+    if (this.ftSdt) comparesArray.push(`phone=="*${this.ftSdt.trim()}*"`);
+    if (this.ftNhanVien)
+      comparesArray.push(`account.userName=="*${this.ftNhanVien.trim()}*"`);
+    if (this.ftSanPham)
+      comparesArray.push(`product=="*${this.ftSanPham.trim()}*"`);
+    if (this.ftDoanhSo) comparesArray.push(`price==${this.ftDoanhSo}`);
+    if (this.ftMaVanChuyen)
+      comparesArray.push(`shippingCode=="*${this.ftMaVanChuyen}*"`);
+    if (this.ftTaiKhoanVC)
+      comparesArray.push(`shippingAccount.name=="*${this.ftTaiKhoanVC}*"`);
+    if (this.ftNguoiVC)
+      comparesArray.push(`shippingCreator.userName=="*${this.ftNguoiVC}*"`);
     return comparesArray.join(';');
   }
   handleSelect() {
@@ -190,4 +217,8 @@ export class DataOrderComponent implements OnInit {
   refreshData() {
     this.loadData();
   }
+  openModalFilter(open: boolean) {
+    this.isOpenFilterModal = open;
+  }
+  getFilter() {}
 }
