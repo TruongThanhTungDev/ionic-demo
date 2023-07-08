@@ -20,50 +20,84 @@
       </h5>
     </div>
     <div>
-      <div *ngIf="type !== 'after-order'" class="position-relative w-50 mb-3">
-        <select [(ngModel)]="statusOrder" class="form-control" (change)="saveInfo(statusOrder)">
-          <option [value]="2">Đang xử lý</option>
-          <option [value]="3">KNM L1</option>
-          <option [value]="4">KNM L2</option>
-          <option [value]="5">KNM L3</option>
-          <option [value]="6">Thất bại</option>
-          <option [value]="7">Thành công</option>
-          <option [value]="9">Trùng</option>
-        </select>
-        <i class="fa-solid fa-chevron-down position-absolute arrow-input"></i>
+      <div *ngIf="type !== 'after-order'" class="dropdown">
+        <button *ngIf="status === 0" class="btn btn-sm btn-primary text-13px fw-bold dropdown-toggle"
+          data-bs-toggle="dropdown">Mới</button>
+        <button *ngIf="status === 1" class="btn btn-sm btn-blue text-13px fw-bold dropdown-toggle"
+          data-bs-toggle="dropdown">Đã tiếp nhận</button>
+        <button *ngIf="status === 2" class="btn btn-sm btn-orange text-13px fw-bold dropdown-toggle"
+          data-bs-toggle="dropdown">Đang xử lý</button>
+        <button *ngIf="status === 3" class="btn btn-sm btn-warning text-white text-13px fw-bold dropdown-toggle"
+          data-bs-toggle="dropdown">KNM
+          L1</button>
+        <button *ngIf="status === 4" class="btn btn-sm btn-warning text-white text-13px fw-bold dropdown-toggle"
+          data-bs-toggle="dropdown">KNM
+          L2</button>
+        <button *ngIf="status === 5" class="btn btn-sm btn-warning text-white text-13px fw-bold dropdown-toggle"
+          data-bs-toggle="dropdown">KNM
+          L3</button>
+        <button *ngIf="status === 6" class="btn btn-sm btn-danger text-13px fw-bold dropdown-toggle"
+          data-bs-toggle="dropdown">Thất bại</button>
+        <button *ngIf="status === 9" class="btn btn-sm btn-gray text-13px fw-bold dropdown-toggle"
+          data-bs-toggle="dropdown">Trùng</button>
+        <ul class="dropdown-menu">
+          <li *ngFor="let statusBtn of listDropDownOrder" class="text-center mb-2 border-bottom px-3"
+            (click)="statusBtn.value === status ? {} : saveInfo(statusBtn.value)">
+            <button [class]="statusBtn.value === status ? statusBtn.className + ' btn-selected' : statusBtn.className"
+              class="btn btn-sm text-13px fw-bold mb-2 w-100">
+              {{statusBtn.name}}
+            </button>
+          </li>
+        </ul>
       </div>
-      <div *ngIf="type === 'after-order'">
-        <button *ngIf="status === 7" class="btn btn-sm btn-success text-13px fw-bold">Thành công</button>
-        <button *ngIf="status === 8" class="btn btn-sm btn-blue text-13px fw-bold">Đã in đơn</button>
-        <button *ngIf="status === 10" class="btn btn-sm btn-orange text-13px fw-bold"
-          style="background: #CBE4D5;color: #5F7161;">Đã chuyển kho
+      <div *ngIf="type === 'after-order'" class="dropdown">
+        <button *ngIf="status === 7" class="btn btn-sm btn-success text-13px fw-bold dropdown-toggle"
+          data-bs-toggle="dropdown">Thành
+          công</button>
+        <button *ngIf="status === 8" class="btn btn-sm btn-blue text-13px fw-bold dropdown-toggle"
+          data-bs-toggle="dropdown">Đã in đơn</button>
+        <button *ngIf="status === 10" class="btn btn-sm text-13px fw-bold dropdown-toggle"
+          style="background: #CBE4D5;color: #5F7161;" data-bs-toggle="dropdown">Đã chuyển kho
           giao</button>
-        <button *ngIf="status === 11" class="btn btn-sm btn-danger text-white text-13px fw-bold">Đơn gửi
+        <button *ngIf="status === 11" class="btn btn-sm btn-danger text-13px fw-bold dropdown-toggle"
+          data-bs-toggle="dropdown">Đơn
+          gửi
           giao hàng lỗi</button>
-        <button *ngIf="status === 12" class="btn btn-sm btn-warning text-white text-13px fw-bold"
-          style="background: #7DAEED;color: #04408D;">Đã giao
+        <button *ngIf="status === 12" class="btn btn-sm text-13px fw-bold dropdown-toggle"
+          style="background: #7DAEED;color: #04408D;" data-bs-toggle="dropdown">Đã giao
           hàng</button>
-        <button *ngIf="status === 13" class="btn btn-sm btn-warning text-white text-13px fw-bold"
-          style="background: #C4D6A0;color: #7F8C64;">Đang giao
+        <button *ngIf="status === 13" class="btn btn-sm text-13px fw-bold dropdown-toggle"
+          style="background: #C4D6A0;color: #7F8C64;" data-bs-toggle="dropdown">Đang giao
           hàng</button>
-        <button *ngIf="status === 14" class="btn btn-sm btn-danger text-13px fw-bold"
-          style="background: #EE91AC;color: #FF2363;">Hoãn giao hàng</button>
-        <button *ngIf="status === 15" class="btn btn-sm btn-gray text-13px fw-bold"
-          style="background: #D1E9DC;color: #6C9379;">Đã đối soát</button>
-        <button *ngIf="status === 16" class="btn btn-sm btn-gray text-13px fw-bold"
-          style="background: #B8CFC7;color: #367D65;">Xác nhận hoàn</button>
-        <button *ngIf="status === 17" class="btn btn-sm btn-gray text-13px fw-bold"
-          style="background: #CACCDB;color: #5C6290;">Hoãn hàng trả</button>
-        <button *ngIf="status === 18" class="btn btn-sm btn-gray text-13px fw-bold"
-          style="background: #7FBDAD;color: #33675A;">Đang chuyển kho
+        <button *ngIf="status === 14" class="btn btn-sm text-13px fw-bold dropdown-toggle"
+          style="background: #EE91AC;color: #FF2363;" data-bs-toggle="dropdown">Hoãn giao hàng</button>
+        <button *ngIf="status === 15" class="btn btn-sm text-13px fw-bold dropdown-toggle"
+          style="background: #D1E9DC;color: #6C9379;" data-bs-toggle="dropdown">Đã đối soát</button>
+        <button *ngIf="status === 16" class="btn btn-sm text-13px fw-bold dropdown-toggle"
+          style="background: #B8CFC7;color: #367D65;" data-bs-toggle="dropdown">Xác nhận hoàn</button>
+        <button *ngIf="status === 17" class="btn btn-sm text-13px fw-bold dropdown-toggle"
+          style="background: #CACCDB;color: #5C6290;" data-bs-toggle="dropdown">Hoãn hàng trả</button>
+        <button *ngIf="status === 18" class="btn btn-sm text-13px fw-bold dropdown-toggle"
+          style="background: #7FBDAD;color: #33675A;" data-bs-toggle="dropdown">Đang chuyển kho
           trả</button>
-        <button *ngIf="status === 19" class="btn btn-sm btn-gray text-13px fw-bold"
-          style="background: #F1D8F6;color: #B15CC1;">Đã trả hàng toàn
+        <button *ngIf="status === 19" class="btn btn-sm text-13px fw-bold dropdown-toggle"
+          style="background: #F1D8F6;color: #B15CC1;" data-bs-toggle="dropdown">Đã trả hàng toàn
           bộ</button>
-        <button *ngIf="status === 20" class="btn btn-sm btn-danger text-13px fw-bold">Hủy đơn</button>
+        <button *ngIf="status === 20" class="btn btn-sm text-13px bg-danger fw-bold dropdown-toggle"
+          data-bs-toggle="dropdown">Hủy
+          đơn</button>
+        <ul class="dropdown-menu">
+          <li *ngFor="let statusBtn of listDropDownDataOrder" class="text-center mb-2 border-bottom px-3"
+            (click)="statusBtn.value === status ? {} : saveInfo(statusBtn.value)">
+            <button [class]="statusBtn.value === status ? statusBtn.className + ' btn-selected' : statusBtn.className"
+              [style]="statusBtn.styleName" class="btn btn-sm text-13px fw-bold mb-2 w-100">
+              {{statusBtn.name}}
+            </button>
+          </li>
+        </ul>
       </div>
-      <thong-tin-khach-hang [name]="name" [phone]="phone" (editValue)="handleEditInfo($event)" />
-      <thong-tin-dia-chi [street]="street" [ward]="ward" [province]="province" [district]="district"
+      <thong-tin-khach-hang [status]="status" [name]="name" [phone]="phone" (editValue)="handleEditInfo($event)" />
+      <thong-tin-dia-chi [status]="status" [street]="street" [ward]="ward" [province]="province" [district]="district"
         (editValue)="handleEditAddress($event)"></thong-tin-dia-chi>
       <ion-card class="mb-3">
         <ion-card-content>
@@ -84,9 +118,10 @@
           </div>
         </ion-card-content>
       </ion-card>
-      <thong-tin-ghi-chu [note]="note" (editValue)="handleEditNote($event)"></thong-tin-ghi-chu>
-      <thong-tin-don-hang [cogs]="cogs" [price]="price" [products]="listProduct" [productName]="product" [date]="date"
-        [shopCode]="shopCode" [status]="status" (editValue)="handleEditOrder($event)"></thong-tin-don-hang>
+      <thong-tin-ghi-chu [status]="status" [note]="note" (editValue)="handleEditNote($event)"></thong-tin-ghi-chu>
+      <thong-tin-don-hang [status]="status" [cogs]="cogs" [price]="price" [products]="listProduct"
+        [productName]="product" [date]="date" [shopCode]="shopCode" [status]="status"
+        (editValue)="handleEditOrder($event)"></thong-tin-don-hang>
     </div>
   </div>
   <div *ngIf="isShowTracking" class="show-mvp p-3">

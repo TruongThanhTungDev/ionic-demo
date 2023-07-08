@@ -4,8 +4,8 @@
   </ion-refresher>
   <ion-content class="ion-padding">
     <div class="mb-1">
-      <button *ngIf="info.role === 'user'" class="btn btn-blue text-13px fw-bold" style="margin-right: 6px;"
-        [disabled]="disableAssignButton" (click)="handleAssginWork()">Giao
+      <button class="btn btn-blue text-13px fw-bold" style="margin-right: 6px;" [disabled]="disableAssignButton"
+        (click)="handleAssginWork()">Giao
         việc ({{listCheck.length || 0}})</button>
       <button *ngIf="isAdmin" class="btn btn-yellow text-13px fw-bold" style="margin-right: 6px;"
         (click)="handleFastAssginWork()">Giao
@@ -36,7 +36,8 @@
                 <h5 class="fw-bold" [class]="listCheck && listCheck.includes(item) ? 'text-white' : 'text-dark'">
                   {{item.name}}</h5>
                 <div class="fw-bold text-warning">
-                  {{plugins.formatNumber(item.price)}} đ
+                  {{ isHideRevenue(item.status) ? '' : plugins.formatNumber(item.price)}}{{isHideRevenue(item.status) ?
+                  '' : 'đ'}}
                 </div>
               </div>
               <p class="text-10px" [class]="listCheck && listCheck.includes(item) ? 'text-white' : 'text-primary'">
@@ -88,6 +89,68 @@
       </ng-template>
     </ion-toolbar>
   </ion-footer>
+  <div class="dropdown position-absolute" style="bottom: 4rem; right: 1rem;">
+    <button id="open-filter" class="btn btn-primary rounded-pill shadow" type="button" (click)="openModalFilter(true)">
+      <i class="fa-solid fa-filter"></i>
+      Lọc
+    </button>
+  </div>
+  <ion-modal [isOpen]="isOpenFilterModal" class="modal-filter-lg" (didDismiss)="openModalFilter(false)">
+    <ion-header>
+      <ion-toolbar class="text-white fw-bold" style="--background: rgba(0, 110, 185, 0.9)!important;">
+        <ion-title>
+          <i class="fa-solid fa-filter"></i>
+          Lọc
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="mb-3">
+        <label>Tên khách hàng</label>
+        <input [(ngModel)]="ftKhachHang" type="text" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label>Thời gian</label>
+        <input [(ngModel)]="ftThoiGian" type="date" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label>Trạng thái</label>
+        <select [(ngModel)]="ftKhachHang" class="form-select">
+          <option *ngIf="!isUser" value="0,1,2,3,4,5,6,9">Tất cả</option>
+          <option *ngIf="!isUser" value="0">Mới</option>
+          <option value="1">Đã tiếp nhận</option>
+          <option value="2">Đang xử lý</option>
+          <option value="3">KNM L1</option>
+          <option value="4">KNM L2</option>
+          <option value="5">KNM L3</option>
+          <option value="6">Thất bại</option>
+          <option value="9">Trùng</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label>Số điện thoại</label>
+        <input [(ngModel)]="ftSdt" onlyNumber type="number" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label>Sản phẩm</label>
+        <input type="text" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label>Nhân viên</label>
+        <input [(ngModel)]="ftNhanVien" type="text" class="form-control">
+      </div>
+    </ion-content>
+    <ion-footer mode="md" style="background-color: rgba(0, 110, 185, 0.9)!important;">
+      <ion-toolbar class="new-toolbar-background">
+        <ion-buttons slot="start">
+          <ion-button (click)="openModalFilter(false)" style="--color: white!important">Hủy</ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button (click)="getFilter()" [strong]="true">Lọc</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </ion-modal>
   <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
     (didDismiss)="setOpen(false)"></ion-toast>
 </ion-app>

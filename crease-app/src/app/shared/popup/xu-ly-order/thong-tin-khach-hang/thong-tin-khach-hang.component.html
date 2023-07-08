@@ -7,7 +7,7 @@
           Thông tin khách hàng
         </div>
       </div>
-      <div class="text-primary">
+      <div class="text-primary" *ngIf="!disableEdit">
         <i class="fa fa-pen" (click)="setOpen(true)"></i>
       </div>
     </div>

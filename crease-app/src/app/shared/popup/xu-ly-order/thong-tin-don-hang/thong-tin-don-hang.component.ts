@@ -44,8 +44,9 @@ export class ThongTinDonHangOrder implements OnInit {
     this.info = this.localStorage.retrieve('authenticationToken');
   }
   ngOnInit() {
-    this.loadDataProduct();
     this.getTotalMoney();
+    this.loadDataProduct();
+    this.getPrice();
     this.productOption = this.deepClone(this.products);
     if (this.cogs) {
       this.cogsField = this.cogs;
@@ -53,6 +54,24 @@ export class ThongTinDonHangOrder implements OnInit {
   }
   get disableInput() {
     return this.info.role === 'admin' && this.status === 8;
+  }
+  get disableEdit() {
+    return (
+      this.info.role === 'user' &&
+      (this.status === 7 ||
+        this.status === 8 ||
+        this.status === 10 ||
+        this.status === 11 ||
+        this.status === 12 ||
+        this.status === 13 ||
+        this.status === 14 ||
+        this.status === 15 ||
+        this.status === 16 ||
+        this.status === 17 ||
+        this.status === 18 ||
+        this.status === 19 ||
+        this.status === 20)
+    );
   }
   public async loadDataProduct() {
     await this.isLoading();
@@ -138,6 +157,7 @@ export class ThongTinDonHangOrder implements OnInit {
       );
   }
   getTotalMoney() {
+    if (this.products && !this.products.length) return;
     this.totalMoney = this.products.reduce(
       (sum: any, item: any) => sum + item.price,
       0
@@ -152,6 +172,8 @@ export class ThongTinDonHangOrder implements OnInit {
       this.loadDataProduct();
       this.getTotalMoney();
       this.productOption = this.deepClone(this.products);
+      this.getTotalMoney();
+      this.getPrice();
       if (this.cogs) {
         this.cogsField = this.cogs;
       }
@@ -167,6 +189,10 @@ export class ThongTinDonHangOrder implements OnInit {
     this.editValue.emit(value);
     this.setOpen(false);
     this.getTotalMoney();
+    this.getPrice();
+  }
+  getPrice() {
+    this.price = this.totalMoney - this.discount + this.deliveryFee;
   }
   public async isLoading() {
     const isLoading = await this.loading.create({

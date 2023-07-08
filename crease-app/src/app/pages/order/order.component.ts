@@ -23,13 +23,19 @@ export class OrderComponent implements OnInit {
   page = 1;
   totalItems = 0;
   ftTrangThai: any = '0,1,2,3,4,5,6,9';
+  ftKhachHang: any;
+  ftSdt = '';
   shopCode = '';
+  ftThoiGian = '';
+  ftNhanVien = '';
+  ftSanPham = '';
   info: any;
   listData: any;
   messageToast: any;
   listCheck: any[] = [];
   isToastOpen = false;
   isBackHeader = false;
+  isOpenFilterModal = false;
   REQUEST_URL = '/api/v1/data';
   plugins = new Plugin();
   constructor(
@@ -51,12 +57,15 @@ export class OrderComponent implements OnInit {
   get isAdmin() {
     return this.info.role === 'admin';
   }
+  get isUser() {
+    return this.info.role === 'user';
+  }
   get disableAssignButton() {
     const result = this.listCheck.every((item) => item.status == 0);
     return !this.listCheck.length || (this.listCheck.length && !result);
   }
   ngOnInit() {
-    this.loadData();
+    // this.loadData();
     this.store.subscribe((state) => {
       this.isBackHeader = state.common.isBackHeader;
       if (!this.isBackHeader) {
@@ -118,6 +127,13 @@ export class OrderComponent implements OnInit {
     if (endDate) comparesArray.push(`date <= ${endDate} `);
     if (this.ftTrangThai || this.ftTrangThai >= 0)
       comparesArray.push(`status=in=(${this.ftTrangThai})`);
+    if (this.ftKhachHang)
+      comparesArray.push(`name=="*${this.ftKhachHang.trim()}*"`);
+    if (this.ftSdt) comparesArray.push(`phone=="*${this.ftSdt.trim()}*"`);
+    if (this.ftNhanVien)
+      comparesArray.push(`account.userName=="*${this.ftNhanVien.trim()}*"`);
+    if (this.ftSanPham)
+      comparesArray.push(`product=="*${this.ftSanPham.trim()}*"`);
     return comparesArray.join(';');
   }
   handleSelect() {
@@ -215,5 +231,38 @@ export class OrderComponent implements OnInit {
   }
   refreshData() {
     this.loadData();
+  }
+  openModalFilter(open: boolean) {
+    this.isOpenFilterModal = open;
+  }
+  getFilter() {
+    if (
+      moment(this.ftThoiGian).isBefore(moment(this.dateRange.startDate)) ||
+      moment(this.ftThoiGian).isAfter(moment(this.dateRange.endDate))
+    ) {
+      this.isToastOpen = true;
+      this.messageToast =
+        'Thời gian không được bé hơn hoặc lớn hơn khoảng thời gian được chọn!';
+      return;
+    }
+    this.dateRange.startDate = this.ftThoiGian;
+    this.dateRange.endDate = this.ftThoiGian;
+    this.loadData();
+    this.isOpenFilterModal = false;
+  }
+  isHideRevenue(item: any) {
+    if (
+      item === 0 ||
+      item === 1 ||
+      item === 2 ||
+      item === 3 ||
+      item === 4 ||
+      item === 5 ||
+      item === 6 ||
+      item === 9
+    ) {
+      return true;
+    }
+    return false;
   }
 }

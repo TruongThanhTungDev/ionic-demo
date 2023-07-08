@@ -34,34 +34,38 @@
               <p class="text-primary text-10px text-secondary mb-2">
                 <span class="fw-bold">Số điện thoại:</span> {{item.phone}}
               </p>
-              <button *ngIf="item.status === 7" class="btn btn-sm btn-success text-13px fw-bold">Thành công</button>
-              <button *ngIf="item.status === 8" class="btn btn-sm btn-blue text-13px fw-bold">Đã in đơn</button>
-              <button *ngIf="item.status === 10" class="btn btn-sm btn-orange text-13px fw-bold"
+              <button *ngIf="item.status === 7" class="btn btn-sm btn-success text-13px fw-bold">Thành
+                công</button>
+              <button *ngIf="item.status === 8" class="btn btn-sm btn-blue text-13px fw-bold">Đã
+                in đơn</button>
+              <button *ngIf="item.status === 10" class="btn btn-sm text-13px fw-bold"
                 style="background: #CBE4D5;color: #5F7161;">Đã chuyển kho
                 giao</button>
-              <button *ngIf="item.status === 11" class="btn btn-sm btn-danger text-white text-13px fw-bold">Đơn gửi
+              <button *ngIf="item.status === 11" class="btn btn-sm btn-danger text-13px fw-bold">Đơn
+                gửi
                 giao hàng lỗi</button>
-              <button *ngIf="item.status === 12" class="btn btn-sm btn-warning text-white text-13px fw-bold"
+              <button *ngIf="item.status === 12" class="btn btn-sm text-13px fw-bold"
                 style="background: #7DAEED;color: #04408D;">Đã giao
                 hàng</button>
-              <button *ngIf="item.status === 13" class="btn btn-sm btn-warning text-white text-13px fw-bold"
+              <button *ngIf="item.status === 13" class="btn btn-sm text-13px fw-bold"
                 style="background: #C4D6A0;color: #7F8C64;">Đang giao
                 hàng</button>
-              <button *ngIf="item.status === 14" class="btn btn-sm btn-danger text-13px fw-bold"
+              <button *ngIf="item.status === 14" class="btn btn-sm text-13px fw-bold"
                 style="background: #EE91AC;color: #FF2363;">Hoãn giao hàng</button>
-              <button *ngIf="item.status === 15" class="btn btn-sm btn-gray text-13px fw-bold"
+              <button *ngIf="item.status === 15" class="btn btn-sm text-13px fw-bold"
                 style="background: #D1E9DC;color: #6C9379;">Đã đối soát</button>
-              <button *ngIf="item.status === 16" class="btn btn-sm btn-gray text-13px fw-bold"
+              <button *ngIf="item.status === 16" class="btn btn-sm text-13px fw-bold"
                 style="background: #B8CFC7;color: #367D65;">Xác nhận hoàn</button>
-              <button *ngIf="item.status === 17" class="btn btn-sm btn-gray text-13px fw-bold"
+              <button *ngIf="item.status === 17" class="btn btn-sm text-13px fw-bold"
                 style="background: #CACCDB;color: #5C6290;">Hoãn hàng trả</button>
-              <button *ngIf="item.status === 18" class="btn btn-sm btn-gray text-13px fw-bold"
+              <button *ngIf="item.status === 18" class="btn btn-sm text-13px fw-bold"
                 style="background: #7FBDAD;color: #33675A;">Đang chuyển kho
                 trả</button>
-              <button *ngIf="item.status === 19" class="btn btn-sm btn-gray text-13px fw-bold"
+              <button *ngIf="item.status === 19" class="btn btn-sm text-13px fw-bold"
                 style="background: #F1D8F6;color: #B15CC1;">Đã trả hàng toàn
                 bộ</button>
-              <button *ngIf="item.status === 20" class="btn btn-sm btn-danger text-13px fw-bold">Hủy đơn</button>
+              <button *ngIf="item.status === 20" class="btn btn-sm text-13px bg-danger fw-bold">Hủy
+                đơn</button>
             </ion-card-content>
           </ion-card>
         </div>
@@ -95,6 +99,89 @@
       </ng-template>
     </ion-toolbar>
   </ion-footer>
+  <div class="dropdown position-absolute" style="bottom: 4rem; right: 1rem;">
+    <button id="open-filter" class="btn btn-primary rounded-pill shadow" type="button" (click)="openModalFilter(true)">
+      <i class="fa-solid fa-filter"></i>
+      Lọc
+    </button>
+  </div>
+  <ion-modal [isOpen]="isOpenFilterModal" class="modal-filter-lg" (didDismiss)="openModalFilter(false)">
+    <ion-header>
+      <ion-toolbar class="text-white fw-bold" style="--background: rgba(0, 110, 185, 0.9)!important;">
+        <ion-title>
+          <i class="fa-solid fa-filter"></i>
+          Lọc
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="mb-3">
+        <label>Tên khách hàng</label>
+        <input [(ngModel)]="ftKhachHang" type="text" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label>Thời gian</label>
+        <input [(ngModel)]="ftThoiGian" type="date" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label>Trạng thái</label>
+        <select class="form-control" [(ngModel)]="ftTrangThai">
+          <option value="">Tất cả</option>
+          <option value="7">Thành công</option>
+          <option value="8">Đã in đơn</option>
+          <option value="11">Đơn gửi giao hàng lỗi</option>
+          <option value="10">Đã chuyển kho giao</option>
+          <option value="12">Đã giao hàng</option>
+          <option value="13">Đang giao hàng</option>
+          <option value="14">Hoãn giao hàng</option>
+          <option value="15">Đã đối soát</option>
+          <option value="16">Xác nhận hoàn</option>
+          <option value="17">Hoãn trả hàng</option>
+          <option value="18">Đang chuyển kho trả</option>
+          <option value="19">Đã trả hàng toàn bộ</option>
+          <option value="20">Hủy đơn</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label>Số điện thoại</label>
+        <input [(ngModel)]="ftSdt" onlyNumber type="number" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label>Sản phẩm</label>
+        <input type="text" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label>Nhân viên</label>
+        <input [(ngModel)]="ftNhanVien" type="text" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label>Doanh số</label>
+        <input [(ngModel)]="ftDoanhSo" type="text" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label>Mã vận chuyển</label>
+        <input [(ngModel)]="ftMaVanChuyen" type="text" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label>Tài khoản vận chuyển</label>
+        <input [(ngModel)]="ftTaiKhoanVC" type="text" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label>Người lên đơn</label>
+        <input [(ngModel)]="ftNguoiVC" type="text" class="form-control">
+      </div>
+    </ion-content>
+    <ion-footer mode="md" style="background-color: rgba(0, 110, 185, 0.9)!important;">
+      <ion-toolbar class="new-toolbar-background">
+        <ion-buttons slot="start">
+          <ion-button (click)="openModalFilter(false)" style="--color: white!important">Hủy</ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button (click)="getFilter()" [strong]="true">Lọc</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </ion-modal>
   <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
     (didDismiss)="setOpen(false)"></ion-toast>
 </ion-app>
