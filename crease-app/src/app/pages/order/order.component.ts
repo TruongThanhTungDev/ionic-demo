@@ -66,7 +66,7 @@ export class OrderComponent implements OnInit {
     return !this.listCheck.length || (this.listCheck.length && !result);
   }
   ngOnInit() {
-    // this.loadData();
+    this.loadData();
     this.store.subscribe((state) => {
       this.isBackHeader = state.common.isBackHeader;
       if (!this.isBackHeader) {
