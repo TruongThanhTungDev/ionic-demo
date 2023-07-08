@@ -7,28 +7,37 @@
     </ion-header>
     <ion-content class="ion-padding">
       <div class="mb-3">
-        <label class="text-primary">Kho chứa hàng</label>
-        <input type="text" [(ngModel)]="createAt" class="form-control" placeholder="thời gian tạo">
+        <label class="text-primary">Kho chứa hàng<span class="text-danger">*</span> </label>
+        <select [(ngModel)]="kho" class="form-select" (change)="changeKho($event)">
+          <option value=""></option>
+          <option *ngFor="let item of listKho" ></option>
+        </select>
       </div>
       <div class="mb-3">
         <label class="text-primary">Nhà cung cấp</label>
-        <input type="text" [(ngModel)]="estimatedReturnDate" class="form-control" placeholder="Ngày về  dự kiến">
+        <input type="text" [(ngModel)]="nhaCungCap" class="form-control" placeholder="Ngày về  dự kiến">
       </div>
       <div class="mb-3">
-        <label class="text-primary">Mã sản phẩm</label>
-        <input type="text" [(ngModel)]="tranportFee" class="form-control" placeholder="Phí vận chuyển">
+         <label class="text-primary">Mã sản phẩm<span class="text-danger">*</span> </label>
+        <select [(ngModel)]="kho" class="form-select" (change)="changeKho($event)">
+          <option value=""></option>
+          <option *ngFor="let item of listKho" ></option>
+        </select>
       </div>
       <div class="mb-3">
-        <label class="text-primary">Mã mẫu mã</label>
-        <input type="text" [(ngModel)]="discount" class="form-control" placeholder="Chiết khấu">
+         <label class="text-primary">Mẫu mã<span class="text-danger">*</span> </label>
+        <select [(ngModel)]="kho" class="form-select" (change)="changeKho($event)">
+          <option value=""></option>
+          <option *ngFor="let item of listKho" ></option>
+        </select>
       </div>
       <div class="mb-3">
         <label class="text-primary">Giá nhập</label>
-        <input type="text" [(ngModel)]="note" class="form-control" placeholder="Ghi chú">
+        <input type="text" [(ngModel)]="price" class="form-control" placeholder="Ghi chú">
       </div>
       <div class="mb-3">
         <label class="text-primary">Số lượng</label>
-        <input type="text" [(ngModel)]="note" class="form-control" placeholder="Ghi chú">
+        <input type="text" [(ngModel)]="totalQuantity" class="form-control" placeholder="Ghi chú">
       </div>
       <div class="text-end">
         <button class="btn btn-sm btn-primary fw-bold px-3" (click)="saveInfo()">Lưu</button>
