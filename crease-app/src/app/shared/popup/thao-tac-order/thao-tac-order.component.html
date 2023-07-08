@@ -13,11 +13,17 @@
 </ion-header>
 <ion-content class="ion-padding w-100">
   <div class="">
-    <h4 class="bold text-primary">Chọn nhân sự</h4>
+    <h4 class="bold text-primary">Chọn trạng thái</h4>
   </div>
   <div class="form-group form-outline">
-    <select name="" id="" class="form-control" [(ngModel)]="user">
-      <option *ngFor="let item of listUser" [value]="item.account.id">{{item.account.fullName}}</option>
+    <select name="" id="" class="form-control" [(ngModel)]="status">
+      <option value="1">Đã tiếp nhận</option>
+      <option value="2">Đang xử lý</option>
+      <option value="3">KNM L1</option>
+      <option value="4">KNM L2</option>
+      <option value="5">KNM L3</option>
+      <option value="6">Thất bại</option>
+      <option *ngIf="!isHideOption" value="8">Đã in đơn</option>
     </select>
   </div>
   <div class="position-relative" *ngFor="let item of listWork">
