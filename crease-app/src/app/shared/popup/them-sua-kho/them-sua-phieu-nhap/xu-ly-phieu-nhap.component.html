@@ -153,7 +153,7 @@
                   <div class="col-6 d-flex align-items-center" style="font-size: 10px">
                     Kho:
                     <ng-container>{{
-                      item.subProduct.warehouse.name
+                      item.warehouse.name
                       }}</ng-container>
                   </div>
                 </div>
@@ -217,7 +217,7 @@
                 </div>
               </div>
             </div>
-            <thong-tin-san-pham [isModalOpen]="isShowSanPham" (handleOpenModal)="editSanPham($event)"
+            <thong-tin-san-pham [data]="data" [isModalOpen]="isShowSanPham" (handleOpenModal)="editSanPham($event)"
               (editValue)="handleEditSanPham($event)"></thong-tin-san-pham>
           </ion-card-content>
         </ion-card>

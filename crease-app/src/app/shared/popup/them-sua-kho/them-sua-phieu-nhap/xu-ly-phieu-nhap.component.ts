@@ -89,7 +89,7 @@ export class XulyPhieuNhapComponent implements OnInit {
   loadDataSub(list: any) {
     for (let i = 0; i < list.length; i++) {
       const a = list[i];
-
+      a.warehouse = this.warehouse;
       this.subProductList.push(a);
     }
     for (let i = 0; i < this.subProductList.length; i++) {
