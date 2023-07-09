@@ -244,7 +244,6 @@ export class NhapHangComponent implements OnInit {
       },
       backdropDismiss: false,
     });
-    console.log('item :>> ', item);
     modal.present();
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm') {
