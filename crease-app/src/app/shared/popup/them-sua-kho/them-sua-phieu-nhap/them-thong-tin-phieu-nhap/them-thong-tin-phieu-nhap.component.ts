@@ -16,9 +16,6 @@ import { DanhMucService } from 'src/app/danhmuc.services';
 export class ThemThongTinPhieuNhapComponent implements OnInit {
   @Output() handleOpenModal = new EventEmitter<any>();
   @Output() editValue = new EventEmitter<any>();
-  @Input() data: any;
-  @Input() title: any;
-  @Input() type: any;
   @Input() shopCode: any;
   @Input() isModalOpen: any;
   @Input() createAt: any;
@@ -28,16 +25,14 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
   @Input() note: any;
 
   ngOnInit(): void {
-    this.createAt= moment(this.createAt, 'DD/MM/YYYY').format('YYYY-MM-DD')
-    this.estimatedReturnDate= moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYY-MM-DD')
+    this.createAt = moment(this.createAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    this.estimatedReturnDate = moment(this.estimatedReturnDate,'DD/MM/YYYY').format('YYYY-MM-DD');
   }
   constructor(
     private modal: ModalController,
     private dmService: DanhMucService,
     private loading: LoadingController
-  ) {
-    
-  }
+  ) {}
 
   setOpen(open: boolean) {
     this.isModalOpen = open;
@@ -47,7 +42,7 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
   saveInfo() {
     const value = {
       createAt: moment(this.createAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
-      estimatedReturnDate: moment(this.estimatedReturnDate, 'YYYY-MM-DD').format('DD/MM/YYYY'),
+      estimatedReturnDate: moment( this.estimatedReturnDate,'YYYY-MM-DD').format('DD/MM/YYYY'),
       tranportFee: this.tranportFee,
       discount: this.discount,
       note: this.note,
