@@ -37,16 +37,20 @@ export class ThemSanPhamComponent implements OnInit {
   info: any;
   shop: any;
   khoId: any;
-  khoName: any;
+  kho: any;
   status: any;
 
   ngOnInit(): void {
-    this.khoId = this.data.warehouse.id;
-    console.log(this.data);
     this.getKho();
-    this.getSanPham(this.khoId);
-    this.status = this.data.status;
-    console.log(this.data.warehouse);
+    if (this.data) {
+      this.khoId = this.data.warehouse.id;
+      this.status = this.data.status;
+    } else {
+      this.status = 0;
+    }
+    if (this.khoId) {
+      this.getSanPham(this.khoId);
+    }
   }
 
   constructor(
@@ -57,7 +61,6 @@ export class ThemSanPhamComponent implements OnInit {
   ) {
     this.info = this.localStorage.retrieve('authenticationToken');
     this.shop = this.localStorage.retrieve('shop');
-    
   }
 
   setOpen(open: boolean) {
@@ -70,12 +73,12 @@ export class ThemSanPhamComponent implements OnInit {
       product: this.product,
       subProductCode: this.subProductCode,
       totalQuantity: this.totalQuantity,
-      availableQuantity: this.totalQuantity,
+      availableQuantity: this.availableQuantity,
       nhaCungCap: this.nhaCungCap,
       price: this.price,
+      khoId: this.khoId,
       isOpen: false,
     };
-    console.log('value :>> ', value);
     this.listSanPhamCT = [];
     this.editValue.emit(value);
     this.setOpen(false);
@@ -86,10 +89,7 @@ export class ThemSanPhamComponent implements OnInit {
       page: 0,
       size: 10000,
       filter:
-        'status==1;shopcode==' +
-        this.shop.code +
-        ';warehouseId==' +
-        this.khoId,
+        'status==1;shopcode==' + this.shop.code + ';warehouseId==' + this.khoId,
     };
     this.dmService.query(params, '/api/v1/product').subscribe(
       (res: HttpResponse<any>) => {
