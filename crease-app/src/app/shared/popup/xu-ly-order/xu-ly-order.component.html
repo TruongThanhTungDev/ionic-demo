@@ -86,7 +86,7 @@
         <button *ngIf="status === 20" class="btn btn-sm text-13px bg-danger fw-bold dropdown-toggle"
           data-bs-toggle="dropdown">Hủy
           đơn</button>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu" *ngIf="showChangeStatus">
           <li *ngFor="let statusBtn of listDropDownDataOrder" class="text-center mb-2 border-bottom px-3"
             (click)="statusBtn.value === status ? {} : saveInfo(statusBtn.value)">
             <button [class]="statusBtn.value === status ? statusBtn.className + ' btn-selected' : statusBtn.className"
@@ -119,9 +119,9 @@
         </ion-card-content>
       </ion-card>
       <thong-tin-ghi-chu [status]="status" [note]="note" (editValue)="handleEditNote($event)"></thong-tin-ghi-chu>
-      <thong-tin-don-hang [status]="status" [cogs]="cogs" [price]="price" [products]="listProduct"
-        [productName]="product" [date]="date" [shopCode]="shopCode" [status]="status"
-        (editValue)="handleEditOrder($event)"></thong-tin-don-hang>
+      <thong-tin-don-hang [status]="status" [cogs]="cogs" [price]="price" [discountCost]="discount"
+        [deliveryFeeCost]="deliveryFee" [products]="listProduct" [productName]="product" [date]="date"
+        [shopCode]="shopCode" [status]="status" (editValue)="handleEditOrder($event)"></thong-tin-don-hang>
     </div>
   </div>
   <div *ngIf="isShowTracking" class="show-mvp p-3">

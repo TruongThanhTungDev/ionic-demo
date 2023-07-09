@@ -223,9 +223,9 @@ export class LayoutComponent implements OnInit, AfterViewInit {
           type: 'SET_RELOAD',
           payload: true,
         });
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 500);
+        setTimeout(() => {
+          window.location.reload();
+        }, 200);
       } else {
         this.checkWorkActive = false;
       }
@@ -242,9 +242,9 @@ export class LayoutComponent implements OnInit, AfterViewInit {
           type: 'SET_RELOAD',
           payload: true,
         });
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 500);
+        setTimeout(() => {
+          window.location.reload();
+        }, 200);
       } else {
         this.checkWorkActive = true;
       }

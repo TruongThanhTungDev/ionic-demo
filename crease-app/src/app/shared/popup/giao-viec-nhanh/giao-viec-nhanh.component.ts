@@ -62,7 +62,7 @@ export class GiaoViecNhanhPopup implements OnInit {
       .getOption(
         null,
         this.REQUEST_DATA_URL,
-        `/getAllDataAccountNull?status=0&shopCode=` + this.shopCode
+        `/getAllDataAccountNull?status=0,1,2,3,4,5&shopCode=` + this.shopCode
       )
       .subscribe(
         (res: HttpResponse<any>) => {

@@ -81,15 +81,6 @@ export class ThongTinDiaChiOrder implements OnInit {
       await this.getWard();
       this.findWard(this.ward);
     }
-    if (this.street) {
-      this.provinceId = '';
-      this.districtId = '';
-      this.wardId = '';
-      this.provinceName = '';
-      this.districtName = '';
-      this.wardName = '';
-      this.streetName = '';
-    }
   }
   async setOpen(open: boolean) {
     this.isModalOpen = open;
@@ -98,18 +89,16 @@ export class ThongTinDiaChiOrder implements OnInit {
         this.findProvince(this.province);
       }
       if (this.district) {
-        await this.getDistrict();
+        // await this.getDistrict();
         this.findDistrict(this.district);
       }
       if (this.ward) {
-        await this.getWard();
+        // await this.getWard();
         this.findWard(this.ward);
       }
       if (this.street) {
         this.streetName = this.street;
       }
-    } else {
-      this.streetName = '';
     }
   }
   getProvince() {
@@ -148,6 +137,7 @@ export class ThongTinDiaChiOrder implements OnInit {
     }
   }
   changeProvince(event: any) {
+    this.listWard = [];
     this.provinceId = event.target.value;
     this.findProvinceWithId(this.provinceId);
     this.districtId = '';
@@ -253,6 +243,10 @@ export class ThongTinDiaChiOrder implements OnInit {
       province: this.provinceName,
       isOpen: false,
     };
+    this.province = this.provinceName;
+    this.district = this.districtName;
+    this.ward = this.wardName;
+    this.street = this.streetName;
     this.editValue.emit(value);
     this.setOpen(false);
   }

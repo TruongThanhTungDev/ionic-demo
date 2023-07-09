@@ -20,30 +20,32 @@ export class ThemSanPhamComponent implements OnInit {
   @Input() type: any;
   @Input() shopCode: any;
   @Input() isModalOpen: any;
-  @Input() subProductName : any;
+  @Input() product: any;
   @Input() subProductCode: any;
-  @Input() subProductProperties : any;
-  @Input() wareHouseName : any;
-  @Input() totalQuantity : any;
+  @Input() subProductProperties: any;
+  @Input() warehouse: any;
+  @Input() totalQuantity: any;
   @Input() availableQuantity: any;
   @Input() totalPrice: any;
-  @Input() nhaCungCap:any;
-  @Input() price:any;
-  listSanPham = [];
-  listSanPhamCT = [];
-  listKho=[];
-  isToastOpen:any;
-  messageToast:any;
-  info:any;
-  shop:any;
-  khoId:any;
-  khoName:any;
-  kho=null;
-
+  @Input() nhaCungCap: any;
+  @Input() price: any;
+  listSanPham: any[] = [];
+  listSanPhamCT: any[] = [];
+  listKho: any[] = [];
+  isToastOpen: any;
+  messageToast: any;
+  info: any;
+  shop: any;
+  khoId: any;
+  khoName: any;
+  kho = null;
+  status: any;
 
   ngOnInit(): void {
     this.getKho();
-   
+    this.getSanPham(this.khoId);
+    this.status = this.data.status;
+    console.log(this.status);
   }
 
   constructor(
@@ -64,49 +66,51 @@ export class ThemSanPhamComponent implements OnInit {
 
   saveInfo() {
     const value = {
-    subProductName : this.subProductName,
-    subProductCode : this.subProductCode,
-    subProductProperties : this.subProductProperties,
-    wareHouseName : this.wareHouseName,
-    totalQuantity : this.totalQuantity,
-    availableQuantity: this.availableQuantity,
-    totalPrice : this.totalPrice,
-    isOpen: false,
+      product: this.product,
+      subProductCode: this.subProductCode,
+      totalQuantity: this.totalQuantity,
+      availableQuantity: this.totalQuantity,
+      nhaCungCap: this.nhaCungCap,
+      price: this.price,
+      isOpen: false,
     };
+    console.log('value :>> ', value);
+    this.listSanPhamCT = [];
     this.editValue.emit(value);
     this.setOpen(false);
   }
   getSanPham(khoId: any): void {
     const params = {
-      sort: ["id", "desc"],
+      sort: ['id', 'desc'],
       page: 0,
       size: 10000,
-      filter: "status==1;shopcode==" + this.shop.code + ';warehouseId==' + khoId,
+      filter:
+        'status==1;shopcode==' + this.shop.code + ';warehouseId==' + khoId,
     };
-    this.dmService.query(params, "/api/v1/product").subscribe(
-        (res: HttpResponse<any>) => {
-          if (res.status === 200) {
-            this.listSanPham = res.body.RESULT.content;
-          } else {
-            this.isToastOpen = true;
-            this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
-          }
-        },
-        () => {
+    this.dmService.query(params, '/api/v1/product').subscribe(
+      (res: HttpResponse<any>) => {
+        if (res.status === 200) {
+          this.listSanPham = res.body.RESULT.content;
+        } else {
           this.isToastOpen = true;
           this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
-          console.error();
         }
-      );
+      },
+      () => {
+        this.isToastOpen = true;
+        this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
+        console.error();
+      }
+    );
   }
   getKho(): void {
     const params = {
-      sort: ["id", "asc"],
+      sort: ['id', 'asc'],
       page: 0,
       size: 1000,
-      filter: "id>0;staus>=0;shop.code==" + this.shop.code,
+      filter: 'id>0;staus>=0;shop.code==' + this.shop.code,
     };
-    this.dmService.query(params, "/api/v1/warehouse").subscribe(
+    this.dmService.query(params, '/api/v1/warehouse').subscribe(
       (res: HttpResponse<any>) => {
         if (res.status === 200) {
           this.listKho = res.body.RESULT.content;
@@ -123,20 +127,19 @@ export class ThemSanPhamComponent implements OnInit {
     );
   }
   changeKho(e: any) {
-    this.kho = e;
-    this.getSanPham(e.id);
+    this.khoId = e.target.value;
+    this.getSanPham(this.khoId);
   }
-  
-  
+
   getSanPhamCT(e: any) {
     if (e) {
       const params = {
-        sort: ["id", "asc"],
+        sort: ['id', 'asc'],
         page: 0,
         size: 1000,
-        filter: "product.id==" + e.id,
+        filter: 'product.id==' + e.id,
       };
-      this.dmService.query(params, "/api/v1/sub-product").subscribe(
+      this.dmService.query(params, '/api/v1/sub-product').subscribe(
         (res: HttpResponse<any>) => {
           if (res.body) {
             if (res.body.CODE === 200) {
@@ -157,10 +160,9 @@ export class ThemSanPhamComponent implements OnInit {
       this.listSanPhamCT = [];
     }
   }
-  
+
   customListSPCT(list: any) {
-    list.forEach((e: any) => (e.ten = e.code + " | " + e.properties));
+    list.forEach((e: any) => (e.ten = e.code + ' | ' + e.properties));
     return list;
   }
-  
 }

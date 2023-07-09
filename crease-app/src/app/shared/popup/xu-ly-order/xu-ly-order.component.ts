@@ -107,75 +107,9 @@ export class XuLyOrderComponent implements OnInit {
       styleName: '',
     },
     {
-      name: 'Đã in đơn',
-      value: 8,
-      className: 'btn-blue',
-      styleName: '',
-    },
-    {
-      name: 'Đã chuyển kho giao',
-      value: 10,
-      className: '',
-      styleName: 'background: #CBE4D5;color: #5F7161',
-    },
-    {
-      name: 'Đơn gửi hàng lỗi',
-      value: 11,
-      className: 'btn-danger',
-      styleName: '',
-    },
-    {
-      name: 'Đã giao hàng',
-      value: 12,
-      className: '',
-      styleName: 'background: #7DAEED;color: #04408D;',
-    },
-    {
-      name: 'Đang giao hàng',
-      value: 13,
-      className: 'btn-warning',
-      styleName: 'background: #C4D6A0;color: #7F8C64',
-    },
-    {
-      name: 'Hoãn giao hàng',
-      value: 14,
-      className: '',
-      styleName: 'background: #EE91AC;color: #FF2363',
-    },
-    {
-      name: 'Đã đối soát',
-      value: 15,
-      className: '',
-      styleName: 'background: #D1E9DC;color: #6C9379',
-    },
-    {
-      name: 'Xác nhận hoàn',
-      value: 16,
-      className: '',
-      styleName: 'background: #B8CFC7;color: #367D65',
-    },
-    {
-      name: 'Hoãn hàng trả',
-      value: 17,
-      className: '',
-      styleName: 'background: #CACCDB;color: #5C6290;',
-    },
-    {
-      name: 'Đang chuyển kho trả',
-      value: 18,
-      className: '',
-      styleName: 'background: #7FBDAD;color: #33675A',
-    },
-    {
-      name: 'Đã trả hàng toàn bộ',
-      value: 19,
-      className: '',
-      styleName: 'background: #F1D8F6;color: #B15CC1',
-    },
-    {
       name: 'Hủy đơn',
       value: 20,
-      className: 'bg-danger',
+      className: 'bg-danger text-white',
       styleName: '',
     },
   ];
@@ -187,22 +121,10 @@ export class XuLyOrderComponent implements OnInit {
   ) {
     this.info = this.localStorage.retrieve('authenticationToken');
   }
-  get disableEdit() {
+  get showChangeStatus() {
     return (
-      this.info.role === 'user' &&
-      (this.status === 7 ||
-        this.status === 8 ||
-        this.status === 10 ||
-        this.status === 11 ||
-        this.status === 12 ||
-        this.status === 13 ||
-        this.status === 14 ||
-        this.status === 15 ||
-        this.status === 16 ||
-        this.status === 17 ||
-        this.status === 18 ||
-        this.status === 19 ||
-        this.status === 20)
+      this.type === 'after-order' &&
+      (this.status === 7 || this.status === 11 || this.status === 20)
     );
   }
   get isUser() {
@@ -379,7 +301,6 @@ export class XuLyOrderComponent implements OnInit {
       province: this.province,
       street: this.street,
     };
-    // await this.isLoading()
     if (status === 6) {
       this.data.price = 0;
     } else if (status === 7 || status === 8 || status === 11) {
@@ -403,6 +324,7 @@ export class XuLyOrderComponent implements OnInit {
           };
         });
         const body = { list: arr };
+        await this.isLoading();
         this.dmService
           .postOption(body, this.REQUEST_PRODUCT_URL, '/price-import')
           .subscribe(
@@ -410,44 +332,51 @@ export class XuLyOrderComponent implements OnInit {
               if (res.body.CODE == 200) {
                 this.data.totalProductValue = res.body.RESULT.costImport;
                 const payload = {
-                  ...this.data,
-                  date: parseInt(
-                    moment(this.data.date, 'HH:mm:ss DD/MM/YYYY').format(
-                      'YYYYMMDDHHmmss'
-                    )
-                  ),
-                  dateChanged,
-                  name: this.name,
-                  phone: this.phone,
-                  product: this.product,
-                  note: this.note,
-                  dataInfo: JSON.stringify(dataInfo),
-                  productIds: JSON.stringify(this.listProduct),
-                  status,
-                  price: this.price,
+                  dataList: [
+                    {
+                      ...this.data,
+                      date: parseInt(
+                        moment(this.data.date, 'HH:mm:ss DD/MM/YYYY').format(
+                          'YYYYMMDDHHmmss'
+                        )
+                      ),
+                      dateChanged,
+                      name: this.name,
+                      phone: this.phone,
+                      product: this.product,
+                      note: this.note,
+                      dataInfo: JSON.stringify(dataInfo),
+                      productIds: JSON.stringify(this.listProduct),
+                      status,
+                      price: this.price,
+                      deliveryFee: this.deliveryFee,
+                      discount: this.discount,
+                    },
+                  ],
                 };
-                this.dmService.update(payload, this.REQUEST_DATA_URL).subscribe(
-                  (res: HttpResponse<any>) => {
-                    if (res.status === 200) {
+                this.dmService
+                  .postOption(payload, this.REQUEST_DATA_URL, '/assignWork')
+                  .subscribe(
+                    (res: HttpResponse<any>) => {
+                      this.loading.dismiss();
+                      if (res.status === 200) {
+                        this.isToastOpen = true;
+                        this.messageToast = 'Lưu thông tin thành công';
+                        this.modal.dismiss(null, 'confirm');
+                      } else {
+                        this.isToastOpen = true;
+                        this.messageToast = res.body.MESSAGE
+                          ? res.body.MESSAGE
+                          : 'Có lỗi xảy ra, vui lòng thử lại';
+                      }
+                    },
+                    () => {
                       this.isToastOpen = true;
-                      this.messageToast = 'Lưu thông tin thành công';
-                      this.totalMoney = 0;
-                      this.deliveryFee = 0;
-                      this.discount = 0;
-                      this.modal.dismiss(null, 'confirm');
-                    } else {
-                      this.isToastOpen = true;
-                      this.messageToast = res.body.MESSAGE
-                        ? res.body.MESSAGE
-                        : 'Có lỗi xảy ra, vui lòng thử lại';
+                      this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
                     }
-                  },
-                  () => {
-                    this.isToastOpen = true;
-                    this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
-                  }
-                );
+                  );
               } else {
+                this.loading.dismiss();
                 this.isToastOpen = true;
                 this.messageToast = res.body.MESSAGE
                   ? res.body.MESSAGE
@@ -455,6 +384,7 @@ export class XuLyOrderComponent implements OnInit {
               }
             },
             () => {
+              this.loading.dismiss();
               this.isToastOpen = true;
               this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
               console.error();
@@ -480,39 +410,51 @@ export class XuLyOrderComponent implements OnInit {
       this.data.discount = 0;
     } else {
       this.data.cost = 0;
-      this.data.deliveryFee = 0;
-      this.data.discount = 0;
     }
     const payload = {
-      ...this.data,
-      dateChanged,
-      date: parseInt(
-        moment(this.data.date, 'HH:mm:ss DD/MM/YYYY').format('YYYYMMDDHHmmss')
-      ),
-      name: this.name,
-      phone: this.phone,
-      product: this.product,
-      note: this.note,
-      dataInfo: JSON.stringify(dataInfo),
-      productIds: JSON.stringify(this.listProduct),
-      status,
-      price: this.price,
+      dataList: [
+        {
+          ...this.data,
+          dateChanged,
+          date: parseInt(
+            moment(this.data.date, 'HH:mm:ss DD/MM/YYYY').format(
+              'YYYYMMDDHHmmss'
+            )
+          ),
+          ngay: this.data.date,
+          name: this.name,
+          phone: this.phone,
+          product: this.product,
+          note: this.note,
+          dataInfo: JSON.stringify(dataInfo),
+          productIds: JSON.stringify(this.listProduct),
+          status,
+          price: this.price,
+          deliveryFee: this.deliveryFee,
+          discount: this.discount,
+        },
+      ],
     };
-    this.dmService.update(payload, this.REQUEST_DATA_URL).subscribe(
-      (res: HttpResponse<any>) => {
-        if (status !== -1) {
-          this.modal.dismiss(null, 'confirm');
+    await this.isLoading();
+    this.dmService
+      .postOption(payload, this.REQUEST_DATA_URL, '/assignWork')
+      .subscribe(
+        (res: HttpResponse<any>) => {
+          this.loading.dismiss();
+          if (status !== -1) {
+            this.modal.dismiss(null, 'confirm');
+          }
+          this.isToastOpen = true;
+          this.messageToast = res.body.MESSAGE
+            ? res.body.MESSAGE
+            : 'Lưu thông tin thành công';
+        },
+        () => {
+          this.loading.dismiss();
+          this.isToastOpen = true;
+          this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
         }
-        this.isToastOpen = true;
-        this.messageToast = res.body.MESSAGE
-          ? res.body.MESSAGE
-          : 'Lưu thông tin thành công';
-      },
-      () => {
-        this.isToastOpen = true;
-        this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
-      }
-    );
+      );
   }
   async getTracking() {
     await this.isLoading();

@@ -2,36 +2,51 @@
   <ion-toolbar mode="md" class="new-toolbar-background">
     <ion-buttons slot="start">
       <button class="bg-content rounded-circle" (click)="cancel()">
-        <i class="fa-solid fa-arrow-left"
-          style=" padding: 8px 8px; font-size: 20px; margin-right: 6px; color: #2c5fb6; "></i>
+        <i class="fa-solid fa-arrow-left" style="
+            padding: 8px 8px;
+            font-size: 20px;
+            margin-right: 6px;
+            color: #2c5fb6;
+          "></i>
       </button>
     </ion-buttons>
     <ion-title class="text-14px fw-bold">{{ title }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button [strong]="true">Lưu</ion-button>
+      <ion-button [strong]="true" *ngIf="(data && data.status == 0) || !data">Lưu</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <div class="text-primary">
     <div class="d-flex align-items-end justify-content-start">
-      <div class="mt-1" style="margin-left:8px">
-        <h6 class="text-secondary fw-bold">#{{id}}</h6>
+      <div class="mt-1" style="margin-left: 8px">
+        <h6 class="text-secondary fw-bold">#{{ id }}</h6>
         <h6 class="fw-bold">
-          Người tạo: {{creatorName ? creatorName: this.info.fullName}}
+          Người tạo: {{ creatorName ? creatorName : this.info.fullName }}
         </h6>
       </div>
     </div>
-    <div class="position-relative w-30 mb-3" style="margin-left:7px">
-      <select [(ngModel)]="status" class="form-control">
-        <option value="0,1,2,3,10">Tất cả</option>
+    <div class="position-relative w-50 mb-3" style="margin-left: 7px">
+      <select *ngIf="data && data.status != 10 && data.status != 3" [(ngModel)]="status" class="form-control">
+        <option value="0" *ngIf="data.status == 0">Mới</option>
+        <option value="1" *ngIf="data.status == 0 || data.status == 1">
+          Đã tiếp nhận
+        </option>
+        <option value="2" *ngIf="data.status == 1 || data.status == 2">
+          Đang vận chuyển
+        </option>
+        <option value="3" *ngIf="data.status == 2">Đã hoàn thành</option>
+        <option value="10" *ngIf="data.status == 0 || data.status == 1">
+          Đã hủy
+        </option>
+      </select>
+      <select *ngIf="type === 'add'" [(ngModel)]="status" class="form-control">
         <option value="0">Mới</option>
         <option value="1">Đã tiếp nhận</option>
         <option value="2">Đang vận chuyển</option>
-        <option value="3">Đã hoàn thành</option>
-        <option value="10">Đã hủy</option>
       </select>
-      <i class="fa-solid fa-chevron-down position-absolute arrow-input"></i>
+      <i *ngIf="data && data.status != 10 && data.status != 3"
+        class="fa-solid fa-chevron-down position-absolute arrow-input"></i>
     </div>
     <div class="position-relative">
       <div class="position-relative">
@@ -51,28 +66,35 @@
           </ion-card-header>
           <ion-card-content>
             <div class="row">
-              <div class="col-6 d-flex align-items-center" style="font-size: 10px"> Thời gian tạo:
-                <ng-container>{{createAt ? createAt :''}}</ng-container>
+              <div class="col-6 d-flex align-items-center" style="font-size: 10px">
+                Thời gian tạo:
+                <ng-container>{{ createAt ? createAt : "" }}</ng-container>
               </div>
             </div>
             <div class="row">
-              <div class="col-6 d-flex align-items-center" style="font-size: 10px"> Ngày về dự kiến:
-                <ng-container>{{estimatedReturnDate ? estimatedReturnDate :''}}</ng-container>
+              <div class="col-6 d-flex align-items-center" style="font-size: 10px">
+                Ngày về dự kiến:
+                <ng-container>{{
+                  estimatedReturnDate ? estimatedReturnDate : ""
+                  }}</ng-container>
               </div>
             </div>
             <div class="row">
-              <div class="col-6 d-flex align-items-center" style="font-size: 10px">Phí ship:
-                <ng-container>{{tranportFee ? tranportFee :0}}</ng-container>
+              <div class="col-6 d-flex align-items-center" style="font-size: 10px">
+                Phí ship:
+                <ng-container>{{ tranportFee ? tranportFee : 0 }}</ng-container>
               </div>
             </div>
             <div class="row">
-              <div class="col-6 d-flex align-items-center" style="font-size: 10px">Chiếu khấu:
-                <ng-container>{{discount ? discount : 0}}</ng-container>
+              <div class="col-6 d-flex align-items-center" style="font-size: 10px">
+                Chiếu khấu:
+                <ng-container>{{ discount ? discount : 0 }}</ng-container>
               </div>
             </div>
             <div class="row">
-              <div class="col-6 d-flex align-items-center" style="font-size: 10px">Ghi chú:
-                <ng-container>{{note ? note :''}}</ng-container>
+              <div class="col-6 d-flex align-items-center" style="font-size: 10px">
+                Ghi chú:
+                <ng-container>{{ note ? note : "" }}</ng-container>
               </div>
             </div>
             <thong-tin-phieu-nhap [createAt]="createAt" [estimatedReturnDate]="estimatedReturnDate"
@@ -89,76 +111,159 @@
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <div class="row fw-bold ">
+            <div class="row fw-bold">
               <div class="col-12 col-md-8 offset-md-2">
-                <button class="btn btn-sm" style="background-color: #46C851;" (click)="editSanPham(true)">
-                  <i class="fa-solid fa-plus" style="color: #ffffff;" ></i>
+                <button class="btn btn-sm" style="background-color: #46c851" (click)="editSanPham(true)">
+                  <i class="fa-solid fa-plus" style="color: #ffffff"></i>
                 </button>
               </div>
             </div>
             <div class="row mt-3">
-              <div *ngFor="let item of subProductList">
+              <div [ngClass]="{ 'tr-selected': selectedCT === i }" *ngFor="let item of subProductList; index as i"
+                (click)="onSelectedCT(i)">
                 <div class="row">
-                  <div class="col-6 d-flex align-items-center" style="font-size: 16px"> {{item.subProduct ?
-                    item.subProduct.product.name:''}}
+                  <div class="col-10 d-flex align-items-center" style="font-size: 16px">
+                    {{ item.subProduct.product.name }}
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-6 d-flex align-items-center justify-content-between"
-                    style="border: 1px solid #006EB9;font-size: 10px; padding:0px; margin-left:10px">
-                    <div class="col-6 align-items-center" style="background-color:#006EB9;color:#FFFFFF">
-                      <ng-container> {{item.subProduct?item.subProduct.product.code:''}}</ng-container>
+                  <div class="col-2 text-end" style="font-size:15px">
+                    <div *ngIf="item.edit">
+                      <i class="fa fa-check" (click)="item.edit = false" style="margin-right:4px;"></i>
+                      <i *ngIf="!item.id" class="fa fa-trash" (click)="removeRowCT(i)"></i>
                     </div>
-                    <div class="col-6 align-items-center">
-                      <ng-container>{{item.subProduct?item.subProduct.code:''}}</ng-container>
-                    </div>
+                    <i *ngIf="!item.edit" class="fa fa-pen" (click)="onEditCT(item)"></i>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-6 d-flex align-items-center" style="font-size: 10px"> Thuộc tính:
-                    <ng-container>{{item.subProduct?item.subProduct.properties:''}}</ng-container>
+                  <div class="col-6 d-flex text-10px">
+                    <div class="w-50 p-1" style="background-color: #006eb9; color: #ffffff">{{
+                      item.subProduct.product.code
+                      }}</div>
+                    <div class="w-50 p-1" style="border: 1px solid #006eb9">{{ item.subProduct.code }}</div>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-6 d-flex align-items-center" style="font-size: 10px">Kho:
-                    <ng-container>{{item.subProduct?item.subProduct.warehouse.name:''}}</ng-container>
+                  <div class="col-6 d-flex align-items-center" style="font-size: 10px">
+                    Thuộc tính:
+                    <ng-container>{{
+                      item.subProduct.properties
+                      }}</ng-container>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-6 d-flex align-items-center" style="font-size: 10px">Tổng:
-                    <ng-container>{{item.price && item.totalQuantity ? item.price * item.totalQuantity
-                      : 0}}</ng-container>
+                  <div class="col-6 d-flex align-items-center" style="font-size: 10px">
+                    Kho:
+                    <ng-container>{{
+                      item.subProduct.warehouse.name
+                      }}</ng-container>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6 d-flex align-items-center" style="font-size: 10px">
+                    Tổng:
+                    <ng-container>{{
+                      item.price && item.totalQuantity
+                      ? plugins.formatNumber(item.totalPrice)
+                      : 0
+                      }}</ng-container>
                   </div>
                 </div>
                 <div>
-                <div class="row fw-bold ">
-                  <div class="col-4 " style="text-align:start ;font-size: 9px">Có thể bán:</div>
-                  <div class="col-4 " style="text-align:center ; font-size: 9px">Số lượng:</div>
-                  <div class="col-4 " style="text-align:center ;font-size: 9px">Giá nhập:</div>
+                  <div class="row fw-bold">
+                    <div class="col-4" style="text-align: start; font-size: 9px">
+                      Có thể bán:
+                    </div>
+                    <div class="col-4" style="text-align: center; font-size: 9px">
+                      Số lượng:
+                    </div>
+                    <div class="col-4" style="text-align: center; font-size: 9px">
+                      Giá nhập:
+                    </div>
+                  </div>
+                  <div class="row text-10px">
+                    <div class="col-4" style="text-align: start">
+                      <div *ngIf="item.edit">
+                        <input type="number" [(ngModel)]="item.availableQuantity" (keyup.enter)="item.edit = false"
+                          (change)="changeTong()" class="form-control" />
+                      </div>
+                      <div *ngIf="!item.edit">
+                        {{
+                        item
+                        ? plugins.formatNumber(item.availableQuantity)
+                        : ""
+                        }}
+                      </div>
+                    </div>
+                    <div class="col-4" style="text-align: center">
+                      <div *ngIf="item.edit">
+                        <input type="number" [(ngModel)]="item.totalQuantity" (keyup.enter)="item.edit = false"
+                          (change)="changeThanhTien(i)" class="form-control" />
+                      </div>
+                      <div *ngIf="!item.edit">
+                        {{
+                        item ? plugins.formatNumber(item.totalQuantity) : ""
+                        }}
+                      </div>
+                    </div>
+                    <div class="col-4" style="text-align: center">
+                      <div *ngIf="item.edit">
+                        <input type="number" [(ngModel)]="item.price" (keyup.enter)="item.edit = false"
+                          (change)="changeThanhTien(i)" class="form-control" />
+                      </div>
+                      <div *ngIf="!item.edit">
+                        {{ item ? plugins.formatNumber(item.price) : "" }}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="row text-10px ">
-                  <div class="col-4 " style="text-align:start ;">
-                    {{item?item.availableQuantity :''}}
-                  </div>
-                  <div class="col-4  " style="text-align:center ;" >
-                  {{item?item.totalQuantity :''}}
-                  </div>
-                  <div class="col-4 " style="text-align:center; padding:0px 8px">
-                    {{item?item.price :''}}
-                  </div>
-                  </div>
-                </div>
-              
               </div>
             </div>
-            <thong-tin-san-pham [subProductName]="subProductName" [subProductCode]="subProductCode" [productCode]="productCode" [price]="price"
-              [subProductProperties]="subProductProperties" [wareHouseName]="wareHouseName" [totalQuantity]="totalQuantity" [availableQuantity]="availableQuantity" 
-              [totalPrice]="totalPrice" [isModalOpen]="isShowSanPham"
-              (handleOpenModal)="editSanPham($event)"
+            <thong-tin-san-pham [isModalOpen]="isShowSanPham" (handleOpenModal)="editSanPham($event)"
               (editValue)="handleEditSanPham($event)"></thong-tin-san-pham>
           </ion-card-content>
         </ion-card>
       </div>
     </div>
   </div>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+    (didDismiss)="setOpen(false)"></ion-toast>
 </ion-content>
+<ion-footer [translucent]="true" mode="md">
+  <div class="d-flex w-100 text-primary align-items-center text-14px py-2"
+    style="background-color: white; box-shadow: 2px -4px 8px 4px #43434338;">
+    <div class="position-relative" style="width: 10%; margin-left: 6px; margin-right: 8px">
+      <div class="position-relative">
+        <div class="position-absolute" style="
+              top: -5px;
+              right: 0;
+              background: #035287;
+              border-radius: 50%;
+              font-size: 10px;
+              color: white;
+              width: 18px;
+              height: 18px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            ">
+          {{subProductList.length}}
+        </div>
+        <i class="fa-solid fa-truck" style="font-size: 30px"></i>
+      </div>
+    </div>
+    <div style="width:45%;">Tổng SL sản phẩm: {{tongSLSP}}</div>
+    <div style="
+    width: calc(100% - 10% - 45% - 20%);
+    text-align: end;
+     ">{{tongTT ? plugins.formatNumber(tongTT): 0}}đ</div>
+    <div style=" width: 20%;">
+      <ion-segment-button value="default" style="border: none; font-size: 10px; background: #035287"
+        *ngIf="(data && data.status == 0) || !data" (click)="onCreate()">
+        <ion-label style="color:#ffffff">Nhập phiếu</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="default" style="border: none; font-size: 10px; background: #035287"
+        *ngIf="(data && data.status != 0 && data.status != 3 && data.status != 10)" (click)="capNhatTrangThai()">
+        <ion-label style="color:#ffffff">Cập nhật trạng thái</ion-label>
+      </ion-segment-button>
+    </div>
+  </div>
+</ion-footer>
