@@ -13,6 +13,7 @@ import { Plugin } from 'src/app/shared/utils/plugins';
 @Component({
   selector: 'xu-ly-phieu-nhap',
   templateUrl: './xu-ly-phieu-nhap.component.html',
+  styleUrls: ['./xu-ly-phieu-nhap.component.scss'],
 })
 export class XulyPhieuNhapComponent implements OnInit {
   REQUEST_URL = '/api/v1/bol';
@@ -54,7 +55,6 @@ export class XulyPhieuNhapComponent implements OnInit {
   ngOnInit(): void {
     this.info = this.localStorage.retrieve('authenticationtoken');
     if (this.data) {
-      console.log(this.data);
       this.id = this.data.id;
       this.creatorName = this.data.creatorName;
       this.createAt = this.data.createAt;
@@ -132,7 +132,6 @@ export class XulyPhieuNhapComponent implements OnInit {
     this.discount = value.discount;
     this.note = value.note;
     this.isShowPhieuNhap = value.isOpen;
-    console.log(value);
   }
   setOpen(isOpen: boolean) {
     this.isToastOpen = isOpen;
@@ -147,31 +146,28 @@ export class XulyPhieuNhapComponent implements OnInit {
     this.availableQuantity = value.availableQuantity;
     this.price = value.price;
     this.nhaCungCap = value.nhaCungCap;
+    this.khoId = value.khoId;
     this.isShowSanPham = value.isOpen;
     this.addSanPhamPhieuNhap();
   }
   addSanPhamPhieuNhap() {
     if (!this.khoId) {
-      console.log(1);
       this.isToastOpen = true;
       this.messageToast = 'Kho không được để trống';
       return;
     }
     if (!this.product) {
-      console.log(2);
       this.isToastOpen = true;
       this.messageToast = 'Mã sản phẩm không được để trống';
       return;
     }
     if (!this.subProductCode) {
-      console.log(3);
       this.isToastOpen = true;
       this.messageToast = 'Mẫu mã sản phẩm không được để trống';
       return;
     }
 
     if (Number(this.price) < 0 || Number(this.totalQuantity) < 0) {
-      console.log(4);
       this.isToastOpen = true;
       this.messageToast = 'Số lượng, giá tiền phải lớn hơn 0';
       return;
@@ -352,7 +348,7 @@ export class XulyPhieuNhapComponent implements OnInit {
           } else {
             this.isToastOpen = true;
             this.messageToast = 'Tạo phiếu thất bại';
-             this.cancel();
+            this.cancel();
           }
         },
         () => {
@@ -371,7 +367,7 @@ export class XulyPhieuNhapComponent implements OnInit {
           } else {
             this.isToastOpen = true;
             this.messageToast = 'Cập nhật phiếu thất bại';
-             this.cancel();
+            this.cancel();
           }
         },
         () => {
@@ -399,7 +395,7 @@ export class XulyPhieuNhapComponent implements OnInit {
         } else {
           this.isToastOpen = true;
           this.messageToast = 'Cập nhật phiếu thất bại';
-           this.cancel();
+          this.cancel();
         }
       },
       () => {

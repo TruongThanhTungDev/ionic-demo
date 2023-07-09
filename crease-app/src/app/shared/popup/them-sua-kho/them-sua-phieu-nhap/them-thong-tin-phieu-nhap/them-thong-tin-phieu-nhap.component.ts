@@ -23,10 +23,21 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
   @Input() tranportFee: any;
   @Input() discount: any;
   @Input() note: any;
+  @Input() data: any;
+  status: any;
 
   ngOnInit(): void {
     this.createAt = moment(this.createAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
-    this.estimatedReturnDate = moment(this.estimatedReturnDate,'DD/MM/YYYY').format('YYYY-MM-DD');
+    this.estimatedReturnDate = moment(
+      this.estimatedReturnDate,
+      'DD/MM/YYYY'
+    ).format('YYYY-MM-DD');
+    if (this.data) {
+      this.status=this.data.status
+    }
+    else{
+      this.status=0
+    }
   }
   constructor(
     private modal: ModalController,
@@ -42,7 +53,10 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
   saveInfo() {
     const value = {
       createAt: moment(this.createAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
-      estimatedReturnDate: moment( this.estimatedReturnDate,'YYYY-MM-DD').format('DD/MM/YYYY'),
+      estimatedReturnDate: moment(
+        this.estimatedReturnDate,
+        'YYYY-MM-DD'
+      ).format('DD/MM/YYYY'),
       tranportFee: this.tranportFee,
       discount: this.discount,
       note: this.note,
