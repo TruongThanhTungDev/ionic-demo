@@ -75,12 +75,12 @@ export class ThaoTacOrder {
             this.messageToast =
               res.body.MESSAGE.toUpperCase() !== 'ok'.toUpperCase()
                 ? res.body.MESSAGE
-                : 'Giao việc thành công';
+                : 'Đổi trạng thái thành công';
           } else {
             this.isToastOpen = true;
             this.messageToast = res.body.MESSAGE
               ? res.body.MESSAGE
-              : 'Giao việc thất bại';
+              : 'Đổi trạng thái thất bại';
           }
           this.loading.dismiss();
           this.confirm();

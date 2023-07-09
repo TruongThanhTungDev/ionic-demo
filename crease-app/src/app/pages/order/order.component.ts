@@ -37,6 +37,7 @@ export class OrderComponent implements OnInit {
   isToastOpen = false;
   isBackHeader = false;
   isOpenFilterModal = false;
+  checkWorkActive: any;
   REQUEST_URL = '/api/v1/data';
   plugins = new Plugin();
   constructor(
@@ -62,11 +63,22 @@ export class OrderComponent implements OnInit {
     return this.info.role === 'user';
   }
   get disableAssignButton() {
-    const result = this.listCheck.every((item) => item.status == 0);
-    return !this.listCheck.length || (this.listCheck.length && !result);
+    const result = this.listCheck.some((item) => {
+      return item.status === 6 || item.status === 9;
+    });
+    return (
+      this.info.role === 'admin' &&
+      ((this.listCheck && !this.listCheck.length) ||
+        (this.listCheck && this.listCheck.length && result))
+    );
   }
   ngOnInit() {
-    this.loadData();
+    this.checkWorkActive = this.localStorage.retrieve('check_work_active');
+    if (this.isAdmin) {
+      this.loadData();
+    } else if (this.isUser && this.checkWorkActive) {
+      this.loadData();
+    }
     this.store.subscribe((state) => {
       this.isBackHeader = state.common.isBackHeader;
       if (!this.isBackHeader) {
@@ -102,6 +114,8 @@ export class OrderComponent implements OnInit {
                 ),
                 dataInfo: item.dataInfo ? JSON.parse(item.dataInfo) : null,
                 productIds: JSON.parse(item.productIds),
+                nhanvien: item.account ? item.account.userName : '',
+                nhanVienId: item.account ? item.account.id : '',
               };
             });
           } else {
@@ -189,6 +203,14 @@ export class OrderComponent implements OnInit {
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm') {
       this.loadData();
+      this.listCheck = [];
+      this.store.dispatch({
+        type: 'CHANGE_HEADER',
+        payload: {
+          title: 'Hủy',
+          state: false,
+        },
+      });
     }
   }
   async handleAssginWork() {
@@ -203,6 +225,14 @@ export class OrderComponent implements OnInit {
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm') {
       this.loadData();
+      this.listCheck = [];
+      this.store.dispatch({
+        type: 'CHANGE_HEADER',
+        payload: {
+          title: 'Hủy',
+          state: false,
+        },
+      });
     }
   }
 
@@ -259,8 +289,16 @@ export class OrderComponent implements OnInit {
         'Thời gian không được bé hơn hoặc lớn hơn khoảng thời gian được chọn!';
       return;
     }
-    this.dateRange.startDate = this.ftThoiGian;
-    this.dateRange.endDate = this.ftThoiGian;
+    if (this.ftThoiGian) {
+      this.dateRange.startDate = this.ftThoiGian;
+    }
+    if (this.ftThoiGian) this.dateRange.endDate = this.ftThoiGian;
+    if (!this.ftThoiGian) {
+      this.dateRange = {
+        startDate: moment().utc().format('YYYY-MM-DD'),
+        endDate: moment().utc().format('YYYY-MM-DD'),
+      };
+    }
     this.loadData();
     this.isOpenFilterModal = false;
   }

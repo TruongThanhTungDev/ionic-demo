@@ -75,6 +75,14 @@
           <span class="fw-bold">Số điện thoại:</span> {{item.phone}}
         </p>
         <button *ngIf="item.status === 0" class="btn btn-sm btn-primary text-13px fw-bold">Mới</button>
+        <button *ngIf="item.status === 1" class="btn btn-sm btn-blue text-13px fw-bold">Đã tiếp nhận</button>
+        <button *ngIf="item.status === 2" class="btn btn-sm btn-orange text-13px fw-bold">Đang xử lý</button>
+        <button *ngIf="item.status === 3" class="btn btn-sm btn-warning text-white text-13px fw-bold">KNM
+          L1</button>
+        <button *ngIf="item.status === 4" class="btn btn-sm btn-warning text-white text-13px fw-bold">KNM
+          L2</button>
+        <button *ngIf="item.status === 5" class="btn btn-sm btn-warning text-white text-13px fw-bold">KNM
+          L3</button>
       </ion-card-content>
     </ion-card>
   </div>

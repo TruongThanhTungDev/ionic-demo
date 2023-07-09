@@ -40,6 +40,7 @@ export class DataOrderComponent implements OnInit {
   ftMaVanChuyen = '';
   ftTaiKhoanVC = '';
   ftNguoiVC = '';
+  checkWorkActive: any;
   constructor(
     private dmService: DanhMucService,
     private localStorage: LocalStorageService,
@@ -76,10 +77,12 @@ export class DataOrderComponent implements OnInit {
     return this.listCheck.length && result;
   }
   ngOnInit() {
-    this.loadData();
-    this.store.subscribe((state) => {
-      this.isBackHeader = state.common.isBackHeader;
-    });
+    this.checkWorkActive = this.localStorage.retrieve('check_work_active');
+    if (this.isAdmin) {
+      this.loadData();
+    } else if (this.isUser && this.checkWorkActive) {
+      this.loadData();
+    }
   }
 
   async loadData() {
@@ -109,6 +112,8 @@ export class DataOrderComponent implements OnInit {
                 ),
                 dataInfo: item.dataInfo ? JSON.parse(item.dataInfo) : null,
                 productIds: JSON.parse(item.productIds),
+                nhanvien: item.account ? item.account.userName : '',
+                nhanVienId: item.account ? item.account.id : '',
               };
             });
           } else {
@@ -220,5 +225,27 @@ export class DataOrderComponent implements OnInit {
   openModalFilter(open: boolean) {
     this.isOpenFilterModal = open;
   }
-  getFilter() {}
+  getFilter() {
+    if (
+      moment(this.ftThoiGian).isBefore(moment(this.dateRange.startDate)) ||
+      moment(this.ftThoiGian).isAfter(moment(this.dateRange.endDate))
+    ) {
+      this.isToastOpen = true;
+      this.messageToast =
+        'Thời gian không được bé hơn hoặc lớn hơn khoảng thời gian được chọn!';
+      return;
+    }
+    if (this.ftThoiGian) {
+      this.dateRange.startDate = this.ftThoiGian;
+    }
+    if (this.ftThoiGian) this.dateRange.endDate = this.ftThoiGian;
+    if (!this.ftThoiGian) {
+      this.dateRange = {
+        startDate: moment().utc().format('YYYY-MM-DD'),
+        endDate: moment().utc().format('YYYY-MM-DD'),
+      };
+    }
+    this.loadData();
+    this.isOpenFilterModal = false;
+  }
 }

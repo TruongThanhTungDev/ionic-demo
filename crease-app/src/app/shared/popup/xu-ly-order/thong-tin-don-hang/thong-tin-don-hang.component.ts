@@ -14,6 +14,8 @@ export class ThongTinDonHangOrder implements OnInit {
   @Output() handleOpenModal = new EventEmitter<any>();
   @Output() editValue = new EventEmitter<any>();
   @Input() price: any;
+  @Input() deliveryFeeCost: any;
+  @Input() discountCost: any;
   @Input() products: any;
   @Input() productName: any;
   @Input() cogs: any;
@@ -44,33 +46,52 @@ export class ThongTinDonHangOrder implements OnInit {
     this.info = this.localStorage.retrieve('authenticationToken');
   }
   ngOnInit() {
-    this.getTotalMoney();
     this.loadDataProduct();
-    this.getPrice();
     this.productOption = this.deepClone(this.products);
+    if (this.deliveryFeeCost) {
+      this.deliveryFee = this.deliveryFeeCost;
+    }
+    if (this.discountCost) {
+      this.discount = this.discountCost;
+    }
     if (this.cogs) {
       this.cogsField = this.cogs;
     }
+    this.getTotalMoney();
+    this.getPrice();
   }
   get disableInput() {
     return this.info.role === 'admin' && this.status === 8;
   }
   get disableEdit() {
     return (
-      this.info.role === 'user' &&
-      (this.status === 7 ||
-        this.status === 8 ||
-        this.status === 10 ||
-        this.status === 11 ||
-        this.status === 12 ||
-        this.status === 13 ||
-        this.status === 14 ||
-        this.status === 15 ||
-        this.status === 16 ||
-        this.status === 17 ||
-        this.status === 18 ||
-        this.status === 19 ||
-        this.status === 20)
+      (this.info.role === 'admin' &&
+        (this.status === 8 ||
+          this.status === 10 ||
+          this.status === 11 ||
+          this.status === 12 ||
+          this.status === 13 ||
+          this.status === 14 ||
+          this.status === 15 ||
+          this.status === 16 ||
+          this.status === 17 ||
+          this.status === 18 ||
+          this.status === 19 ||
+          this.status === 20)) ||
+      (this.info.role === 'user' &&
+        (this.status === 7 ||
+          this.status === 8 ||
+          this.status === 10 ||
+          this.status === 11 ||
+          this.status === 12 ||
+          this.status === 13 ||
+          this.status === 14 ||
+          this.status === 15 ||
+          this.status === 16 ||
+          this.status === 17 ||
+          this.status === 18 ||
+          this.status === 19 ||
+          this.status === 20))
     );
   }
   public async loadDataProduct() {
@@ -157,8 +178,8 @@ export class ThongTinDonHangOrder implements OnInit {
       );
   }
   getTotalMoney() {
-    if (this.products && !this.products.length) return;
-    this.totalMoney = this.products.reduce(
+    if (this.productOption && !this.productOption.length) return;
+    this.totalMoney = this.productOption.reduce(
       (sum: any, item: any) => sum + item.price,
       0
     );
@@ -170,13 +191,21 @@ export class ThongTinDonHangOrder implements OnInit {
     this.isModalOpen = open;
     if (open) {
       this.loadDataProduct();
-      this.getTotalMoney();
       this.productOption = this.deepClone(this.products);
-      this.getTotalMoney();
-      this.getPrice();
+      if (this.deliveryFeeCost) {
+        this.deliveryFee = this.deliveryFeeCost;
+      }
+      if (this.discountCost) {
+        this.discount = this.discountCost;
+      }
       if (this.cogs) {
         this.cogsField = this.cogs;
       }
+      if (this.cogs) {
+        this.cogsField = this.cogs;
+      }
+      this.getTotalMoney();
+      this.getPrice();
     }
   }
   saveInfo() {

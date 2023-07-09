@@ -24,20 +24,33 @@ export class ThongTinKhachHangOrder implements OnInit {
   }
   get disableEdit() {
     return (
-      this.info.role === 'user' &&
-      (this.status === 7 ||
-        this.status === 8 ||
-        this.status === 10 ||
-        this.status === 11 ||
-        this.status === 12 ||
-        this.status === 13 ||
-        this.status === 14 ||
-        this.status === 15 ||
-        this.status === 16 ||
-        this.status === 17 ||
-        this.status === 18 ||
-        this.status === 19 ||
-        this.status === 20)
+      (this.info.role === 'admin' &&
+        (this.status === 8 ||
+          this.status === 10 ||
+          this.status === 11 ||
+          this.status === 12 ||
+          this.status === 13 ||
+          this.status === 14 ||
+          this.status === 15 ||
+          this.status === 16 ||
+          this.status === 17 ||
+          this.status === 18 ||
+          this.status === 19 ||
+          this.status === 20)) ||
+      (this.info.role === 'user' &&
+        (this.status === 7 ||
+          this.status === 8 ||
+          this.status === 10 ||
+          this.status === 11 ||
+          this.status === 12 ||
+          this.status === 13 ||
+          this.status === 14 ||
+          this.status === 15 ||
+          this.status === 16 ||
+          this.status === 17 ||
+          this.status === 18 ||
+          this.status === 19 ||
+          this.status === 20))
     );
   }
   ngOnInit(): void {
