@@ -226,7 +226,6 @@ export class NhapHangComponent implements OnInit {
         data: null,
         type: 'add',
       },
-
       backdropDismiss: false,
     });
     modal.present();
@@ -243,9 +242,9 @@ export class NhapHangComponent implements OnInit {
         data: item,
         type: 'edit',
       },
-
       backdropDismiss: false,
     });
+    console.log('item :>> ', item);
     modal.present();
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm') {
