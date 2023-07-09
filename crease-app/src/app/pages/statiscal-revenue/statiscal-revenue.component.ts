@@ -106,7 +106,7 @@ export class StatiscalRevenue implements OnInit {
             this.loading.dismiss();
             this.listPieChart = res.body.RESULT;
             for (let item of this.listPieChart) {
-              this.totalStatus = this.totalStatus + item.sum;
+              this.totalStatus = this.totalStatus + item.count;
               if (item.status == 0) {
                 this.moi += item.count;
               } else if (
@@ -474,7 +474,12 @@ export class StatiscalRevenue implements OnInit {
     this.chartOptions = {
       chart: {
         type: 'column',
+        scrollablePlotArea: {
+          minWidth: 2000, // Độ rộng tối thiểu của khu vực cuộn
+          scrollPositionX: 1, // Vị trí cuộn ban đầu (1 = cuộn đến cuối)
+        },
       },
+
       title: {
         text: undefined,
       },
@@ -484,6 +489,11 @@ export class StatiscalRevenue implements OnInit {
       xAxis: {
         categories: this.dateChart,
         crosshair: true,
+        scrollbar: {
+          enabled: true,
+          min: 0, // Giá trị tối thiểu của trục x
+          max: 4, // Giá trị tối đa của trục x
+        },
       },
       yAxis: {
         min: 0,
