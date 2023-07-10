@@ -19,7 +19,7 @@
         <label class="text-primary">Nhà cung cấp</label>
         <input type="text" [(ngModel)]="nhaCungCap" class="form-control" placeholder="" [disabled]="status !=0">
       </div>
-      <div class="mb-3 form-group">
+      <div class="mb-3 form-group custom-label ">
         <label class="text-primary">Mã sản phẩm<span class="text-danger">*</span></label>
         <ng-select [multiple]="false" [(ngModel)]="product" class="pb-0 text-12px" (change)="getSanPhamCT($event)"
           [disabled]="status !=0">
@@ -28,11 +28,11 @@
           </ng-option>
         </ng-select>
       </div>
-      <div class="mb-3 form-group">
+     <div class="mb-3 form-group custom-label">
         <label class="text-primary">Mẫu mã<span class="text-danger">*</span> </label>
-        <ng-select [multiple]="false" [(ngModel)]="subProductCode" class="pb-0 text-12px" [disabled]="status !=0">
+        <ng-select [multiple]="false" [(ngModel)]="subProductCode" class="pb-0 text-12px custom-ng-select" [disabled]="status != 0">
           <ng-option *ngFor="let obj of listSanPhamCT" [value]="obj" class="text-12px">
-            {{obj.ten}}
+            {{ obj.ten }}
           </ng-option>
         </ng-select>
       </div>

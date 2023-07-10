@@ -358,12 +358,13 @@ export class XuLyOrderComponent implements OnInit {
                   .postOption(payload, this.REQUEST_DATA_URL, '/assignWork')
                   .subscribe(
                     (res: HttpResponse<any>) => {
-                      this.loading.dismiss();
                       if (res.status === 200) {
+                        this.loading.dismiss();
                         this.isToastOpen = true;
                         this.messageToast = 'Lưu thông tin thành công';
                         this.modal.dismiss(null, 'confirm');
                       } else {
+                        this.loading.dismiss();
                         this.isToastOpen = true;
                         this.messageToast = res.body.MESSAGE
                           ? res.body.MESSAGE
@@ -371,6 +372,7 @@ export class XuLyOrderComponent implements OnInit {
                       }
                     },
                     () => {
+                      this.loading.dismiss();
                       this.isToastOpen = true;
                       this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
                     }
@@ -440,8 +442,8 @@ export class XuLyOrderComponent implements OnInit {
       .postOption(payload, this.REQUEST_DATA_URL, '/assignWork')
       .subscribe(
         (res: HttpResponse<any>) => {
-          this.loading.dismiss();
           if (status !== -1) {
+            this.loading.dismiss();
             this.modal.dismiss(null, 'confirm');
           }
           this.isToastOpen = true;

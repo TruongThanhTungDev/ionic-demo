@@ -26,7 +26,7 @@ export class XulyPhieuNhapComponent implements OnInit {
   messageToast: any;
   subProductList: any[] = [];
   listSanPham = [];
-  isToastOpen: any;
+  isToastOpen= false;
   isShowPhieuNhap = false;
   isShowSanPham = false;
   shop: any;
@@ -71,6 +71,7 @@ export class XulyPhieuNhapComponent implements OnInit {
     if (this.data && this.data.boLDetailList) {
       this.loadDataSub(this.data.boLDetailList);
     }
+    
   }
   constructor(
     private modalNhap: ModalController,
@@ -222,7 +223,7 @@ export class XulyPhieuNhapComponent implements OnInit {
     }
     if(!this.data && !this.khoId){  
         this.isToastOpen = true;
-        this.messageToast = 'Ngày tạo phiếu không được để trống';   
+        this.messageToast = 'Kho không được để trống';   
         return;  
     }
     if (this.subProductList.length === 0) {
