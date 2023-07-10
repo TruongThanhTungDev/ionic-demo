@@ -152,6 +152,10 @@ export class CallLogsStatisticComponent implements OnInit {
     this.page = e;
     this.loadData();
   }
+  async handleRefresh(event: any) {
+    await this.loadData();
+    event.target.complete();
+  }
   
   public convertDateTime(date: any) {
   
