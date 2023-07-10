@@ -1,5 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import { IonInput } from '@ionic/angular';
 import {
   ActionSheetController,
   LoadingController,
@@ -19,7 +20,7 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
   @Input() shopCode: any;
   @Input() isModalOpen: any;
   @Input() createAt: any;
-  @Input() estimatedReturnDate: any;
+  @Input() estimatedReturnDate= '';
   @Input() tranportFee: any;
   @Input() discount: any;
   @Input() note: any;
@@ -28,10 +29,8 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
 
   ngOnInit(): void {
     this.createAt = moment(this.createAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
-    this.estimatedReturnDate = moment(
-      this.estimatedReturnDate,
-      'DD/MM/YYYY'
-    ).format('YYYY-MM-DD');
+    console.log(this.estimatedReturnDate)
+    this.estimatedReturnDate = this.estimatedReturnDate ? moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
     if (this.data) {
       this.status=this.data.status
     }
@@ -42,26 +41,37 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
   constructor(
     private modal: ModalController,
     private dmService: DanhMucService,
-    private loading: LoadingController
+    private loading: LoadingController,
+    private elementRef: ElementRef, 
+    private renderer: Renderer2,
   ) {}
 
   setOpen(open: boolean) {
     this.isModalOpen = open;
     this.handleOpenModal.emit(open);
   }
-
+  onInputDateBlur() {
+    console.log(this.estimatedReturnDate)
+    if (moment(this.estimatedReturnDate, 'YYYY-MM-DD', true).isValid()) {
+      this.estimatedReturnDate = this.estimatedReturnDate;
+    } else {
+      this.estimatedReturnDate = '';
+    }
+  }
+  
   saveInfo() {
+    console.log(this.estimatedReturnDate)
     const value = {
       createAt: moment(this.createAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
-      estimatedReturnDate: moment(
-        this.estimatedReturnDate,
+      estimatedReturnDate: this.estimatedReturnDate ? moment(this.estimatedReturnDate,
         'YYYY-MM-DD'
-      ).format('DD/MM/YYYY'),
+      ).format('DD/MM/YYYY'):"",
       tranportFee: this.tranportFee,
       discount: this.discount,
       note: this.note,
       isOpen: false,
     };
+    console.log(value);
     this.editValue.emit(value);
     this.setOpen(false);
   }

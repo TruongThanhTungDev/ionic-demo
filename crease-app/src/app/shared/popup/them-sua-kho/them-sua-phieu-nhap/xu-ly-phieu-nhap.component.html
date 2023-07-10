@@ -242,7 +242,7 @@
     <div class="footer-count position-center-div">{{tongTT ? plugins.formatNumber(tongTT): 0}}đ</div>
     <div class="bg-primary text-12px text-white">
       <div class="position-center-div text-center fw-bold" style="padding-top: 5px;"
-        *ngIf="(data && data.status == 0) || !data" (click)="onCreate()">
+        *ngIf="(data && data.status === 0) || (!data)" (click)="onCreate()">
         Nhập phiếu
       </div>
       <div class="h-100 position-center-div text-center fw-bold"

@@ -45,6 +45,8 @@ export class ThemSanPhamComponent implements OnInit {
     if (this.data) {
       this.khoId = this.data.warehouse.id;
       this.status = this.data.status;
+      console.log(this.data)
+      this.nhaCungCap=this.data.supplierInfo;
     } else {
       this.status = 0;
     }
