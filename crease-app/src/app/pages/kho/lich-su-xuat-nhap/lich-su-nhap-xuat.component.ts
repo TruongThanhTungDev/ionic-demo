@@ -245,5 +245,8 @@ export class lichsunhapxuatComponent implements OnInit {
     return type;
   }
   
-  
+  async handleRefresh(event: any) {
+    await this.loadData();
+    event.target.complete();
+  }
 }

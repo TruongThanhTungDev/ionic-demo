@@ -219,6 +219,10 @@ export class CauHinhUtmComponent implements OnInit {
     this.name = '';
     this.loadData();
   }
+  async handleRefresh(event: any) {
+    await this.loadData();
+    event.target.complete();
+  }
   changePagination(e: any) {
     this.page = e;
     this.loadData();

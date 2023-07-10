@@ -489,4 +489,8 @@ export class CauhinhKhoComponent implements OnInit {
     }
     return number.toLocaleString('en-US');
   }
+  async handleRefresh(event: any) {
+    await this.loadData();
+    event.target.complete();
+  }
 }

@@ -155,4 +155,8 @@ export class OrderStatisticComponent implements OnInit {
     });
     
   }
+  async handleRefresh(event: any) {
+    await this.loadData();
+    event.target.complete();
+  }
 }

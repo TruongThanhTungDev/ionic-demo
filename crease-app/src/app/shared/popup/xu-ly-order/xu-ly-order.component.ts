@@ -195,8 +195,8 @@ export class XuLyOrderComponent implements OnInit {
       this.deliveryFee = this.data.deliveryFee;
       this.shippingCode = this.data.shippingCode;
       this.note = this.data.note;
+      this.street = this.data.street;
       if (this.data.dataInfo) {
-        this.street = this.data.dataInfo.street;
         this.ward = this.data.dataInfo.ward;
         this.province = this.data.dataInfo.province;
         this.district = this.data.dataInfo.district;
