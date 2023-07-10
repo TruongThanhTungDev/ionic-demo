@@ -137,7 +137,6 @@ export class NhapHangComponent implements OnInit {
               supplierInfo:item.supplierInfo ? item.supplierInfo:'',
             };
           });
-          console.log(this.listData)
           this.customListData();
           this.loading.dismiss();
         } else {
