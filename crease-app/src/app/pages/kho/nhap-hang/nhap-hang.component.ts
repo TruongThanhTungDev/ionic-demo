@@ -46,7 +46,7 @@ export class NhapHangComponent implements OnInit {
   isOpenModalOpen = false;
   isOpenDatePicker: any;
   isBackHeader: any;
-
+  
   khoId: any;
   tenKho: any;
   kho: any;

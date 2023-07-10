@@ -11,6 +11,7 @@ import { DanhMucService } from 'src/app/danhmuc.services';
 @Component({
   selector: 'thong-tin-san-pham',
   templateUrl: './them-san-pham.component.html',
+  
 })
 export class ThemSanPhamComponent implements OnInit {
   @Output() handleOpenModal = new EventEmitter<any>();
@@ -82,7 +83,15 @@ export class ThemSanPhamComponent implements OnInit {
     };
     this.listSanPhamCT = [];
     this.editValue.emit(value);
+    this.resetInfo();
     this.setOpen(false);
+  }
+  resetInfo() {
+    this.product = {};
+    this.subProductCode = {};
+    this.totalQuantity = '';
+    this.availableQuantity = '';
+    this.price = '';
   }
   getSanPham(khoId: any): void {
     const params = {
