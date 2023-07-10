@@ -33,7 +33,7 @@ export class ThemSanPhamComponent implements OnInit {
   listSanPham: any[] = [];
   listSanPhamCT: any[] = [];
   listKho: any[] = [];
-  isToastOpen: any;
+  isToastOpen=false;
   messageToast: any;
   info: any;
   shop: any;

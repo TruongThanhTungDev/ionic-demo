@@ -26,6 +26,7 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
   @Input() note: any;
   @Input() data: any;
   status: any;
+  
 
   ngOnInit(): void {
     this.createAt = moment(this.createAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
