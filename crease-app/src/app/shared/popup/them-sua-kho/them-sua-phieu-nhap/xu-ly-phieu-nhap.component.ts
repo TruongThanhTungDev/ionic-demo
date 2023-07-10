@@ -214,9 +214,8 @@ export class XulyPhieuNhapComponent implements OnInit {
   }
 
   onCreate() {
-    console.log(this.estimatedReturnDate)
+ 
     if (!this.createAt) {
-      console.log(this.createAt)
       this.isToastOpen = true;
       this.messageToast = 'Ngày tạo phiếu không được để trống';
       return;
@@ -224,11 +223,9 @@ export class XulyPhieuNhapComponent implements OnInit {
     if(!this.data && !this.khoId){  
         this.isToastOpen = true;
         this.messageToast = 'Ngày tạo phiếu không được để trống';   
-        console.log(this.data.warehouse.id)
         return;  
     }
     if (this.subProductList.length === 0) {
-      console.log(this.subProductList.length)
       this.isToastOpen = true;
       this.messageToast = 'Chi tiết phiếu không được để trống';
       return;

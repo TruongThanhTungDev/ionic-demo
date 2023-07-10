@@ -29,7 +29,6 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
 
   ngOnInit(): void {
     this.createAt = moment(this.createAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
-    console.log(this.estimatedReturnDate)
     this.estimatedReturnDate = this.estimatedReturnDate ? moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
     if (this.data) {
       this.status=this.data.status
@@ -51,7 +50,6 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
     this.handleOpenModal.emit(open);
   }
   onInputDateBlur() {
-    console.log(this.estimatedReturnDate)
     if (moment(this.estimatedReturnDate, 'YYYY-MM-DD', true).isValid()) {
       this.estimatedReturnDate = this.estimatedReturnDate;
     } else {
@@ -60,7 +58,6 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
   }
   
   saveInfo() {
-    console.log(this.estimatedReturnDate)
     const value = {
       createAt: moment(this.createAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
       estimatedReturnDate: this.estimatedReturnDate ? moment(this.estimatedReturnDate,
@@ -71,7 +68,6 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
       note: this.note,
       isOpen: false,
     };
-    console.log(value);
     this.editValue.emit(value);
     this.setOpen(false);
   }
