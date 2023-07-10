@@ -6,6 +6,7 @@ import { DanhMucService } from 'src/app/danhmuc.services';
 import * as Highcharts from 'highcharts';
 import * as dayjs from 'dayjs';
 import { LoadingController } from '@ionic/angular';
+import { Plugin } from 'src/app/plugins/plugins';
 @Component({
   selector: 'statiscal-revenue-component',
   templateUrl: './statiscal-revenue.component.html',
@@ -48,6 +49,7 @@ export class StatiscalRevenue implements OnInit {
   chartPieOptions: any;
   isToastOpen = false;
   messageToast = '';
+  plugins = new Plugin();
   constructor(
     private dmService: DanhMucService,
     private localStorage: LocalStorageService,
@@ -476,7 +478,7 @@ export class StatiscalRevenue implements OnInit {
         type: 'column',
         scrollablePlotArea: {
           minWidth: 2000, // Độ rộng tối thiểu của khu vực cuộn
-          scrollPositionX: 1, // Vị trí cuộn ban đầu (1 = cuộn đến cuối)
+          scrollPositionX: 0, // Vị trí cuộn ban đầu (1 = cuộn đến cuối)
         },
       },
 

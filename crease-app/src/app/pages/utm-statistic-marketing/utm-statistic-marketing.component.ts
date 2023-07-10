@@ -60,10 +60,8 @@ export class UtmStatisticComponent implements OnInit {
     }
     this.loadDataTopMonth();
     await this.isLoading();
-    const date = JSON.parse(JSON.stringify(this.dateRange));
-    date.endDate = date.endDate.replace('23:59:59', '00:00:00');
-    let startDate = moment(date.startDate).format('YYYYMMDD') + '000000';
-    let endDate = moment(date.endDate).format('YYYYMMDD') + '235959';
+    let startDate = moment().startOf('month').format('YYYYMMDD') + '000000';
+    let endDate = moment().endOf('month').format('YYYYMMDD') + '235959';
     this.total = 0;
     this.dmService
       .get(
