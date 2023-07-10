@@ -23,6 +23,11 @@
     </div>
     <div *ngIf="!isShowMvp" class="show-statistic">
       <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê hiệu suất Marketing</h5>
+      <button class="btn btn-sm fw-bold btn-primary mb-1" (click)="sortData()">
+        Sắp xếp
+        <i *ngIf="isDesc" class="fa-solid fa-arrow-down-wide-short"></i>
+        <i *ngIf="!isDesc" class="fa-solid fa-arrow-up-short-wide"></i>
+      </button>
       <ion-accordion-group *ngIf="listData && listData.details.length; else elseData">
         <ion-accordion *ngFor="let item of listData.details" mode="md" [value]="item.account" class="mb-2 rounded">
           <ion-item slot="header">
