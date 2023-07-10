@@ -144,7 +144,7 @@ export class OrderComponent implements OnInit {
       comparesArray.push(`status=in=(${this.ftTrangThai})`);
     if (this.ftKhachHang)
       comparesArray.push(`name=="*${this.ftKhachHang.trim()}*"`);
-    if (this.ftSdt) comparesArray.push(`phone=="*${this.ftSdt.trim()}*"`);
+    if (this.ftSdt) comparesArray.push(`phone=="*${this.ftSdt}*"`);
     if (this.ftNhanVien)
       comparesArray.push(`account.userName=="*${this.ftNhanVien.trim()}*"`);
     if (this.ftSanPham)
@@ -294,25 +294,6 @@ export class OrderComponent implements OnInit {
     this.isOpenFilterModal = open;
   }
   getFilter() {
-    if (
-      moment(this.ftThoiGian).isBefore(moment(this.dateRange.startDate)) ||
-      moment(this.ftThoiGian).isAfter(moment(this.dateRange.endDate))
-    ) {
-      this.isToastOpen = true;
-      this.messageToast =
-        'Thời gian không được bé hơn hoặc lớn hơn khoảng thời gian được chọn!';
-      return;
-    }
-    if (this.ftThoiGian) {
-      this.dateRange.startDate = this.ftThoiGian;
-    }
-    if (this.ftThoiGian) this.dateRange.endDate = this.ftThoiGian;
-    if (!this.ftThoiGian) {
-      this.dateRange = {
-        startDate: moment().utc().format('YYYY-MM-DD'),
-        endDate: moment().utc().format('YYYY-MM-DD'),
-      };
-    }
     this.loadData();
     this.isOpenFilterModal = false;
   }
