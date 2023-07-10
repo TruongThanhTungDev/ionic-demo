@@ -16,8 +16,8 @@
 <ion-content>
   <div class="text-primary">
     <div class="d-flex align-items-end justify-content-start" style="margin-top: 2rem;">
-      <div class="mt-1">
-        <h6 class=" fw-bold text-16px" style="color:#2E2D2D; margin: 0px 12px;">#{{ id }}</h6>
+      <div  class="mt-1">
+        <h6 class=" fw-bold text-16px" style="color:#2E2D2D; margin: 0px 12px;">{{id? '# ':''}}{{id? id:''}}</h6>
         <h6 class="fw-bold text-16px " style="color:#006eb9; margin: 4px 12px;">
           Người tạo: {{ creatorName ? creatorName : this.info.fullName }}
         </h6>
