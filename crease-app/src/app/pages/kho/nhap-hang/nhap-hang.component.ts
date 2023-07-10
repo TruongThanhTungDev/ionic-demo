@@ -259,4 +259,8 @@ export class NhapHangComponent implements OnInit {
       this.selectedItem = item;
     }
   }
+  async handleRefresh(event: any) {
+    await this.loadData();
+    event.target.complete();
+  }
 }
