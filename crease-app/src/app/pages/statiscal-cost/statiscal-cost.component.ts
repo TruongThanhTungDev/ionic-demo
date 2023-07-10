@@ -19,7 +19,7 @@ export class StatiscalCostComponent implements OnInit, AfterViewInit {
   isToastOpen = false;
   messageToast = '';
   typeShow = 1;
-  month = 1;
+  month = parseInt(moment().format('M'));
   year: any;
   startDate: any;
   endDate: any;
@@ -346,6 +346,10 @@ export class StatiscalCostComponent implements OnInit, AfterViewInit {
     this.chartOptions = {
       chart: {
         type: 'column',
+        scrollablePlotArea: {
+          minWidth: 2000, // Độ rộng tối thiểu của khu vực cuộn
+          scrollPositionX: 0, // Vị trí cuộn ban đầu (1 = cuộn đến cuối)
+        },
       },
       credits: {
         enabled: false,

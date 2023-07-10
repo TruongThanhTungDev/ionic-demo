@@ -58,10 +58,7 @@ export class XulyPhieuNhapComponent implements OnInit {
       this.id = this.data.id;
       this.creatorName = this.data.creatorName;
       this.createAt = this.data.createAt;
-      this.estimatedReturnDate = moment(
-        this.data.estimatedReturnDate,
-        'YYYYMMDD'
-      ).format('DD/MM/YYYY');
+      this.estimatedReturnDate = this.data.estimatedReturnDate ? moment(this.data.estimatedReturnDate, 'YYYYMMDD').format('DD/MM/YYYY') :'';
       this.tranportFee = this.data.boLDetailList[0].tranportFee;
       this.discount = this.data.boLDetailList[0].discount;
       this.note = this.data.note;
@@ -217,13 +214,16 @@ export class XulyPhieuNhapComponent implements OnInit {
   }
 
   onCreate() {
+ 
     if (!this.createAt) {
       this.isToastOpen = true;
       this.messageToast = 'Ngày tạo phiếu không được để trống';
       return;
     }
-    if (!this.khoId) {
-      return;
+    if(!this.data && !this.khoId){  
+        this.isToastOpen = true;
+        this.messageToast = 'Ngày tạo phiếu không được để trống';   
+        return;  
     }
     if (this.subProductList.length === 0) {
       this.isToastOpen = true;
@@ -244,12 +244,12 @@ export class XulyPhieuNhapComponent implements OnInit {
         : null,
       estimatedReturnDate: this.estimatedReturnDate
         ? moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYYMMDD')
-        : null,
+        : '',
       status: this.status,
-      supplierInfo: this.nhaCungCap,
+      supplierInfo: this.nhaCungCap ? this.nhaCungCap : (this.data?.supplierInfo ?? null),
       type: 1,
       shop: this.data ? this.data.shop : this.shop,
-      warehouse: this.khoId ? { id: this.khoId } : null,
+      warehouse: this.khoId ? { id: this.khoId } : {id: this.data.warehouse.id},
       note: this.note,
       discount: this.discount,
       tranportFee: this.tranportFee,
@@ -378,6 +378,7 @@ export class XulyPhieuNhapComponent implements OnInit {
     }
   }
   capNhatTrangThai() {
+    
     this.data.status = this.status;
     this.data.createAt = this.data.createAt
       ? moment(this.data.createAt, 'DD/MM/YYYY').format('YYYYMMDD')

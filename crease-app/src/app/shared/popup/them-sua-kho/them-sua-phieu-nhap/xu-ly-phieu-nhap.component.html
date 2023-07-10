@@ -23,7 +23,7 @@
         </h6>
       </div>
     </div>
-    <div class="position-relative w-45 " style="margin: 4px 12px">
+    <div class="position-relative w-50 " style="margin: 4px 12px">
       <select *ngIf="data" [(ngModel)]="status" class="form-control">
         <option value="0" *ngIf="data.status == 0">Mới</option>
         <option value="1" *ngIf="data.status == 0 || data.status == 1">
@@ -242,7 +242,7 @@
     <div class="footer-count position-center-div">{{tongTT ? plugins.formatNumber(tongTT): 0}}đ</div>
     <div class="bg-primary text-12px text-white">
       <div class="position-center-div text-center fw-bold" style="padding-top: 5px;"
-        *ngIf="(data && data.status == 0) || !data" (click)="onCreate()">
+        *ngIf="(data && data.status === 0) || (!data)" (click)="onCreate()">
         Nhập phiếu
       </div>
       <div class="h-100 position-center-div text-center fw-bold"

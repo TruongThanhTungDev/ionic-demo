@@ -112,6 +112,7 @@ export class NhapHangComponent implements OnInit {
   }
 
   async loadData() {
+    
     if (this.info.role !== 'admin') return;
     var date = JSON.parse(JSON.stringify(this.dateRange));
     let startDate = moment(date.startDate).format('YYYYMMDD') + '000000';
@@ -133,6 +134,7 @@ export class NhapHangComponent implements OnInit {
               ...item,
               warehouseName: item.warehouse ? item.warehouse.name : '',
               creatorName: item.creator ? item.creator.fullName : '',
+              supplierInfo:item.supplierInfo ? item.supplierInfo:'',
             };
           });
           this.customListData();

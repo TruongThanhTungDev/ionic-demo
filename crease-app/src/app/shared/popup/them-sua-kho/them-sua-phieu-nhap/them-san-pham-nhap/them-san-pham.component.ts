@@ -45,6 +45,7 @@ export class ThemSanPhamComponent implements OnInit {
     if (this.data) {
       this.khoId = this.data.warehouse.id;
       this.status = this.data.status;
+      this.nhaCungCap=this.data.supplierInfo;
     } else {
       this.status = 0;
     }
@@ -98,6 +99,7 @@ export class ThemSanPhamComponent implements OnInit {
         } else {
           this.isToastOpen = true;
           this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
+          console.error();
         }
       },
       () => {
@@ -121,6 +123,7 @@ export class ThemSanPhamComponent implements OnInit {
         } else {
           this.isToastOpen = true;
           this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
+          console.error();
         }
       },
       () => {
