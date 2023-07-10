@@ -160,6 +160,16 @@ export class OrderComponent implements OnInit {
       },
     });
   }
+  resetCheck() {
+    this.listCheck = [];
+    this.store.dispatch({
+      type: 'CHANGE_HEADER',
+      payload: {
+        title: 'Hủy',
+        state: false,
+      },
+    });
+  }
   async handleViewInfoOrder(item: any) {
     const modal = await this.modal.create({
       component: XuLyOrderComponent,
@@ -266,6 +276,8 @@ export class OrderComponent implements OnInit {
     return await isLoading.present();
   }
   handleRefresh(event: any) {
+    this.page = 1;
+    this.resetCheck();
     this.dateRange = {
       startDate: moment().utc().format('YYYY-MM-DD'),
       endDate: moment().utc().format('YYYY-MM-DD'),
@@ -274,6 +286,8 @@ export class OrderComponent implements OnInit {
     event.target.complete();
   }
   refreshData() {
+    this.page = 1;
+    this.resetCheck();
     this.loadData();
   }
   openModalFilter(open: boolean) {

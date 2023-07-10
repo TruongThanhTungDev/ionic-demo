@@ -202,9 +202,16 @@ export class GiaoViecNhanhPopup implements OnInit {
           listAssign[i].dateChanged = moment(new Date()).format(
             'YYYYMMDDHHmmss'
           );
+          listAssign[i].date = parseInt(
+            moment(listAssign[i].date, 'HH:mm:ss DD/MM/YYYY').format(
+              'YYYYMMDDHHmmss'
+            )
+          );
           listAssign[i].dateChangedOnly = moment(new Date()).format('YYYYMMDD');
           listAssign[i].status =
             listAssign[i].status === 0 ? 1 : listAssign[i].status;
+          listAssign[i].productIds = JSON.stringify(listAssign[i].productIds);
+          listAssign[i].dataInfo = JSON.stringify(listAssign[i].dataInfo);
         }
         index += totalWork;
       });

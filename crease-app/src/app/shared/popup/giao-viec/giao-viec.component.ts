@@ -61,10 +61,14 @@ export class GiaoViecOrder implements OnInit {
         return {
           ...item,
           nhanVienId: parseInt(this.user),
-          date: parseInt(moment(item.date).format('YYYYMMDDHHmmss')),
+          date: parseInt(
+            moment(item.date, 'HH:mm:ss DD/MM/YYYY').format('YYYYMMDDHHmmss')
+          ),
           dateChanged: moment(new Date()).format('YYYYMMDDHHmmss'),
           dateChangedOnly: moment(new Date()).format('YYYYMMDD'),
           status: item.status === 0 ? 1 : item.status,
+          dataInfo: JSON.stringify(item.dataInfo),
+          productIds: JSON.stringify(item.listProduct),
         };
       }),
     };
