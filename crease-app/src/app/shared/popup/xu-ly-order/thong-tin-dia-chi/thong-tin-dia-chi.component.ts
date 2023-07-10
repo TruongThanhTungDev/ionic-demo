@@ -138,6 +138,8 @@ export class ThongTinDiaChiOrder implements OnInit {
   }
   changeProvince(event: any) {
     this.listWard = [];
+    this.wardName = '';
+    this.districtName = '';
     this.provinceId = event.target.value;
     this.findProvinceWithId(this.provinceId);
     this.districtId = '';
@@ -145,6 +147,7 @@ export class ThongTinDiaChiOrder implements OnInit {
     this.getDistrict();
   }
   changeDistrict(event: any) {
+    this.wardName = '';
     this.districtId = event.target.value;
     this.findDistrictWithId(this.districtId);
     this.wardId = '';

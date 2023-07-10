@@ -30,6 +30,7 @@ export class UtmStatisticComponent implements OnInit {
   activeSlide = 'active';
   inactiveSlide = 'inactive';
   isShowMvp = false;
+  isDesc = true;
   constructor(
     private dmService: DanhMucService,
     private loading: LoadingController,
@@ -60,8 +61,9 @@ export class UtmStatisticComponent implements OnInit {
     }
     this.loadDataTopMonth();
     await this.isLoading();
-    let startDate = moment().startOf('month').format('YYYYMMDD') + '000000';
-    let endDate = moment().endOf('month').format('YYYYMMDD') + '235959';
+    var date = JSON.parse(JSON.stringify(this.dateRange));
+    let startDate = moment(date.startDate).format('YYYYMMDD') + '000000';
+    let endDate = moment(date.endDate).format('YYYYMMDD') + '235959';
     this.total = 0;
     this.dmService
       .get(
@@ -76,6 +78,13 @@ export class UtmStatisticComponent implements OnInit {
         (res: HttpResponse<any>) => {
           this.listData = res.body.RESULT;
           this.customData(this.listData.details);
+          this.listData.details = this.listData.details.sort(
+            (a: any, b: any) => {
+              return this.isDesc
+                ? b.totalData - a.totalData
+                : a.totalData - b.totalData;
+            }
+          );
           this.loading.dismiss();
         },
         () => {
@@ -98,6 +107,14 @@ export class UtmStatisticComponent implements OnInit {
         : 0;
     }
   }
+  sortData() {
+    this.isDesc = !this.isDesc;
+    this.listData.details = this.listData.details.sort((a: any, b: any) => {
+      return this.isDesc
+        ? b.totalData - a.totalData
+        : a.totalData - b.totalData;
+    });
+  }
   mathNumber(number: any): any {
     return Math.round(number * 100) / 100;
   }
@@ -106,9 +123,8 @@ export class UtmStatisticComponent implements OnInit {
     return Math.round(number * 10000) / 100;
   }
   public loadDataTopMonth() {
-    var date = JSON.parse(JSON.stringify(this.dateRange));
-    let startDate = moment(date.startDate).format('YYYYMMDD') + '000000';
-    let endDate = moment(date.endDate).format('YYYYMMDD') + '235959';
+    let startDate = moment().startOf('month').format('YYYYMMDD') + '000000';
+    let endDate = moment().endOf('month').format('YYYYMMDD') + '235959';
     this.dmService
       .getOption(
         null,

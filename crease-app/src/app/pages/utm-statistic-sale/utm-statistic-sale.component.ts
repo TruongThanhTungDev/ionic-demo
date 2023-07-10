@@ -30,6 +30,7 @@ export class UtmStatisticSaleComponent implements OnInit {
   activeSlide = 'active';
   inactiveSlide = 'inactive';
   isShowMvp = false;
+  isDesc = true;
   constructor(
     private dmService: DanhMucService,
     private loading: LoadingController,
@@ -77,6 +78,13 @@ export class UtmStatisticSaleComponent implements OnInit {
       .subscribe(
         (res: HttpResponse<any>) => {
           this.listData = res.body.RESULT;
+          this.listData.statistics = this.listData.statistics.sort(
+            (a: any, b: any) => {
+              return this.isDesc
+                ? b.totalData - a.totalData
+                : a.totalData - b.totalData;
+            }
+          );
           this.loading.dismiss();
         },
         () => {
@@ -84,6 +92,16 @@ export class UtmStatisticSaleComponent implements OnInit {
           this.loading.dismiss();
         }
       );
+  }
+  sortData() {
+    this.isDesc = !this.isDesc;
+    this.listData.statistics = this.listData.statistics.sort(
+      (a: any, b: any) => {
+        return this.isDesc
+          ? b.totalData - a.totalData
+          : a.totalData - b.totalData;
+      }
+    );
   }
   mathNumber(number: any): any {
     return Math.round(number * 100) / 100;
