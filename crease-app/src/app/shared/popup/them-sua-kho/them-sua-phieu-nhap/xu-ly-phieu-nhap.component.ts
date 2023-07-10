@@ -26,7 +26,7 @@ export class XulyPhieuNhapComponent implements OnInit {
   messageToast: any;
   subProductList: any[] = [];
   listSanPham = [];
-  isToastOpen: any;
+  isToastOpen= false;
   isShowPhieuNhap = false;
   isShowSanPham = false;
   shop: any;
