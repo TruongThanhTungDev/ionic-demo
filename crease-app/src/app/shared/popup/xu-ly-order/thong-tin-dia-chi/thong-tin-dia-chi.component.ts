@@ -247,6 +247,10 @@ export class ThongTinDiaChiOrder implements OnInit {
     });
   }
   changeWard(event: any) {
+    if (!event.target.value) {
+      this.wardId = '';
+      this.wardName = '';
+    }
     this.findWardWithId(event.target.value);
   }
   findWard(ward: any) {
@@ -256,6 +260,10 @@ export class ThongTinDiaChiOrder implements OnInit {
     if (result) {
       this.wardId = result.id;
       this.wardName = result.name;
+    } else {
+      console.log('1 :>> ', 1);
+      this.wardId = '';
+      this.wardName = '';
     }
   }
   findWardWithId(id: any) {
