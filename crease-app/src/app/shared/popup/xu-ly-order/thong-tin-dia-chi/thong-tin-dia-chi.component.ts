@@ -144,11 +144,17 @@ export class ThongTinDiaChiOrder implements OnInit {
   }
   findProvinceWithId(id: any) {
     const result = this.listProvince.find((item: any) => item.id == id);
+    console.log('result :>> ', result);
     if (result) {
       this.provinceName = result.name;
+    } else {
+      this.provinceName = '';
     }
   }
   changeProvince(event: any) {
+    if (!event.target.value) {
+      this.listDistrict = [];
+    }
     this.listWard = [];
     this.wardName = '';
     this.districtName = '';
@@ -159,6 +165,9 @@ export class ThongTinDiaChiOrder implements OnInit {
     this.getDistrict();
   }
   changeDistrict(event: any) {
+    if (!event.target.value) {
+      this.listWard = [];
+    }
     this.wardName = '';
     this.districtId = event.target.value;
     this.findDistrictWithId(this.districtId);
@@ -196,12 +205,17 @@ export class ThongTinDiaChiOrder implements OnInit {
     if (result) {
       this.districtId = result.id;
       this.districtName = result.name;
+    } else {
+      this.districtId = '';
+      this.districtName = '';
     }
   }
   findDistrictWithId(id: any) {
     const result = this.listDistrict.find((item: any) => item.id == id);
     if (result) {
       this.districtName = result.name;
+    } else {
+      this.districtName = '';
     }
   }
   getWard() {
