@@ -87,8 +87,8 @@ export class ThemSanPhamComponent implements OnInit {
     this.setOpen(false);
   }
   resetInfo() {
-    this.product = {};
-    this.subProductCode = {};
+    this.product = null;
+    this.subProductCode = null;
     this.totalQuantity = '';
     this.availableQuantity = '';
     this.price = '';
