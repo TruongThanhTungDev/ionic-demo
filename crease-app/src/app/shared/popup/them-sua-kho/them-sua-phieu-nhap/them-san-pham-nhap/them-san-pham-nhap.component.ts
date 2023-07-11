@@ -9,11 +9,11 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { OPERATIONS } from 'src/app/app.constant';
 import { DanhMucService } from 'src/app/danhmuc.services';
 @Component({
-  selector: 'thong-tin-san-pham',
-  templateUrl: './them-san-pham.component.html',
+  selector: 'thong-tin-san-pham-nhap',
+  templateUrl: './them-san-pham-nhap.component.html',
   
 })
-export class ThemSanPhamComponent implements OnInit {
+export class ThemSanPhamNhapComponent implements OnInit {
   @Output() handleOpenModal = new EventEmitter<any>();
   @Output() editValue = new EventEmitter<any>();
   @Input() data: any;

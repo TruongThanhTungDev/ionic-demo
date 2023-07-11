@@ -26,6 +26,7 @@ import { lichsunhapxuatComponent } from '../pages/kho/lich-su-xuat-nhap/lich-su-
 import { NhapHangComponent } from '../pages/kho/nhap-hang/nhap-hang.component';
 import { DataOrderComponent } from '../pages/data-order/data-order.component';
 import { UtmStatisticSaleComponent } from '../pages/utm-statistic-sale/utm-statistic-sale.component';
+import { XuatHangComponent } from '../pages/kho/xuat-hang/xuat-hang.component';
 
 @NgModule({
   imports: [
@@ -57,6 +58,7 @@ import { UtmStatisticSaleComponent } from '../pages/utm-statistic-sale/utm-stati
     NhapHangComponent,
     DataOrderComponent,
     UtmStatisticSaleComponent,
+    XuatHangComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

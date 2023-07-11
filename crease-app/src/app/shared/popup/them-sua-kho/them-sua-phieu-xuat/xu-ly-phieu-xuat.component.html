@@ -55,8 +55,8 @@
                     Thông tin phiếu nhập
                   </div>
                   <div>
-                    <i *ngIf="data && data.status == 0" class="fa fa-pen text-primary"  (click)="editPhieuNhap(true)"></i>
-                    <i *ngIf="type==='add'" class="fa fa-pen text-primary"  (click)="editPhieuNhap(true)"></i>
+                    <i *ngIf="data && data.status == 0" class="fa fa-pen text-primary"  (click)="editPhieuXuat(true)"></i>
+                     <i *ngIf="type==='add'" class="fa fa-pen text-primary"  (click)="editPhieuXuat(true)"></i>
                   </div>
                 </div>
               </ion-card-title>
@@ -81,38 +81,22 @@
               <div class="row">
                 <div class="col-6 d-flex align-items-center" style="font-size: 10px">
                   <span class="fw-bold" style="font-size: 10px ;margin-right: 3px; ">
-                    Phí ship:
-                  </span>
-                  <ng-container>{{ tranportFee ? plugins.formatNumber(tranportFee) : 0 }}</ng-container>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-6 d-flex align-items-center" style="font-size: 10px">
-                  <span class="fw-bold" style="font-size: 10px ;margin-right: 3px; ">
-                    Chiếu khấu:
-                  </span>
-                  <ng-container>{{ discount ? plugins.formatNumber(discount) : 0 }}</ng-container>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-6 d-flex align-items-center" style="font-size: 10px">
-                  <span class="fw-bold" style="font-size: 10px ;margin-right: 3px; ">
                     Ghi chú:
                   </span>
                   <ng-container>{{ note ? note : "" }}</ng-container>
                 </div>
               </div>
-              <thong-tin-phieu-nhap [data]="data" [createAt]="createAt" [estimatedReturnDate]="estimatedReturnDate"
-                [tranportFee]="tranportFee" [discount]="discount" [note]="note" [isModalOpen]="isShowPhieuNhap"
-                (handleOpenModal)="editPhieuNhap($event)"
-                (editValue)="handleEditPhieuNhap($event)"></thong-tin-phieu-nhap>
+              <thong-tin-phieu-xuat [data]="data" [createAt]="createAt" [estimatedReturnDate]="estimatedReturnDate"
+             [note]="note" [isModalOpen]="isShowPhieuXuat"
+                (handleOpenModal)="editPhieuXuat($event)"
+                (editValue)="handleEditPhieuXuat($event)"></thong-tin-phieu-xuat>
             </ion-card-content>
           </ion-card>
           <ion-card>
             <ion-card-header style="padding-bottom: 7px">
               <ion-card-title class="fw-bold" style="font-size: 15px; color: #006eb9">
                 <span class="dot"></span>
-                Danh sách hàng nhập
+                Danh sách hàng xuất
               </ion-card-title>
             </ion-card-header>
             <ion-card-content>
@@ -136,7 +120,7 @@
                         <i *ngIf="!item.id" class="fa fa-trash" (click)="removeRowCT(i)"></i>
                       </div>
                       <i *ngIf="data && !item.edit && data.status == 0" class="fa fa-pen" (click)="onEditCT(item)"></i>
-                      <i *ngIf="!item.edit && type==='add'" class="fa fa-pen" (click)="onEditCT(item)"></i>
+                      <i *ngIf=" !item.edit && type==='add'" class="fa fa-pen" (click)="onEditCT(item)"></i>
                     </div>
                   </div>
                   <div class="row mb-1">
@@ -174,25 +158,21 @@
                   <div>
                     <div class="row text-secondary">
                       <div class=" col-4" style="text-align: start; font-size: 10px">
-                        <span>Có thể bán:</span>
+                        <span>Tồn kho:</span>
                       </div>
                       <div class="col-4" style="text-align: start; font-size: 10px">
                         Số lượng:
                       </div>
                       <div class="col-4" style="text-align: start; font-size: 10px">
-                        Giá nhập:
+                        Giá xuất:
                       </div>
                     </div>
                     <div class="row text-10px justify-content-start">
                       <div class="col-4" style="text-align: start">
-                        <div *ngIf="item.edit">
-                          <input type="number" [(ngModel)]="item.availableQuantity" (keyup.enter)="item.edit = false"
-                            (change)="changeTong()" class="form-control" />
-                        </div>
-                        <div *ngIf="!item.edit">
+                        <div >
                           {{
                           item
-                          ? plugins.formatNumber(item.availableQuantity)
+                          ? plugins.formatNumber(item.subProduct.inventoryQuantity)
                           : ""
                           }}
                         </div>
@@ -221,8 +201,8 @@
                   </div>
                 </div>
               </div>
-              <thong-tin-san-pham-nhap [data]="data" [isModalOpen]="isShowSanPham" (handleOpenModal)="editSanPham($event)"
-                (editValue)="handleEditSanPham($event)"></thong-tin-san-pham-nhap>
+              <thong-tin-san-pham-xuat [data]="data" [isModalOpen]="isShowSanPham" (handleOpenModal)="editSanPham($event)"
+                (editValue)="handleEditSanPham($event)"></thong-tin-san-pham-xuat>
             </ion-card-content>
           </ion-card>
         </div>
