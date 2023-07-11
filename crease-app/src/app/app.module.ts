@@ -41,8 +41,11 @@ import { XulyPhieuNhapComponent } from './shared/popup/them-sua-kho/them-sua-phi
 import { GiaoViecOrder } from './shared/popup/giao-viec/giao-viec.component';
 import { GiaoViecNhanhPopup } from './shared/popup/giao-viec-nhanh/giao-viec-nhanh.component';
 import { ThemThongTinPhieuNhapComponent } from './shared/popup/them-sua-kho/them-sua-phieu-nhap/them-thong-tin-phieu-nhap/them-thong-tin-phieu-nhap.component';
-import { ThemSanPhamComponent } from './shared/popup/them-sua-kho/them-sua-phieu-nhap/them-san-pham-nhap/them-san-pham.component';
+import { ThemSanPhamNhapComponent } from './shared/popup/them-sua-kho/them-sua-phieu-nhap/them-san-pham-nhap/them-san-pham-nhap.component';
 import { ThaoTacOrder } from './shared/popup/thao-tac-order/thao-tac-order.component';
+import { XulyPhieuXuatComponent } from './shared/popup/them-sua-kho/them-sua-phieu-xuat/xu-ly-phieu-xuat.component';
+import { ThemSanPhamXuatComponent } from './shared/popup/them-sua-kho/them-sua-phieu-xuat/them-san-pham-xuat/them-san-pham-xuat.component';
+import { ThemThongTinPhieuXuatComponent } from './shared/popup/them-sua-kho/them-sua-phieu-xuat/them-thong-tin-phieu-xuat/them-thong-tin-phieu-xuat.component';
 @NgModule({
   declarations: [
     OnlyNumberDirective,
@@ -64,10 +67,13 @@ import { ThaoTacOrder } from './shared/popup/thao-tac-order/thao-tac-order.compo
     ThongTinGhiChuOrderComponent,
     ThongTinDonHangOrder,
     XulyPhieuNhapComponent,
+    ThemThongTinPhieuNhapComponent,
+    ThemSanPhamNhapComponent,
     GiaoViecOrder,
     GiaoViecNhanhPopup,
-    ThemThongTinPhieuNhapComponent,
-    ThemSanPhamComponent,
+    XulyPhieuXuatComponent,
+    ThemSanPhamXuatComponent,
+    ThemThongTinPhieuXuatComponent,
     ThaoTacOrder,
   ],
   imports: [

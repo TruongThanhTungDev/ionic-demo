@@ -5,7 +5,7 @@
     </ion-refresher>
 
     <div class="mb-3 d-flex align-items-center">
-      <button class="btn btn-sm" style="background-color: #46C851;" (click)="addPhieuNhap()">
+      <button class="btn btn-sm" style="background-color: #46C851;" (click)="addPhieuXuat()">
         <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
       </button>
       <button class="btn btn-primary col-3" style="font-size:13px; padding: 5px 0px ;margin-left:6px"
@@ -19,7 +19,7 @@
       <div class="position-relative"
         *ngFor=" let item of listData | paginate : { itemsPerPage: 10, currentPage: page, totalItems }">
         <ion-card [class]="selectedItem && selectedItem.id === item.id ? 'card-active' : ''"
-          (click)="isBackHeader ? selectItem(item) : editInfoPhieuNhap(item)">
+          (click)="isBackHeader ? selectItem(item) : editInfoPhieuXuat(item)">
           <ion-card-content>
             <div class="row fw-bold d-flex align-items-start" style="margin-bottom:10px">
               <div class="col-10">
@@ -57,11 +57,11 @@
   <ion-footer [translucent]="true">
     <ion-toolbar mode="md" class="footer-container">
       <ion-segment color="dark" value="account">
-        <ion-segment-button value="xuat-hang" routerLink="/kho/xuat-hang">
-          <ion-label class="fw-bold" style="font-size: 8px">Xuất hàng</ion-label>
+        <ion-segment-button value="xuat-hang" routerLink="/kho/xuat-hang" style="background: #035287">
+          <ion-label class="fw-bold text-white" style="font-size: 8px">Xuất hàng</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="nhap-hang" routerLink="/kho/nhap-hang" style="background: #035287">
-          <ion-label class="fw-bold text-white" style="font-size: 8px">Nhập hàng</ion-label>
+        <ion-segment-button value="nhap-hang" routerLink="/kho/nhap-hang">
+          <ion-label class="fw-bold " style="font-size: 8px">Nhập hàng</ion-label>
         </ion-segment-button>
         <ion-segment-button value="notF" routerLink="/notF">
           <ion-label class="fw-bold " style="font-size: 8px">Quản lý sản phẩm</ion-label>

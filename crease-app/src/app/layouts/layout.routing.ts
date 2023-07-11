@@ -18,6 +18,7 @@ import { lichsunhapxuatComponent } from '../pages/kho/lich-su-xuat-nhap/lich-su-
 import { NhapHangComponent } from '../pages/kho/nhap-hang/nhap-hang.component';
 import { DataOrderComponent } from '../pages/data-order/data-order.component';
 import { UtmStatisticSaleComponent } from '../pages/utm-statistic-sale/utm-statistic-sale.component';
+import { XuatHangComponent } from '../pages/kho/xuat-hang/xuat-hang.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -93,6 +94,10 @@ export const LayoutRoutes: Routes = [
   {
     path: 'kho/nhap-hang',
     component: NhapHangComponent,
+  },
+  {
+    path: 'kho/xuat-hang',
+    component: XuatHangComponent,
   },
   {
     path: 'data-after-order',
