@@ -54,7 +54,7 @@
                   Thông tin phiếu nhập
                 </div>
                 <div>
-                  <i *ngIf="data.status == 0" class="fa fa-pen text-primary"  (click)="editPhieuNhap(true)"></i>
+                  <i *ngIf="data && data.status == 0" class="fa fa-pen text-primary"  (click)="editPhieuNhap(true)"></i>
                 </div>
               </div>
             </ion-card-title>
@@ -133,7 +133,7 @@
                       <i class="fa fa-check" (click)="item.edit = false" style="margin-right:4px;"></i>
                       <i *ngIf="!item.id" class="fa fa-trash" (click)="removeRowCT(i)"></i>
                     </div>
-                    <i *ngIf="!item.edit && data.status == 0" class="fa fa-pen" (click)="onEditCT(item)"></i>
+                    <i *ngIf="data && !item.edit && data.status == 0" class="fa fa-pen" (click)="onEditCT(item)"></i>
                   </div>
                 </div>
                 <div class="row mb-1">
