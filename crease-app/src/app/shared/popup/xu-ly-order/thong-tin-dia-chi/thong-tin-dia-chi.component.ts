@@ -99,6 +99,18 @@ export class ThongTinDiaChiOrder implements OnInit {
       if (this.street) {
         this.streetName = this.street;
       }
+    } else {
+      if (this.province) {
+        this.findProvince(this.province);
+      }
+      if (this.district) {
+        await this.getDistrict();
+        this.findDistrict(this.district);
+      }
+      if (this.ward) {
+        await this.getWard();
+        this.findWard(this.ward);
+      }
     }
   }
   getProvince() {
