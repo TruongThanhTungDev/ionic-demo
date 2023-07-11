@@ -56,6 +56,7 @@ export class NhapHangComponent implements OnInit {
   trangThai: any;
   shopCode: any;
   shop: any;
+  id:any;
   dateRange = {
     startDate: dayjs().startOf('month'),
     endDate: dayjs().endOf('month'),
@@ -91,8 +92,14 @@ export class NhapHangComponent implements OnInit {
     filter.push(
       `createAt>=${startDate};createAt<=${endDate};shop.code==` + this.shop.code
     );
+    if (this.id) {
+      filter.push(`id==${this.id}`);
+    }
     if (this.khoId) {
       filter.push(`warehouse.id==${this.khoId}`);
+    }
+    if (this.tenKho) {
+      filter.push(`warehouse.name=="*${this.tenKho.trim()}*"`);
     }
     if (this.nhaCungCap) {
       filter.push(`supplierInfo=="*${this.nhaCungCap.trim()}*"`);
@@ -262,5 +269,16 @@ export class NhapHangComponent implements OnInit {
   async handleRefresh(event: any) {
     await this.loadData();
     event.target.complete();
+  }
+  openModalFilter(isOpen: boolean) {
+    this.isOpenFilterModal = isOpen;
+    if (!isOpen) {
+      this.loadData();
+    }
+    
+  }
+  async getFilter() {
+    await this.loadData();
+    this.isOpenFilterModal = false;
   }
 }

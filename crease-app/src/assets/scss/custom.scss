@@ -217,7 +217,12 @@ ion-content::part(background) {
   border: 1px solid #3f8acd !important;
   border-radius: 6px !important;
 }
-
+/*----------Ion Toast----------*/
+ion-toast {
+  --background: #ffffff!important;
+  --color: #2e2e2e!important;
+  font-weight: 500
+}
 /*--------CSS Custom----------*/
 .dot-green {
   width: 16px;

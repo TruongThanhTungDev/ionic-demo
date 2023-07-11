@@ -37,10 +37,8 @@
           Đã hủy
         </option>
       </select>
-      <select *ngIf="type === 'add'" [(ngModel)]="status" class="form-control">
+      <select *ngIf="type === 'add'" [(ngModel)]="status" class="form-control" disabled>
         <option value="0">Mới</option>
-        <option value="1">Đã tiếp nhận</option>
-        <option value="2">Đang vận chuyển</option>
       </select>
       <i *ngIf="data && data.status != 10 && data.status != 3"
         class="fa-solid fa-chevron-down position-absolute arrow-input"></i>
@@ -56,7 +54,7 @@
                   Thông tin phiếu nhập
                 </div>
                 <div>
-                  <i class="fa fa-pen text-primary" (click)="editPhieuNhap(true)"></i>
+                  <i *ngIf="data && data.status == 0" class="fa fa-pen text-primary"  (click)="editPhieuNhap(true)"></i>
                 </div>
               </div>
             </ion-card-title>
@@ -135,7 +133,7 @@
                       <i class="fa fa-check" (click)="item.edit = false" style="margin-right:4px;"></i>
                       <i *ngIf="!item.id" class="fa fa-trash" (click)="removeRowCT(i)"></i>
                     </div>
-                    <i *ngIf="!item.edit" class="fa fa-pen" (click)="onEditCT(item)"></i>
+                    <i *ngIf="data && !item.edit && data.status == 0" class="fa fa-pen" (click)="onEditCT(item)"></i>
                   </div>
                 </div>
                 <div class="row mb-1">

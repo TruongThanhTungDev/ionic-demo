@@ -35,8 +35,8 @@ export class lichsunhapxuatComponent implements OnInit {
   isToastOpen: any;
   messageToast: any;
   isBackHeader: any;
-  isOpenDatePicker:any;
-  isOpenFilterModal:any;
+  isOpenDatePicker= false;
+  isOpenFilterModal= false;
   plugins = new Plugin();
   shop:any;
   khoId:any;
