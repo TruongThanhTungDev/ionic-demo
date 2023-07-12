@@ -91,7 +91,7 @@
           style="font-size: 10px;width: 33.33%;background: #035287;">
           <ion-label text-wrap class="fw-bold text-white">Đơn hàng</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="cost" routerLink="/notF" style="width: 33.33%;font-size: 10px;">
+        <ion-segment-button *ngIf="isAdmin" value="cost" routerLink="/notF" style="width: 33.33%;font-size: 10px;">
           <ion-label text-wrap class="fw-bold">Danh sách hàng hoàn</ion-label>
         </ion-segment-button>
       </ion-segment>
