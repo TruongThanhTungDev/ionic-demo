@@ -1,0 +1,181 @@
+<ion-app>
+  <ion-content class="ion-padding">
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <div class="mb-3 d-flex align-items-center">
+      <button class="btn btn-sm" style="background-color: #46C851;" (click)="addPhieuHangLoi()">
+        <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
+      </button>
+      <button class="btn btn-primary col-3" style="font-size:13px; padding: 5px 0px ;margin-left:6px"
+        (click)="refreshData()">
+        <i class="fa fa-refresh"></i>
+        Làm mới
+      </button>
+      <datepicker-component (filterDate)="filterDate($event)"></datepicker-component>
+    </div>
+    <div *ngIf="listData && listData.length; else elseBlock" class="position-relative">
+      <div class="position-relative"
+        *ngFor=" let item of listData | paginate : { itemsPerPage: 10, currentPage: page, totalItems }">
+        <ion-card [class]="selectedItem && selectedItem.id === item.id ? 'card-active' : ''"
+          (click)="isBackHeader ? selectItem(item) : editInfoPhieuHangLoi(item)">
+          <ion-card-content>
+            <div class="row fw-bold d-flex align-items-start" style="margin-bottom:10px">
+              <div class="col-10">
+                <div class="row d-flex flex-column" style="text-align: start; font-size: 9px;">
+                  <div>ID: {{item.id}}</div>
+                  <div style="color:#035287">{{item.creatorName}}</div>
+                  <div class="text-secondary">Kho: {{item.warehouseName}} | Nhà cung cấp: {{item.supplierInfo}}</div>
+                  <div style="color:#035287">Ngày tạo: {{item.createAt}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center ">
+              <div class="col-5" style="margin-right: 3px">
+                <button type="button" class="btn btn-sm fw-bold w-100" style="font-size:10px"
+                  [ngClass]="{'btn-success': item.status == '3', 'btn-danger text-white': item.status == '10', 'btn-warning': item.status == '2', 'btn-primary': item.status == '1','btn-info': item.status == '0'}">
+                  {{convertStatus(item.status)}}
+                </button>
+              </div>
+              <div class="col-5" style="margin-right: 3px">
+                <button type="button" class="btn btn-sm fw-bold w-100" style="font-size:10px"
+                  [ngClass]="{'btn-warning': item.type == '5', 'btn-primary': item.type == '4'}">
+                  {{convertType(item.type)}}
+                </button>
+              </div>
+              
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+    <ng-template #elseBlock>
+      <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%)">
+        <i class="fa-solid fa-users-slash text-sub-content mb-3" style="font-size: 100px"></i>
+        <h5 class="text-sub-content">Không có dữ liệu!</h5>
+      </div>
+    </ng-template>
+    <pagination-controls *ngIf="listData && listData.length" previousLabel="" nextLabel=""
+      (pageChange)="changePagination($event)"></pagination-controls>
+  </ion-content>
+  <ion-footer [translucent]="true">
+    <ion-toolbar mode="md" class="footer-container">
+      <ion-segment color="dark" value="account">
+        <ion-segment-button value="xuat-hang" routerLink="/kho/xuat-hang">
+          <ion-label class="fw-bold" style="font-size: 8px">Xuất hàng</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="nhap-hang" routerLink="/kho/nhap-hang" >
+          <ion-label class="fw-bold text-white" style="font-size: 8px">Nhập hàng</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="hang-loi" routerLink="/kho/hang-loi" style="background: #035287">
+          <ion-label class="fw-bold text-white" style="font-size: 8px">Hàng lỗi</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  </ion-footer>
+  <div class="dropdown position-absolute" style="bottom: 5rem; right: 1rem;">
+    <button id="open-filter" class="btn btn-primary rounded-pill " type="button" (click)="openModalFilter(true)">
+      <i class="fa-solid fa-filter"></i>
+      Lọc
+    </button>
+  </div>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"></ion-toast>
+    <ion-modal [isOpen]="isOpenFilterModal" class="modal-filter" (didDismiss)="openModalFilter(false)">
+    <ion-header>
+      <ion-toolbar class="text-white fw-bold" style="--background: rgba(0, 110, 185, 0.9)!important;">
+        <ion-title>
+          <i class="fa-solid fa-filter"></i>
+          Lọc
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="mb-3">
+        <label>
+          ID:
+        </label>
+        <input type="text" [(ngModel)]="id" class="form-control" placeholder="">
+      </div>
+      <div class="mb-3">
+        <label>
+          Người tạo:
+        </label>
+        <input type="text" [(ngModel)]="nguoiTao" class="form-control" placeholder="">
+      </div>
+      <div class="mb-3">
+        <label>
+          Kho:
+        </label>
+        <input type="text" [(ngModel)]="tenKho" class="form-control" placeholder="">
+      </div>
+      <div class="mb-3">
+        <label>
+         Nhà cung cấp:
+        </label>
+        <input type="text" [(ngModel)]="nhaCungCap" class="form-control" placeholder="">
+      </div>
+      <label>Trạng thái</label>
+      <div>
+        <div class="form-check form-check-inline">
+          <input [(ngModel)]="trangThai" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+            value="">
+          <label class="form-check-label" for="inlineRadio1">Tất cả</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input [(ngModel)]="trangThai" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+            value="0">
+          <label class="form-check-label" for="inlineRadio1">Mới</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input [(ngModel)]="trangThai" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+            value="1">
+          <label class="form-check-label" for="inlineRadio2">Đã tiếp nhận</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input [(ngModel)]="trangThai" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
+            value="2">
+          <label class="form-check-label" for="inlineRadio3">Đang vận chuyển</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input [(ngModel)]="trangThai" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
+            value="3">
+          <label class="form-check-label" for="inlineRadio3">Đã hoàn thành</label>
+        </div>
+         <div class="form-check form-check-inline">
+          <input [(ngModel)]="trangThai" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
+            value="10">
+          <label class="form-check-label" for="inlineRadio3">Đã hủy</label>
+        </div>
+      </div>
+      <label>Loại phiếu</label>
+      <div>
+         <div class="form-check form-check-inline">
+          <input [(ngModel)]="FtType" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+            value="">
+          <label class="form-check-label" for="inlineRadio1">Tất cả</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input [(ngModel)]="FtType" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+            value="4">
+          <label class="form-check-label" for="inlineRadio1">Xuất hàng lỗi</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input [(ngModel)]="FtType" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+            value="5">
+          <label class="form-check-label" for="inlineRadio1">Nhập hàng đổi trả</label>
+        </div>
+      </div>
+    </ion-content>
+    <ion-footer mode="md" style="background-color: rgba(0, 110, 185, 0.9)!important;">
+      <ion-toolbar class="new-toolbar-background">
+        <ion-buttons slot="start">
+          <ion-button (click)="openModalFilter(false)" style="--color: white!important">Hủy</ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button (click)="getFilter()" [strong]="true">Lọc</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </ion-modal>
+</ion-app>
