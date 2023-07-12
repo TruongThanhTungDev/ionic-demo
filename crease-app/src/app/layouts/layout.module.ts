@@ -28,6 +28,7 @@ import { DataOrderComponent } from '../pages/data-order/data-order.component';
 import { UtmStatisticSaleComponent } from '../pages/utm-statistic-sale/utm-statistic-sale.component';
 import { XuatHangComponent } from '../pages/kho/xuat-hang/xuat-hang.component';
 import { HangLoiComponent } from '../pages/kho/hang-loi/hang-loi.component';
+import { QuanLiSanPhamComponent } from '../pages/quan-li-san-pham/quan-li-san-pham.component';
 
 @NgModule({
   imports: [
@@ -61,6 +62,7 @@ import { HangLoiComponent } from '../pages/kho/hang-loi/hang-loi.component';
     UtmStatisticSaleComponent,
     XuatHangComponent,
     HangLoiComponent,
+    QuanLiSanPhamComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
