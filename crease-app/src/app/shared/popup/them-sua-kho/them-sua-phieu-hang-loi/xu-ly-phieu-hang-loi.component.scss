@@ -1,0 +1,31 @@
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #47ac4f;
+  margin-right: 5px;
+}
+.footer-count {
+  width: calc(100% - 10% - 45% - 20%);
+  text-align: end;
+  margin-right: 10px;
+}
+.position-center-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.footer-custom {
+  box-shadow: 2px -4px 8px 4px #43434338;
+}
+.order-count {
+  top: -15px;
+  right: -5px;
+  background: #006eb9;
+  border-radius: 50%;
+  font-size: 10px;
+  color: white;
+  width: 18px;
+  height: 18px;
+}

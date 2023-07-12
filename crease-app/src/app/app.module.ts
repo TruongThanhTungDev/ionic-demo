@@ -46,6 +46,9 @@ import { ThaoTacOrder } from './shared/popup/thao-tac-order/thao-tac-order.compo
 import { XulyPhieuXuatComponent } from './shared/popup/them-sua-kho/them-sua-phieu-xuat/xu-ly-phieu-xuat.component';
 import { ThemSanPhamXuatComponent } from './shared/popup/them-sua-kho/them-sua-phieu-xuat/them-san-pham-xuat/them-san-pham-xuat.component';
 import { ThemThongTinPhieuXuatComponent } from './shared/popup/them-sua-kho/them-sua-phieu-xuat/them-thong-tin-phieu-xuat/them-thong-tin-phieu-xuat.component';
+import { XulyPhieuHangLoiComponent } from './shared/popup/them-sua-kho/them-sua-phieu-hang-loi/xu-ly-phieu-hang-loi.component';
+import { ThemThongTinPhieuHangLoiComponent } from './shared/popup/them-sua-kho/them-sua-phieu-hang-loi/them-thong-tin-phieu-hang-loi/them-thong-tin-phieu-hang-loi.component';
+import { ThemSanPhamHangLoiComponent } from './shared/popup/them-sua-kho/them-sua-phieu-hang-loi/them-san-pham-loi/them-san-pham-loi.component';
 @NgModule({
   declarations: [
     OnlyNumberDirective,
@@ -75,6 +78,9 @@ import { ThemThongTinPhieuXuatComponent } from './shared/popup/them-sua-kho/them
     ThemSanPhamXuatComponent,
     ThemThongTinPhieuXuatComponent,
     ThaoTacOrder,
+    XulyPhieuHangLoiComponent,
+    ThemSanPhamHangLoiComponent,
+    ThemThongTinPhieuHangLoiComponent,
   ],
   imports: [
     HttpClientModule,

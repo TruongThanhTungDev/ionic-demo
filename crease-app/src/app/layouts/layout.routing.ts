@@ -19,6 +19,7 @@ import { NhapHangComponent } from '../pages/kho/nhap-hang/nhap-hang.component';
 import { DataOrderComponent } from '../pages/data-order/data-order.component';
 import { UtmStatisticSaleComponent } from '../pages/utm-statistic-sale/utm-statistic-sale.component';
 import { XuatHangComponent } from '../pages/kho/xuat-hang/xuat-hang.component';
+import { HangLoiComponent } from '../pages/kho/hang-loi/hang-loi.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -94,6 +95,10 @@ export const LayoutRoutes: Routes = [
   {
     path: 'kho/nhap-hang',
     component: NhapHangComponent,
+  },
+  {
+    path: 'kho/hang-loi',
+    component: HangLoiComponent,
   },
   {
     path: 'kho/xuat-hang',
