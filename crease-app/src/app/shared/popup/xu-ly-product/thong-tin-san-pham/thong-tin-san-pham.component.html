@@ -33,3 +33,44 @@
     </div>
   </ion-card-content>
 </ion-card>
+<ion-modal [isOpen]="isModalOpen" class="modal-filter-lg" (didDismiss)="setOpen(false)">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar mode="md" class="new-toolbar-background">
+        <ion-title class="fw-bold">Thông tin sản phẩm</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding text-primary">
+      <div class="mb-1">
+        <label>Tên sản phẩm</label>
+        <input type="text" class="form-control">
+      </div>
+      <div class="mb-1">
+        <label>Mã sản phẩm</label>
+        <input type="text" class="form-control" disabled>
+      </div>
+      <div class="mb-1">
+        <label>Kho thao tác</label>
+        <select class="form-select"></select>
+      </div>
+      <div class="mb-1">
+        <label>Danh mục</label>
+        <select class="form-select"></select>
+      </div>
+      <div class="mb-1">
+        <label>Ghi chút</label>
+        <textarea class="form-control" cols="30" rows="10"></textarea>
+      </div>
+    </ion-content>
+    <ion-footer mode="md" style="background-color: rgba(0, 110, 185, 0.9)!important;">
+      <ion-toolbar class="new-toolbar-background">
+        <ion-buttons (click)="setOpen(false)" slot="start">
+          <ion-button style="--color: white!important">Hủy</ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button [strong]="true">Lưu</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
