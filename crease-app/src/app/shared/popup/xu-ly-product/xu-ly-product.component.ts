@@ -77,6 +77,14 @@ export class XuLyProduct implements OnInit {
     };
     this.listAddProperties.push(value);
   }
+  handleAddProp(index: any, prop: any) {
+    this.listAddProperties[index].thuocTinh = prop.thuocTinh;
+    this.listAddProperties[index].giaTri = prop.giaTri;
+    this.properties.push(this.listAddProperties[index]);
+    if (index !== -1) {
+      this.listAddProperties.splice(index, 1);
+    }
+  }
   editProperties(item: any) {
     if (this.listAddProperties.includes(item)) return;
     this.listAddProperties.push(item);
