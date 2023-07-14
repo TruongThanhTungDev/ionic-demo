@@ -261,7 +261,6 @@ export class ThongTinDiaChiOrder implements OnInit {
       this.wardId = result.id;
       this.wardName = result.name;
     } else {
-      console.log('1 :>> ', 1);
       this.wardId = '';
       this.wardName = '';
     }

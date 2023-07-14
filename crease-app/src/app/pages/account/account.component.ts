@@ -128,7 +128,6 @@ export class AccountComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['isBackHeader']) {
       // Xử lý khi giá trị 'value' thay đổi
-      console.log('1 :>> ', 1);
     }
   }
   private filter(): string {
@@ -265,7 +264,6 @@ export class AccountComponent implements OnInit, AfterViewInit, OnChanges {
     this.loadData();
   }
   searchUser(e: any) {
-    console.log('1 :>> ', 1);
     this.FtHoTen = e.target.value;
     this.debounce(() => {
       this.loadData();

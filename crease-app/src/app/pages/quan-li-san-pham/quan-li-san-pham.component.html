@@ -20,8 +20,8 @@
             <i class="fa-solid fa-magnifying-glass text-sub-content" style="color: #2c5fb6">
             </i>
           </span>
-          <input type="text" class="form-control border-primary border-0 search-control"
-            placeholder="Tìm kiếm sản phẩm">
+          <input type="text" [(ngModel)]="ftTen" class="form-control border-primary border-0 search-control"
+            placeholder="Tìm kiếm sản phẩm" (keydown.enter)="loadData()">
         </div>
       </div>
       <ng-template #elseBtn>
@@ -45,18 +45,19 @@
           <ion-card-content class="row align-items-center"
             [class]="selectedProduct && selectedProduct.id === item.id ? 'text-white' : 'text-dark'">
             <div class="col-3">
-              <img alt="avatar product" src="../../../assets/icon/box.png" />
+              <img *ngIf="item.image" alt="avatar product" [src]="item.image" />
+              <img *ngIf="!item.image" alt="avatar product" src="../../../assets/icon/box.png" />
             </div>
             <div class="col-8">
-              <h5 class="fw-bold">Apple Watch</h5>
-              <p class="text-primary fw-bold mb-2 text-12px">AWS8</p>
+              <h5 class="fw-bold">{{item.name}}</h5>
+              <p class="text-primary fw-bold mb-2 text-12px">{{item.code}}</p>
               <div class="text-secondary text-10px fw-bold">
                 Danh mục:
-                <span class="fw-normal">Hàng điện tử</span>
+                <span class="fw-normal">{{item.productCategory.name}}</span>
               </div>
               <div class="text-secondary text-10px fw-bold">
                 Số mãu:
-                <span class="fw-normal">5</span>
+                <span class="fw-normal">{{item.soMauMa}}</span>
               </div>
             </div>
           </ion-card-content>
