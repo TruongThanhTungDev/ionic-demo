@@ -226,6 +226,7 @@ export class QuanLiSanPhamComponent implements OnInit {
   }
   resetData() {}
   async handleRefresh(event: any) {
+    this.loadData();
     event.target.complete();
   }
   setOpen(isOpen: boolean) {
