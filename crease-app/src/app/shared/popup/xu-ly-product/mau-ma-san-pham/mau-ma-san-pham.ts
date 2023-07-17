@@ -7,5 +7,17 @@ import { Plugin } from 'src/app/plugins/plugins';
 })
 export class MauMaSanPhamComponent implements OnInit {
   plugins = new Plugin();
+  isModalOpen = false;
+  isToastOpen = false;
+  typeModal = 'add';
+  messageToast: any;
   ngOnInit() {}
+  saveInfo() {}
+  setOpen(open: boolean, type: string) {
+    this.isModalOpen = open;
+    this.typeModal = type;
+  }
+  setOpenToast(open: boolean) {
+    this.isToastOpen = open;
+  }
 }

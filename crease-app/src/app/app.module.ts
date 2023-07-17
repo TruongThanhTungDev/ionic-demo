@@ -51,7 +51,6 @@ import { ThemThongTinPhieuHangLoiComponent } from './shared/popup/them-sua-kho/t
 import { ThemSanPhamHangLoiComponent } from './shared/popup/them-sua-kho/them-sua-phieu-hang-loi/them-san-pham-loi/them-san-pham-loi.component';
 import { XuLyProduct } from './shared/popup/xu-ly-product/xu-ly-product.component';
 import { ThongTinSanPhamComponent } from './shared/popup/xu-ly-product/thong-tin-san-pham/thong-tin-san-pham.component';
-import { ThuocTinhSanPhamComponent } from './shared/popup/xu-ly-product/thuoc-tinh-san-pham/thuoc-tinh-san-pham.component';
 import { MauMaSanPhamComponent } from './shared/popup/xu-ly-product/mau-ma-san-pham/mau-ma-san-pham';
 @NgModule({
   declarations: [
@@ -87,7 +86,6 @@ import { MauMaSanPhamComponent } from './shared/popup/xu-ly-product/mau-ma-san-p
     ThemThongTinPhieuHangLoiComponent,
     XuLyProduct,
     ThongTinSanPhamComponent,
-    ThuocTinhSanPhamComponent,
     MauMaSanPhamComponent,
   ],
   imports: [
