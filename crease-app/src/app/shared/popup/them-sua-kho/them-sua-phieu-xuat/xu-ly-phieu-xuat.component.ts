@@ -143,27 +143,6 @@ export class XulyPhieuXuatComponent implements OnInit {
     this.addSanPhamPhieuXuat();
   }
   addSanPhamPhieuXuat() {
-    if (!this.khoId) {
-      this.isToastOpen = true;
-      this.messageToast = 'Kho không được để trống';
-      return;
-    }
-    if (!this.product) {
-      this.isToastOpen = true;
-      this.messageToast = 'Mã sản phẩm không được để trống';
-      return;
-    }
-    if (!this.subProductCode) {
-      this.isToastOpen = true;
-      this.messageToast = 'Mẫu mã sản phẩm không được để trống';
-      return;
-    }
-
-    if (Number(this.price) < 0 || Number(this.totalQuantity) <= 0) {
-      this.isToastOpen = true;
-      this.messageToast = 'Số lượng, giá xuất phải lớn hơn 0';
-      return;
-    }
     this.subProductList.forEach((e) => {
       e.edit = false;
     });
@@ -194,7 +173,7 @@ export class XulyPhieuXuatComponent implements OnInit {
   changeThanhTien(e: any) {
     if (
       Number(this.subProductList[e].price) < 0 ||
-      Number(this.subProductList[e].totalQuantity) < 0
+      Number(this.subProductList[e].totalQuantity) <= 0
     ) {
       this.isToastOpen = true;
       this.messageToast = 'Số lượng, giá tiền phải lớn hơn 0';
@@ -209,24 +188,10 @@ export class XulyPhieuXuatComponent implements OnInit {
   }
 
   onCreate() {
-    if(!this.data ){  
-      this.isToastOpen = true;
-      this.messageToast = 'Danh sách hàng xuất không được để trống';   
-      return;  
-    }
-    if (!this.createAt) {
-      this.isToastOpen = true;
-      this.messageToast = 'Ngày tạo phiếu không được để trống';
-      return;
-    }
-    if(!this.data && !this.khoId){  
-        this.isToastOpen = true;
-        this.messageToast = 'Kho không được để trống';   
-        return;  
-    }
+  
     if (this.subProductList.length === 0) {
       this.isToastOpen = true;
-      this.messageToast = 'Chi tiết phiếu không được để trống';
+      this.messageToast = 'Danh sách hàng xuất không được để trống';
       return;
     }
 

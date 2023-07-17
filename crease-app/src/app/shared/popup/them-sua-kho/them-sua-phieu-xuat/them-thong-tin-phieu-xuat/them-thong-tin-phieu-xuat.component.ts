@@ -24,11 +24,12 @@ export class ThemThongTinPhieuXuatComponent implements OnInit {
   @Input() note: any;
   @Input() data: any;
   status: any;
-  
-
+  isToastOpen=false;
+  messageToast: any;
+  estimatedReturnDateInfo:any
   ngOnInit(): void {
     this.createAt = moment(this.createAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
-    this.estimatedReturnDate = this.estimatedReturnDate ? moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
+    this.estimatedReturnDateInfo = this.estimatedReturnDate ? moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
     if (this.data) {
       this.status=this.data.status
     }
@@ -45,8 +46,14 @@ export class ThemThongTinPhieuXuatComponent implements OnInit {
   ) {}
 
   setOpen(open: boolean) {
+    this.isToastOpen = open;
     this.isModalOpen = open;
     this.handleOpenModal.emit(open);
+    if (open) {
+      this.createAt = this.createAt;
+      this.estimatedReturnDateInfo = this.estimatedReturnDate;
+      this.note= this.note;
+    } 
   }
   onInputDateBlur() {
     if (moment(this.estimatedReturnDate, 'YYYY-MM-DD', true).isValid()) {
@@ -55,11 +62,18 @@ export class ThemThongTinPhieuXuatComponent implements OnInit {
       this.estimatedReturnDate = '';
     }
   }
-  
+  validInfo() {
+    if (!this.createAt) {
+      this.isToastOpen = true;
+      this.messageToast = 'Ngày tạo phiếu không được để trống';
+      return;
+    }
+    return true;
+  }
   saveInfo() {
     const value = {
       createAt: moment(this.createAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
-      estimatedReturnDate: this.estimatedReturnDate ? moment(this.estimatedReturnDate,
+      estimatedReturnDate: this.estimatedReturnDateInfo ? moment(this.estimatedReturnDateInfo,
         'YYYY-MM-DD'
       ).format('DD/MM/YYYY'):"",
       note: this.note,
