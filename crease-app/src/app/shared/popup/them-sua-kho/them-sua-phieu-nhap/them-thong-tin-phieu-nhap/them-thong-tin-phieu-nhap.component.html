@@ -17,11 +17,11 @@
       <div class="row">
         <div class="col-md-6 mb-3">
           <label class="text-primary">Phí vận chuyển</label>
-          <input type="text" [(ngModel)]="tranportFee" [disabled]="status!=0"class="form-control" placeholder="Phí vận chuyển">
+          <input type="number" [(ngModel)]="tranportFee" [disabled]="status!=0"class="form-control" placeholder="Phí vận chuyển">
         </div>
         <div class="col-md-6 mb-3">
           <label class="text-primary">Chiết khấu</label>
-          <input type="text" [(ngModel)]="discount" [disabled]="status!=0" class="form-control" placeholder="Chiết khấu">
+          <input type="number" [(ngModel)]="discount" [disabled]="status!=0" class="form-control" placeholder="Chiết khấu">
         </div>
       </div>
       <div class="mb-3">

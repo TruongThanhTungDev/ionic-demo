@@ -159,9 +159,9 @@ export class XulyPhieuXuatComponent implements OnInit {
       return;
     }
 
-    if (Number(this.price) < 0 || Number(this.totalQuantity) < 0) {
+    if (Number(this.price) < 0 || Number(this.totalQuantity) <= 0) {
       this.isToastOpen = true;
-      this.messageToast = 'Số lượng, giá tiền phải lớn hơn 0';
+      this.messageToast = 'Số lượng, giá xuất phải lớn hơn 0';
       return;
     }
     this.subProductList.forEach((e) => {
@@ -209,7 +209,11 @@ export class XulyPhieuXuatComponent implements OnInit {
   }
 
   onCreate() {
- 
+    if(!this.data ){  
+      this.isToastOpen = true;
+      this.messageToast = 'Danh sách hàng xuất không được để trống';   
+      return;  
+    }
     if (!this.createAt) {
       this.isToastOpen = true;
       this.messageToast = 'Ngày tạo phiếu không được để trống';
@@ -268,10 +272,10 @@ export class XulyPhieuXuatComponent implements OnInit {
       if (
         Number(a.availableQuantity) < 0 ||
         Number(a.price) < 0 ||
-        Number(a.totalQuantity) < 0
+        Number(a.totalQuantity) <= 0
       ) {
         this.isToastOpen = true;
-        this.messageToast = 'Số lượng, giá, tồn kho < 0';
+        this.messageToast = 'Số lượng không <=0; giá xuất,tồn kho < 0';
         return;
       } 
       if (!a.id) {

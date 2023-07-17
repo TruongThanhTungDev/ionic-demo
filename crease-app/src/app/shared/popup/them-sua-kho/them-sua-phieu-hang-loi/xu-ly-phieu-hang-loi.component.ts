@@ -161,9 +161,9 @@ export class XulyPhieuHangLoiComponent implements OnInit {
       return;
     }
 
-    if (Number(this.price) < 0 || Number(this.totalQuantity) < 0) {
+    if (Number(this.price) < 0 || Number(this.totalQuantity) <= 0) {
       this.isToastOpen = true;
-      this.messageToast = 'Số lượng, giá tiền phải lớn hơn 0';
+      this.messageToast = 'Số lượng phải lớn hơn 0, giá tiền phải lớn hơn 0';
       return;
     }
     this.subProductList.forEach((e) => {
@@ -211,7 +211,16 @@ export class XulyPhieuHangLoiComponent implements OnInit {
   }
 
   onCreate() {
- 
+    if(!this.data){  
+      this.isToastOpen = true;
+      this.messageToast = 'Danh sách hàng lỗi không được để trống';   
+      return;  
+  }
+    if (!this.FtType) {
+      this.isToastOpen = true;
+      this.messageToast = 'Loại phiếu không được để trống';
+      return;
+    }
     if (!this.createAt) {
       this.isToastOpen = true;
       this.messageToast = 'Ngày tạo phiếu không được để trống';
@@ -268,12 +277,11 @@ export class XulyPhieuHangLoiComponent implements OnInit {
           : null,
       };
       if (
-        Number(a.availableQuantity) < 0 ||
         Number(a.price) < 0 ||
-        Number(a.totalQuantity) < 0
+        Number(a.totalQuantity) <= 0
       ) {
         this.isToastOpen = true;
-        this.messageToast = 'Số lượng, giá, có thể bán < 0';
+        this.messageToast = 'Số lượng không được <=0; giá nhập/xuất < 0';
         return;
       } else {
         if (a.availableQuantity > a.totalQuantity) {

@@ -38,14 +38,14 @@
       </div>
       <div class="mb-3">
         <label class="text-primary">Giá xuất</label>
-        <input type="text" [(ngModel)]="price" class="form-control" placeholder="" [disabled]="status !=0">
+        <input type="number" [(ngModel)]="price" class="form-control" placeholder="" [disabled]="status !=0">
       </div>
       <div class="mb-3">
         <label class="text-primary">Số lượng</label>
-        <input type="text" [(ngModel)]="totalQuantity" class="form-control" placeholder="" [disabled]="status !=0">
+        <input type="number" [(ngModel)]="totalQuantity" class="form-control" placeholder="" [disabled]="status !=0">
       </div>
       <div class="text-end">
-        <button class="btn btn-sm btn-primary fw-bold px-3" (click)="saveInfo()">Lưu</button>
+        <button class="btn btn-sm btn-primary fw-bold px-3" (click)="saveInfo()">Thêm</button>
       </div>
         <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="100000"
     (didDismiss)="setOpen(false)"></ion-toast>

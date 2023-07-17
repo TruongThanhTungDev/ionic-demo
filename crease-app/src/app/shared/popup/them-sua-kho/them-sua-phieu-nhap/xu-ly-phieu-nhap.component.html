@@ -128,7 +128,7 @@
                   (click)="onSelectedCT(i)">
                   <div class="row mb-1">
                     <div class="col-10 d-flex align-items-center fw-bold" style="font-size: 16px">
-                      {{ item.subProduct.product.name }}
+                      {{ item.subProduct ? item.subProduct.product.name :"" }}
                     </div>
                     <div class="col-2 text-end text-primary" style="font-size:16px">
                       <div *ngIf="item.edit">
@@ -187,7 +187,7 @@
                       <div class="col-4" style="text-align: start">
                         <div *ngIf="item.edit">
                           <input type="number" [(ngModel)]="item.availableQuantity" (keyup.enter)="item.edit = false"
-                            (change)="changeTong()" class="form-control" />
+                            (change)="changeTong()" class="form-control form-control-sm text-10px" />
                         </div>
                         <div *ngIf="!item.edit">
                           {{
@@ -200,7 +200,7 @@
                       <div class="col-4" style="text-align: start">
                         <div *ngIf="item.edit">
                           <input type="number" [(ngModel)]="item.totalQuantity" (keyup.enter)="item.edit = false"
-                            (change)="changeThanhTien(i)" class="form-control" />
+                            (change)="changeThanhTien(i)" class="form-control form-control-sm text-10px" />
                         </div>
                         <div *ngIf="!item.edit">
                           {{
@@ -211,7 +211,7 @@
                       <div class="col-4" style="text-align: start">
                         <div *ngIf="item.edit">
                           <input type="number" [(ngModel)]="item.price" (keyup.enter)="item.edit = false"
-                            (change)="changeThanhTien(i)" class="form-control" />
+                            (change)="changeThanhTien(i)" class="form-control form-control-sm text-10px" />
                         </div>
                         <div *ngIf="!item.edit">
                           {{ item ? plugins.formatNumber(item.price) : "" }}đ
