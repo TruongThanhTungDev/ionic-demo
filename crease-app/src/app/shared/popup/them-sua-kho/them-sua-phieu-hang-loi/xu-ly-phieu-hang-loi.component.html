@@ -52,7 +52,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                   <div>
                     <span class="dot"></span>
-                    Thông tin phiếu nhập
+                    Thông tin phiếu hàng lỗi
                   </div>
                   <div>
                     <i *ngIf="data && data.status == 0" class="fa fa-pen text-primary"  (click)="editPhieuHangLoi(true)"></i>
@@ -92,7 +92,7 @@
                   <ng-container>{{ note ? note : "" }}</ng-container>
                 </div>
               </div>
-              <thong-tin-phieu-hang-loi [data]="data" [FtType]="FtType" [estimatedReturnDate]="estimatedReturnDate"
+              <thong-tin-phieu-hang-loi [data]="data" [FtType]="FtType" [estimatedReturnDate]="estimatedReturnDate" [createAt]="createAt"
                  [note]="note" [isModalOpen]="isShowPhieuHangLoi"
                 (handleOpenModal)="editPhieuHangLoi($event)"
                 (editValue)="handleEditPhieuHangLoi($event)"></thong-tin-phieu-hang-loi>
@@ -102,7 +102,7 @@
             <ion-card-header style="padding-bottom: 7px">
               <ion-card-title class="fw-bold" style="font-size: 15px; color: #006eb9">
                 <span class="dot"></span>
-                Danh sách hàng nhập
+                Danh sách hàng hàng lỗi
               </ion-card-title>
             </ion-card-header>
             <ion-card-content>
@@ -174,7 +174,7 @@
                       <div class="col-4" style="text-align: start">
                         <div *ngIf="item.edit">
                           <input type="number" [(ngModel)]="item.totalQuantity" (keyup.enter)="item.edit = false"
-                            (change)="changeThanhTien(i)" class="form-control" />
+                            (change)="changeThanhTien(i)" class="form-control form-control-sm text-10px" />
                         </div>
                         <div *ngIf="!item.edit">
                           {{
@@ -183,12 +183,8 @@
                         </div>
                       </div>
                       <div class="col-4" style="text-align: start">
-                        <div *ngIf="item.edit">
-                          <input type="number" [(ngModel)]="item.price" (keyup.enter)="item.edit = false"
-                            (change)="changeThanhTien(i)" class="form-control" />
-                        </div>
                         <div *ngIf="!item.edit">
-                          {{ item ? plugins.formatNumber(item.price) : "" }}đ
+                          {{ item ? plugins.formatNumber(item.price) : 0 }}đ
                         </div>
                       </div>
                     </div>

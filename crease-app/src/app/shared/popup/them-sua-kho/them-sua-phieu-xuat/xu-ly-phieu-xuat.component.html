@@ -180,7 +180,7 @@
                       <div class="col-4" style="text-align: start">
                         <div *ngIf="item.edit">
                           <input type="number" [(ngModel)]="item.totalQuantity" (keyup.enter)="item.edit = false"
-                            (change)="changeThanhTien(i)" class="form-control" />
+                            (change)="changeThanhTien(i)" class="form-control form-control-sm text-10px" />
                         </div>
                         <div *ngIf="!item.edit">
                           {{
@@ -191,7 +191,7 @@
                       <div class="col-4" style="text-align: start">
                         <div *ngIf="item.edit">
                           <input type="number" [(ngModel)]="item.price" (keyup.enter)="item.edit = false"
-                            (change)="changeThanhTien(i)" class="form-control" />
+                            (change)="changeThanhTien(i)" class="form-control form-control-sm text-10px" />
                         </div>
                         <div *ngIf="!item.edit">
                           {{ item ? plugins.formatNumber(item.price) : "" }}đ

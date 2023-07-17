@@ -20,7 +20,7 @@ export class ThemThongTinPhieuHangLoiComponent implements OnInit {
   @Input() shopCode: any;
   @Input() isModalOpen: any;
   @Input() createAt: any;
-  @Input() estimatedReturnDate= '';
+  @Input() estimatedReturnDate:any;
   @Input() FtType: any;
   @Input() note: any;
   @Input() data: any;
@@ -29,6 +29,7 @@ export class ThemThongTinPhieuHangLoiComponent implements OnInit {
 
   ngOnInit(): void {
     this.createAt = moment(this.createAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    
     this.estimatedReturnDate = this.estimatedReturnDate ? moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
     if (this.data) {
       this.status=this.data.status
