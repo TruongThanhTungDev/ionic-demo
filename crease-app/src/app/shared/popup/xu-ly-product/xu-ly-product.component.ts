@@ -78,6 +78,10 @@ export class XuLyProduct implements OnInit {
     this.listAddProperties.push(value);
   }
   handleAddProp(index: any, prop: any) {
+    if (!prop.thuocTinh && !prop.giaTr) {
+      this.listAddProperties.splice(index, 1);
+      return;
+    }
     this.listAddProperties[index].thuocTinh = prop.thuocTinh;
     this.listAddProperties[index].giaTri = prop.giaTri;
     this.properties.push(this.listAddProperties[index]);
