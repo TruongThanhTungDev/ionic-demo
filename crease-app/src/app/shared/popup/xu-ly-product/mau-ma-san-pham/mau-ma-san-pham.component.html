@@ -88,8 +88,16 @@
           <input type="text" class="form-control" [disabled]="typeModal === 'edit'">
         </div>
         <div class="mb-2">
-          <label>Mã sản phẩm</label>
-          <select class="form-select"></select>
+          <label>Thuộc tính mẫu</label>
+          <select class="form-select" [disabled]="typeModal === 'edit'"></select>
+        </div>
+        <div class="mb-2">
+          <label>Giá nhập cuối</label>
+          <input type="text" class="form-control" [disabled]="typeModal === 'edit'">
+        </div>
+        <div class="mb-2">
+          <label>Giá bán</label>
+          <input type="text" class="form-control">
         </div>
       </ion-content>
       <ion-footer mode="md" style="background-color: rgba(0, 110, 185, 0.9)!important;">
