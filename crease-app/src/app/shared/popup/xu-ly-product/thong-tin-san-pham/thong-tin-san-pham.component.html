@@ -1,0 +1,93 @@
+<ion-card class="mb-3 mx-0">
+  <ion-card-content>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <div class="d-flex align-items-center">
+        <div class="dot-green" style="margin-right: 6px;"></div>
+        <div class="fw-bold text-16px">
+          Thông tin sản phẩm
+        </div>
+      </div>
+      <div class="text-primary">
+        <i class="fa fa-pen" (click)="setOpen(true)"></i>
+      </div>
+    </div>
+    <div class="text-12px text-secondary">
+      <div class="mb-1">
+        Tên sản phẩm: <span class="fw-bold">{{name}}</span>
+      </div>
+      <div class="mb-1">
+        Mã sản phẩm: <span class="fw-bold">{{code}}</span>
+      </div>
+      <div class="mb-1">
+        Kho thao tác: <span class="fw-bold">{{warehouseName}}</span>
+      </div>
+      <div class="mb-3">
+        Danh mục: <span class="fw-bold">{{productCategoryName}}</span>
+      </div>
+      <div class="mb-3 border-primary rounded p-1"
+        [class]="imageInfo ? '' : 'd-flex flex-column justify-content-center align-items-center'"
+        style="width: 80px; height: 80px;"
+        [style]="imageInfo ? 'border: 1px solid #006EB9' : 'border: 1px dashed #006EB9'" (click)="uploadImage()">
+        <img *ngIf="imageInfo" alt="avatar product" [src]="imageInfo" class="w-100 h-100" style="object-fit: cover;" />
+        <i *ngIf="!imageInfo" class="fa-solid fa-camera text-primary text-20px"></i>
+      </div>
+      <div class="mb-1">
+        Ghi chú: <span>{{note}}</span>
+      </div>
+    </div>
+  </ion-card-content>
+</ion-card>
+<ion-modal [isOpen]="isModalOpen" class="modal-filter-lg" (didDismiss)="setOpen(false)">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar mode="md" class="new-toolbar-background">
+        <ion-title class="fw-bold">Thông tin sản phẩm</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding text-primary">
+      <div class="mb-1">
+        <label>Tên sản phẩm <span class="text-danger">*</span></label>
+        <input [(ngModel)]="nameInfo" type="text" class="form-control">
+      </div>
+      <div class="mb-1">
+        <label>Mã sản phẩm <span class="text-danger">*</span></label>
+        <input [(ngModel)]="codeInfo" type="text" class="form-control" [disabled]="type === 'edit'">
+      </div>
+      <div class="mb-1">
+        <label>Kho thao tác <span class="text-danger">*</span></label>
+        <select [(ngModel)]="khoThaoTac" class="form-select" (change)="changeKho($event)">
+          <option value="">
+          </option>
+          <option *ngFor="let kho of listKhoThaoTac" [value]="kho.id">
+            {{kho.name}}
+          </option>
+        </select>
+      </div>
+      <div class="mb-1">
+        <label>Danh mục <span class="text-danger">*</span></label>
+        <select [(ngModel)]="productCategory.productCategoryId" class="form-select" (change)="changeDanhMuc($event)">
+          <option value=""></option>
+          <option *ngFor="let danhmuc of listDanhMuc" [value]="danhmuc.id">
+            {{danhmuc.name}}
+          </option>
+        </select>
+      </div>
+      <div class="mb-1">
+        <label>Ghi chút</label>
+        <textarea [(ngModel)]="noteInfo" class="form-control" cols="30" rows="10"></textarea>
+      </div>
+    </ion-content>
+    <ion-footer mode="md" style="background-color: rgba(0, 110, 185, 0.9)!important;">
+      <ion-toolbar class="new-toolbar-background">
+        <ion-buttons (click)="setOpen(false)" slot="start">
+          <ion-button style="--color: white!important">Hủy</ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end" (click)="saveInfo()">
+          <ion-button [strong]="true">Lưu</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+    <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+      (didDismiss)="setOpenToast(false)"></ion-toast>
+  </ng-template>
+</ion-modal>

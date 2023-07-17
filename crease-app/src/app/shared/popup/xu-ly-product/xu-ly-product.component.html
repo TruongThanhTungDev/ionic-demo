@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar mode="md" class="new-toolbar-background">
+    <ion-buttons slot="start">
+      <button class="bg-content rounded-circle" (click)="cancel()">
+        <i class="fa-solid fa-arrow-left" style=" padding: 8px 8px;font-size:20px;margin-right: 6px;color: #2c5fb6"></i>
+      </button>
+    </ion-buttons>
+    <ion-title class="text-14px fw-bold">{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [strong]="true">Lưu</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="mb-3">
+    <h5 class="fw-bold">{{data.name}}</h5>
+    <h5 class="fw-bold text-primary">
+      {{data.code}}
+    </h5>
+  </div>
+  <thong-tin-san-pham [type]="type" [name]="name" [code]="code" [image]="image" [note]="note"
+    [warehouseId]="warehouseId" [warehouseName]="warehouseName" [productCategoryId]="productCategoryId"
+    [productCategoryName]="productCategoryName" (editValue)="getValueInfo($event)"></thong-tin-san-pham>
+  <ion-card class="mb-3 mx-0">
+    <ion-card-content>
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <div class="d-flex align-items-center">
+          <div class="dot-green" style="margin-right: 6px;"></div>
+          <div class="fw-bold text-16px">
+            Thuộc tính sản phẩm
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="d-flex">
+          <div *ngFor="let props of properties"
+            class="border text-13px border-primary text-primary rounded-pill px-3 py-1" style="margin-right: 4px"
+            (click)="editProperties(props)">
+            {{props.thuocTinh}}
+          </div>
+          <div class="text-13px border border-primary text-primary rounded-circle px-2 py-1"
+            (click)="addNewProperties()">
+            <i class="fa fa-plus"></i>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="listAddProperties && listAddProperties.length">
+        <div *ngFor="let prop of listAddProperties;index as i" class="row mb-1 align-items-center">
+          <div class="col-4">
+            <input type="text" [(ngModel)]="prop.thuocTinh" class="text-center form-control form-control-sm">
+          </div>
+          <div class="col-6 px-0">
+            <input type="text" [(ngModel)]="prop.giaTri" class="form-control form-control-sm">
+          </div>
+          <div class="col-2 d-flex justify-content-between text-primary">
+            <div (click)="handleAddProp(i,prop)">
+              <i class="fa fa-check"></i>
+            </div>
+            <div (click)="removeProperties(i, prop)">
+              <i class="fa fa-trash"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <mau-ma-san-pham></mau-ma-san-pham>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+    (didDismiss)="setOpen(false)"></ion-toast>
+</ion-content>

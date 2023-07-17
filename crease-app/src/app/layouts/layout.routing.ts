@@ -20,6 +20,7 @@ import { DataOrderComponent } from '../pages/data-order/data-order.component';
 import { UtmStatisticSaleComponent } from '../pages/utm-statistic-sale/utm-statistic-sale.component';
 import { XuatHangComponent } from '../pages/kho/xuat-hang/xuat-hang.component';
 import { HangLoiComponent } from '../pages/kho/hang-loi/hang-loi.component';
+import { QuanLiSanPhamComponent } from '../pages/quan-li-san-pham/quan-li-san-pham.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -111,5 +112,9 @@ export const LayoutRoutes: Routes = [
   {
     path: 'statistic-performance-sale',
     component: UtmStatisticSaleComponent,
+  },
+  {
+    path: 'kho/quan-ly-san-pham',
+    component: QuanLiSanPhamComponent,
   },
 ];

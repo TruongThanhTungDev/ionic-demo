@@ -1,0 +1,108 @@
+<ion-app>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-content class="ion-padding">
+    <div>
+      <div *ngIf="!isBackHeader; else elseBtn" class="d-flex align-items-center">
+        <div>
+          <button class="btn btn-sm" style="background-color: #46C851;">
+            <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
+          </button>
+        </div>
+        <div class="mx-2">
+          <button class="btn btn-success h-100 text-13px p-6px" (click)="showListDelete()">
+            Chọn
+          </button>
+        </div>
+        <div class="w-100 input-group input-group-sm border-primary" style="border-radius: 6px; width: fit-content">
+          <span class="input-group-text bg-white" style="border: 0">
+            <i class="fa-solid fa-magnifying-glass text-sub-content" style="color: #2c5fb6">
+            </i>
+          </span>
+          <input type="text" [(ngModel)]="ftTen" class="form-control border-primary border-0 search-control"
+            placeholder="Tìm kiếm sản phẩm" (keydown.enter)="loadData()">
+        </div>
+      </div>
+      <ng-template #elseBtn>
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button type="button" class="btn btn-sm btn-danger">
+            <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
+            Xóa
+          </button>
+        </div>
+      </ng-template>
+    </div>
+    <div *ngIf="listProducts && listProducts.length; else elseBlock" class="position-relative">
+      <div class="position-relative"
+        *ngFor="let item of listProducts | paginate: { itemsPerPage: 10, currentPage: page, totalItems }">
+        <div *ngIf="isBackHeader" class="checkbox-in-card-container form-check">
+          <input class="form-check-input checkbox-in-card" type="checkbox"
+            [checked]="selectedProduct && selectedProduct.id === item.id" (change)="selectItem(item)">
+        </div>
+        <ion-card [class]="selectedProduct && selectedProduct.id === item.id ? 'card-active' : ''"
+          (click)="isBackHeader ? selectItem(item) : editProductInfo(item)">
+          <ion-card-content class="row align-items-center"
+            [class]="selectedProduct && selectedProduct.id === item.id ? 'text-white' : 'text-dark'">
+            <div class="col-3">
+              <img *ngIf="item.image" alt="avatar product" [src]="item.image" />
+              <img *ngIf="!item.image" alt="avatar product" src="../../../assets/icon/box.png" />
+            </div>
+            <div class="col-8">
+              <h5 class="fw-bold">{{item.name}}</h5>
+              <p class="text-primary fw-bold mb-2 text-12px">{{item.code}}</p>
+              <div class="text-secondary text-10px fw-bold">
+                Danh mục:
+                <span class="fw-normal">{{item.productCategory.name}}</span>
+              </div>
+              <div class="text-secondary text-10px fw-bold">
+                Số mãu:
+                <span class="fw-normal">{{item.soMauMa}}</span>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+    <ng-template #elseBlock>
+      <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <i class="fa-solid fa-box-open text-sub-content mb-3" style="font-size: 100px"></i>
+        <h5 class="text-sub-content">Không có dữ liệu!</h5>
+      </div>
+    </ng-template>
+    <pagination-controls *ngIf="listProducts && listProducts.length" previousLabel="" nextLabel=""
+      (pageChange)="changePagination($event)"></pagination-controls>
+  </ion-content>
+  <ion-footer [translucent]="true">
+    <ion-toolbar mode="md" class="footer-container">
+      <ion-segment *ngIf="!isBackHeader;else elseFooter" [scrollable]="true" color="dark" value="quan-li-san-pham">
+        <ion-segment-button value="quan-li-san-pham" routerLink="/kho/quan-li-san-pham" style="background: #035287">
+          <ion-label class="fw-bold text-white" style="font-size: 8px">Quản lý sản phẩm</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="xuat-hang" routerLink="/kho/xuat-hang">
+          <ion-label class="fw-bold" style="font-size: 8px">Xuất hàng</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="nhap-hang" routerLink="/kho/nhap-hang">
+          <ion-label class="fw-bold" style="font-size: 8px">Nhập hàng</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="hang-loi" routerLink="/kho/hang-loi">
+          <ion-label class="fw-bold" style="font-size: 8px">Hàng lỗi</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="lich-su-hang" routerLink="/kho/lich-su-nhap-xuat">
+          <ion-label class="fw-bold" style="font-size: 8px">Lịch sử xuất nhập</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+      <ng-template #elseFooter>
+        <ion-title class="text-center text-14px fw-bold">Chọn mục</ion-title>
+      </ng-template>
+    </ion-toolbar>
+  </ion-footer>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+    (didDismiss)="setOpen(false)"></ion-toast>
+  <div class="dropdown position-absolute" style="bottom: 5rem; right: 1rem;">
+    <button id="open-filter" class="btn btn-primary rounded-pill " type="button" (click)="openModalFilter(true)">
+      <i class="fa-solid fa-filter"></i>
+      Lọc
+    </button>
+  </div>
+</ion-app>

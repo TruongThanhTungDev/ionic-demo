@@ -149,27 +149,6 @@ export class XulyPhieuNhapComponent implements OnInit {
     this.addSanPhamPhieuNhap();
   }
   addSanPhamPhieuNhap() {
-    if (!this.khoId) {
-      this.isToastOpen = true;
-      this.messageToast = 'Kho không được để trống';
-      return;
-    }
-    if (!this.product) {
-      this.isToastOpen = true;
-      this.messageToast = 'Mã sản phẩm không được để trống';
-      return;
-    }
-    if (!this.subProductCode) {
-      this.isToastOpen = true;
-      this.messageToast = 'Mẫu mã sản phẩm không được để trống';
-      return;
-    }
-
-    if (Number(this.price) < 0 || Number(this.totalQuantity) < 0) {
-      this.isToastOpen = true;
-      this.messageToast = 'Số lượng, giá tiền phải lớn hơn 0';
-      return;
-    }
     this.subProductList.forEach((e) => {
       e.edit = false;
     });
@@ -215,20 +194,14 @@ export class XulyPhieuNhapComponent implements OnInit {
   }
 
   onCreate() {
- 
-    if (!this.createAt) {
-      this.isToastOpen = true;
-      this.messageToast = 'Ngày tạo phiếu không được để trống';
-      return;
-    }
-    if(!this.data && !this.khoId){  
-        this.isToastOpen = true;
-        this.messageToast = 'Kho không được để trống';   
-        return;  
-    }
+  //   if(!this.data){  
+  //     this.isToastOpen = true;
+  //     this.messageToast = 'Danh sách hàng nhập không được để trống';   
+  //   return;  
+  // } 
     if (this.subProductList.length === 0) {
       this.isToastOpen = true;
-      this.messageToast = 'Chi tiết phiếu không được để trống';
+      this.messageToast = 'Danh sách hàng nhập không được để trống';
       return;
     }
 
@@ -278,10 +251,10 @@ export class XulyPhieuNhapComponent implements OnInit {
       if (
         Number(a.availableQuantity) < 0 ||
         Number(a.price) < 0 ||
-        Number(a.totalQuantity) < 0
+        Number(a.totalQuantity) <= 0
       ) {
         this.isToastOpen = true;
-        this.messageToast = 'Số lượng, giá, có thể bán < 0';
+        this.messageToast = 'Số lượng không được <= 0, giá nhập, có thể bán không được <0';
         return;
       } else {
         if (a.availableQuantity > a.totalQuantity) {
@@ -349,7 +322,6 @@ export class XulyPhieuNhapComponent implements OnInit {
           } else {
             this.isToastOpen = true;
             this.messageToast = 'Tạo phiếu thất bại';
-            this.cancel();
           }
         },
         () => {
@@ -367,8 +339,7 @@ export class XulyPhieuNhapComponent implements OnInit {
             this.confirm();
           } else {
             this.isToastOpen = true;
-            this.messageToast = 'Cập nhật phiếu thất bại';
-            this.cancel();
+            this.messageToast = 'Cập nhật phiếu thất bại';           
           }
         },
         () => {
@@ -397,7 +368,6 @@ export class XulyPhieuNhapComponent implements OnInit {
         } else {
           this.isToastOpen = true;
           this.messageToast = 'Cập nhật phiếu thất bại';
-          this.cancel();
         }
       },
       () => {

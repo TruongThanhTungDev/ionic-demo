@@ -66,11 +66,37 @@ export class ThemSanPhamHangLoiComponent implements OnInit {
   }
 
   setOpen(open: boolean) {
+    this.isToastOpen = open;
     this.isModalOpen = open;
     this.handleOpenModal.emit(open);
   }
+  validInfo(){
+    if (!this.khoId) {
+      this.isToastOpen = true;
+      this.messageToast = 'Kho không được để trống';
+      return false;
+    }
+    if (!this.product) {
+      this.isToastOpen = true;
+      this.messageToast = 'Mã sản phẩm không được để trống';
+      return false;
+    }
+    if (!this.subProductCode) {
+      this.isToastOpen = true;
+      this.messageToast = 'Mẫu mã sản phẩm không được để trống';
+      return false;
+    }
+
+    if (Number(this.price) < 0 || Number(this.totalQuantity) <= 0) {
+      this.isToastOpen = true;
+      this.messageToast = 'Số lượng phải lớn hơn 0, giá tiền phải lớn hơn 0';
+      return false;
+    }
+    return true;
+  }
 
   saveInfo() {
+    if(this.validInfo()){
     const value = {
       product: this.product,
       subProductCode: this.subProductCode,
@@ -85,6 +111,7 @@ export class ThemSanPhamHangLoiComponent implements OnInit {
     this.editValue.emit(value);
     this.resetInfo();
     this.setOpen(false);
+  }
   }
   resetInfo() {
     this.product = null;

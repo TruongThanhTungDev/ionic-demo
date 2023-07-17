@@ -1,0 +1,117 @@
+<ion-card class="mb-3 mx-0">
+  <ion-card-content>
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <div class="d-flex align-items-center">
+        <div class="dot-green" style="margin-right: 6px;"></div>
+        <div class="fw-bold text-16px">
+          Mẫu mã sản phẩm
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="mb-4">
+        <button class="btn btn-sm" style="background-color: #46C851; margin-right: 6px;" (click)="setOpen(true,'add')">
+          <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-success text-13px">
+          <i class=" fa-solid fa-plus" style="margin-right: 6px;"></i>
+          Thêm nhanh theo thuộc tính
+        </button>
+      </div>
+      <div>
+        <div class="d-flex justify-content-between mb-3">
+          <h5 class="bg-secondary fw-bold text-16px px-2">AWS8</h5>
+          <div (click)="setOpen(true,'edit')">
+            <i class="fa fa-pen text-primary"></i>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-6 fw-bold text-secondary text-12px" style="padding-right: 0;">
+            <div class="mb-1">
+              Thuộc tính: màu Xanh
+            </div>
+            <div class="mb-1">
+              Kích thước: 1x2x3
+            </div>
+            <div class="mb-1">
+              Trọng lượng: 500g
+            </div>
+          </div>
+          <div class="col-6 text-12px" style="padding-left: 0;">
+            <div class="text-end">
+              <div class="text-black fw-bold">
+                Giá bán: {{plugins.formatNumber(100000)}}đ
+              </div>
+              <p class="text-secondary text-10px">
+                Giá nhập cuối: {{plugins.formatNumber(100000)}}đ
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="text-secondary text-12px">
+          <div class="row mb-2">
+            <div class="col-4">
+              Tổng nhập: <span>0</span>
+            </div>
+            <div class="col-4 px-0">
+              Có thể bán: <span>0</span>
+            </div>
+            <div class="col-4" style="padding-left: 0;">
+              Chờ vận chuyển: <span>0</span>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-4">
+              Tổng tồn kho: <span>0</span>
+            </div>
+            <div class="col-4 px-0">
+              Sản phẩm lỗi: <span>0</span>
+            </div>
+            <div class="col-4" style="padding-left: 0;">
+              Sắp về: <span>0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-card-content>
+  <ion-modal [isOpen]="isModalOpen" class="modal-filter-lg" (didDismiss)="setOpen(false,'')">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar mode="md" class="new-toolbar-background">
+          <ion-title class="fw-bold">Xử lý mẫu mã sản phẩm</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding text-primary">
+        <div class="mb-2">
+          <label>Mã sản phẩm</label>
+          <input type="text" class="form-control" [disabled]="typeModal === 'edit'">
+        </div>
+        <div class="mb-2">
+          <label>Thuộc tính mẫu</label>
+          <select class="form-select" [disabled]="typeModal === 'edit'"></select>
+        </div>
+        <div class="mb-2">
+          <label>Giá nhập cuối</label>
+          <input type="text" class="form-control" [disabled]="typeModal === 'edit'">
+        </div>
+        <div class="mb-2">
+          <label>Giá bán</label>
+          <input type="text" class="form-control">
+        </div>
+      </ion-content>
+      <ion-footer mode="md" style="background-color: rgba(0, 110, 185, 0.9)!important;">
+        <ion-toolbar class="new-toolbar-background">
+          <ion-buttons (click)="setOpen(false,'')" slot="start">
+            <ion-button style="--color: white!important">Hủy</ion-button>
+          </ion-buttons>
+          <ion-buttons slot="end" (click)="saveInfo()">
+            <ion-button [strong]="true">Lưu</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-footer>
+      <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+        (didDismiss)="setOpenToast(false)"></ion-toast>
+    </ng-template>
+  </ion-modal>
+</ion-card>

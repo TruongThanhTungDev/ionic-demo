@@ -18,16 +18,18 @@
         <input type="date" [(ngModel)]="createAt" [disabled]="data" class="form-control" placeholder="thời gian tạo" >
       </div>
       <div class="mb-3">
-        <label class="text-primary">Ngày về dự kiến</label>
-        <input type="date" [(ngModel)]="estimatedReturnDate"  [disabled]="status!=0" (blur)="onInputDateBlur()" class="form-control" placeholder="Ngày về dự kiến">
+        <label class="text-primary">Nhập/xuất kho lúc</label>
+        <input type="date" [(ngModel)]="estimatedReturnDateInfo"  [disabled]="status!=0" (blur)="onInputDateBlur()" class="form-control" placeholder="Ngày về dự kiến">
       </div>
       <div class="mb-3">
         <label class="text-primary">Ghi chú</label>
         <input type="text" [(ngModel)]="note" class="form-control"[disabled]="status!=0"  placeholder="Ghi chú">
       </div>
       <div class="text-end">
-        <button class="btn btn-sm btn-primary fw-bold px-3" (click)="saveInfo()">Lưu</button>
+        <button class="btn btn-sm btn-primary fw-bold px-3" (click)="saveInfo()">Thêm</button>
       </div>
     </ion-content>
+     <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="100000"
+    (didDismiss)="setOpen(false)"></ion-toast>
   </ng-template>
 </ion-modal>

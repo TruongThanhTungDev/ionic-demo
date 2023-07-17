@@ -49,6 +49,9 @@ import { ThemThongTinPhieuXuatComponent } from './shared/popup/them-sua-kho/them
 import { XulyPhieuHangLoiComponent } from './shared/popup/them-sua-kho/them-sua-phieu-hang-loi/xu-ly-phieu-hang-loi.component';
 import { ThemThongTinPhieuHangLoiComponent } from './shared/popup/them-sua-kho/them-sua-phieu-hang-loi/them-thong-tin-phieu-hang-loi/them-thong-tin-phieu-hang-loi.component';
 import { ThemSanPhamHangLoiComponent } from './shared/popup/them-sua-kho/them-sua-phieu-hang-loi/them-san-pham-loi/them-san-pham-loi.component';
+import { XuLyProduct } from './shared/popup/xu-ly-product/xu-ly-product.component';
+import { ThongTinSanPhamComponent } from './shared/popup/xu-ly-product/thong-tin-san-pham/thong-tin-san-pham.component';
+import { MauMaSanPhamComponent } from './shared/popup/xu-ly-product/mau-ma-san-pham/mau-ma-san-pham';
 @NgModule({
   declarations: [
     OnlyNumberDirective,
@@ -81,6 +84,9 @@ import { ThemSanPhamHangLoiComponent } from './shared/popup/them-sua-kho/them-su
     XulyPhieuHangLoiComponent,
     ThemSanPhamHangLoiComponent,
     ThemThongTinPhieuHangLoiComponent,
+    XuLyProduct,
+    ThongTinSanPhamComponent,
+    MauMaSanPhamComponent,
   ],
   imports: [
     HttpClientModule,

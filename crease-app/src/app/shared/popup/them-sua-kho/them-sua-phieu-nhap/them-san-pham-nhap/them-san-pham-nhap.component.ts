@@ -64,28 +64,64 @@ export class ThemSanPhamNhapComponent implements OnInit {
     this.info = this.localStorage.retrieve('authenticationToken');
     this.shop = this.localStorage.retrieve('shop');
   }
-
   setOpen(open: boolean) {
+    this.isToastOpen = open;
     this.isModalOpen = open;
     this.handleOpenModal.emit(open);
   }
+  validInfo() {
+    if (!this.khoId) {
+      this.isToastOpen = true;
+      this.messageToast = 'Kho không được để trống';         
+      return false;
+    }
+    if (!this.product) {
+      this.isToastOpen = true;
+      this.messageToast = 'Mã sản phẩm không được để trống';
+      return false;
+    }
+    if (this.price < 0) {
+      this.isToastOpen = true;
+      this.messageToast = 'Giá nhập không được nhỏ hơn 0';
+      return false;
+    }
+    if (this.totalQuantity <= 0) {
+      this.isToastOpen = true;
+      this.messageToast = 'Số lượng không được nhỏ hơn hoặc bằng 0';
+      return false;
+    }
+    if (!this.subProductCode) {
+      this.isToastOpen = true;
+      this.messageToast = 'Mẫu mã sản phẩm không được để trống';
+      return false;
+    }
 
-  saveInfo() {
-    const value = {
-      product: this.product,
-      subProductCode: this.subProductCode,
-      totalQuantity: this.totalQuantity,
-      availableQuantity: this.availableQuantity,
-      nhaCungCap: this.nhaCungCap,
-      price: this.price,
-      khoId: this.khoId,
-      isOpen: false,
-    };
-    this.listSanPhamCT = [];
-    this.editValue.emit(value);
-    this.resetInfo();
-    this.setOpen(false);
+    if (Number(this.price) < 0 || Number(this.totalQuantity) <= 0) {
+      this.isToastOpen = true;
+      this.messageToast = 'Số lượng, giá tiền phải lớn hơn 0';
+      return false;
+    }
+    return true;
   }
+  saveInfo() {
+    if(this.validInfo()){
+      const value = {
+        product: this.product,
+        subProductCode: this.subProductCode,
+        totalQuantity: this.totalQuantity,
+        availableQuantity: this.availableQuantity,
+        nhaCungCap: this.nhaCungCap,
+        price: this.price,
+        khoId: this.khoId,
+        isOpen: false,
+      };
+      this.listSanPhamCT = [];
+      this.editValue.emit(value);
+      this.resetInfo();
+      this.setOpen(false);
+    }   
+  }
+
   resetInfo() {
     this.product = null;
     this.subProductCode = null;
