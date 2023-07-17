@@ -28,11 +28,11 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
   status: any;
   isToastOpen=false;
   messageToast:any;
-  
+  estimatedReturnDateInfo:any;
 
   ngOnInit(): void {
     this.createAt = moment(this.createAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
-    this.estimatedReturnDate = this.estimatedReturnDate ? moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
+    this.estimatedReturnDateInfo = this.estimatedReturnDate ? moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
     if (this.data) {
       this.status=this.data.status
     }
@@ -54,7 +54,7 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
     this.handleOpenModal.emit(open);
     if (open) {
       this.createAt = this.createAt;
-      this.estimatedReturnDate = this.estimatedReturnDate;
+      this.estimatedReturnDateInfo = this.estimatedReturnDate;
       this.tranportFee= this.tranportFee;
       this.discount=this.discount;
       this.note= this.note;
@@ -73,7 +73,7 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
       this.messageToast = 'Ngày tạo phiếu không được để trống';
       return false;
     }
-    if (this.estimatedReturnDate && this.createAt > this.estimatedReturnDate) {
+    if (this.estimatedReturnDateInfo && this.createAt > this.estimatedReturnDateInfo) {
       this.isToastOpen = true;
       this.messageToast = 'Ngày về dự kiến không cho phép nhỏ hơn ngày tạo phiếu';
       return false;
@@ -94,7 +94,7 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
     if(this.validInfo()){
       const value = {
         createAt: moment(this.createAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
-        estimatedReturnDate: this.estimatedReturnDate ? moment(this.estimatedReturnDate,
+        estimatedReturnDate: this.estimatedReturnDateInfo ? moment(this.estimatedReturnDateInfo,
           'YYYY-MM-DD'
         ).format('DD/MM/YYYY'):"",
         tranportFee: this.tranportFee,
