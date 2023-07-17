@@ -37,7 +37,7 @@ export class CauhinhKhoComponent implements OnInit {
   listData: any;
   info: any;
   selectedItem: any;
-  isToastOpen: any;
+  isToastOpen=false;
   messageToast: any;
   isOpenDeleteModal = false;
   isOpenFilterModal = false;

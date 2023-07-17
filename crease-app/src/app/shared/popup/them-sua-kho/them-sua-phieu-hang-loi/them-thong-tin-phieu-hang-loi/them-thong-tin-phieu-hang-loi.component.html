@@ -29,5 +29,7 @@
         <button class="btn btn-sm btn-primary fw-bold px-3" (click)="saveInfo()">Thêm</button>
       </div>
     </ion-content>
+     <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="100000"
+    (didDismiss)="setOpen(false)"></ion-toast>
   </ng-template>
 </ion-modal>

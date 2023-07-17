@@ -149,42 +149,6 @@ export class XulyPhieuNhapComponent implements OnInit {
     this.addSanPhamPhieuNhap();
   }
   addSanPhamPhieuNhap() {
-    if (!this.khoId) {
-      this.isToastOpen = true;
-      this.messageToast = 'Kho không được để trống';         
-      return;
-    }
-    if (!this.product) {
-      this.isToastOpen = true;
-      this.messageToast = 'Mã sản phẩm không được để trống';
-      return;
-    }
-    if (this.price < 0) {
-      this.isToastOpen = true;
-      this.messageToast = 'Giá nhập không được nhỏ hơn 0';
-      return;
-    }
-    if (this.totalQuantity <= 0) {
-      this.isToastOpen = true;
-      this.messageToast = 'Số lượng không được nhỏ hơn hoặc bằng 0';
-      return;
-    }
-    if (!this.subProductCode) {
-      this.isToastOpen = true;
-      this.messageToast = 'Mẫu mã sản phẩm không được để trống';
-      return;
-    }
-
-    if (Number(this.price) < 0 || Number(this.totalQuantity) < 0) {
-      this.isToastOpen = true;
-      this.messageToast = 'Số lượng, giá tiền phải lớn hơn 0';
-      return;
-    }
-    if (this.createAt > this.estimatedReturnDate) {
-      this.isToastOpen = true;
-      this.messageToast = 'Ngày về dự kiến không cho phép nhỏ hơn ngày tạo phiếu';
-      return;
-    }
     this.subProductList.forEach((e) => {
       e.edit = false;
     });
@@ -230,39 +194,15 @@ export class XulyPhieuNhapComponent implements OnInit {
   }
 
   onCreate() {
-    if(!this.data ){  
-      this.isToastOpen = true;
-      this.messageToast = 'Danh sách hàng nhập không được để trống';   
-    return;  
-  }
-    if (!this.createAt) {
-      this.isToastOpen = true;
-      this.messageToast = 'Ngày tạo phiếu không được để trống';
-      return;
-    }
-    if (this.estimatedReturnDate && this.createAt > this.estimatedReturnDate) {
-      this.isToastOpen = true;
-      this.messageToast = 'Ngày về dự kiến không cho phép nhỏ hơn ngày tạo phiếu';
-      return;
-    }
-    if(!this.data && !this.khoId){  
-        this.isToastOpen = true;
-        this.messageToast = 'Kho không được để trống';   
-      return;  
-    }
-    if(this.tranportFee < 0 ){  
-      this.isToastOpen = true;
-      this.messageToast = 'Phí ship không được nhỏ hơn 0';   
-      return;  
-    }
-    if(this.discount < 0 ){  
-      this.isToastOpen = true;
-      this.messageToast = 'Chiết khấu không được nhỏ hơn 0';   
-      return;  
-    }
+  //   if(!this.data){  
+  //     this.isToastOpen = true;
+  //     this.messageToast = 'Danh sách hàng nhập không được để trống';   
+  //   return;  
+  // } 
     if (this.subProductList.length === 0) {
       this.isToastOpen = true;
-      this.messageToast = 'Chi tiết phiếu không được để trống';
+      this.messageToast = 'Danh sách hàng nhập không được để trống';
+      return;
     }
 
     const bol = {

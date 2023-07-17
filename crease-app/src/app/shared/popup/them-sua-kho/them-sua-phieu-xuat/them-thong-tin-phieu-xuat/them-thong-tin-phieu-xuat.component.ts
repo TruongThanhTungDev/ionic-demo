@@ -24,7 +24,8 @@ export class ThemThongTinPhieuXuatComponent implements OnInit {
   @Input() note: any;
   @Input() data: any;
   status: any;
-  
+  isToastOpen=false;
+  messageToast: any;
 
   ngOnInit(): void {
     this.createAt = moment(this.createAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
@@ -45,6 +46,7 @@ export class ThemThongTinPhieuXuatComponent implements OnInit {
   ) {}
 
   setOpen(open: boolean) {
+    this.isToastOpen = open;
     this.isModalOpen = open;
     this.handleOpenModal.emit(open);
   }
@@ -55,7 +57,14 @@ export class ThemThongTinPhieuXuatComponent implements OnInit {
       this.estimatedReturnDate = '';
     }
   }
-  
+  validInfo() {
+    if (!this.createAt) {
+      this.isToastOpen = true;
+      this.messageToast = 'Ngày tạo phiếu không được để trống';
+      return;
+    }
+    return true;
+  }
   saveInfo() {
     const value = {
       createAt: moment(this.createAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),

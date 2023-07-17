@@ -65,12 +65,49 @@ export class ThemSanPhamXuatComponent implements OnInit {
     this.shop = this.localStorage.retrieve('shop');
   }
 
-  setOpen(open: boolean) {
+  setOpen(open: boolean) { 
+    this.isToastOpen = open;
     this.isModalOpen = open;
     this.handleOpenModal.emit(open);
   }
-
+  validInfo() {
+    console.log(this.price)
+    console.log(this.totalQuantity)
+    if (!this.khoId) {
+      this.isToastOpen = true;
+      this.messageToast = 'Kho không được để trống';
+      return false;
+    }
+    if (!this.product) {
+      this.isToastOpen = true;
+      this.messageToast = 'Mã sản phẩm không được để trống';
+      return false;
+    }
+    if (!this.subProductCode) {
+      this.isToastOpen = true;
+      this.messageToast = 'Mẫu mã sản phẩm không được để trống';
+      return false;
+    }
+    if (this.price < 0) {
+      this.isToastOpen = true;
+      this.messageToast = 'Giá xuất không được nhỏ hơn 0';
+      return false;
+    }
+    if (this.totalQuantity <= 0) {
+      this.isToastOpen = true;
+      this.messageToast = 'Số lượng không được nhỏ hơn hoặc bằng 0';
+      return false;
+    }
+    if (Number(this.price) < 0 || Number(this.totalQuantity) <= 0) {
+      this.isToastOpen = true;
+      this.messageToast = 'Số lượng, giá tiền phải lớn hơn 0';
+      return false;
+    }
+    return true;
+  
+  }
   saveInfo() {
+    if(this.validInfo()){
     const value = {
       product: this.product,
       subProductCode: this.subProductCode,
@@ -85,6 +122,7 @@ export class ThemSanPhamXuatComponent implements OnInit {
     this.editValue.emit(value);
     this.resetInfo();
     this.setOpen(false);
+  }
   }
   resetInfo() {
     this.product = null;

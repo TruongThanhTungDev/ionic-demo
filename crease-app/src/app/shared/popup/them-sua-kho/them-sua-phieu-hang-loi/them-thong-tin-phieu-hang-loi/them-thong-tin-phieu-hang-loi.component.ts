@@ -25,7 +25,8 @@ export class ThemThongTinPhieuHangLoiComponent implements OnInit {
   @Input() note: any;
   @Input() data: any;
   status: any;
-  
+  isToastOpen=false;
+  messageToast: any;
 
   ngOnInit(): void {
     this.createAt = moment(this.createAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
@@ -45,10 +46,25 @@ export class ThemThongTinPhieuHangLoiComponent implements OnInit {
     private elementRef: ElementRef, 
     private renderer: Renderer2,
   ) {}
-
+  validInfo(){
+    if (!this.FtType) {
+      this.isToastOpen = true;
+      this.messageToast = 'Loại phiếu không được để trống';
+      return;
+    }
+    if (!this.createAt) {
+      this.isToastOpen = true;
+      this.messageToast = 'Ngày tạo phiếu không được để trống';
+      return;
+    }
+   
+    return true;
+  }
   setOpen(open: boolean) {
+    this.isToastOpen=open;
     this.isModalOpen = open;
     this.handleOpenModal.emit(open);
+    
   }
   onInputDateBlur() {
     if (moment(this.estimatedReturnDate, 'YYYY-MM-DD', true).isValid()) {
@@ -59,16 +75,18 @@ export class ThemThongTinPhieuHangLoiComponent implements OnInit {
   }
   
   saveInfo() {
-    const value = {
-      createAt: moment(this.createAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
-      estimatedReturnDate: this.estimatedReturnDate ? moment(this.estimatedReturnDate,
-        'YYYY-MM-DD'
-      ).format('DD/MM/YYYY'):"",
-      FtType:this.FtType,
-      note: this.note,
-      isOpen: false,
-    };
-    this.editValue.emit(value);
-    this.setOpen(false);
-  }
+    if(this.validInfo()){
+      const value = {
+        createAt: moment(this.createAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
+        estimatedReturnDate: this.estimatedReturnDate ? moment(this.estimatedReturnDate,
+          'YYYY-MM-DD'
+        ).format('DD/MM/YYYY'):"",
+        FtType:this.FtType,
+        note: this.note,
+        isOpen: false,
+      };
+      this.editValue.emit(value);
+      this.setOpen(false);
+    }
+    }   
 }

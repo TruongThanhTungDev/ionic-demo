@@ -26,7 +26,8 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
   @Input() note: any;
   @Input() data: any;
   status: any;
- 
+  isToastOpen=false;
+  messageToast:any;
   
 
   ngOnInit(): void {
@@ -48,8 +49,16 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
   ) {}
 
   setOpen(open: boolean) {
+    this.isToastOpen = open;
     this.isModalOpen = open;
     this.handleOpenModal.emit(open);
+    if (open) {
+      this.createAt = this.createAt;
+      this.estimatedReturnDate = this.estimatedReturnDate;
+      this.tranportFee= this.tranportFee;
+      this.discount=this.discount;
+      this.note= this.note;
+    } 
   }
   onInputDateBlur() {
     if (moment(this.estimatedReturnDate, 'YYYY-MM-DD', true).isValid()) {
@@ -58,19 +67,43 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
       this.estimatedReturnDate = '';
     }
   }
-  
-  saveInfo() {
-    const value = {
-      createAt: moment(this.createAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
-      estimatedReturnDate: this.estimatedReturnDate ? moment(this.estimatedReturnDate,
-        'YYYY-MM-DD'
-      ).format('DD/MM/YYYY'):"",
-      tranportFee: this.tranportFee,
-      discount: this.discount,
-      note: this.note,
-      isOpen: false,
-    };
-    this.editValue.emit(value);
-    this.setOpen(false);
+  validInfo() {
+    if (!this.createAt) {
+      this.isToastOpen = true;
+      this.messageToast = 'Ngày tạo phiếu không được để trống';
+      return false;
+    }
+    if (this.estimatedReturnDate && this.createAt > this.estimatedReturnDate) {
+      this.isToastOpen = true;
+      this.messageToast = 'Ngày về dự kiến không cho phép nhỏ hơn ngày tạo phiếu';
+      return false;
+    }
+    if(this.tranportFee < 0 ){  
+      this.isToastOpen = true;
+      this.messageToast = 'Phí ship không được nhỏ hơn 0';   
+      return false;  
+    }
+    if(this.discount < 0 ){  
+      this.isToastOpen = true;
+      this.messageToast = 'Chiết khấu không được nhỏ hơn 0';   
+      return false;  
+    }
+    return true;
   }
+  saveInfo() {
+    if(this.validInfo()){
+      const value = {
+        createAt: moment(this.createAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
+        estimatedReturnDate: this.estimatedReturnDate ? moment(this.estimatedReturnDate,
+          'YYYY-MM-DD'
+        ).format('DD/MM/YYYY'):"",
+        tranportFee: this.tranportFee,
+        discount: this.discount,
+        note: this.note,
+        isOpen: false,
+      };
+      this.editValue.emit(value);
+      this.setOpen(false);
+    }
+    }  
 }
