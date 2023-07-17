@@ -27,11 +27,11 @@ export class ThemThongTinPhieuHangLoiComponent implements OnInit {
   status: any;
   isToastOpen=false;
   messageToast: any;
-
+  estimatedReturnDateInfo:any;
   ngOnInit(): void {
     this.createAt = moment(this.createAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
     
-    this.estimatedReturnDate = this.estimatedReturnDate ? moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
+    this.estimatedReturnDateInfo = this.estimatedReturnDate ? moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
     if (this.data) {
       this.status=this.data.status
     }
@@ -64,6 +64,11 @@ export class ThemThongTinPhieuHangLoiComponent implements OnInit {
     this.isToastOpen=open;
     this.isModalOpen = open;
     this.handleOpenModal.emit(open);
+    if (open) {
+      this.createAt = this.createAt;
+      this.estimatedReturnDateInfo = this.estimatedReturnDate;
+      this.note= this.note;
+    } 
     
   }
   onInputDateBlur() {
@@ -78,7 +83,7 @@ export class ThemThongTinPhieuHangLoiComponent implements OnInit {
     if(this.validInfo()){
       const value = {
         createAt: moment(this.createAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
-        estimatedReturnDate: this.estimatedReturnDate ? moment(this.estimatedReturnDate,
+        estimatedReturnDate: this.estimatedReturnDateInfo ? moment(this.estimatedReturnDateInfo,
           'YYYY-MM-DD'
         ).format('DD/MM/YYYY'):"",
         FtType:this.FtType,
