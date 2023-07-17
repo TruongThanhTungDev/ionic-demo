@@ -57,7 +57,6 @@ export class XuLyProduct implements OnInit {
       this.productCategoryId = this.data.productCategory.id;
       this.productCategoryName = this.data.productCategory.name;
       this.properties = JSON.parse(this.data.properties);
-      console.log('object :>> ', this.properties);
     }
   }
   getValueInfo(value: any) {

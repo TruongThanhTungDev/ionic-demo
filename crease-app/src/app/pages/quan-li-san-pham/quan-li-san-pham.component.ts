@@ -68,6 +68,22 @@ export class QuanLiSanPhamComponent implements OnInit {
       this.loadData();
     }
   }
+  async addProduct() {
+    const modal = await this.modal.create({
+      component: XuLyProduct,
+      componentProps: {
+        title: 'Thêm mới sản phẩm',
+        data: null,
+        type: 'add',
+      },
+      backdropDismiss: false,
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.loadData();
+    }
+  }
   public async loadData() {
     const params = {
       sort: ['id', 'desc'],

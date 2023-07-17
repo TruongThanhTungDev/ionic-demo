@@ -85,19 +85,55 @@
       <ion-content class="ion-padding text-primary">
         <div class="mb-2">
           <label>Mã sản phẩm</label>
-          <input type="text" class="form-control" [disabled]="typeModal === 'edit'">
+          <input type="text" class="form-control form-control-sm" [disabled]="typeModal === 'edit'">
         </div>
         <div class="mb-2">
           <label>Thuộc tính mẫu</label>
-          <select class="form-select" [disabled]="typeModal === 'edit'"></select>
+          <select class="form-select form-select-sm" [disabled]="typeModal === 'edit'"></select>
         </div>
         <div class="mb-2">
           <label>Giá nhập cuối</label>
-          <input type="text" class="form-control" [disabled]="typeModal === 'edit'">
+          <input type="text" onlyNumber class="form-control form-control-sm" [disabled]="typeModal === 'edit'">
         </div>
         <div class="mb-2">
           <label>Giá bán</label>
-          <input type="text" class="form-control">
+          <input type="text" onlyNumber class="form-control form-control-sm">
+        </div>
+        <div class="mb-2 row">
+          <div class="col">
+            <label>Kích thước</label>
+            <input type="text" class="form-control form-control-sm" placeholder="Dài x rộng x cao">
+          </div>
+          <div class="col">
+            <label>Trọng lượng</label>
+            <input type="text" class="form-control form-control-sm" placeholder="VD: 500g">
+          </div>
+        </div>
+        <div class="mb-2 row">
+          <div class="col">
+            <label>Tổng nhập</label>
+            <input type="text" onlyNumber class="form-control form-control-sm" [disabled]="typeModal === 'edit'">
+          </div>
+          <div class="col">
+            <label>Có thể bán</label>
+            <input type="text" onlyNumber class="form-control form-control-sm" [disabled]="typeModal === 'edit'">
+          </div>
+        </div>
+        <div class="mb-2 row">
+          <div class="col">
+            <label>Tồn kho</label>
+            <input type="text" onlyNumber class="form-control form-control-sm" [disabled]="typeModal === 'edit'">
+          </div>
+          <div class="col">
+            <label>Hàng lỗi</label>
+            <input type="text" onlyNumber class="form-control form-control-sm" [disabled]="typeModal === 'edit'">
+          </div>
+        </div>
+        <div class="mb-2 row">
+          <div class="col">
+            <label>Có thể bán</label>
+            <input type="text" onlyNumber class="form-control form-control-sm" [disabled]="typeModal === 'edit'">
+          </div>
         </div>
       </ion-content>
       <ion-footer mode="md" style="background-color: rgba(0, 110, 185, 0.9)!important;">
