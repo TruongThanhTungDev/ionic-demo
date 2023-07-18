@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Plugin } from 'src/app/plugins/plugins';
 
 @Component({
@@ -6,6 +6,7 @@ import { Plugin } from 'src/app/plugins/plugins';
   templateUrl: 'mau-ma-san-pham.component.html',
 })
 export class MauMaSanPhamComponent implements OnInit {
+  @Output() editValue = new EventEmitter<any>();
   @Input() data: any;
   @Input() type: any;
   plugins = new Plugin();
@@ -40,7 +41,19 @@ export class MauMaSanPhamComponent implements OnInit {
       this.productTotalIncoming = this.data.awaitingProductQuantity;
     }
   }
-  saveInfo() {}
+  saveInfo() {
+    const value = {
+      price: this.productModelPrice,
+      lastImportedPrice: this.productModelTotalImport,
+      totalQuantity: this.productModelTotalImport,
+      availableQuantity: this.productTotalAvailable,
+      inventoryQuantity: this.productTotalInventory,
+      defectiveProductQuantity: this.productTotalError,
+      awaiting: this.productTotalIncoming,
+    };
+    this.editValue.emit(value);
+    this.setOpen(false, '');
+  }
   setOpen(open: boolean, type: string) {
     this.isModalOpen = open;
     this.typeModal = type;
