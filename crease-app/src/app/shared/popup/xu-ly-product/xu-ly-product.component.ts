@@ -30,6 +30,12 @@ export class XuLyProduct implements OnInit {
   note: any;
   productCategoryId: any;
   productCategoryName: any;
+  productModelProp: any;
+  productModelSize: any;
+  productModelWeight: any;
+  productModelPrice = 0;
+  productModelFinalPrice = 0;
+
   properties: any;
   listAddProperties: any[] = [];
   isToastOpen = false;
@@ -54,6 +60,7 @@ export class XuLyProduct implements OnInit {
       this.note = this.data.note;
       this.warehouseId = this.data.warehouseId;
       this.warehouseName = this.data.subProductList[0].warehouse.name;
+      this.productModelProp = this.data.subProductList[0];
       this.productCategoryId = this.data.productCategory.id;
       this.productCategoryName = this.data.productCategory.name;
       this.properties = JSON.parse(this.data.properties);
@@ -83,14 +90,26 @@ export class XuLyProduct implements OnInit {
     }
     this.listAddProperties[index].thuocTinh = prop.thuocTinh;
     this.listAddProperties[index].giaTri = prop.giaTri;
-    this.properties.push(this.listAddProperties[index]);
+    if (this.listAddProperties[index].index) {
+      this.properties.splice(
+        this.listAddProperties[index].index,
+        1,
+        this.listAddProperties[index]
+      );
+    } else {
+      this.properties.push(this.listAddProperties[index]);
+    }
     if (index !== -1) {
       this.listAddProperties.splice(index, 1);
     }
   }
-  editProperties(item: any) {
+  editProperties(item: any, index: any) {
+    const newItem = {
+      ...item,
+      index,
+    };
     if (this.listAddProperties.includes(item)) return;
-    this.listAddProperties.push(item);
+    this.listAddProperties.push(newItem);
   }
   removeProperties(i: any, prop: any) {
     const index = this.listAddProperties.findIndex(

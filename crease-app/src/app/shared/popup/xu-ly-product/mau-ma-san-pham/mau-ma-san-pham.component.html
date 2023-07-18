@@ -28,22 +28,22 @@
         <div class="row mb-3">
           <div class="col-6 fw-bold text-secondary text-12px" style="padding-right: 0;">
             <div class="mb-1">
-              Thuộc tính: màu Xanh
+              Thuộc tính: {{data ? data.properties : ''}}
             </div>
             <div class="mb-1">
-              Kích thước: 1x2x3
+              Kích thước: {{data ? data.length + "x" + data.wide + "x" + data.high : ''}}
             </div>
             <div class="mb-1">
-              Trọng lượng: 500g
+              Trọng lượng: {{data ? data.weight : ''}}
             </div>
           </div>
           <div class="col-6 text-12px" style="padding-left: 0;">
             <div class="text-end">
               <div class="text-black fw-bold">
-                Giá bán: {{plugins.formatNumber(100000)}}đ
+                Giá bán: {{plugins.formatNumber(data.price)}}đ
               </div>
               <p class="text-secondary text-10px">
-                Giá nhập cuối: {{plugins.formatNumber(100000)}}đ
+                Giá nhập cuối: {{plugins.formatNumber(data.lastImportedPrice)}}đ
               </p>
             </div>
           </div>
@@ -51,24 +51,21 @@
         <div class="text-secondary text-12px">
           <div class="row mb-2">
             <div class="col-4">
-              Tổng nhập: <span>0</span>
+              Tổng nhập: <span>{{data ? plugins.formatNumber(data.totalQuantity) : 0}}</span>
             </div>
             <div class="col-4 px-0">
-              Có thể bán: <span>0</span>
+              Có thể bán: <span>{{data ? plugins.formatNumber(data.availableQuantity) : 0}}</span>
             </div>
             <div class="col-4" style="padding-left: 0;">
-              Chờ vận chuyển: <span>0</span>
+              Tổng tồn kho: <span>{{data ? plugins.formatNumber(data.inventoryQuantity) : 0}}</span>
             </div>
           </div>
           <div class="row mb-2">
             <div class="col-4">
-              Tổng tồn kho: <span>0</span>
-            </div>
-            <div class="col-4 px-0">
-              Sản phẩm lỗi: <span>0</span>
+              Sản phẩm lỗi: <span>{{data ? plugins.formatNumber(data.defectiveProductQuantity) : 0}}</span>
             </div>
             <div class="col-4" style="padding-left: 0;">
-              Sắp về: <span>0</span>
+              Sắp về: <span>{{data ? plugins.formatNumber(data.awaitingProductQuantity): 0}}</span>
             </div>
           </div>
         </div>
