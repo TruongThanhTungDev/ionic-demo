@@ -50,6 +50,17 @@ export class XulyPhieuHangLoiComponent implements OnInit {
   tongSLSP: any;
   tongTT: any;
   FtType: any;
+  tenLoaiPhieu: any;
+  loaiPhieu=[
+    {
+      value: 4,
+      name: 'Xuất hàng lỗi'
+    },
+    {
+      value: 5,
+      name: 'Nhập hàng đổi trả'
+    }
+  ]
   ngOnInit(): void {
     this.info = this.localStorage.retrieve('authenticationtoken');
     if (this.data) {
@@ -61,6 +72,7 @@ export class XulyPhieuHangLoiComponent implements OnInit {
       this.note = this.data.note;
       this.status = this.data.status;
       this.warehouse = this.data.warehouse;
+      this.changeLoaiPhieu(this.FtType)
     } else {
       this.status = 0;
       this.createAt = moment(new Date()).format('DD/MM/YYYY');
@@ -126,7 +138,16 @@ export class XulyPhieuHangLoiComponent implements OnInit {
     this.FtType = value.FtType;
     this.note = value.note;
     this.isShowPhieuHangLoi = value.isOpen;
+    this.tenLoaiPhieu = value.tenLoaiPhieu;
   }
+  changeLoaiPhieu(e:any){
+    const result = this.loaiPhieu.find((item: any) => item.value == e);
+      if(result) {
+        this.tenLoaiPhieu = result.name
+      } else {
+        this.tenLoaiPhieu = ''
+      }
+    }
   setOpen(isOpen: boolean) {
     this.isToastOpen = isOpen;
   }
@@ -372,12 +393,12 @@ export class XulyPhieuHangLoiComponent implements OnInit {
       }
     );
   }
-  public convertType(type: any) {
-    if (type === 4) {
+  public convertType(Ftype: any) {
+    if (Ftype === 4) {
       return 'Xuất hàng lỗi';
-    } else if (type === 5) {
+    } else if (Ftype === 5) {
       return 'Nhập hàng đổi trả';
     } 
-    return type;
+    return Ftype;
   }
 }

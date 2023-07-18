@@ -89,7 +89,7 @@ export class ThemSanPhamHangLoiComponent implements OnInit {
 
     if (Number(this.price) < 0 || Number(this.totalQuantity) <= 0) {
       this.isToastOpen = true;
-      this.messageToast = 'Số lượng phải lớn hơn 0, giá tiền phải lớn hơn 0';
+      this.messageToast = 'Số lượng không được <= 0';
       return false;
     }
     return true;
