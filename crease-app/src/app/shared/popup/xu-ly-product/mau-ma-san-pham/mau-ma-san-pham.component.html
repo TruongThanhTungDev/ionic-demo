@@ -20,7 +20,7 @@
       </div>
       <div>
         <div class="d-flex justify-content-between mb-3">
-          <h5 class="bg-secondary fw-bold text-16px px-2">AWS8</h5>
+          <h5 class="bg-secondary fw-bold text-16px px-2">{{data ? data.code : ''}}</h5>
           <div (click)="setOpen(true,'edit')">
             <i class="fa fa-pen text-primary"></i>
           </div>
@@ -82,7 +82,8 @@
       <ion-content class="ion-padding text-primary">
         <div class="mb-2">
           <label>Mã sản phẩm</label>
-          <input type="text" class="form-control form-control-sm" [disabled]="typeModal === 'edit'">
+          <input [(ngModel)]="productCode" type="text" class="form-control form-control-sm"
+            [disabled]="typeModal === 'edit'">
         </div>
         <div class="mb-2">
           <label>Thuộc tính mẫu</label>
@@ -90,46 +91,54 @@
         </div>
         <div class="mb-2">
           <label>Giá nhập cuối</label>
-          <input type="text" onlyNumber class="form-control form-control-sm" [disabled]="typeModal === 'edit'">
+          <input [(ngModel)]="productModelFinalPrice" type="text" onlyNumber class="form-control form-control-sm"
+            [disabled]="typeModal === 'edit'">
         </div>
         <div class="mb-2">
           <label>Giá bán</label>
-          <input type="text" onlyNumber class="form-control form-control-sm">
+          <input [(ngModel)]="productModelPrice" type="text" onlyNumber class="form-control form-control-sm">
         </div>
         <div class="mb-2 row">
           <div class="col">
             <label>Kích thước</label>
-            <input type="text" class="form-control form-control-sm" placeholder="Dài x rộng x cao">
+            <input [(ngModel)]="productModelSize" type="text" class="form-control form-control-sm"
+              placeholder="Dài x rộng x cao">
           </div>
           <div class="col">
             <label>Trọng lượng</label>
-            <input type="text" class="form-control form-control-sm" placeholder="VD: 500g">
+            <input [(ngModel)]="productModelWeight" type="text" class="form-control form-control-sm"
+              placeholder="VD: 500g">
           </div>
         </div>
         <div class="mb-2 row">
           <div class="col">
             <label>Tổng nhập</label>
-            <input type="text" onlyNumber class="form-control form-control-sm" [disabled]="typeModal === 'edit'">
+            <input [(ngModel)]="productModelTotalImport" type="text" onlyNumber class="form-control form-control-sm"
+              [disabled]="typeModal === 'edit'">
           </div>
           <div class="col">
             <label>Có thể bán</label>
-            <input type="text" onlyNumber class="form-control form-control-sm" [disabled]="typeModal === 'edit'">
+            <input [(ngModel)]="productTotalAvailable" type="text" onlyNumber class="form-control form-control-sm"
+              [disabled]="typeModal === 'edit'">
           </div>
         </div>
         <div class="mb-2 row">
           <div class="col">
             <label>Tồn kho</label>
-            <input type="text" onlyNumber class="form-control form-control-sm" [disabled]="typeModal === 'edit'">
+            <input [(ngModel)]="productTotalInventory" type="text" onlyNumber class="form-control form-control-sm"
+              [disabled]="typeModal === 'edit'">
           </div>
           <div class="col">
             <label>Hàng lỗi</label>
-            <input type="text" onlyNumber class="form-control form-control-sm" [disabled]="typeModal === 'edit'">
+            <input [(ngModel)]="productTotalError" type="text" onlyNumber class="form-control form-control-sm"
+              [disabled]="typeModal === 'edit'">
           </div>
         </div>
         <div class="mb-2 row">
           <div class="col">
             <label>Có thể bán</label>
-            <input type="text" onlyNumber class="form-control form-control-sm" [disabled]="typeModal === 'edit'">
+            <input [(ngModel)]="productTotalIncoming" type="text" onlyNumber class="form-control form-control-sm"
+              [disabled]="typeModal === 'edit'">
           </div>
         </div>
       </ion-content>

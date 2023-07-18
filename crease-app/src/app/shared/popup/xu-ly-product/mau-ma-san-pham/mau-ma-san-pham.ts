@@ -21,11 +21,12 @@ export class MauMaSanPhamComponent implements OnInit {
   productTotalInventory = 0;
   productTotalError = 0;
   productTotalIncoming = 0;
-
+  productCode: any;
   typeModal = 'add';
   messageToast: any;
   ngOnInit() {
     if (this.type === 'edit') {
+      this.productCode = this.data.code;
       this.productModelProp = this.data.properties;
       this.productModelSize =
         this.data.length + 'x' + this.data.wide + 'x' + this.data.high;
