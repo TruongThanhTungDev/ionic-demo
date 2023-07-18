@@ -13,9 +13,9 @@
 </ion-header>
 <ion-content class="ion-padding">
   <div class="mb-3">
-    <h5 class="fw-bold">{{data.name}}</h5>
-    <h5 class="fw-bold text-primary">
-      {{data.code}}
+    <h5 class="fw-bold">{{data ? data.name : 'Thêm sản phẩm'}}</h5>
+    <h5 *ngIf="data" class="fw-bold text-primary">
+      {{data ? data.code : ''}}
     </h5>
   </div>
   <thong-tin-san-pham [type]="type" [name]="name" [code]="code" [image]="image" [note]="note"
@@ -33,9 +33,9 @@
       </div>
       <div class="mb-3">
         <div class="d-flex">
-          <div *ngFor="let props of properties"
+          <div *ngFor="let props of properties;index as i"
             class="border text-13px border-primary text-primary rounded-pill px-3 py-1" style="margin-right: 4px"
-            (click)="editProperties(props)">
+            (click)="editProperties(props,i)">
             {{props.thuocTinh}}
           </div>
           <div class="text-13px border border-primary text-primary rounded-circle px-2 py-1"
@@ -64,7 +64,7 @@
       </div>
     </ion-card-content>
   </ion-card>
-  <mau-ma-san-pham></mau-ma-san-pham>
+  <mau-ma-san-pham [data]="productModelProp" [type]="type" (editValue)="getValueInventory($event)"></mau-ma-san-pham>
   <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
     (didDismiss)="setOpen(false)"></ion-toast>
 </ion-content>

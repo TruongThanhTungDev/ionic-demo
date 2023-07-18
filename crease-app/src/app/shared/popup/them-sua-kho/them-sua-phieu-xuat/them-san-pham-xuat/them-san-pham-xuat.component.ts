@@ -88,6 +88,11 @@ export class ThemSanPhamXuatComponent implements OnInit {
       this.messageToast = 'Mẫu mã sản phẩm không được để trống';
       return false;
     }
+    if (this.totalQuantity > this.subProductCode.inventoryQuantity) {
+      this.isToastOpen = true;
+      this.messageToast = 'Số lượng không được lớn hơn tồn kho';
+      return false;
+    }
     if (this.price < 0) {
       this.isToastOpen = true;
       this.messageToast = 'Giá xuất không được nhỏ hơn 0';

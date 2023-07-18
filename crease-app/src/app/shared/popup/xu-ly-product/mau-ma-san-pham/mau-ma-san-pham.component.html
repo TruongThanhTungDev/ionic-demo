@@ -9,8 +9,9 @@
       </div>
     </div>
     <div>
-      <div class="mb-4">
-        <button class="btn btn-sm" style="background-color: #46C851; margin-right: 6px;" (click)="setOpen(true,'add')">
+      <div class="mb-3">
+        <button class="btn btn-sm" style="background-color: #46C851; margin-right: 6px;"
+          (click)="setOpen(true,'add', null)">
           <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
         </button>
         <button class="btn btn-sm btn-outline-success text-13px">
@@ -18,32 +19,32 @@
           Thêm nhanh theo thuộc tính
         </button>
       </div>
-      <div>
+      <div *ngFor="let props of data; index as i" class="border-bottom my-2">
         <div class="d-flex justify-content-between mb-3">
-          <h5 class="bg-secondary fw-bold text-16px px-2">AWS8</h5>
-          <div (click)="setOpen(true,'edit')">
+          <h5 class="bg-secondary fw-bold text-16px px-2">{{props ? props.code : ''}}</h5>
+          <div (click)="setOpen(true,'edit', props)">
             <i class="fa fa-pen text-primary"></i>
           </div>
         </div>
         <div class="row mb-3">
           <div class="col-6 fw-bold text-secondary text-12px" style="padding-right: 0;">
             <div class="mb-1">
-              Thuộc tính: màu Xanh
+              Thuộc tính: {{props ? props.properties : ''}}
             </div>
             <div class="mb-1">
-              Kích thước: 1x2x3
+              Kích thước: {{props ? props.length + "x" + props.wide + "x" + props.high : ''}}
             </div>
             <div class="mb-1">
-              Trọng lượng: 500g
+              Trọng lượng: {{props ? props.weight : ''}}
             </div>
           </div>
           <div class="col-6 text-12px" style="padding-left: 0;">
             <div class="text-end">
               <div class="text-black fw-bold">
-                Giá bán: {{plugins.formatNumber(100000)}}đ
+                Giá bán: {{plugins.formatNumber(props.price)}}đ
               </div>
               <p class="text-secondary text-10px">
-                Giá nhập cuối: {{plugins.formatNumber(100000)}}đ
+                Giá nhập cuối: {{plugins.formatNumber(props.lastImportedPrice)}}đ
               </p>
             </div>
           </div>
@@ -51,31 +52,28 @@
         <div class="text-secondary text-12px">
           <div class="row mb-2">
             <div class="col-4">
-              Tổng nhập: <span>0</span>
+              Tổng nhập: <span>{{props ? plugins.formatNumber(props.totalQuantity) : 0}}</span>
             </div>
             <div class="col-4 px-0">
-              Có thể bán: <span>0</span>
+              Có thể bán: <span>{{props ? plugins.formatNumber(props.availableQuantity) : 0}}</span>
             </div>
             <div class="col-4" style="padding-left: 0;">
-              Chờ vận chuyển: <span>0</span>
+              Tổng tồn kho: <span>{{props ? plugins.formatNumber(props.inventoryQuantity) : 0}}</span>
             </div>
           </div>
           <div class="row mb-2">
             <div class="col-4">
-              Tổng tồn kho: <span>0</span>
-            </div>
-            <div class="col-4 px-0">
-              Sản phẩm lỗi: <span>0</span>
+              Sản phẩm lỗi: <span>{{props ? plugins.formatNumber(props.defectiveProductQuantity) : 0}}</span>
             </div>
             <div class="col-4" style="padding-left: 0;">
-              Sắp về: <span>0</span>
+              Sắp về: <span>{{props ? plugins.formatNumber(props.awaitingProductQuantity): 0}}</span>
             </div>
           </div>
         </div>
       </div>
     </div>
   </ion-card-content>
-  <ion-modal [isOpen]="isModalOpen" class="modal-filter-lg" (didDismiss)="setOpen(false,'')">
+  <ion-modal [isOpen]="isModalOpen" class="modal-filter-lg" (didDismiss)="setOpen(false,'', null)">
     <ng-template>
       <ion-header>
         <ion-toolbar mode="md" class="new-toolbar-background">
@@ -85,27 +83,73 @@
       <ion-content class="ion-padding text-primary">
         <div class="mb-2">
           <label>Mã sản phẩm</label>
-          <input type="text" class="form-control" [disabled]="typeModal === 'edit'">
+          <input [(ngModel)]="productCode" type="text" class="form-control form-control-sm"
+            [disabled]="typeModal === 'edit'">
         </div>
         <div class="mb-2">
           <label>Thuộc tính mẫu</label>
-          <select class="form-select" [disabled]="typeModal === 'edit'"></select>
+          <select class="form-select form-select-sm" [disabled]="typeModal === 'edit'">
+
+          </select>
         </div>
         <div class="mb-2">
           <label>Giá nhập cuối</label>
-          <input type="text" class="form-control" [disabled]="typeModal === 'edit'">
+          <input [(ngModel)]="productModelFinalPrice" type="text" onlyNumber class="form-control form-control-sm"
+            [disabled]="typeModal === 'edit'">
         </div>
         <div class="mb-2">
           <label>Giá bán</label>
-          <input type="text" class="form-control">
+          <input [(ngModel)]="productModelPrice" type="text" onlyNumber class="form-control form-control-sm">
+        </div>
+        <div class="mb-2 row">
+          <div class="col">
+            <label>Kích thước</label>
+            <input [(ngModel)]="productModelSize" type="text" class="form-control form-control-sm"
+              placeholder="Dài x rộng x cao">
+          </div>
+          <div class="col">
+            <label>Trọng lượng</label>
+            <input [(ngModel)]="productModelWeight" type="text" class="form-control form-control-sm"
+              placeholder="VD: 500g">
+          </div>
+        </div>
+        <div class="mb-2 row">
+          <div class="col">
+            <label>Tổng nhập</label>
+            <input [(ngModel)]="productModelTotalImport" type="text" onlyNumber class="form-control form-control-sm"
+              [disabled]="typeModal === 'edit'">
+          </div>
+          <div class="col">
+            <label>Có thể bán</label>
+            <input [(ngModel)]="productTotalAvailable" type="text" onlyNumber class="form-control form-control-sm"
+              [disabled]="typeModal === 'edit'">
+          </div>
+        </div>
+        <div class="mb-2 row">
+          <div class="col">
+            <label>Tồn kho</label>
+            <input [(ngModel)]="productTotalInventory" type="text" onlyNumber class="form-control form-control-sm"
+              disabled>
+          </div>
+          <div class="col">
+            <label>Hàng lỗi</label>
+            <input [(ngModel)]="productTotalError" type="text" onlyNumber class="form-control form-control-sm" disabled>
+          </div>
+        </div>
+        <div class="mb-2 row">
+          <div class="col">
+            <label>Sắp về</label>
+            <input [(ngModel)]="productTotalIncoming" type="text" onlyNumber class="form-control form-control-sm"
+              [disabled]="typeModal === 'edit'">
+          </div>
         </div>
       </ion-content>
       <ion-footer mode="md" style="background-color: rgba(0, 110, 185, 0.9)!important;">
         <ion-toolbar class="new-toolbar-background">
-          <ion-buttons (click)="setOpen(false,'')" slot="start">
+          <ion-buttons (click)="setOpen(false,'', null)" slot="start">
             <ion-button style="--color: white!important">Hủy</ion-button>
           </ion-buttons>
-          <ion-buttons slot="end" (click)="saveInfo()">
+          <ion-buttons slot="end" (click)="saveInfo(productCode)">
             <ion-button [strong]="true">Lưu</ion-button>
           </ion-buttons>
         </ion-toolbar>

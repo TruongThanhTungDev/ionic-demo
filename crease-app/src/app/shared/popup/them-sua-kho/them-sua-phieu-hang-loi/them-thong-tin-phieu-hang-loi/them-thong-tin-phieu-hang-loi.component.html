@@ -8,9 +8,9 @@
     <ion-content class="ion-padding">
        <div class="mb-3 form-group">
         <label class="text-primary">Loại phiếu<span class="text-danger">*</span> </label>
-        <select [(ngModel)]="FtType" class="form-select"  [disabled]="status != 0">
-          <option value="4">Xuất hàng lỗi</option>
-          <option value="5">Nhập hàng đổi trả</option>
+        <select [(ngModel)]="FtType" class="form-select"  [disabled]="status != 0" (change)="changeLoaiPhieu($event)">
+          <option value=""></option>
+          <option *ngFor="let item of loaiPhieu" [value]="item.value">{{item.name}}</option>
         </select>
       </div>
       <div class="mb-3">

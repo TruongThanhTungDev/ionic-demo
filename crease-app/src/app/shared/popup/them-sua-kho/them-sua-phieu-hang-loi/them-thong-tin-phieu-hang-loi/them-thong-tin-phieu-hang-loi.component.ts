@@ -28,6 +28,17 @@ export class ThemThongTinPhieuHangLoiComponent implements OnInit {
   isToastOpen=false;
   messageToast: any;
   estimatedReturnDateInfo:any;
+  tenLoaiPhieu: any
+  loaiPhieu=[
+    {
+      value: 4,
+      name: 'Xuất hàng lỗi'
+    },
+    {
+      value: 5,
+      name: 'Nhập hàng đổi trả'
+    }
+  ]
   ngOnInit(): void {
     this.createAt = moment(this.createAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
     
@@ -78,7 +89,14 @@ export class ThemThongTinPhieuHangLoiComponent implements OnInit {
       this.estimatedReturnDate = '';
     }
   }
-  
+  changeLoaiPhieu(e:any){
+  const result = this.loaiPhieu.find((item: any) => item.value == e.target.value);
+    if(result) {
+      this.tenLoaiPhieu = result.name
+    } else {
+      this.tenLoaiPhieu = ''
+    }
+  }
   saveInfo() {
     if(this.validInfo()){
       const value = {
@@ -88,10 +106,19 @@ export class ThemThongTinPhieuHangLoiComponent implements OnInit {
         ).format('DD/MM/YYYY'):"",
         FtType:this.FtType,
         note: this.note,
+        tenLoaiPhieu: this.tenLoaiPhieu,
         isOpen: false,
       };
       this.editValue.emit(value);
       this.setOpen(false);
     }
     }   
+    public convertType(Ftype: any) {
+      if (Ftype === 4) {
+        return 'Xuất hàng lỗi';
+      } else if (Ftype === 5) {
+        return 'Nhập hàng đổi trả';
+      } 
+      return Ftype;
+    }
 }
