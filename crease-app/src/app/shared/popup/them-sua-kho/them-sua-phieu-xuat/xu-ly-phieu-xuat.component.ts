@@ -188,12 +188,13 @@ export class XulyPhieuXuatComponent implements OnInit {
   }
 
   onCreate() {
-  
+    
     if (this.subProductList.length === 0) {
       this.isToastOpen = true;
       this.messageToast = 'Danh sách hàng xuất không được để trống';
       return;
     }
+    
 
     const bol = {
       createAt: this.createAt
@@ -243,6 +244,12 @@ export class XulyPhieuXuatComponent implements OnInit {
         this.messageToast = 'Số lượng không <=0; giá xuất,tồn kho < 0';
         return;
       } 
+      if (a.totalQuantity > a.subProduct.inventoryQuantity) {
+        console.log(a.subProduct.inventoryQuantity)
+        this.isToastOpen = true;
+        this.messageToast = 'Số lượng không được lớn hơn tồn kho';
+        return;
+      }
       if (!a.id) {
         delete a.id;
       }
