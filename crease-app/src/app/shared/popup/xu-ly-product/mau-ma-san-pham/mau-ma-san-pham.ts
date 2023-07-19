@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import * as moment from 'moment';
 import { Plugin } from 'src/app/plugins/plugins';
 
 @Component({
@@ -9,10 +10,12 @@ export class MauMaSanPhamComponent implements OnInit {
   @Output() editValue = new EventEmitter<any>();
   @Input() data: any;
   @Input() type: any;
+  @Input() listThuocTinhMau: any[] = [];
+  @Input() code: any;
   plugins = new Plugin();
   isModalOpen = false;
   isToastOpen = false;
-  productProperties: any[] = [];
+  productPropertiesSelected: any[] = [];
   productModelProp: any;
   productModelSize: any;
   productModelWeight: any;
@@ -24,18 +27,37 @@ export class MauMaSanPhamComponent implements OnInit {
   productTotalError = 0;
   productTotalIncoming = 0;
   productCode: any;
+  isNewItem = false;
   selectedModel: any;
   typeModal = 'add';
   messageToast: any;
   ngOnInit() {
     if (this.type === 'edit') {
-      this.productProperties = this.data;
+      this.findRemainingProps();
+      this.getListPropsSelected();
+      console.log('object :>> ', this.productPropertiesSelected);
     }
   }
+  findRemainingProps() {
+    this.data.forEach((item: any) => {
+      const index = this.listThuocTinhMau.findIndex(
+        (el: any) => el === item.properties
+      );
+      if (index !== -1) {
+        this.listThuocTinhMau.splice(index, 1);
+      }
+    });
+  }
+  getListPropsSelected() {
+    this.productPropertiesSelected = this.data.map(
+      (item: any) => item.properties
+    );
+  }
+  fastAddProps() {}
   saveInfo(productCode: any) {
     if (this.typeModal === 'edit') {
       const index = this.data.findIndex(
-        (item: any) => item.code == productCode
+        (item: any) => item.code === productCode
       );
       if (index !== -1) {
         this.data[index].code = this.productCode;
@@ -54,9 +76,26 @@ export class MauMaSanPhamComponent implements OnInit {
         this.data[index].awaitingProductQuantity = this.productTotalIncoming;
       }
     } else {
+      if (
+        !this.productModelSize ||
+        !this.dimensionLength(this.productModelSize) ||
+        !this.dimensionWide(this.productModelSize) ||
+        !this.dimensionHeight(this.productModelSize)
+      ) {
+        this.isToastOpen = true;
+        this.messageToast =
+          'Kích thước phải đúng định dạng hoặc không được để trống';
+        return;
+      }
+      if (!this.productModelWeight) {
+        this.isToastOpen = true;
+        this.messageToast = 'Vui lòng nhập trọng lượng';
+        return;
+      }
       const value = {
         code: this.productCode,
         length: this.dimensionLength(this.productModelSize),
+        properties: this.productModelProp,
         wide: this.dimensionWide(this.productModelSize),
         high: this.dimensionHeight(this.productModelSize),
         weight: this.productModelWeight,
@@ -67,11 +106,19 @@ export class MauMaSanPhamComponent implements OnInit {
         inventoryQuantity: this.productTotalInventory,
         defectiveProductQuantity: this.productTotalError,
         awaitingProductQuantity: this.productTotalIncoming,
+        isNewItem: true,
       };
       this.data.push(value);
     }
+    this.getListPropsSelected();
     this.editValue.emit(this.data);
     this.setOpen(false, '', null);
+  }
+  deleteProps(item: any) {
+    const index = this.data.findIndex((el: any) => item.code == el.code);
+    if (index !== -1) {
+      this.data.splice(index, 1);
+    }
   }
   dimensionLength(char: any) {
     return char.match(/\d+/g)[0] || '';
@@ -98,8 +145,23 @@ export class MauMaSanPhamComponent implements OnInit {
         this.productTotalInventory = item.inventoryQuantity;
         this.productTotalError = item.defectiveProductQuantity;
         this.productTotalIncoming = item.awaitingProductQuantity;
+        this.isNewItem = item.isNewItem;
+      } else {
+        this.productCode = this.code + moment().format('mss');
+        this.productModelProp = '';
+        this.productModelSize = '';
+        this.productModelWeight = '';
+        this.productModelPrice = 0;
+        this.productModelFinalPrice = 0;
+        this.productModelTotalImport = 0;
+        this.productTotalAvailable = 0;
+        this.productTotalInventory = 0;
+        this.productTotalError = 0;
+        this.productTotalIncoming = 0;
+        this.isNewItem = true;
       }
     }
+    this.getListPropsSelected();
   }
   setOpenToast(open: boolean) {
     this.isToastOpen = open;

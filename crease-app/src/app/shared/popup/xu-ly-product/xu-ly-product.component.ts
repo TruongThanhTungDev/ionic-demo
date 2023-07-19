@@ -35,7 +35,7 @@ export class XuLyProduct implements OnInit {
   productModelWeight: any;
   productModelPrice = 0;
   productModelFinalPrice = 0;
-  properties: any;
+  properties: any[] = [];
   listAddProperties: any[] = [];
   listThuocTinhMau: any[] = [];
   isToastOpen = false;
@@ -130,20 +130,19 @@ export class XuLyProduct implements OnInit {
       this.properties.splice(item, 1);
     }
     this.getThuocTinhMau();
-    console.log('this.listThuocTinhMau :>> ', this.listThuocTinhMau);
   }
   getThuocTinhMau() {
     this.listThuocTinhMau = this.properties.reduce((acc: any, item: any) => {
       const giaTriArr = item.giaTri.split(',');
       if (!acc.length) {
         acc.push(
-          ...giaTriArr.map((giaTri: any) => `${item.thuocTinh}: ${giaTri}`)
+          ...giaTriArr.map((giaTri: any) => `${item.thuocTinh}:${giaTri}`)
         );
       } else {
         const newArray: string[] = [];
         acc.forEach((el: any) => {
           giaTriArr.forEach((giaTri: any) => {
-            newArray.push(`${el}, ${item.thuocTinh}: ${giaTri}`);
+            newArray.push(`${el},${item.thuocTinh}:${giaTri}`);
           });
         });
         acc = newArray;

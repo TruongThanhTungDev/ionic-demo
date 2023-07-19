@@ -64,7 +64,8 @@
       </div>
     </ion-card-content>
   </ion-card>
-  <mau-ma-san-pham [data]="productModelProp" [type]="type" (editValue)="getValueInventory($event)"></mau-ma-san-pham>
+  <mau-ma-san-pham [data]="productModelProp" [type]="type" [listThuocTinhMau]="listThuocTinhMau" [code]="data.code"
+    (editValue)="getValueInventory($event)"></mau-ma-san-pham>
   <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
     (didDismiss)="setOpen(false)"></ion-toast>
 </ion-content>
