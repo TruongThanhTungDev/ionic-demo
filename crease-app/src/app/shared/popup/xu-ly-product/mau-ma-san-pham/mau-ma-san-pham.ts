@@ -9,6 +9,7 @@ export class MauMaSanPhamComponent implements OnInit {
   @Output() editValue = new EventEmitter<any>();
   @Input() data: any;
   @Input() type: any;
+  @Input() listThuocTinhMau: any[] = [];
   plugins = new Plugin();
   isModalOpen = false;
   isToastOpen = false;
@@ -24,18 +25,31 @@ export class MauMaSanPhamComponent implements OnInit {
   productTotalError = 0;
   productTotalIncoming = 0;
   productCode: any;
+  isNewItem = false;
   selectedModel: any;
   typeModal = 'add';
   messageToast: any;
   ngOnInit() {
     if (this.type === 'edit') {
       this.productProperties = this.data;
+      this.findRemainingProps();
     }
   }
+  findRemainingProps() {
+    this.data.forEach((item: any) => {
+      const index = this.listThuocTinhMau.findIndex(
+        (el: any) => el === item.properties
+      );
+      if (index !== -1) {
+        this.listThuocTinhMau.splice(index, 1);
+      }
+    });
+  }
+  fastAddProps() {}
   saveInfo(productCode: any) {
     if (this.typeModal === 'edit') {
       const index = this.data.findIndex(
-        (item: any) => item.code == productCode
+        (item: any) => item.code === productCode
       );
       if (index !== -1) {
         this.data[index].code = this.productCode;
@@ -57,6 +71,7 @@ export class MauMaSanPhamComponent implements OnInit {
       const value = {
         code: this.productCode,
         length: this.dimensionLength(this.productModelSize),
+        properties: this.productModelProp,
         wide: this.dimensionWide(this.productModelSize),
         high: this.dimensionHeight(this.productModelSize),
         weight: this.productModelWeight,
@@ -67,11 +82,24 @@ export class MauMaSanPhamComponent implements OnInit {
         inventoryQuantity: this.productTotalInventory,
         defectiveProductQuantity: this.productTotalError,
         awaitingProductQuantity: this.productTotalIncoming,
+        isNewItem: true,
       };
+      const index = this.listThuocTinhMau.findIndex(
+        (item: any) => item === this.productModelProp
+      );
+      if (index !== -1) {
+        this.listThuocTinhMau.splice(index, 1);
+      }
       this.data.push(value);
     }
     this.editValue.emit(this.data);
     this.setOpen(false, '', null);
+  }
+  deleteProps(item: any) {
+    const index = this.data.findIndex((el: any) => item.code == el.code);
+    if (index !== -1) {
+      this.data.splice(index, 1);
+    }
   }
   dimensionLength(char: any) {
     return char.match(/\d+/g)[0] || '';
@@ -98,6 +126,20 @@ export class MauMaSanPhamComponent implements OnInit {
         this.productTotalInventory = item.inventoryQuantity;
         this.productTotalError = item.defectiveProductQuantity;
         this.productTotalIncoming = item.awaitingProductQuantity;
+        this.isNewItem = item.isNewItem;
+      } else {
+        this.productCode = '';
+        this.productModelProp = '';
+        this.productModelSize = '';
+        this.productModelWeight = '';
+        this.productModelPrice = 0;
+        this.productModelFinalPrice = 0;
+        this.productModelTotalImport = 0;
+        this.productTotalAvailable = 0;
+        this.productTotalInventory = 0;
+        this.productTotalError = 0;
+        this.productTotalIncoming = 0;
+        this.isNewItem = true;
       }
     }
   }

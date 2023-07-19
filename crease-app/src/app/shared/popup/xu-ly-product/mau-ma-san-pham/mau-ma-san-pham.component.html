@@ -14,7 +14,8 @@
           (click)="setOpen(true,'add', null)">
           <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
         </button>
-        <button class="btn btn-sm btn-outline-success text-13px">
+        <button *ngIf="listThuocTinhMau.length" class="btn btn-sm btn-outline-success text-13px"
+          (click)="fastAddProps()">
           <i class=" fa-solid fa-plus" style="margin-right: 6px;"></i>
           Thêm nhanh theo thuộc tính
         </button>
@@ -22,8 +23,13 @@
       <div *ngFor="let props of data; index as i" class="border-bottom my-2">
         <div class="d-flex justify-content-between mb-3">
           <h5 class="bg-secondary fw-bold text-16px px-2">{{props ? props.code : ''}}</h5>
-          <div (click)="setOpen(true,'edit', props)">
-            <i class="fa fa-pen text-primary"></i>
+          <div class="d-flex align-items-center">
+            <div (click)="setOpen(true,'edit', props)">
+              <i class="fa fa-pen text-primary"></i>
+            </div>
+            <div *ngIf="props.isNewItem" style="margin-left: 4px;" (click)="deleteProps(props)">
+              <i class="fa fa-trash text-danger"></i>
+            </div>
           </div>
         </div>
         <div class="row mb-3">
@@ -84,18 +90,20 @@
         <div class="mb-2">
           <label>Mã sản phẩm</label>
           <input [(ngModel)]="productCode" type="text" class="form-control form-control-sm"
-            [disabled]="typeModal === 'edit'">
+            [disabled]="typeModal === 'edit' && !isNewItem">
         </div>
         <div class="mb-2">
           <label>Thuộc tính mẫu</label>
-          <select class="form-select form-select-sm" [disabled]="typeModal === 'edit'">
-
+          <select [(ngModel)]="productModelProp" class="form-select form-select-sm"
+            [disabled]="typeModal === 'edit'  && !isNewItem">
+            <option value=""></option>
+            <option *ngFor="let props of listThuocTinhMau" [ngValue]="props">{{props}}</option>
           </select>
         </div>
         <div class="mb-2">
           <label>Giá nhập cuối</label>
           <input [(ngModel)]="productModelFinalPrice" type="text" onlyNumber class="form-control form-control-sm"
-            [disabled]="typeModal === 'edit'">
+            [disabled]="typeModal === 'edit' && !isNewItem">
         </div>
         <div class="mb-2">
           <label>Giá bán</label>
@@ -117,12 +125,12 @@
           <div class="col">
             <label>Tổng nhập</label>
             <input [(ngModel)]="productModelTotalImport" type="text" onlyNumber class="form-control form-control-sm"
-              [disabled]="typeModal === 'edit'">
+              [disabled]="typeModal === 'edit' && !isNewItem">
           </div>
           <div class="col">
             <label>Có thể bán</label>
             <input [(ngModel)]="productTotalAvailable" type="text" onlyNumber class="form-control form-control-sm"
-              [disabled]="typeModal === 'edit'">
+              [disabled]="typeModal === 'edit' && !isNewItem">
           </div>
         </div>
         <div class="mb-2 row">
@@ -140,7 +148,7 @@
           <div class="col">
             <label>Sắp về</label>
             <input [(ngModel)]="productTotalIncoming" type="text" onlyNumber class="form-control form-control-sm"
-              [disabled]="typeModal === 'edit'">
+              disabled>
           </div>
         </div>
       </ion-content>
