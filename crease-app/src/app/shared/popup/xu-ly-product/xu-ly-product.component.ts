@@ -8,6 +8,7 @@ import {
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 import { Plugin } from '../../utils/plugins';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'xu-ly-product',
@@ -30,7 +31,8 @@ export class XuLyProduct implements OnInit {
   note: any;
   productCategoryId: any;
   productCategoryName: any;
-  productModelProp: any;
+  status = 1;
+  productModelProp: any[] = [];
   productModelSize: any;
   productModelWeight: any;
   productModelPrice = 0;
@@ -51,6 +53,7 @@ export class XuLyProduct implements OnInit {
   ) {
     this.info = this.localStorage.retrieve('authenticationToken');
     this.shop = this.localStorage.retrieve('shop');
+    this.shopCode = this.localStorage.retrieve('shopCode');
   }
   ngOnInit() {
     if (this.type === 'edit') {
@@ -58,6 +61,7 @@ export class XuLyProduct implements OnInit {
       this.code = this.data.code;
       this.image = this.data.image;
       this.note = this.data.note;
+      this.status = this.data.status;
       this.warehouseId = this.data.warehouseId;
       this.warehouseName = this.data.subProductList[0].warehouse.name;
       this.productModelProp = this.data.subProductList;
@@ -66,18 +70,6 @@ export class XuLyProduct implements OnInit {
       this.properties = JSON.parse(this.data.properties);
     }
     this.getThuocTinhMau();
-  }
-  getValueInfo(value: any) {
-    this.name = value.name;
-    this.code = value.code;
-    this.image = value.image;
-    this.note = value.note;
-    this.warehouseId = value.warehouseId;
-    this.productCategoryId = value.productCategoryId;
-    this.productCategoryName = value.productCategoryName;
-  }
-  getValueInventory(value: any) {
-    // this.productModelProp = value.props;
   }
   addNewProperties() {
     const value = {
@@ -152,6 +144,98 @@ export class XuLyProduct implements OnInit {
   }
   setOpen(isOpen: boolean) {
     this.isToastOpen = isOpen;
+  }
+  getValueInfo(value: any) {
+    this.name = value.name;
+    this.code = value.code;
+    this.image = value.image;
+    this.note = value.note;
+    this.warehouseId = value.warehouseId;
+    this.productCategoryId = value.productCategoryId;
+    this.productCategoryName = value.productCategoryName;
+  }
+  changeImage(value: any) {
+    this.image = value;
+  }
+  getValueInventory(value: any) {
+    this.productModelProp = value;
+  }
+  saveInfo() {
+    const properties = this.properties.filter(
+      (item: any) => item.giaTri && item.thuocTinh
+    );
+    const product = {
+      productCategory: {
+        id: this.productCategoryId,
+      },
+      code: this.code.trim().toUpperCase(),
+      shopcode: this.shopCode,
+      warehouseId: this.warehouseId,
+      image: this.image,
+      name: this.name.trim(),
+      note: this.note,
+      status: this.status,
+      id: this.data ? this.data.id : 0,
+      shop: this.shop,
+      createAt: this.data ? this.data.createAt : null,
+      description: this.data ? this.data.description : null,
+      giaBan: this.data ? this.data.giaBan : null,
+      giaNhap: this.data ? this.data.giaNhap : null,
+      properties: JSON.stringify(properties),
+    };
+
+    const entity = {
+      product,
+      subProductList: this.productModelProp,
+    };
+    console.log('entity :>> ', entity);
+  }
+  async createData(data: any) {
+    await this.isLoading();
+    if (this.type === 'add') {
+      delete data.product.id;
+      this.dmService.postOption(data, this.REQUEST_URL, 'create').subscribe(
+        (res: HttpResponse<any>) => {
+          this.loading.dismiss();
+          if (res.body.CODE === 200) {
+            this.isToastOpen = true;
+            this.messageToast = 'Tạo sản phẩm thành công';
+            this.confirm();
+          } else {
+            this.isToastOpen = true;
+            this.messageToast = res.body.RESULT
+              ? res.body.RESULT
+              : 'Tạo sản phẩm thất bại';
+          }
+        },
+        () => {
+          this.loading.dismiss();
+          this.messageToast = 'Tạo sản phẩm thất bại';
+          console.error();
+        }
+      );
+    } else {
+      this.dmService.postOption(data, this.REQUEST_URL, 'create').subscribe(
+        (res: HttpResponse<any>) => {
+          if (res.body.CODE === 200) {
+            this.isToastOpen = true;
+            this.messageToast = 'Tạo sản phẩm thành công';
+            this.confirm();
+          } else {
+            this.isToastOpen = true;
+            this.messageToast = res.body.RESULT
+              ? res.body.RESULT
+              : 'Tạo sản phẩm thất bại';
+          }
+        },
+        () => {
+          this.loading.dismiss();
+          this.messageToast = 'Cập nhật sản phẩm thất bại';
+          console.error();
+        }
+      );
+    }
+    this.isToastOpen = false;
   }
   async cancel() {
     const actionSheet = await this.actionSheetCtrl.create({

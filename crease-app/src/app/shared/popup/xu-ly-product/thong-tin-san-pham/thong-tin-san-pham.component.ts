@@ -10,6 +10,7 @@ import { DanhMucService } from 'src/app/danhmuc.services';
 })
 export class ThongTinSanPhamComponent implements OnInit {
   @Output() editValue = new EventEmitter<any>();
+  @Output() changeImage = new EventEmitter<any>();
   @Input() type: any;
   @Input() name: any;
   @Input() code: any;
@@ -155,14 +156,47 @@ export class ThongTinSanPhamComponent implements OnInit {
     input.accept = 'image/*';
     input.onchange = (e: any) => {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        this.imageInfo = reader.result as string;
-      };
       reader.readAsDataURL(e.target.files[0]);
+      reader.onload = () => {
+        const base64 = reader.result;
+        this.imageInfo = base64?.toString();
+        this.image = this.imageInfo;
+        this.changeImage.emit(this.imageInfo);
+      };
     };
     input.click();
   }
   saveInfo() {
+    if (!this.nameInfo) {
+      this.isToastOpen = true;
+      this.messageToast = 'Tên sản phẩm không được để trống';
+      return;
+    }
+    if (this.nameInfo && this.nameInfo.trim().length > 40) {
+      this.isToastOpen = true;
+      this.messageToast = 'Tên sản phẩm không được dài quá 40 ký tự';
+      return;
+    }
+    if (!this.codeInfo) {
+      this.isToastOpen = true;
+      this.messageToast = 'Mã sản phẩm không được để trống';
+      return;
+    }
+    if (this.codeInfo && this.codeInfo.trim().length > 30) {
+      this.isToastOpen = true;
+      this.messageToast = 'Số ký tự của Mã sản phẩm trong khoảng từ 1-30';
+      return;
+    }
+    if (!this.khoThaoTac) {
+      this.isToastOpen = true;
+      this.messageToast = 'Vui lòng chọn Kho thao tác';
+      return;
+    }
+    if (!this.productCategory.productCategoryId) {
+      this.isToastOpen = true;
+      this.messageToast = 'Vui lòng chọn Danh mục';
+      return;
+    }
     const value = {
       name: this.nameInfo,
       code: this.codeInfo,
@@ -179,6 +213,7 @@ export class ThongTinSanPhamComponent implements OnInit {
     this.warehouseName = this.tenKhoThaoTac;
     this.productCategoryName = this.productCategory.productCategoryName;
     this.editValue.emit(value);
+    this.isToastOpen = false;
     this.setOpen(false);
   }
   public async isLoading() {
