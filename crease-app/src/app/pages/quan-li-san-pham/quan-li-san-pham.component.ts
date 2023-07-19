@@ -102,7 +102,6 @@ export class QuanLiSanPhamComponent implements OnInit {
             this.listProducts = res.body.RESULT.content;
             this.customListEntity();
             // load page
-            console.log('this.listProducts :>> ', this.listProducts);
           } else {
             this.loading.dismiss();
             this.isToastOpen = true;

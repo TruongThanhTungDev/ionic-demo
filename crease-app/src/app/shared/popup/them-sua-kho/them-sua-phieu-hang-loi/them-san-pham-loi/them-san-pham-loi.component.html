@@ -28,9 +28,10 @@
           </ng-option>
         </ng-select>
       </div>
-     <div class="mb-3 form-group custom-label">
+      <div class="mb-3 form-group custom-label">
         <label class="text-primary">Mẫu mã<span class="text-danger">*</span> </label>
-        <ng-select [multiple]="false" [(ngModel)]="subProductCode" class="pb-0 text-12px custom-ng-select" [disabled]="status != 0">
+        <ng-select [multiple]="false" [(ngModel)]="subProductCode" class="pb-0 text-12px custom-ng-select"
+          [disabled]="status != 0">
           <ng-option *ngFor="let obj of listSanPhamCT" [value]="obj" class="text-12px">
             {{ obj.ten }}
           </ng-option>
@@ -47,8 +48,8 @@
       <div class="text-end">
         <button class="btn btn-sm btn-primary fw-bold px-3" (click)="saveInfo()">Thêm</button>
       </div>
-        <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="100000"
-    (didDismiss)="setOpen(false)"></ion-toast>
+      <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+        (didDismiss)="setOpen(false)"></ion-toast>
     </ion-content>
   </ng-template>
 </ion-modal>

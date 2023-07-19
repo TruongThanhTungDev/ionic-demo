@@ -8,21 +8,22 @@
     <ion-content class="ion-padding">
       <div class="mb-3">
         <label class="text-primary">Thời gian tạo</label>
-        <input type="date" [(ngModel)]="createAt" [disabled]="data" class="form-control" placeholder="thời gian tạo" >
+        <input type="date" [(ngModel)]="createAt" [disabled]="data" class="form-control" placeholder="thời gian tạo">
       </div>
       <div class="mb-3">
         <label class="text-primary">Nhập kho lúc</label>
-        <input type="date" [(ngModel)]="estimatedReturnDateInfo"  [disabled]="status!=0" (blur)="onInputDateBlur()" class="form-control" placeholder="Ngày về dự kiến">
+        <input type="date" [(ngModel)]="estimatedReturnDateInfo" [disabled]="status!=0" (blur)="onInputDateBlur()"
+          class="form-control" placeholder="Ngày về dự kiến">
       </div>
       <div class="mb-3">
         <label class="text-primary">Ghi chú</label>
-        <input type="text" [(ngModel)]="note" class="form-control"[disabled]="status!=0"  placeholder="Ghi chú">
+        <input type="text" [(ngModel)]="note" class="form-control" [disabled]="status!=0" placeholder="Ghi chú">
       </div>
       <div class="text-end">
         <button class="btn btn-sm btn-primary fw-bold px-3" (click)="saveInfo()">Lưu</button>
       </div>
     </ion-content>
-    <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="100000"
-    (didDismiss)="setOpen(false)"></ion-toast>
+    <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+      (didDismiss)="setOpen(false)"></ion-toast>
   </ng-template>
 </ion-modal>
