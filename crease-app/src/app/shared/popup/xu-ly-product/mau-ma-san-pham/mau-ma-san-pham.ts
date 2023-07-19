@@ -35,7 +35,6 @@ export class MauMaSanPhamComponent implements OnInit {
     if (this.type === 'edit') {
       this.findRemainingProps();
       this.getListPropsSelected();
-      console.log('object :>> ', this.productPropertiesSelected);
     }
   }
   findRemainingProps() {
@@ -53,7 +52,28 @@ export class MauMaSanPhamComponent implements OnInit {
       (item: any) => item.properties
     );
   }
-  fastAddProps() {}
+  fastAddProps() {
+    this.listThuocTinhMau.forEach((item: any, index: any) => {
+      const value = {
+        code: this.code + moment().format('mss') + index + 1,
+        length: 1,
+        properties: item,
+        wide: 1,
+        high: 1,
+        weight: 1,
+        price: 0,
+        lastImportedPrice: 0,
+        totalQuantity: 0,
+        availableQuantity: 0,
+        inventoryQuantity: 0,
+        defectiveProductQuantity: 0,
+        awaitingProductQuantity: 0,
+        isNewItem: true,
+      };
+      this.data.push(value);
+    });
+    this.findRemainingProps();
+  }
   saveInfo(productCode: any) {
     if (this.typeModal === 'edit') {
       const index = this.data.findIndex(
@@ -111,14 +131,19 @@ export class MauMaSanPhamComponent implements OnInit {
       this.data.push(value);
     }
     this.getListPropsSelected();
+    this.findRemainingProps();
     this.editValue.emit(this.data);
     this.setOpen(false, '', null);
   }
   deleteProps(item: any) {
     const index = this.data.findIndex((el: any) => item.code == el.code);
+    const deleteItem = this.data.find((el: any) => item.code == el.code);
     if (index !== -1) {
       this.data.splice(index, 1);
     }
+    this.listThuocTinhMau.push(deleteItem.properties);
+    this.getListPropsSelected();
+    this.findRemainingProps();
   }
   dimensionLength(char: any) {
     return char.match(/\d+/g)[0] || '';
@@ -147,7 +172,8 @@ export class MauMaSanPhamComponent implements OnInit {
         this.productTotalIncoming = item.awaitingProductQuantity;
         this.isNewItem = item.isNewItem;
       } else {
-        this.productCode = this.code + moment().format('mss');
+        this.productCode =
+          this.code + moment().format('mss') + this.data.length + 1;
         this.productModelProp = '';
         this.productModelSize = '';
         this.productModelWeight = '';

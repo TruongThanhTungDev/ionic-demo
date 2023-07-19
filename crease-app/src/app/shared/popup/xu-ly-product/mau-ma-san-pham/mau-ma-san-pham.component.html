@@ -93,13 +93,16 @@
         </div>
         <div class="mb-2">
           <label>Thuộc tính mẫu <span class="text-danger">*</span></label>
-          <select [(ngModel)]="productModelProp" class="form-select form-select-sm"
-            [disabled]="typeModal === 'edit'  && !isNewItem">
+          <select *ngIf="typeModal === 'add' || isNewItem; else elseInput" [(ngModel)]="productModelProp"
+            class="form-select form-select-sm">
             <option value=""></option>
             <option *ngFor="let props of listThuocTinhMau" [value]="props"
               [disabled]="productPropertiesSelected.includes(props)">
               {{props}}</option>
           </select>
+          <ng-template #elseInput>
+            <input type="text" class="form-control form-control-sm" [(ngModel)]=" productModelProp" disabled>
+          </ng-template>
         </div>
         <div class="mb-2">
           <label>Giá nhập cuối</label>
