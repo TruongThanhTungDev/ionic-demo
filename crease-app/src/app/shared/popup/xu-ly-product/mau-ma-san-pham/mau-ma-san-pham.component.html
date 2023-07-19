@@ -41,7 +41,7 @@
               Kích thước: {{props ? props.length + "x" + props.wide + "x" + props.high : ''}}
             </div>
             <div class="mb-1">
-              Trọng lượng: {{props ? props.weight : ''}}
+              Trọng lượng: {{props ? props.weight : ''}}g
             </div>
           </div>
           <div class="col-6 text-12px" style="padding-left: 0;">
@@ -88,16 +88,17 @@
       </ion-header>
       <ion-content class="ion-padding text-primary">
         <div class="mb-2">
-          <label>Mã sản phẩm</label>
-          <input [(ngModel)]="productCode" type="text" class="form-control form-control-sm"
-            [disabled]="typeModal === 'edit' && !isNewItem">
+          <label>Mã sản phẩm <span class="text-danger">*</span></label>
+          <input [(ngModel)]="productCode" type="text" class="form-control form-control-sm" disabled>
         </div>
         <div class="mb-2">
-          <label>Thuộc tính mẫu</label>
+          <label>Thuộc tính mẫu <span class="text-danger">*</span></label>
           <select [(ngModel)]="productModelProp" class="form-select form-select-sm"
             [disabled]="typeModal === 'edit'  && !isNewItem">
             <option value=""></option>
-            <option *ngFor="let props of listThuocTinhMau" [ngValue]="props">{{props}}</option>
+            <option *ngFor="let props of listThuocTinhMau" [value]="props"
+              [disabled]="productPropertiesSelected.includes(props)">
+              {{props}}</option>
           </select>
         </div>
         <div class="mb-2">
@@ -111,13 +112,13 @@
         </div>
         <div class="mb-2 row">
           <div class="col">
-            <label>Kích thước</label>
+            <label>Kích thước <span class="text-danger">*</span></label>
             <input [(ngModel)]="productModelSize" type="text" class="form-control form-control-sm"
               placeholder="Dài x rộng x cao">
           </div>
           <div class="col">
-            <label>Trọng lượng</label>
-            <input [(ngModel)]="productModelWeight" type="text" class="form-control form-control-sm"
+            <label>Trọng lượng <span class="text-danger">*</span></label>
+            <input [(ngModel)]="productModelWeight" type="text" onlyNumber class="form-control form-control-sm"
               placeholder="VD: 500g">
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import * as moment from 'moment';
 import { Plugin } from 'src/app/plugins/plugins';
 
 @Component({
@@ -10,10 +11,11 @@ export class MauMaSanPhamComponent implements OnInit {
   @Input() data: any;
   @Input() type: any;
   @Input() listThuocTinhMau: any[] = [];
+  @Input() code: any;
   plugins = new Plugin();
   isModalOpen = false;
   isToastOpen = false;
-  productProperties: any[] = [];
+  productPropertiesSelected: any[] = [];
   productModelProp: any;
   productModelSize: any;
   productModelWeight: any;
@@ -31,8 +33,9 @@ export class MauMaSanPhamComponent implements OnInit {
   messageToast: any;
   ngOnInit() {
     if (this.type === 'edit') {
-      this.productProperties = this.data;
       this.findRemainingProps();
+      this.getListPropsSelected();
+      console.log('object :>> ', this.productPropertiesSelected);
     }
   }
   findRemainingProps() {
@@ -44,6 +47,11 @@ export class MauMaSanPhamComponent implements OnInit {
         this.listThuocTinhMau.splice(index, 1);
       }
     });
+  }
+  getListPropsSelected() {
+    this.productPropertiesSelected = this.data.map(
+      (item: any) => item.properties
+    );
   }
   fastAddProps() {}
   saveInfo(productCode: any) {
@@ -68,6 +76,22 @@ export class MauMaSanPhamComponent implements OnInit {
         this.data[index].awaitingProductQuantity = this.productTotalIncoming;
       }
     } else {
+      if (
+        !this.productModelSize ||
+        !this.dimensionLength(this.productModelSize) ||
+        !this.dimensionWide(this.productModelSize) ||
+        !this.dimensionHeight(this.productModelSize)
+      ) {
+        this.isToastOpen = true;
+        this.messageToast =
+          'Kích thước phải đúng định dạng hoặc không được để trống';
+        return;
+      }
+      if (!this.productModelWeight) {
+        this.isToastOpen = true;
+        this.messageToast = 'Vui lòng nhập trọng lượng';
+        return;
+      }
       const value = {
         code: this.productCode,
         length: this.dimensionLength(this.productModelSize),
@@ -84,14 +108,9 @@ export class MauMaSanPhamComponent implements OnInit {
         awaitingProductQuantity: this.productTotalIncoming,
         isNewItem: true,
       };
-      const index = this.listThuocTinhMau.findIndex(
-        (item: any) => item === this.productModelProp
-      );
-      if (index !== -1) {
-        this.listThuocTinhMau.splice(index, 1);
-      }
       this.data.push(value);
     }
+    this.getListPropsSelected();
     this.editValue.emit(this.data);
     this.setOpen(false, '', null);
   }
@@ -128,7 +147,7 @@ export class MauMaSanPhamComponent implements OnInit {
         this.productTotalIncoming = item.awaitingProductQuantity;
         this.isNewItem = item.isNewItem;
       } else {
-        this.productCode = '';
+        this.productCode = this.code + moment().format('mss');
         this.productModelProp = '';
         this.productModelSize = '';
         this.productModelWeight = '';
@@ -142,6 +161,7 @@ export class MauMaSanPhamComponent implements OnInit {
         this.isNewItem = true;
       }
     }
+    this.getListPropsSelected();
   }
   setOpenToast(open: boolean) {
     this.isToastOpen = open;
