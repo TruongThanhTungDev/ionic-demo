@@ -13,9 +13,9 @@ export class DanhMucService {
   public resourceAddress = 'https://api.mysupership.vn/v1/partner/areas';
   public resourceGHSV = 'https://api.ghsv.vn/v1';
 
-  // public resourceUrl = 'https://adsxanhtech-test.store';
+  public resourceUrl = 'https://adsxanhtech-test.store';
   // public resourceUrl = "http://localhost:8080";
-  public resourceUrl = 'https://adsxanh-market.com';
+  // public resourceUrl = 'https://adsxanh-market.com';
   private subject = new Subject<any>();
   constructor(protected http: HttpClient) {}
 
