@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar mode="md" class="new-toolbar-background">
+    <ion-title class="text-14px fw-bold">Danh mục sản phẩm</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()">Thoát</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <table id="" class="table radius m-0 table-hover" width="100%" cellspacing="0" cellpadding="0" border="0">
+    <tbody>
+      <tr [ngClass]="{'tr-selected': selectedId === i}" *ngFor="let entity of listData, index as i"
+        (click)="selected(i)" (dblclick)="onEdit(entity)">
+        <td class="td-f">
+          <div *ngIf="entity.edit">
+            <input type="text" [(ngModel)]="entity.name" (keyup.enter)="checkNull(i)" class="form-control" />
+          </div>
+          <div *ngIf="!entity.edit">
+            {{entity.name}}
+          </div>
+        </td>
+        <td class="text-center td-fi pl-0 pr-0 text-primary">
+          <div *ngIf="!entity.edit">
+            <i class="fa fa-pencil" (click)="onEdit(entity)"></i>
+          </div>
+          <div *ngIf="entity.edit" class="py-2">
+            <i class="fa fa-check-circle mr-3" style="margin-right: 6px;" (click)="checkNull(i)"></i>
+            <i class="fa fa-trash" (click)="removeRow(i)"></i>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+    (didDismiss)="setOpen(false)"></ion-toast>
+</ion-content>
