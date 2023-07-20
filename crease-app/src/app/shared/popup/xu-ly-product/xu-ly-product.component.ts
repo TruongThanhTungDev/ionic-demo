@@ -183,29 +183,61 @@ export class XuLyProduct implements OnInit {
       giaNhap: this.data ? this.data.giaNhap : null,
       properties: JSON.stringify(properties),
     };
-
+    const subProductList: any[] = [];
+    this.productModelProp.forEach((item: any) => {
+      console.log('item :>> ', item);
+      const value = {
+        availableQuantity: item.availableQuantity ? item.availableQuantity : 0,
+        awaitingProductQuantity: item.awaitingProductQuantity
+          ? item.awaitingProductQuantity
+          : 0,
+        code: item.code,
+        defectiveProductQuantity: item.defectiveProductQuantity
+          ? item.defectiveProductQuantity
+          : 0,
+        image: item.image,
+        inventoryQuantity: item.inventoryQuantity ? item.inventoryQuantity : 0,
+        lastImportedPrice: item.lastImportedPrice ? item.lastImportedPrice : 0,
+        name: item.name,
+        price: item.price ? item.price : 0,
+        properties: item.properties,
+        status: item.status,
+        totalQuantity: item.totalQuantity ? item.totalQuantity : 0,
+        warehouse: item.warehouse ? item.warehouse : null,
+        high: item.high,
+        length: item.length,
+        wide: item.wide,
+        weight: item.weight,
+        id: item.id,
+      };
+      if (item.id) {
+        value.id = item.id;
+      } else {
+        delete value.id;
+      }
+      subProductList.push(value);
+    });
     const entity = {
       product,
-      subProductList: this.productModelProp,
+      subProductList,
     };
-    console.log('entity :>> ', entity);
+    this.createData(entity);
   }
   async createData(data: any) {
     await this.isLoading();
     if (this.type === 'add') {
       delete data.product.id;
-      this.dmService.postOption(data, this.REQUEST_URL, 'create').subscribe(
+      this.dmService.postOption(data, this.REQUEST_URL, '/create').subscribe(
         (res: HttpResponse<any>) => {
-          this.loading.dismiss();
           if (res.body.CODE === 200) {
+            this.loading.dismiss();
             this.isToastOpen = true;
             this.messageToast = 'Tạo sản phẩm thành công';
             this.confirm();
           } else {
+            this.loading.dismiss();
             this.isToastOpen = true;
-            this.messageToast = res.body.RESULT
-              ? res.body.RESULT
-              : 'Tạo sản phẩm thất bại';
+            this.messageToast = 'Tạo sản phẩm thất bại';
           }
         },
         () => {
@@ -215,17 +247,18 @@ export class XuLyProduct implements OnInit {
         }
       );
     } else {
-      this.dmService.postOption(data, this.REQUEST_URL, 'create').subscribe(
+      this.dmService.postOption(data, this.REQUEST_URL, '/create').subscribe(
         (res: HttpResponse<any>) => {
+          console.log('res :>> ', res);
           if (res.body.CODE === 200) {
+            this.loading.dismiss();
             this.isToastOpen = true;
-            this.messageToast = 'Tạo sản phẩm thành công';
+            this.messageToast = 'Cập nhật sản phẩm thành công';
             this.confirm();
           } else {
+            this.loading.dismiss();
             this.isToastOpen = true;
-            this.messageToast = res.body.RESULT
-              ? res.body.RESULT
-              : 'Tạo sản phẩm thất bại';
+            this.messageToast = 'Cập nhật sản phẩm thất bại';
           }
         },
         () => {
@@ -257,10 +290,12 @@ export class XuLyProduct implements OnInit {
     const { role } = await actionSheet.onWillDismiss();
     if (role === 'confirm') {
       this.modal.dismiss();
+      this.isToastOpen = false;
     }
   }
   confirm() {
     this.modal.dismiss(null, 'confirm');
+    this.isToastOpen = false;
   }
   public async isLoading() {
     const isLoading = await this.loading.create({

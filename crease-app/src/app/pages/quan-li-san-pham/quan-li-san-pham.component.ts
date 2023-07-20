@@ -5,6 +5,7 @@ import { LoadingController, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
+import { DanhMucProductComponent } from 'src/app/shared/popup/danh-muc-san-pham/danh-muc-san-pham.component';
 import { XuLyProduct } from 'src/app/shared/popup/xu-ly-product/xu-ly-product.component';
 
 @Component({
@@ -24,6 +25,8 @@ export class QuanLiSanPhamComponent implements OnInit {
   ftMa = '';
   ftTen = '';
   ftDanhMuc = '';
+  ftSoMauMa = '';
+  ftTongNhap = '';
   ftKho: any;
   info: any;
   shop: any;
@@ -32,6 +35,21 @@ export class QuanLiSanPhamComponent implements OnInit {
   isBackHeader = false;
   isToastOpen = false;
   isOpenFilterModal = false;
+  isOpenDeleteProduct = false;
+  public actionDelete = [
+    {
+      text: 'Hủy',
+      role: 'cancel',
+      handler: () => {},
+    },
+    {
+      text: 'Đồng ý',
+      role: 'confirm',
+      handler: () => {
+        this.deleteProduct(this.selectedProduct);
+      },
+    },
+  ];
   constructor(
     private dmService: DanhMucService,
     private localStorage: LocalStorageService,
@@ -82,6 +100,20 @@ export class QuanLiSanPhamComponent implements OnInit {
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm') {
       this.loadData();
+    }
+  }
+  openDeleteProduct(open: boolean) {
+    this.isOpenDeleteProduct = open;
+  }
+  async openListProduct() {
+    const modal = await this.modal.create({
+      component: DanhMucProductComponent,
+      cssClass: 'modal-filter-lg',
+      backdropDismiss: false,
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
     }
   }
   public async loadData() {
@@ -219,6 +251,10 @@ export class QuanLiSanPhamComponent implements OnInit {
       }
     );
   }
+  deleteProduct(item: any) {
+    this.isToastOpen = true;
+    this.messageToast = 'Chức năng này đang đuợc phát triển';
+  }
   changePagination(e: any) {
     this.page = e;
     this.loadData();
@@ -239,7 +275,14 @@ export class QuanLiSanPhamComponent implements OnInit {
       this.selectedProduct = item;
     }
   }
-  resetData() {}
+  resetData() {
+    this.ftTrangThai = '';
+    this.ftMa = '';
+    this.ftTen = '';
+    this.ftDanhMuc = '';
+    this.ftSoMauMa = '';
+    this.ftTongNhap = '';
+  }
   async handleRefresh(event: any) {
     this.loadData();
     event.target.complete();
@@ -252,6 +295,10 @@ export class QuanLiSanPhamComponent implements OnInit {
     if (!isOpen) {
       this.resetData();
     }
+  }
+  async getFilter() {
+    await this.loadData();
+    this.openModalFilter(false);
   }
   public async isLoading() {
     const isLoading = await this.loading.create({

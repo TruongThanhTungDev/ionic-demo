@@ -52,6 +52,7 @@ import { ThemSanPhamHangLoiComponent } from './shared/popup/them-sua-kho/them-su
 import { XuLyProduct } from './shared/popup/xu-ly-product/xu-ly-product.component';
 import { ThongTinSanPhamComponent } from './shared/popup/xu-ly-product/thong-tin-san-pham/thong-tin-san-pham.component';
 import { MauMaSanPhamComponent } from './shared/popup/xu-ly-product/mau-ma-san-pham/mau-ma-san-pham';
+import { DanhMucProductComponent } from './shared/popup/danh-muc-san-pham/danh-muc-san-pham.component';
 @NgModule({
   declarations: [
     OnlyNumberDirective,
@@ -87,6 +88,7 @@ import { MauMaSanPhamComponent } from './shared/popup/xu-ly-product/mau-ma-san-p
     XuLyProduct,
     ThongTinSanPhamComponent,
     MauMaSanPhamComponent,
+    DanhMucProductComponent,
   ],
   imports: [
     HttpClientModule,

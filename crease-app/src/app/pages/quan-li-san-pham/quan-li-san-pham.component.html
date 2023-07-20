@@ -4,29 +4,37 @@
   </ion-refresher>
   <ion-content class="ion-padding">
     <div>
-      <div *ngIf="!isBackHeader; else elseBtn" class="d-flex align-items-center">
-        <div (click)="addProduct()">
-          <button class="btn btn-sm" style="background-color: #46C851;">
-            <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
-          </button>
+      <div *ngIf="!isBackHeader; else elseBtn" class="row align-items-center">
+        <div class="d-flex col-12 mb-1">
+          <div (click)="addProduct()">
+            <button class="btn btn-sm" style="background-color: #46C851;">
+              <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
+            </button>
+          </div>
+          <div class="mx-2">
+            <button class="btn btn-success btn-sm h-100 text-13px" (click)="showListDelete()">
+              Chọn
+            </button>
+          </div>
+          <div class="w-100 input-group input-group-sm border-primary" style="border-radius: 6px; width: fit-content">
+            <span class="input-group-text bg-white" style="border: 0">
+              <i class="fa-solid fa-magnifying-glass text-sub-content" style="color: #2c5fb6">
+              </i>
+            </span>
+            <input type="text" [(ngModel)]="ftTen" class="text-13px form-control border-primary border-0 search-control"
+              placeholder="Tìm kiếm" (keydown.enter)="loadData()">
+          </div>
         </div>
-        <div class="mx-2">
-          <button class="btn btn-success h-100 text-13px p-6px" (click)="showListDelete()">
-            Chọn
+        <div class="col-12">
+          <button class="btn btn-sm btn-primary text-13px" (click)="openListProduct()">
+            <i class="fa fa-th-list" style="margin-right: 4px;"></i>
+            Danh mục
           </button>
-        </div>
-        <div class="w-100 input-group input-group-sm border-primary" style="border-radius: 6px; width: fit-content">
-          <span class="input-group-text bg-white" style="border: 0">
-            <i class="fa-solid fa-magnifying-glass text-sub-content" style="color: #2c5fb6">
-            </i>
-          </span>
-          <input type="text" [(ngModel)]="ftTen" class="form-control border-primary border-0 search-control"
-            placeholder="Tìm kiếm sản phẩm" (keydown.enter)="loadData()">
         </div>
       </div>
       <ng-template #elseBtn>
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-sm btn-danger">
+          <button type="button" class="btn btn-sm btn-danger" (click)="openDeleteProduct(true)">
             <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
             Xóa
           </button>
@@ -39,6 +47,10 @@
         <div *ngIf="isBackHeader" class="checkbox-in-card-container form-check">
           <input class="form-check-input checkbox-in-card" type="checkbox"
             [checked]="selectedProduct && selectedProduct.id === item.id" (change)="selectItem(item)">
+        </div>
+        <div class="position-absolute" style="z-index: 1; bottom: 0.5rem; right: 1rem;">
+          <button *ngIf="item.status === 1" class="btn btn-sm text-10px bg-success text-white">Hoạt động</button>
+          <button *ngIf="item.status === 0" class="btn btn-sm text-10px bg-danger text-white">Ngừng hoạt động</button>
         </div>
         <ion-card [class]="selectedProduct && selectedProduct.id === item.id ? 'card-active' : ''"
           (click)="isBackHeader ? selectItem(item) : editProductInfo(item)">
@@ -62,6 +74,8 @@
             </div>
           </ion-card-content>
         </ion-card>
+        <ion-alert [isOpen]="isOpenDeleteProduct" header="BẠN CÓ THẬT SỰ MUỐN XÓA BẢN GHI NÀY?" [buttons]="actionDelete"
+          (didDismiss)="openDeleteProduct(false)"></ion-alert>
       </div>
     </div>
     <ng-template #elseBlock>
@@ -105,4 +119,45 @@
       Lọc
     </button>
   </div>
+  <ion-modal [isOpen]="isOpenFilterModal" class="modal-filter-lg" (didDismiss)="openModalFilter(false)">
+    <ion-header>
+      <ion-toolbar class="text-white fw-bold" style="--background: rgba(0, 110, 185, 0.9)!important;">
+        <ion-title>
+          <i class="fa-solid fa-filter"></i>
+          Lọc
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="mb-2">
+        <label>Trạng thái</label>
+        <select [(ngModel)]="ftTrangThai" class="form-select form-select-sm">
+          <option value="0">Ngừng hoạt động</option>
+          <option value="1">Hoạt động</option>
+        </select>
+      </div>
+      <div class="mb-2">
+        <label>Mã sản phẩm</label>
+        <input [(ngModel)]="ftMa" type="text" class="form-control form-control-sm">
+      </div>
+      <div class="mb-2">
+        <label>Tên sản phẩm</label>
+        <input [(ngModel)]="ftTen" type="text" class="form-control form-control-sm">
+      </div>
+      <div class="mb-2">
+        <label>Danh mục</label>
+        <input [(ngModel)]="ftDanhMuc" type="text" class="form-control form-control-sm">
+      </div>
+    </ion-content>
+    <ion-footer mode="md" style="background-color: rgba(0, 110, 185, 0.9)!important;">
+      <ion-toolbar class="new-toolbar-background">
+        <ion-buttons slot="start">
+          <ion-button (click)="openModalFilter(false)" style="--color: white!important">Hủy</ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button (click)="getFilter()" [strong]="true">Lọc</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </ion-modal>
 </ion-app>
