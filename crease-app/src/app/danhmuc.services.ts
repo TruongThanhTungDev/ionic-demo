@@ -15,7 +15,7 @@ export class DanhMucService {
 
   // public resourceUrl = 'https://adsxanhtech-test.store';
   // public resourceUrl = "http://localhost:8080";
-  public resourceUrl = 'https://adsxanhtech-test.store';
+  public resourceUrl = 'https://adsxanh-market.com';
   private subject = new Subject<any>();
   constructor(protected http: HttpClient) {}
 
