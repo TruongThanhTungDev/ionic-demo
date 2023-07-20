@@ -112,6 +112,16 @@ export class MauMaSanPhamComponent implements OnInit {
         this.messageToast = 'Vui lòng nhập trọng lượng';
         return;
       }
+      if (this.productModelTotalImport <= 0) {
+        this.isToastOpen = true;
+        this.messageToast = 'Tổng nhập phải lớn hơn 0';
+        return;
+      }
+      if (this.productTotalAvailable <= 0) {
+        this.isToastOpen = true;
+        this.messageToast = 'Số lượng Có thể bán phải lớn hơn 0';
+        return;
+      }
       const value = {
         code: this.productCode,
         length: this.dimensionLength(this.productModelSize),
@@ -134,6 +144,7 @@ export class MauMaSanPhamComponent implements OnInit {
     this.findRemainingProps();
     this.editValue.emit(this.data);
     this.setOpen(false, '', null);
+    this.isToastOpen = false;
   }
   deleteProps(item: any) {
     const index = this.data.findIndex((el: any) => item.code == el.code);

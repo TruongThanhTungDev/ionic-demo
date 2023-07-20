@@ -4,29 +4,32 @@
   </ion-refresher>
   <ion-content class="ion-padding">
     <div>
-      <div *ngIf="!isBackHeader; else elseBtn" class="d-flex align-items-center">
-        <div (click)="addProduct()">
-          <button class="btn btn-sm" style="background-color: #46C851;">
-            <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
-          </button>
+      <div *ngIf="!isBackHeader; else elseBtn" class="row align-items-center">
+        <div class="d-flex col-12 mb-1">
+          <div (click)="addProduct()">
+            <button class="btn btn-sm" style="background-color: #46C851;">
+              <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
+            </button>
+          </div>
+          <div class="mx-2">
+            <button class="btn btn-success btn-sm h-100 text-13px" (click)="showListDelete()">
+              Chọn
+            </button>
+          </div>
+          <div class="w-100 input-group input-group-sm border-primary" style="border-radius: 6px; width: fit-content">
+            <span class="input-group-text bg-white" style="border: 0">
+              <i class="fa-solid fa-magnifying-glass text-sub-content" style="color: #2c5fb6">
+              </i>
+            </span>
+            <input type="text" [(ngModel)]="ftTen" class="text-13px form-control border-primary border-0 search-control"
+              placeholder="Tìm kiếm" (keydown.enter)="loadData()">
+          </div>
         </div>
-        <div class="mx-2">
-          <button class="btn btn-success btn-sm h-100 text-13px" (click)="showListDelete()">
-            Chọn
+        <div class="col-12">
+          <button class="btn btn-sm btn-primary text-13px" (click)="openListProduct()">
+            <i class="fa fa-th-list" style="margin-right: 4px;"></i>
+            Danh mục
           </button>
-        </div>
-        <button class="btn btn-sm btn-primary text-13px" style="width: 230px; margin-right: 4px;"
-          (click)="openListProduct()">
-          <i class="fa fa-th-list" style="margin-right: 4px;"></i>
-          Danh mục
-        </button>
-        <div class="w-100 input-group input-group-sm border-primary" style="border-radius: 6px; width: fit-content">
-          <span class="input-group-text bg-white" style="border: 0">
-            <i class="fa-solid fa-magnifying-glass text-sub-content" style="color: #2c5fb6">
-            </i>
-          </span>
-          <input type="text" [(ngModel)]="ftTen" class="text-13px form-control border-primary border-0 search-control"
-            placeholder="Tìm kiếm" (keydown.enter)="loadData()">
         </div>
       </div>
       <ng-template #elseBtn>
