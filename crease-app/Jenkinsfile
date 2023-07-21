@@ -50,10 +50,10 @@ pipeline {
 						sh 'ssh -i ~/.ssh/id_rsa root@35.240.138.76 "docker load -i mobile_image.tar"'
 	
 						// Stop current container
-						//sh 'ssh -i ~/.ssh/id_rsa root@35.240.138.76 "docker stop ladidata-mobile"'
+						sh 'ssh -i ~/.ssh/id_rsa root@35.240.138.76 "docker stop ladidata-mobile"'
 	
 						// Remove current container
-						//sh 'ssh -i ~/.ssh/id_rsa root@35.240.138.76 "docker rm ladidata-mobile"'
+						sh 'ssh -i ~/.ssh/id_rsa root@35.240.138.76 "docker rm ladidata-mobile"'
 	
 						// Run container with new image
 						sh 'ssh -i ~/.ssh/id_rsa root@35.240.138.76 "docker run -itdp 8083:80 --name ladidata-mobile ladidata-mobile:latest"'
