@@ -56,7 +56,7 @@ pipeline {
 						//sh 'ssh -i ~/.ssh/id_rsa root@35.240.138.76 "docker rm ladidata-mobile"'
 	
 						// Run container with new image
-						sh 'ssh -i ~/.ssh/id_rsa root@35.240.138.76 "docker run -itdp 81:80 --name ladidata-mobile ladidata-mobile:latest"'
+						sh 'ssh -i ~/.ssh/id_rsa root@35.240.138.76 "docker run -itdp 8083:80 --name ladidata-mobile ladidata-mobile:latest"'
 	
 						// Remove compressed image
 						sh 'ssh -i ~/.ssh/id_rsa root@35.240.138.76 "rm mobile_image.tar"'
