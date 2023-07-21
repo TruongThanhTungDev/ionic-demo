@@ -33,7 +33,7 @@ pipeline {
 		stage('Build and deploy') {
 				steps {
 					// Change directory to frontend source code
-					dir('frontend') {
+					dir('crease-app') {
             sh 'npm install'
 						sh 'npm run build'
 	
