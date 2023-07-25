@@ -51,9 +51,12 @@ export class XulyPhieuXuatComponent implements OnInit {
   tongSLCTB: any;
   tongSLSP: any;
   tongTT: any;
+  tranportFee:any;
+  discount: any;
   ngOnInit(): void {
     this.info = this.localStorage.retrieve('authenticationtoken');
     if (this.data) {
+      console.log(this.data)
       this.id = this.data.id;
       this.creatorName = this.data.creatorName;
       this.createAt = this.data.createAt;
@@ -290,19 +293,34 @@ export class XulyPhieuXuatComponent implements OnInit {
     let b = 0;
     let c = 0;
     for (let i = 0; i < this.subProductList.length; i++) {
+      this.tranportFee=this.subProductList[i].tranportFee;
+      this.discount=this.subProductList[i].discount;
+      console.log(this.tranportFee)
+      console.log(this.discount)
       a += this.subProductList[i].availableQuantity
         ? Number(this.subProductList[i].availableQuantity)
         : 0;
       b += this.subProductList[i].totalQuantity
         ? Number(this.subProductList[i].totalQuantity)
-        : 0;
+        : 0;     
       c += this.subProductList[i].totalPrice
         ? Number(this.subProductList[i].totalPrice)
         : 0;
+      
+      // c += this.subProductList[i].totalPrice
+      //   ? Number(this.subProductList[i].totalPrice)
+      //   : 0;
+      // c= this.subProductList[i].totalPrice
+      //   ? Number(this.subProductList[i].totalPrice)
+      //   : 0;
+
     }
+    console.log(c)
     this.tongSLCTB = a;
     this.tongSLSP = b;
-    this.tongTT = c;
+    this.tongTT = c + (this.tranportFee != null ? this.tranportFee : 0)
+    -(this.discount != null ? this.discount : 0) ;
+    console.log(this.tongTT)
   }
   create(entity: any) {
     if (!this.data) {
@@ -351,9 +369,7 @@ export class XulyPhieuXuatComponent implements OnInit {
     this.data.createAt = this.data.createAt
       ? moment(this.data.createAt, 'DD/MM/YYYY').format('YYYYMMDD')
       : null;
-      this.data.updateAt = this.data.updateAt
-      ? moment(this.data.updateAt, 'DD/MM/YYYY').format('YYYYMMDD')
-      : null;  
+     
     const entity = {
       boL: this.data,
       boLDetailList: this.data.boLDetailList,
