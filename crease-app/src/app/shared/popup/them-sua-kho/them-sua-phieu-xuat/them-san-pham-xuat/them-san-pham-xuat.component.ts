@@ -66,10 +66,13 @@ export class ThemSanPhamXuatComponent implements OnInit {
   }
 
   setOpen(open: boolean) { 
-    this.isToastOpen = open;
     this.isModalOpen = open;
     this.handleOpenModal.emit(open);
   }
+  setToastOpen(open: boolean) { 
+    this.isToastOpen = open; 
+  }
+  
   validInfo() {
     console.log(this.price)
     console.log(this.totalQuantity)

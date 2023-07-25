@@ -57,7 +57,7 @@ export class XulyPhieuXuatComponent implements OnInit {
       this.id = this.data.id;
       this.creatorName = this.data.creatorName;
       this.createAt = this.data.createAt;
-      this.updateAt=this.data.updateAt;
+      this.updateAt=moment(this.data.updateAt, 'YYYYMMDD').format('DD/MM/YYYY');
       this.estimatedReturnDate = this.data.estimatedReturnDate ? moment(this.data.estimatedReturnDate, 'YYYYMMDD').format('DD/MM/YYYY') :'';
       this.note = this.data.note;
       this.status = this.data.status;

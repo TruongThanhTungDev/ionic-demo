@@ -27,10 +27,11 @@ export class ThemThongTinPhieuXuatComponent implements OnInit {
   status: any;
   isToastOpen=false;
   messageToast: any;
-  estimatedReturnDateInfo:any
+  estimatedReturnDateInfo:any;
+  ftUpdateAt:any;
   ngOnInit(): void {
     this.createAt = moment(this.createAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
-    this.updateAt = moment(this.updateAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    this.ftUpdateAt = moment(this.updateAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
     // this.estimatedReturnDateInfo = this.estimatedReturnDate ? moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
     if (this.data) {
       this.status=this.data.status
@@ -76,13 +77,15 @@ export class ThemThongTinPhieuXuatComponent implements OnInit {
   saveInfo() {
     const value = {
       createAt: moment(this.createAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
-      updateAt: moment(this.updateAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
+      updateAt: moment(this.ftUpdateAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
       estimatedReturnDate: this.estimatedReturnDateInfo ? moment(this.estimatedReturnDateInfo,
         'YYYY-MM-DD'
       ).format('DD/MM/YYYY'):"",
       note: this.note,
       isOpen: false,
     };
+    console.log(this.ftUpdateAt);
+    console.log(value);
     this.editValue.emit(value);
     this.setOpen(false);
   }
