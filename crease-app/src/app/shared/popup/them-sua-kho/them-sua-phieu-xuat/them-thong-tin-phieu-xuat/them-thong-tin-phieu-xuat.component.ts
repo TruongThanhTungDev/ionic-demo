@@ -20,6 +20,7 @@ export class ThemThongTinPhieuXuatComponent implements OnInit {
   @Input() shopCode: any;
   @Input() isModalOpen: any;
   @Input() createAt: any;
+  @Input() updateAt: any;
   @Input() estimatedReturnDate= '';
   @Input() note: any;
   @Input() data: any;
@@ -29,7 +30,8 @@ export class ThemThongTinPhieuXuatComponent implements OnInit {
   estimatedReturnDateInfo:any
   ngOnInit(): void {
     this.createAt = moment(this.createAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
-    this.estimatedReturnDateInfo = this.estimatedReturnDate ? moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
+    this.updateAt = moment(this.updateAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    // this.estimatedReturnDateInfo = this.estimatedReturnDate ? moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
     if (this.data) {
       this.status=this.data.status
     }
@@ -51,6 +53,7 @@ export class ThemThongTinPhieuXuatComponent implements OnInit {
     this.handleOpenModal.emit(open);
     if (open) {
       this.createAt = this.createAt;
+      this.updateAt = this.updateAt;
       this.estimatedReturnDateInfo = this.estimatedReturnDate;
       this.note= this.note;
     } 
@@ -73,6 +76,7 @@ export class ThemThongTinPhieuXuatComponent implements OnInit {
   saveInfo() {
     const value = {
       createAt: moment(this.createAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
+      updateAt: moment(this.updateAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
       estimatedReturnDate: this.estimatedReturnDateInfo ? moment(this.estimatedReturnDateInfo,
         'YYYY-MM-DD'
       ).format('DD/MM/YYYY'):"",

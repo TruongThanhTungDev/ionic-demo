@@ -126,8 +126,9 @@ export class ThemSanPhamXuatComponent implements OnInit {
     this.listSanPhamCT = [];
     this.editValue.emit(value);
     this.resetInfo();
-    this.setOpen(false);
+    this.setOpen(false);  
   }
+ 
   }
   resetInfo() {
     this.product = null;

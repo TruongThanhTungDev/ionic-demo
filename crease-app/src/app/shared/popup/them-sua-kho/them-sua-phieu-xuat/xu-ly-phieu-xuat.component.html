@@ -74,7 +74,7 @@
                     Xuất kho lúc:
                   </span>
                   <ng-container>{{
-                    estimatedReturnDate ? estimatedReturnDate : ""
+                    updateAt ? updateAt : ""
                     }}</ng-container>
                 </div>
               </div>
@@ -86,7 +86,7 @@
                   <ng-container>{{ note ? note : "" }}</ng-container>
                 </div>
               </div>
-              <thong-tin-phieu-xuat [data]="data" [createAt]="createAt" [estimatedReturnDate]="estimatedReturnDate"
+              <thong-tin-phieu-xuat [data]="data" [createAt]="createAt" [updateAt]="updateAt" [estimatedReturnDate]="estimatedReturnDate"
              [note]="note" [isModalOpen]="isShowPhieuXuat"
                 (handleOpenModal)="editPhieuXuat($event)"
                 (editValue)="handleEditPhieuXuat($event)"></thong-tin-phieu-xuat>

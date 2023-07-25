@@ -35,6 +35,7 @@ export class XulyPhieuXuatComponent implements OnInit {
   id: any;
   creatorName: any;
   createAt: any;
+  updateAt:any;
   estimatedReturnDate: any;
   note: any;
   status: any;
@@ -56,6 +57,7 @@ export class XulyPhieuXuatComponent implements OnInit {
       this.id = this.data.id;
       this.creatorName = this.data.creatorName;
       this.createAt = this.data.createAt;
+      this.updateAt=this.data.updateAt;
       this.estimatedReturnDate = this.data.estimatedReturnDate ? moment(this.data.estimatedReturnDate, 'YYYYMMDD').format('DD/MM/YYYY') :'';
       this.note = this.data.note;
       this.status = this.data.status;
@@ -63,6 +65,7 @@ export class XulyPhieuXuatComponent implements OnInit {
     } else {
       this.status = 0;
       this.createAt = moment(new Date()).format('DD/MM/YYYY');
+      this.updateAt = moment(new Date()).format('DD/MM/YYYY');
     }
     if (this.data && this.data.boLDetailList) {
       this.loadDataSub(this.data.boLDetailList);
@@ -121,6 +124,7 @@ export class XulyPhieuXuatComponent implements OnInit {
   }
   handleEditPhieuXuat(value: any) {
     this.createAt = value.createAt;
+    this.updateAt = value.updateAt;
     this.estimatedReturnDate = value.estimatedReturnDate;
     this.note = value.note;
     this.isShowPhieuXuat = value.isOpen;
@@ -200,6 +204,9 @@ export class XulyPhieuXuatComponent implements OnInit {
       createAt: this.createAt
         ? moment(this.createAt, 'DD/MM/YYYY').format('YYYYMMDD')
         : null,
+      updateAt: this.updateAt
+        ? moment(this.updateAt, 'DD/MM/YYYY').format('YYYYMMDD')
+        : null,  
       creator: this.data
         ? this.data.creator
           ? this.data.creator
@@ -344,6 +351,9 @@ export class XulyPhieuXuatComponent implements OnInit {
     this.data.createAt = this.data.createAt
       ? moment(this.data.createAt, 'DD/MM/YYYY').format('YYYYMMDD')
       : null;
+      this.data.updateAt = this.data.updateAt
+      ? moment(this.data.updateAt, 'DD/MM/YYYY').format('YYYYMMDD')
+      : null;  
     const entity = {
       boL: this.data,
       boLDetailList: this.data.boLDetailList,
