@@ -68,7 +68,7 @@ export class XulyPhieuXuatComponent implements OnInit {
     } else {
       this.status = 0;
       this.createAt = moment(new Date()).format('DD/MM/YYYY');
-      this.updateAt = moment(new Date()).format('DD/MM/YYYY');
+      
     }
     if (this.data && this.data.boLDetailList) {
       this.loadDataSub(this.data.boLDetailList);
@@ -329,8 +329,8 @@ export class XulyPhieuXuatComponent implements OnInit {
             this.confirm();
           } else {
             this.isToastOpen = true;
-            this.messageToast = 'Tạo phiếu thất bại';
-            this.cancel();
+            this.messageToast = res.body.RESULT;
+           
           }
         },
         () => {

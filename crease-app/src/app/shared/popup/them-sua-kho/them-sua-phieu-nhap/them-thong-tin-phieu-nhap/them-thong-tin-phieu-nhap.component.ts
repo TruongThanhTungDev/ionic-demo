@@ -49,7 +49,6 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
   ) {}
 
   setOpen(open: boolean) {
-    this.isToastOpen = open;
     this.isModalOpen = open;
     this.handleOpenModal.emit(open);
     if (open) {
@@ -59,6 +58,9 @@ export class ThemThongTinPhieuNhapComponent implements OnInit {
       this.discount=this.discount;
       this.note= this.note;
     } 
+  }
+  setToastOpen(open: boolean) { 
+    this.isToastOpen = open; 
   }
   onInputDateBlur() {
     if (moment(this.estimatedReturnDate, 'YYYY-MM-DD', true).isValid()) {

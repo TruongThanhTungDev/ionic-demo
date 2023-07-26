@@ -69,8 +69,8 @@
   </ion-content>
   <ion-footer [translucent]="true">
     <ion-toolbar mode="md" class="footer-container">
-      <ion-segment color="dark" value="account">
-        <ion-segment-button value="quan-li-san-pham" routerLink="/kho/quan-li-san-pham" >
+      <ion-segment color="dark" [scrollable]="true" value="account">
+        <ion-segment-button value="quan-li-san-pham" routerLink="/kho/quan-ly-san-pham" >
           <ion-label class="fw-bold " style="font-size: 8px">Quản lý sản phẩm</ion-label>
         </ion-segment-button>
         <ion-segment-button value="xuat-hang" routerLink="/kho/xuat-hang">
@@ -80,7 +80,7 @@
           <ion-label class="fw-bold " style="font-size: 8px">Nhập hàng</ion-label>
         </ion-segment-button>
         <ion-segment-button value="hang-loi" routerLink="/kho/hang-loi" >
-          <ion-label class="fw-bold text-white" style="font-size: 8px">Hàng lỗi</ion-label>
+          <ion-label class="fw-bold " style="font-size: 8px">Hàng lỗi</ion-label>
         </ion-segment-button>
         <ion-segment-button value="lich-su-hang" routerLink="/kho/lich-su-nhap-xuat" style="background: #035287">
           <ion-label class="fw-bold text-white" style="font-size: 8px">Lịch sử xuất nhập</ion-label>
