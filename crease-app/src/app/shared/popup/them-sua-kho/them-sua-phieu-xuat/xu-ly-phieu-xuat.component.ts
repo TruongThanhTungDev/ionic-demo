@@ -56,7 +56,7 @@ export class XulyPhieuXuatComponent implements OnInit {
   ngOnInit(): void {
     this.info = this.localStorage.retrieve('authenticationtoken');
     if (this.data) {
-      console.log(this.data)
+      
       this.id = this.data.id;
       this.creatorName = this.data.creatorName;
       this.createAt = this.data.createAt;
@@ -255,7 +255,6 @@ export class XulyPhieuXuatComponent implements OnInit {
         return;
       } 
       if (a.totalQuantity > a.subProduct.inventoryQuantity) {
-        console.log(a.subProduct.inventoryQuantity)
         this.isToastOpen = true;
         this.messageToast = 'Số lượng không được lớn hơn tồn kho';
         return;
@@ -295,8 +294,6 @@ export class XulyPhieuXuatComponent implements OnInit {
     for (let i = 0; i < this.subProductList.length; i++) {
       this.tranportFee=this.subProductList[i].tranportFee;
       this.discount=this.subProductList[i].discount;
-      console.log(this.tranportFee)
-      console.log(this.discount)
       a += this.subProductList[i].availableQuantity
         ? Number(this.subProductList[i].availableQuantity)
         : 0;
@@ -315,12 +312,11 @@ export class XulyPhieuXuatComponent implements OnInit {
       //   : 0;
 
     }
-    console.log(c)
+
     this.tongSLCTB = a;
     this.tongSLSP = b;
     this.tongTT = c + (this.tranportFee != null ? this.tranportFee : 0)
     -(this.discount != null ? this.discount : 0) ;
-    console.log(this.tongTT)
   }
   create(entity: any) {
     if (!this.data) {
