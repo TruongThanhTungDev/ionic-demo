@@ -353,7 +353,7 @@ export class XulyPhieuHangLoiComponent implements OnInit {
             this.confirm();
           } else {
             this.isToastOpen = true;
-            this.messageToast = 'Cập nhật phiếu thất bại';
+            this.messageToast = res.body.results;
             this.cancel();
           }
         },
@@ -382,7 +382,7 @@ export class XulyPhieuHangLoiComponent implements OnInit {
           this.confirm();
         } else {
           this.isToastOpen = true;
-          this.messageToast = 'Cập nhật phiếu thất bại';
+          this.messageToast = res.body.results;
           this.cancel();
         }
       },
