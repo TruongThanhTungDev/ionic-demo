@@ -35,6 +35,7 @@ export class XulyPhieuXuatComponent implements OnInit {
   id: any;
   creatorName: any;
   createAt: any;
+  updateAt:any;
   estimatedReturnDate: any;
   note: any;
   status: any;
@@ -50,12 +51,16 @@ export class XulyPhieuXuatComponent implements OnInit {
   tongSLCTB: any;
   tongSLSP: any;
   tongTT: any;
+  tranportFee:any;
+  discount: any;
   ngOnInit(): void {
     this.info = this.localStorage.retrieve('authenticationtoken');
     if (this.data) {
+      
       this.id = this.data.id;
       this.creatorName = this.data.creatorName;
       this.createAt = this.data.createAt;
+      this.updateAt=moment(this.data.updateAt, 'YYYYMMDD').format('DD/MM/YYYY');
       this.estimatedReturnDate = this.data.estimatedReturnDate ? moment(this.data.estimatedReturnDate, 'YYYYMMDD').format('DD/MM/YYYY') :'';
       this.note = this.data.note;
       this.status = this.data.status;
@@ -63,6 +68,7 @@ export class XulyPhieuXuatComponent implements OnInit {
     } else {
       this.status = 0;
       this.createAt = moment(new Date()).format('DD/MM/YYYY');
+      this.updateAt = moment(new Date()).format('DD/MM/YYYY');
     }
     if (this.data && this.data.boLDetailList) {
       this.loadDataSub(this.data.boLDetailList);
@@ -121,6 +127,7 @@ export class XulyPhieuXuatComponent implements OnInit {
   }
   handleEditPhieuXuat(value: any) {
     this.createAt = value.createAt;
+    this.updateAt = value.updateAt;
     this.estimatedReturnDate = value.estimatedReturnDate;
     this.note = value.note;
     this.isShowPhieuXuat = value.isOpen;
@@ -200,6 +207,9 @@ export class XulyPhieuXuatComponent implements OnInit {
       createAt: this.createAt
         ? moment(this.createAt, 'DD/MM/YYYY').format('YYYYMMDD')
         : null,
+      updateAt: this.updateAt
+        ? moment(this.updateAt, 'DD/MM/YYYY').format('YYYYMMDD')
+        : null,  
       creator: this.data
         ? this.data.creator
           ? this.data.creator
@@ -245,7 +255,6 @@ export class XulyPhieuXuatComponent implements OnInit {
         return;
       } 
       if (a.totalQuantity > a.subProduct.inventoryQuantity) {
-        console.log(a.subProduct.inventoryQuantity)
         this.isToastOpen = true;
         this.messageToast = 'Số lượng không được lớn hơn tồn kho';
         return;
@@ -283,19 +292,31 @@ export class XulyPhieuXuatComponent implements OnInit {
     let b = 0;
     let c = 0;
     for (let i = 0; i < this.subProductList.length; i++) {
+      this.tranportFee=this.subProductList[i].tranportFee;
+      this.discount=this.subProductList[i].discount;
       a += this.subProductList[i].availableQuantity
         ? Number(this.subProductList[i].availableQuantity)
         : 0;
       b += this.subProductList[i].totalQuantity
         ? Number(this.subProductList[i].totalQuantity)
-        : 0;
+        : 0;     
       c += this.subProductList[i].totalPrice
         ? Number(this.subProductList[i].totalPrice)
         : 0;
+      
+      // c += this.subProductList[i].totalPrice
+      //   ? Number(this.subProductList[i].totalPrice)
+      //   : 0;
+      // c= this.subProductList[i].totalPrice
+      //   ? Number(this.subProductList[i].totalPrice)
+      //   : 0;
+
     }
+
     this.tongSLCTB = a;
     this.tongSLSP = b;
-    this.tongTT = c;
+    this.tongTT = c + (this.tranportFee != null ? this.tranportFee : 0)
+    -(this.discount != null ? this.discount : 0) ;
   }
   create(entity: any) {
     if (!this.data) {
@@ -344,6 +365,7 @@ export class XulyPhieuXuatComponent implements OnInit {
     this.data.createAt = this.data.createAt
       ? moment(this.data.createAt, 'DD/MM/YYYY').format('YYYYMMDD')
       : null;
+     
     const entity = {
       boL: this.data,
       boLDetailList: this.data.boLDetailList,

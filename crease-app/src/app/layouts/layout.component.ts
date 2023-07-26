@@ -291,4 +291,12 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       }
     );
   }
+  pushToLogWork(menu: any) {
+    if (menu && menu.data && menu.data.code === 'work') {
+      window.open(
+        `http://localhost:4200?fullName=${this.info.fullName}&id=${this.info.id}&userName=${this.info.userName}`,
+        '_blank'
+      );
+    }
+  }
 }
