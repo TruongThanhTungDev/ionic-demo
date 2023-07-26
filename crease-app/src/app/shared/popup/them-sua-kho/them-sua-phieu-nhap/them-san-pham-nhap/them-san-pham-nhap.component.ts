@@ -64,10 +64,12 @@ export class ThemSanPhamNhapComponent implements OnInit {
     this.info = this.localStorage.retrieve('authenticationToken');
     this.shop = this.localStorage.retrieve('shop');
   }
-  setOpen(open: boolean) {
-    this.isToastOpen = open;
+  setOpen(open: boolean) { 
     this.isModalOpen = open;
     this.handleOpenModal.emit(open);
+  }
+  setToastOpen(open: boolean) { 
+    this.isToastOpen = open; 
   }
   validInfo() {
     if (!this.khoId) {

@@ -204,7 +204,7 @@ export class ThemSanPhamXuatComponent implements OnInit {
 
   async getSanPhamCT(e: any) {
     if(!e){
-  
+     
       this.listSanPhamCT = [];
       this.subProductCode=null;
     }else {
