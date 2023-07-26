@@ -74,7 +74,7 @@
                   <ng-container>{{ createAt ? createAt : "" }}</ng-container>
                 </div>
               </div>
-              <div class="row">
+              <div class="row" *ngIf="status == 3">
                 <div class="col-10 d-flex align-items-center" style="font-size: 10px">
                   <span class="fw-bold" style="font-size: 10px ;margin-right: 3px; ">
                     Nhập/Xuất kho lúc:

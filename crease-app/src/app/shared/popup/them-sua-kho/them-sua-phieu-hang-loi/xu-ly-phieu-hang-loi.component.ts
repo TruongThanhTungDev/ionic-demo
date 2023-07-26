@@ -246,7 +246,7 @@ export class XulyPhieuHangLoiComponent implements OnInit {
         : '',
       status: this.status,
       supplierInfo: this.nhaCungCap ? this.nhaCungCap : (this.data?.supplierInfo ?? null),
-      type: this.FtType,
+      type: this.FtType? this.FtType : 4,
       shop: this.data ? this.data.shop : this.shop,
       warehouse: this.khoId ? { id: this.khoId } : {id: this.data.warehouse.id},
       note: this.note,
