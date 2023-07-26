@@ -129,7 +129,7 @@ export class ThemSanPhamNhapComponent implements OnInit {
     this.availableQuantity = '';
     this.price = '';
   }
-  getSanPham(khoId: any): void {
+  async getSanPham(khoId: any) {
     const params = {
       sort: ['id', 'desc'],
       page: 0,
@@ -137,41 +137,49 @@ export class ThemSanPhamNhapComponent implements OnInit {
       filter:
         'status==1;shopcode==' + this.shop.code + ';warehouseId==' + this.khoId,
     };
+    await this.isLoading();
     this.dmService.query(params, '/api/v1/product').subscribe(
       (res: HttpResponse<any>) => {
         if (res.status === 200) {
+          this.loading.dismiss();
           this.listSanPham = res.body.RESULT.content;
         } else {
+          this.loading.dismiss();
           this.isToastOpen = true;
           this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
           console.error();
         }
       },
       () => {
+        this.loading.dismiss();
         this.isToastOpen = true;
         this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
         console.error();
       }
     );
   }
-  getKho(): void {
+  async getKho(){
     const params = {
       sort: ['id', 'asc'],
       page: 0,
       size: 1000,
       filter: 'id>0;staus>=0;shop.code==' + this.shop.code,
     };
+    await this.isLoading();
     this.dmService.query(params, '/api/v1/warehouse').subscribe(
       (res: HttpResponse<any>) => {
         if (res.status === 200) {
+          this.loading.dismiss();
           this.listKho = res.body.RESULT.content;
         } else {
+          this.loading.dismiss();
           this.isToastOpen = true;
           this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
           console.error();
         }
       },
       () => {
+        this.loading.dismiss();
         this.isToastOpen = true;
         this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
         console.error();
@@ -183,38 +191,54 @@ export class ThemSanPhamNhapComponent implements OnInit {
     this.getSanPham(this.khoId);
   }
 
-  getSanPhamCT(e: any) {
-    if (e) {
+  async getSanPhamCT(e: any) {
+    if(!e){
+      console.log(1)
+      this.listSanPhamCT = [];
+      this.listSanPham=[];
+      this.subProductCode=null;
+    }else {
       const params = {
         sort: ['id', 'asc'],
         page: 0,
         size: 1000,
         filter: 'product.id==' + e.id,
       };
+      await this.isLoading();
       this.dmService.query(params, '/api/v1/sub-product').subscribe(
         (res: HttpResponse<any>) => {
           if (res.body) {
             if (res.body.CODE === 200) {
+              this.loading.dismiss();
               this.listSanPhamCT = this.customListSPCT(res.body.RESULT.content);
             } else {
+              this.loading.dismiss();
               this.isToastOpen = true;
               this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
             }
           }
         },
         () => {
+          this.loading.dismiss();
           this.isToastOpen = true;
           this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại sau!';
           console.error();
         }
       );
-    } else {
-      this.listSanPhamCT = [];
-    }
+    } 
   }
 
   customListSPCT(list: any) {
     list.forEach((e: any) => (e.ten = e.code + ' | ' + e.properties));
     return list;
+  }
+  public async isLoading() {
+    const isLoading = await this.loading.create({
+      spinner: 'circles',
+      keyboardClose: true,
+      message: 'Đang tải',
+      translucent: true,
+    });
+    return await isLoading.present();
   }
 }
