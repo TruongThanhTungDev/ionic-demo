@@ -34,6 +34,7 @@ export class XulyPhieuHangLoiComponent implements OnInit {
   id: any;
   creatorName: any;
   createAt: any;
+  updateAt:any;
   estimatedReturnDate: any;
   note: any;
   status: any;
@@ -67,6 +68,7 @@ export class XulyPhieuHangLoiComponent implements OnInit {
       this.id = this.data.id;
       this.creatorName = this.data.creatorName;
       this.createAt = this.data.createAt;
+      this.updateAt=moment(this.data.updateAt, 'YYYYMMDD').format('DD/MM/YYYY');
       this.estimatedReturnDate = this.data.estimatedReturnDate ? moment(this.data.estimatedReturnDate, 'YYYYMMDD').format('DD/MM/YYYY') :'';
       this.FtType = this.data.type;
       this.note = this.data.note;
@@ -135,6 +137,7 @@ export class XulyPhieuHangLoiComponent implements OnInit {
   handleEditPhieuHangLoi(value: any) {
     this.createAt = value.createAt;
     this.estimatedReturnDate = value.estimatedReturnDate;
+    this.updateAt = value.updateAt;
     this.FtType = value.FtType;
     this.note = value.note;
     this.isShowPhieuHangLoi = value.isOpen;
@@ -227,6 +230,9 @@ export class XulyPhieuHangLoiComponent implements OnInit {
       createAt: this.createAt
         ? moment(this.createAt, 'DD/MM/YYYY').format('YYYYMMDD')
         : null,
+      updateAt: this.updateAt
+        ? moment(this.updateAt, 'DD/MM/YYYY').format('YYYYMMDD')
+        : null, 
       creator: this.data
         ? this.data.creator
           ? this.data.creator
@@ -234,6 +240,7 @@ export class XulyPhieuHangLoiComponent implements OnInit {
         : this.info
         ? { id: this.info.id }
         : null,
+      
       estimatedReturnDate: this.estimatedReturnDate
         ? moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYYMMDD')
         : '',
