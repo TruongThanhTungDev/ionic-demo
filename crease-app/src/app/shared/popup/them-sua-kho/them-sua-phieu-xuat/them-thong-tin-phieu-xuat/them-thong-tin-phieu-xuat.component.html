@@ -10,7 +10,7 @@
         <label class="text-primary">Thời gian tạo</label>
         <input type="date" [(ngModel)]="createAt" [disabled]="data" class="form-control" placeholder="thời gian tạo">
       </div>
-      <div class="mb-3">
+      <div class="mb-3" *ngIf="status == 3">
         <label class="text-primary">Xuất kho lúc</label>
         <input type="date" [(ngModel)]="ftUpdateAt"  disabled (blur)="onInputDateBlur()" class="form-control" placeholder="Xuất kho lúc">
       </div>
