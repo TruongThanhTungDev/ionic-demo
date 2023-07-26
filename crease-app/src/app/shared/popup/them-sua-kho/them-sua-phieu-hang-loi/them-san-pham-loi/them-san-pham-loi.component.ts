@@ -187,7 +187,6 @@ export class ThemSanPhamHangLoiComponent implements OnInit {
     if(!e){
       console.log(1)
       this.listSanPhamCT = [];
-      this.listSanPham=[];
       this.subProductCode=null;
     }
     else {
