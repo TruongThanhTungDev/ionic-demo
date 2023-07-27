@@ -6,21 +6,22 @@
     <div class="mb-1 row mb-2">
       <div class="col-12 mb-2">
         <button *ngIf="isAdmin" class="btn btn-blue text-13px fw-bold" style="margin-right: 6px;"
-          [disabled]="disableAssignButton" (click)="handleAssginWork()">Giao
+          [disabled]="disableAssignButton || isCheckOut" (click)="handleAssginWork()">Giao
           việc ({{listCheck.length || 0}})</button>
         <button *ngIf="isAdmin" class="btn btn-yellow text-13px fw-bold" style="margin-right: 6px;"
-          (click)="handleFastAssginWork()">Giao
+          (click)="handleFastAssginWork()" [disabled]="isCheckOut">Giao
           việc nhanh</button>
       </div>
       <div class="col-12">
         <button class="btn btn-blue text-13px fw-bold" style="margin-right: 6px;" (click)="handleAction()"
-          [disabled]="listCheck && !listCheck.length">Thao
+          [disabled]="(listCheck && !listCheck.length) || isCheckOut">Thao
           tác ({{listCheck.length || 0}})</button>
-        <button *ngIf="!isBackHeader" class="btn btn-success text-13px fw-bold" (click)="handleSelect()">Chọn</button>
+        <button *ngIf="!isBackHeader" class="btn btn-success text-13px fw-bold" (click)="handleSelect()"
+          [disabled]="isCheckOut">Chọn</button>
       </div>
     </div>
     <div class="mb-3 d-flex align-items-center">
-      <button class="btn btn-primary col-4 text-13px" (click)="refreshData()">
+      <button class="btn btn-primary col-4 text-13px" (click)="refreshData()" [disabled]="isCheckOut">
         <i class="fa fa-refresh"></i>
         Làm mới
       </button>

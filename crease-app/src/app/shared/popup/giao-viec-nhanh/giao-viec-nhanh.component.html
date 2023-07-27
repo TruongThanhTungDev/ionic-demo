@@ -12,6 +12,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding w-100">
+  <h4 class="bold text-primary">Chọn nhân sự</h4>
   <div class="form-group custom-label mb-3">
     <ng-select [multiple]="false" [(ngModel)]="selectedUser" class="pb-0 text-12px" (change)="onChangeProduct($event)">
       <ng-option *ngFor="let obj of listEmployee" [value]="obj" class="text-12px">

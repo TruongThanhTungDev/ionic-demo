@@ -47,3 +47,5 @@
     </ion-content>
   </ng-template>
 </ion-modal>
+<ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+  (didDismiss)="setOpenToast(false)"></ion-toast>
