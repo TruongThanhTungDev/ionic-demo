@@ -215,6 +215,8 @@ export class ThongTinDonHangOrder implements OnInit {
       discount: this.discount,
       config: this.configInfo,
     };
+    this.products = this.productOption;
+    console.log('this.products :>> ', this.products);
     this.editValue.emit(value);
     this.setOpen(false);
     this.getTotalMoney();

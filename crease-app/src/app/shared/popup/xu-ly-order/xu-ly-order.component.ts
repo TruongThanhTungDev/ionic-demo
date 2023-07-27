@@ -436,6 +436,9 @@ export class XuLyOrderComponent implements OnInit {
           price: this.price,
           deliveryFee: this.deliveryFee,
           discount: this.discount,
+          ward: this.ward,
+          district: this.district,
+          province: this.province,
         },
       ],
     };
