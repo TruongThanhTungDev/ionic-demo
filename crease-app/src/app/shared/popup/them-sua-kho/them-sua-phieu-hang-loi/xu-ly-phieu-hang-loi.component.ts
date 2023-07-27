@@ -225,7 +225,11 @@ export class XulyPhieuHangLoiComponent implements OnInit {
       this.messageToast = 'Danh sách hàng lỗi không được để trống';
       return;
     }
-
+    if (!this.FtType) {
+      this.isToastOpen = true;
+      this.messageToast = 'Loại phiếu không được để trống';
+      return;
+    }
     const bol = {
       createAt: this.createAt
         ? moment(this.createAt, 'DD/MM/YYYY').format('YYYYMMDD')
@@ -331,6 +335,7 @@ export class XulyPhieuHangLoiComponent implements OnInit {
     this.tongTT = c;
   }
   create(entity: any) {
+   
     if (!this.data) {
       delete entity.boL.id;
       this.dmService.postOption(entity, this.REQUEST_URL, '').subscribe(
