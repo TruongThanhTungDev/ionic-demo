@@ -15,7 +15,7 @@ export class ThaoTacOrder {
   @Input() listWork: any;
   REQUEST_WORK_URL = '/api/v1/work';
   REQUEST_DATA_URL = '/api/v1/data';
-  status = 0;
+  status: any;
   info: any;
   listUser: any[] = [];
   isToastOpen = false;
@@ -49,6 +49,11 @@ export class ThaoTacOrder {
       );
   }
   async assignWork() {
+    if (!this.status) {
+      this.isToastOpen = true;
+      this.messageToast = 'Vui lòng chọn trạng thái';
+      return;
+    }
     this.listWork.forEach((unitItem: any) => {
       unitItem.dateChanged = moment(new Date()).format('YYYYMMDDHHmmss');
       unitItem.dateChangedOnly = moment(new Date()).format('YYYYMMDD');

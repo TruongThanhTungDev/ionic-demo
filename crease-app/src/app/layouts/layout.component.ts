@@ -299,4 +299,10 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       );
     }
   }
+  toShop() {
+    if (!this.isAdmin) {
+      return;
+    }
+    this.router.navigate(['/shop']);
+  }
 }

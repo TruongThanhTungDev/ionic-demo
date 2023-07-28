@@ -56,6 +56,11 @@ export class GiaoViecOrder implements OnInit {
       );
   }
   async assignWork() {
+    if (!this.user) {
+      this.isToastOpen = true;
+      this.messageToast = 'Vui lòng chọn nhân sự giao việc!';
+      return;
+    }
     const entity = {
       dataList: this.listWork.map((item: any) => {
         return {
@@ -104,9 +109,11 @@ export class GiaoViecOrder implements OnInit {
   }
   async cancel() {
     this.modal.dismiss();
+    this.isToastOpen = false;
   }
   confirm() {
     this.modal.dismiss(null, 'confirm');
+    this.isToastOpen = false;
   }
   public async isLoading() {
     const isLoading = await this.loading.create({

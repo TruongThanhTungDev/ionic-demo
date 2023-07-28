@@ -16,7 +16,7 @@
     <h4 class="bold text-primary">Chọn trạng thái</h4>
   </div>
   <div class="form-group form-outline">
-    <select name="" id="" class="form-control" [(ngModel)]="status">
+    <select name="" id="" class="form-select" [(ngModel)]="status">
       <option value="1">Đã tiếp nhận</option>
       <option value="2">Đang xử lý</option>
       <option value="3">KNM L1</option>
@@ -24,6 +24,7 @@
       <option value="5">KNM L3</option>
       <option value="6">Thất bại</option>
       <option *ngIf="!isHideOption" value="8">Đã in đơn</option>
+      <option value="9">Trùng</option>
     </select>
   </div>
   <div class="position-relative" *ngFor="let item of listWork">
@@ -44,6 +45,16 @@
           <span class="fw-bold">Số điện thoại:</span> {{item.phone}}
         </p>
         <button *ngIf="item.status === 0" class="btn btn-sm btn-primary text-13px fw-bold">Mới</button>
+        <button *ngIf="item.status === 1" class="btn btn-sm btn-blue text-13px fw-bold">Đã tiếp nhận</button>
+        <button *ngIf="item.status === 2" class="btn btn-sm btn-orange text-13px fw-bold">Đang xử lý</button>
+        <button *ngIf="item.status === 3" class="btn btn-sm btn-warning text-white text-13px fw-bold">KNM
+          L1</button>
+        <button *ngIf="item.status === 4" class="btn btn-sm btn-warning text-white text-13px fw-bold">KNM
+          L2</button>
+        <button *ngIf="item.status === 5" class="btn btn-sm btn-warning text-white text-13px fw-bold">KNM
+          L3</button>
+        <button *ngIf="item.status === 6" class="btn btn-sm btn-danger text-13px fw-bold">Thất bại</button>
+        <button *ngIf="item.status === 9" class="btn btn-sm btn-gray text-13px fw-bold">Trùng</button>
       </ion-card-content>
     </ion-card>
   </div>
