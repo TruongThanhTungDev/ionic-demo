@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { OPERATIONS } from './app.constant';
 import { createRequestOption } from './shared/utils/request';
 import { Observable, Subject } from 'rxjs';
+import { WORK_DOMAIN } from './shared/utils/data';
 
 @Injectable({ providedIn: 'root' })
 export class DanhMucService {
@@ -14,7 +15,7 @@ export class DanhMucService {
   public resourceGHSV = 'https://api.ghsv.vn/v1';
 
   public resourceUrl = 'https://adsxanhtech-test.store';
-  public workUrl = 'http://work.adsxanhtech-test.store';
+  public workUrl = WORK_DOMAIN;
 
   private subject = new Subject<any>();
   constructor(protected http: HttpClient) {}

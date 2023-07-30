@@ -421,3 +421,5 @@ export const MENU_USER = [
     items: [],
   },
 ];
+
+export const WORK_DOMAIN = 'http://work.adsxanhtech-test.store';

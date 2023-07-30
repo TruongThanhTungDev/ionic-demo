@@ -6,7 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { MENU_MKT, MENU_USER, ROUTES } from '../shared/utils/data';
+import { MENU_MKT, MENU_USER, ROUTES, WORK_DOMAIN } from '../shared/utils/data';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Location } from '@angular/common';
 import { Store, select } from '@ngrx/store';
@@ -295,14 +295,14 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     if (this.info.role === 'admin') {
       if (menu && menu.data && menu.data.code === 'work') {
         window.open(
-          `http://localhost:4200/check-working?fullName=${this.info.fullName}&id=${this.info.id}&userName=${this.info.userName}&role=${this.info.role}&unitCode=LADIMARKET`,
+          `${WORK_DOMAIN}/check-working?fullName=${this.info.fullName}&id=${this.info.id}&userName=${this.info.userName}&role=${this.info.role}&unitCode=LADIMARKET`,
           '_blank'
         );
       }
     } else {
       if (menu && menu.path === '/work') {
         window.open(
-          `http://localhost:4200/check-working?fullName=${this.info.fullName}&id=${this.info.id}&userName=${this.info.userName}&role=${this.info.role}&unitCode=LADIMARKET`,
+          `${WORK_DOMAIN}/check-working?fullName=${this.info.fullName}&id=${this.info.id}&userName=${this.info.userName}&role=${this.info.role}&unitCode=LADIMARKET`,
           '_blank'
         );
       }
