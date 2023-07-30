@@ -292,11 +292,20 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     );
   }
   pushToLogWork(menu: any) {
-    if (menu && menu.data && menu.data.code === 'work') {
-      window.open(
-        `http://localhost:4200?fullName=${this.info.fullName}&id=${this.info.id}&userName=${this.info.userName}`,
-        '_blank'
-      );
+    if (this.info.role === 'admin') {
+      if (menu && menu.data && menu.data.code === 'work') {
+        window.open(
+          `http://localhost:4200/check-working?fullName=${this.info.fullName}&id=${this.info.id}&userName=${this.info.userName}&role=${this.info.role}&unitCode=LADIMARKET`,
+          '_blank'
+        );
+      }
+    } else {
+      if (menu && menu.path === '/work') {
+        window.open(
+          `http://localhost:4200/check-working?fullName=${this.info.fullName}&id=${this.info.id}&userName=${this.info.userName}&role=${this.info.role}&unitCode=LADIMARKET`,
+          '_blank'
+        );
+      }
     }
   }
   toShop() {

@@ -13,7 +13,7 @@
         <div *ngFor="let menu of listMenu">
           <ion-accordion *ngIf="menu.items.length; else elseMenu" [value]="menu.title">
             <ion-item slot="header" color="white" class="text-menu" [lines]="false"
-              style="--background: transparent;    --border-color: none">
+              style="--background: transparent; --border-color: none" (click)="pushToLogWork(menu)">
               <i [ngClass]="menu.icon" class="col-3 " style="margin-right: 8px; font-size: 28px"></i>
               <ion-label class="line-clamp-1  col-9" style="font-weight: 600;">{{menu.title}}</ion-label>
             </ion-item>
