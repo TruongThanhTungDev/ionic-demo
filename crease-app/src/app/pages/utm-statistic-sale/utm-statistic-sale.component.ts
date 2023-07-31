@@ -31,6 +31,7 @@ export class UtmStatisticSaleComponent implements OnInit {
   inactiveSlide = 'inactive';
   isShowMvp = false;
   isDesc = true;
+  totalDataMarketing = 0;
   constructor(
     private dmService: DanhMucService,
     private loading: LoadingController,
@@ -84,6 +85,12 @@ export class UtmStatisticSaleComponent implements OnInit {
                 ? b.totalData - a.totalData
                 : a.totalData - b.totalData;
             }
+          );
+          this.totalDataMarketing = this.listData.statistic.reduce(
+            (a: any, b: any) => {
+              return a + b.sales;
+            },
+            0
           );
           this.loading.dismiss();
         },
