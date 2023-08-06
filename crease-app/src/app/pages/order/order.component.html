@@ -50,8 +50,8 @@
               </div>
               <p class="text-10px" [class]="listCheck && listCheck.includes(item) ? 'text-white' : 'text-primary'">
                 {{item.date}}</p>
-              <p class="text-primary text-10px text-secondary mb-2">
-                <span class="fw-bold">Số điện thoại:</span> {{item.phone}}
+              <p class="text-primary text-12px fw-bold text-secondary mb-2">
+                {{item.phone}}
               </p>
               <button *ngIf="item.status === 0" class="btn btn-sm btn-primary text-13px fw-bold">Mới</button>
               <button *ngIf="item.status === 1" class="btn btn-sm btn-blue text-13px fw-bold">Đã tiếp nhận</button>

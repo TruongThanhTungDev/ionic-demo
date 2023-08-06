@@ -29,13 +29,14 @@ import { UtmStatisticSaleComponent } from '../pages/utm-statistic-sale/utm-stati
 import { XuatHangComponent } from '../pages/kho/xuat-hang/xuat-hang.component';
 import { HangLoiComponent } from '../pages/kho/hang-loi/hang-loi.component';
 import { QuanLiSanPhamComponent } from '../pages/quan-li-san-pham/quan-li-san-pham.component';
-
+import { SwiperModule } from 'swiper/angular';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     RouterModule.forChild(LayoutRoutes),
     NgxPaginationModule,
+    SwiperModule,
   ],
   declarations: [
     ShopComponent,

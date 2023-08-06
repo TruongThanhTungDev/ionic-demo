@@ -53,6 +53,7 @@ import { XuLyProduct } from './shared/popup/xu-ly-product/xu-ly-product.componen
 import { ThongTinSanPhamComponent } from './shared/popup/xu-ly-product/thong-tin-san-pham/thong-tin-san-pham.component';
 import { MauMaSanPhamComponent } from './shared/popup/xu-ly-product/mau-ma-san-pham/mau-ma-san-pham';
 import { DanhMucProductComponent } from './shared/popup/danh-muc-san-pham/danh-muc-san-pham.component';
+import { SwiperModule } from 'swiper/angular';
 @NgModule({
   declarations: [
     OnlyNumberDirective,
@@ -113,6 +114,7 @@ import { DanhMucProductComponent } from './shared/popup/danh-muc-san-pham/danh-m
     }),
     BrowserAnimationsModule,
     HighchartsChartModule,
+    SwiperModule,
   ],
   providers: [
     {
