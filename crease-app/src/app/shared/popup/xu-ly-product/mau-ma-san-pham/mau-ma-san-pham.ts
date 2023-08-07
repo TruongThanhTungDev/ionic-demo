@@ -16,6 +16,7 @@ export class MauMaSanPhamComponent implements OnInit {
   isModalOpen = false;
   isToastOpen = false;
   productPropertiesSelected: any[] = [];
+
   productModelProp: any;
   productModelSize: any;
   productModelWeight: any;
@@ -31,11 +32,13 @@ export class MauMaSanPhamComponent implements OnInit {
   selectedModel: any;
   typeModal = 'add';
   messageToast: any;
+  productStatus=1;
   ngOnInit() {
     if (this.type === 'edit') {
       this.findRemainingProps();
       this.getListPropsSelected();
     }
+    
   }
   findRemainingProps() {
     this.data.forEach((item: any) => {
@@ -80,7 +83,10 @@ export class MauMaSanPhamComponent implements OnInit {
         (item: any) => item.code === productCode
       );
       if (index !== -1) {
+
+        this.data[index].status =this.productStatus;
         this.data[index].code = this.productCode;
+        this.data[index].properties=this.productModelProp;
         this.data[index].length = this.dimensionLength(this.productModelSize);
         this.data[index].wide = this.dimensionWide(this.productModelSize);
         this.data[index].high = this.dimensionHeight(this.productModelSize);
@@ -117,12 +123,23 @@ export class MauMaSanPhamComponent implements OnInit {
         this.messageToast = 'Tổng nhập phải lớn hơn 0';
         return;
       }
+      if (!this.productModelProp) {
+        this.isToastOpen = true;
+        this.messageToast = 'Thuộc tính không được để trống';
+        return;
+      }
       if (this.productTotalAvailable <= 0) {
         this.isToastOpen = true;
         this.messageToast = 'Số lượng Có thể bán phải lớn hơn 0';
         return;
       }
+      if (this.productCode.length <5 || this.productCode.length >20) {
+        this.isToastOpen = true;
+        this.messageToast = 'Mã sản phẩm phải lớn hơn 5 và nhỏ hơn 20 ký tự';
+        return;
+      }
       const value = {
+        status:this.productStatus,
         code: this.productCode,
         length: this.dimensionLength(this.productModelSize),
         properties: this.productModelProp,
@@ -165,11 +182,13 @@ export class MauMaSanPhamComponent implements OnInit {
   dimensionHeight(char: any) {
     return char.match(/\d+/g)[2] || '';
   }
+
   setOpen(open: boolean, type: string, item: any) {
     this.isModalOpen = open;
     this.typeModal = type;
     if (open) {
       if (this.typeModal === 'edit') {
+        this.productStatus=item.status;
         this.productCode = item.code;
         this.productModelProp = item.properties;
         this.productModelSize = item.length + 'x' + item.wide + 'x' + item.high;
@@ -183,8 +202,8 @@ export class MauMaSanPhamComponent implements OnInit {
         this.productTotalIncoming = item.awaitingProductQuantity;
         this.isNewItem = item.isNewItem;
       } else {
-        this.productCode =
-          this.code + moment().format('mss') + this.data.length + 1;
+        this.productStatus=1;
+        this.productCode ='';
         this.productModelProp = '';
         this.productModelSize = '';
         this.productModelWeight = '';
@@ -203,4 +222,5 @@ export class MauMaSanPhamComponent implements OnInit {
   setOpenToast(open: boolean) {
     this.isToastOpen = open;
   }
+  
 }
