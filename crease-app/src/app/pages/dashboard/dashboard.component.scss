@@ -23,3 +23,19 @@
     background-color: #889944;
   }
 }
+.input-ti-le {
+  background: transparent;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid;
+}
+.input-ti-le::placeholder {
+  font-size: 12px;
+  color: #ff9595 !important;
+}
+.icon-so-luong {
+  padding: 0.75rem;
+  background-color: #ecf7ff;
+  color: #889944;
+  border-radius: 50%;
+}
