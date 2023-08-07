@@ -32,3 +32,8 @@
 @import "./assets/scss/variable.scss";
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import "~@ng-select/ng-select/themes/material.theme.css";
+
+/* Import Swiper CSS*/
+@import "swiper/scss";
+@import "swiper/scss/navigation";
+@import "swiper/scss/pagination";
