@@ -34,6 +34,9 @@ export class Dashboard implements OnInit {
         plotShadow: false,
         type: 'pie',
       },
+      legend: {
+        itemMarginBottom: 10,
+      },
       title: {
         text: undefined,
       },
@@ -65,31 +68,32 @@ export class Dashboard implements OnInit {
           type: undefined,
           data: [
             {
-              name: 'Giá vốn trước hoàn',
+              name: 'Giá vốn sau hoàn',
               y: 100,
-              color: '#51b333',
+              color: '#51B333',
             },
             {
               name: 'Chi phí vận chuyển trước hoàn',
               y: 60,
-              color: '#66E471',
+              color: '#64E571',
             },
             {
-              name: 'Chi phí vận chuyển trước hoàn',
+              name: 'Chi phí vận hành',
               y: 91,
-              color: '#66E471',
+              color: '#DDDF00',
             },
             {
               name: 'Chi phí marketing',
               y: 24,
-              color: '#dbe000',
+              color: '#FF9655',
             },
-            // {
-            //   name: "Chi phí khác",
-            //   y: 1000000000,
-            //   color: "#ff9557",
-            // },
+            {
+              name: 'Chi phí khác',
+              y: 10,
+              color: '#23CBE5',
+            },
           ],
+          showInLegend: true,
         },
       ],
     };
