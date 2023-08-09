@@ -307,49 +307,205 @@
         </ion-card>
       </div>
     </div>
-    <div>
-      <ion-card class="m-0 mb-3">
-        <ion-card-content>
-          <div class="text-14px text-primary text-center fw-bold mb-1">
-            Bảng kết toán
-          </div>
-          <div>
-            <div class="row">
-              <div class="col-4" style="padding-right: 0;">
-                <div class="text-12px text-primary border border-primary p-1" style="border-radius: 5px;">
-                  <div>
-                    Doanh thu
-                  </div>
-                  <div class="fw-bold">
-                    {{plugins.formatNumber(24255000)}}đ
-                  </div>
+    <ion-card class="m-0 mb-3">
+      <ion-card-content>
+        <div class="text-14px text-primary text-center fw-bold mb-1">
+          Bảng kết toán
+        </div>
+        <div>
+          <div class="row mb-2">
+            <div class="col-4" style="padding-right: 0;">
+              <div class="text-12px text-primary border border-primary p-1" style="border-radius: 5px;">
+                <div class="text-9px">
+                  Doanh thu
+                </div>
+                <div class="fw-bold">
+                  {{plugins.formatNumber(24255000)}}đ
                 </div>
               </div>
-              <div class="col-4" style="padding-right: 0;">
-                <div class="text-12px text-primary border border-primary p-1" style="border-radius: 5px;">
-                  <div>
-                    Chi phí
-                  </div>
-                  <div class="fw-bold">
-                    {{plugins.formatNumber(24255000)}}đ
-                  </div>
+            </div>
+            <div class="col-4" style="padding-right: 0;">
+              <div class="text-12px text-primary border border-primary p-1" style="border-radius: 5px;">
+                <div class="text-9px">
+                  Chi phí
+                </div>
+                <div class="fw-bold">
+                  {{plugins.formatNumber(24255000)}}đ
                 </div>
               </div>
-              <div class="col-4" style="padding-right: 0;">
-                <div class="text-12px text-primary border border-primary p-1" style="border-radius: 5px;">
-                  <div>
-                    Lợi nhuận
-                  </div>
-                  <div class="fw-bold">
-                    {{plugins.formatNumber(24255000)}}đ
-                  </div>
+            </div>
+            <div class="col-4" style="padding-right: 0;">
+              <div class="text-12px text-primary border border-primary p-1" style="border-radius: 5px;">
+                <div class="text-9px">
+                  Lợi nhuận
+                </div>
+                <div class="fw-bold">
+                  {{plugins.formatNumber(24255000)}}đ
                 </div>
               </div>
             </div>
           </div>
-          <div id="bang-ke-toan" style="width:100%; height: 100%;"></div>
-        </ion-card-content>
-      </ion-card>
-    </div>
+          <div class="row mb-2">
+            <div class="col-4" style="padding-right: 0;">
+              <div class="text-12px text-primary border border-primary p-1" style="border-radius: 5px;">
+                <div class="text-9px">
+                  Đơn đối soát
+                </div>
+                <div class="fw-bold">
+                  {{plugins.formatNumber(24255000)}}đ
+                </div>
+              </div>
+            </div>
+            <div class="col-4" style="padding-right: 0;">
+              <div class="text-12px text-primary border border-primary p-1" style="border-radius: 5px;">
+                <div class="text-9px">
+                  GTTB
+                </div>
+                <div class="fw-bold">
+                  {{plugins.formatNumber(24255000)}}đ
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="bang-ke-toan" style="width:100%; height: 100%;"></div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="mx-0 mt-0 mb-3">
+      <ion-card-content class="position-relative">
+        <i class="fa-solid fa-arrow-right text-primary position-absolute" style="font-size: 20px; right: 1rem"></i>
+        <div class="mb-3">
+          <div class="text-14px text-primary text-center fw-bold mb-2">
+            Thống kê hiệu suất Marketing
+          </div>
+          <div class="row mb-1 text-9px text-primary">
+            <div class="col-3" style="padding-right: 0;">
+              Data
+            </div>
+            <div class="col-3" style="padding-right: 0;">
+              Đơn hàng chốt
+            </div>
+            <div class="col-3" style="padding-right: 0;">
+              TLC
+            </div>
+            <div class="col-3" style="padding-right: 0;">
+              Chi phí Ads/đơn hàng
+            </div>
+          </div>
+          <div class="row mb-3 text-12px fw-bold" style="color: #51B333;">
+            <div class="col-3" style="padding-right: 0;">
+              {{plugins.formatNumber(4810)}}
+            </div>
+            <div class="col-3" style="padding-right: 0;">
+              {{plugins.formatNumber(4810)}}
+            </div>
+            <div class="col-3" style="padding-right: 0;">
+              81.1%
+            </div>
+            <div class="col-3" style="padding-right: 0;">
+              {{plugins.formatNumber(24255000)}}đ
+            </div>
+          </div>
+        </div>
+        <div class="row mb-1 text-9px text-primary">
+          <div class="col-4" style="padding-right: 0;">
+            Chi phí Ads/data
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            Chi phí Ads/doanh số
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            Doanh số
+          </div>
+        </div>
+        <div class="row mb-1 text-12px fw-bold" style="color: #51B333;">
+          <div class="col-4" style="padding-right: 0;">
+            {{plugins.formatNumber(24255000)}}đ
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            81.1%
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            {{plugins.formatNumber(24255000)}}đ
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="mx-0 mt-0 mb-3">
+      <ion-card-content class="position-relative">
+        <i class="fa-solid fa-arrow-right text-primary position-absolute" style="font-size: 20px; right: 1rem"></i>
+        <div class="mb-3">
+          <div class="text-14px text-primary text-center fw-bold mb-2">
+            Thống kê hiệu suất Sale
+          </div>
+          <div class="row mb-1 text-9px text-primary">
+            <div class="col-4" style="padding-right: 0;">
+              Đơn giao
+            </div>
+            <div class="col-4" style="padding-right: 0;">
+              Đơn xử lý
+            </div>
+            <div class="col-4" style="padding-right: 0;">
+              TL đơn xử lý
+            </div>
+          </div>
+          <div class="row mb-3 text-12px fw-bold" style="color: #51B333;">
+            <div class="col-4" style="padding-right: 0;">
+              {{plugins.formatNumber(4810)}}
+            </div>
+            <div class="col-4" style="padding-right: 0;">
+              {{plugins.formatNumber(4810)}}
+            </div>
+            <div class="col-4" style="padding-right: 0;">
+              81.1%
+            </div>
+          </div>
+        </div>
+        <div class="row mb-1 text-9px text-primary">
+          <div class="col-4" style="padding-right: 0;">
+            Đơn xử lý TC
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            TL đơn thành công
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            Doanh số
+          </div>
+        </div>
+        <div class="row mb-3 text-12px fw-bold" style="color: #51B333;">
+          <div class="col-4" style="padding-right: 0;">
+            {{plugins.formatNumber(24255000)}}đ
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            81.1%
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            {{plugins.formatNumber(24255000)}}đ
+          </div>
+        </div>
+        <div class="row mb-1 text-9px text-primary">
+          <div class="col-4" style="padding-right: 0;">
+            GTTB đơn hàng
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            TLC
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            Doanh thu ước tính
+          </div>
+        </div>
+        <div class="row mb-1 text-12px fw-bold" style="color: #51B333;">
+          <div class="col-4" style="padding-right: 0;">
+            {{plugins.formatNumber(24255000)}}đ
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            81.1%
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            {{plugins.formatNumber(24255000)}}đ
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
   </ion-content>
 </ion-app>
