@@ -7,7 +7,11 @@ import * as Highcharts from 'highcharts';
 import * as dayjs from 'dayjs';
 import { LoadingController } from '@ionic/angular';
 import { Plugin } from 'src/app/plugins/plugins';
-
+import { TooltipFormatterContextObject } from 'highcharts/highcharts.src';
+interface Point {
+  y: number;
+  x: number;
+}
 @Component({
   selector: 'statiscal-money-component',
   templateUrl: './statiscal-money.component.html',
@@ -41,7 +45,6 @@ export class StatiscalMoneyComponent implements OnInit{
     startDate: moment().utc().format('YYYY-MM-DD'),
     endDate: moment().utc().format('YYYY-MM-DD'),
   };
-
   ngOnInit(): void {
     if(this.info.role === 'admin'){
       this.shop = this.localStorage.retrieve("shop")?this.localStorage.retrieve("shop"):'';
@@ -187,7 +190,9 @@ chartDongTien(listTongDT:any,listChiPhi:any,listLoiNhuan:any,listSubTitle:any) {
       enabled: false,
     },
     tooltip: {
-      pointFormat: '{point.percentage:.1f} %',
+      formatter: function (this:any):any {
+        return  _this.plugins.formatNumber(this.y)+'đ'
+      }
     },
     plotOptions: {
       pie: {
@@ -249,7 +254,7 @@ chartTongChiPhi(tGiaVon:any,tVanHanh:any,tvanChuyen:any,tMKT:any,tKhac:any) {
       enabled: false,
     },
     tooltip: {
-      pointFormat: '{point.percentage:.1f} %',
+      pointFormat: '{point.value} %',
     },
     plotOptions: {
       pie: {
@@ -257,7 +262,7 @@ chartTongChiPhi(tGiaVon:any,tVanHanh:any,tvanChuyen:any,tMKT:any,tKhac:any) {
         cursor: 'pointer',
         dataLabels: {
           enabled: true,
-          format: '{point.percentage:.1f} %',
+          format: '{point.value} %',
           distance: -30,
           style: {
             fontWeight: 'bold',
