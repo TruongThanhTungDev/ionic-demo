@@ -232,6 +232,14 @@ export const ROUTES = [
         params: '',
       },
       {
+        path: '/statiscal-money',
+        title: 'Thống kê dòng tiền',
+        icon: 'nc-basket',
+        class: '',
+        role: 'admin',
+        params: '',
+      },
+      {
         path: '/statistic-performance-sale',
         title: 'Thống kê hiệu suất sale',
         icon: 'nc-basket',
