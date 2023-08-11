@@ -237,6 +237,10 @@ chartDongTien(listTongDT:any,listChiPhi:any,listLoiNhuan:any,listSubTitle:any) {
   Highcharts.chart('chartDongTien', chartOption);
 }
 chartTongChiPhi(tGiaVon:any,tVanHanh:any,tvanChuyen:any,tMKT:any,tKhac:any) {
+  const _this = this;
+  if(this.tongChiPhi === 0){
+    return;
+  }
   const chartOption: any = {
     chart: {
       plotBackgroundColor: null,
@@ -254,15 +258,22 @@ chartTongChiPhi(tGiaVon:any,tVanHanh:any,tvanChuyen:any,tMKT:any,tKhac:any) {
       enabled: false,
     },
     tooltip: {
-      pointFormat: '{point.value} %',
+      pointFormat: '<b>{point.percentage:.2f}%</b>'
     },
+    accessibility: {
+      point: {
+          valueSuffix: '%'
+      }
+  },
     plotOptions: {
       pie: {
         allowPointSelect: true,
         cursor: 'pointer',
         dataLabels: {
           enabled: true,
-          format: '{point.value} %',
+          formatter:function (this: any):any {
+            return _this.rounded(this.point.percentage) + ' %';
+          },
           distance: -30,
           style: {
             fontWeight: 'bold',
@@ -272,9 +283,6 @@ chartTongChiPhi(tGiaVon:any,tVanHanh:any,tvanChuyen:any,tMKT:any,tKhac:any) {
       },
     },
     series: [{
-      name: 'Brands',
-      colorByPoint: true,
-      type: undefined,
       data: [{
           name: 'Chi phí giá vốn: ' + this.plugins.formatNumber(tGiaVon) +'đ',
           y: tGiaVon,
@@ -399,4 +407,5 @@ setOpen(open: boolean) {
 public formatNumber(number: any) {
   return Number(number) ? Number(number).toLocaleString("vi-VN") : 0;
 }
+
 }

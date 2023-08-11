@@ -116,10 +116,10 @@
                   </div>
                   <div>
                     <div class="fw-bold">
-                      Doanh thu
+                      Lợi nhuận
                     </div>
                     <p>
-                      {{plugins.formatNumber(item.revenue)}}đ
+                      {{plugins.formatNumber(item.profit)}}đ
                     </p>
                   </div>
                 </div>
@@ -129,6 +129,10 @@
           <div class="ion-padding" slot="content" style="background-color: #FFC3C3;">
             <div class="row mb-3 text-12px">
               <div class="fw-normal col-4" style="min-width: 33.33%;">
+                <div>Doanh thu</div>
+                <div class="fw-bold">{{plugins.formatNumber(item.revenue)}}đ</div>
+              </div>
+              <div class="fw-normal col-4" style="min-width: 33.33%;">
                 <div>Chi phí giá vốn</div>
                 <div class="fw-bold">{{plugins.formatNumber(item.costPrice)}}đ</div>
               </div>
@@ -137,13 +141,13 @@
                   Chi phí vận hành
                 </div>
                 <div class="fw-bold">{{plugins.formatNumber(item.operatingCost)}}đ</div>
-              </div>
-              <div class="fw-normal col-4" style="min-width: 33.33%;">
-                <div>Chi phí marketing</div>
-                <div class="fw-bold">{{plugins.formatNumber(item.mktCost)}}</div>
-              </div>
+              </div> 
             </div>
             <div class="row mb-3 text-12px">
+              <div class="fw-normal col-4" style="min-width: 33.33%;">
+                <div>Chi phí marketing</div>
+                <div class="fw-bold">{{plugins.formatNumber(item.mktCost)}}đ</div>
+              </div>
               <div class="fw-normal col-4" style="min-width: 33.33%;">
                 <div>Chi phí vận chuyển</div>
                 <div class="fw-bold">{{plugins.formatNumber(item.shippingCost)}}đ</div>
@@ -154,10 +158,7 @@
                 </div>
                 <div class="fw-bold">{{plugins.formatNumber(item.otherCost)}}đ</div>
               </div>
-              <div class="fw-normal col-4" style="min-width: 33.33%;">
-                <div>Lợi nhuận</div>
-                <div class="fw-bold">{{plugins.formatNumber(item.profit)}}đ</div>
-              </div>
+              
             </div>
           </div>
         </ion-accordion>
