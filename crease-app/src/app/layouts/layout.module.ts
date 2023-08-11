@@ -30,6 +30,7 @@ import { XuatHangComponent } from '../pages/kho/xuat-hang/xuat-hang.component';
 import { HangLoiComponent } from '../pages/kho/hang-loi/hang-loi.component';
 import { QuanLiSanPhamComponent } from '../pages/quan-li-san-pham/quan-li-san-pham.component';
 import { SwiperModule } from 'swiper/angular';
+import { StatiscalMoneyComponent } from '../pages/statiscal-money/statiscal-money.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -64,6 +65,7 @@ import { SwiperModule } from 'swiper/angular';
     XuatHangComponent,
     HangLoiComponent,
     QuanLiSanPhamComponent,
+    StatiscalMoneyComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

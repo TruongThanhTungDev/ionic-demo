@@ -21,6 +21,7 @@ import { UtmStatisticSaleComponent } from '../pages/utm-statistic-sale/utm-stati
 import { XuatHangComponent } from '../pages/kho/xuat-hang/xuat-hang.component';
 import { HangLoiComponent } from '../pages/kho/hang-loi/hang-loi.component';
 import { QuanLiSanPhamComponent } from '../pages/quan-li-san-pham/quan-li-san-pham.component';
+import { StatiscalMoneyComponent } from '../pages/statiscal-money/statiscal-money.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -116,5 +117,13 @@ export const LayoutRoutes: Routes = [
   {
     path: 'kho/quan-ly-san-pham',
     component: QuanLiSanPhamComponent,
+  },
+  {
+    path: 'kho/quan-ly-san-pham',
+    component: QuanLiSanPhamComponent,
+  },
+  {
+    path: 'statiscal-money',
+    component: StatiscalMoneyComponent,
   },
 ];
