@@ -10,6 +10,10 @@ import SwiperCore, {
   Swiper,
 } from 'swiper';
 import * as Highcharts from 'highcharts';
+import { DanhMucService } from 'src/app/danhmuc.services';
+import { LocalStorageService } from 'ngx-webstorage';
+import * as moment from 'moment';
+import { HttpResponse } from '@angular/common/http';
 
 // install Swiper modules
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
@@ -21,14 +25,83 @@ SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 })
 export class Dashboard implements OnInit {
   plugins = new Plugin();
-  constructor(private router: Router) {}
+  shop: any;
+  info: any;
+  dateRange = {
+    startDate: moment().utc().subtract(6, 'days').format('YYYY-MM-DD'),
+    endDate: moment().utc().format('YYYY-MM-DD'),
+  };
+  refundRate = 10;
+  tongCPSauHoan = 0;
+  tongCP = 0;
+  dashboardData: any;
+  constructor(
+    private router: Router,
+    private localStorage: LocalStorageService,
+    private dmService: DanhMucService
+  ) {
+    this.info = this.localStorage.retrieve('authenticationToken');
+    this.shop = this.localStorage.retrieve('shop')
+      ? this.localStorage.retrieve('shop')
+      : '';
+  }
 
   ngOnInit() {
-    this.getDataChiPhiTruocHoan();
-    this.getDataChiPhi();
-    this.getChartLineBangKeToan();
+    this.getDataDashboard();
   }
-  getDataChiPhiTruocHoan() {
+  getDataDashboard() {
+    if (!this.shop) return;
+    var date = JSON.parse(JSON.stringify(this.dateRange));
+    date.endDate = date.endDate.replace('23:59:59', '00:00:00');
+    const startDate = moment(date.startDate).format('YYYYMMDD');
+    const endDate = moment(date.endDate).format('YYYYMMDD');
+    this.dmService
+      .get(
+        '/api/v1/dashboard/statistic' +
+          '?startDate=' +
+          startDate +
+          '&endDate=' +
+          endDate +
+          '&shopId=' +
+          this.shop.id +
+          '&returnRate=' +
+          this.refundRate / 100
+      )
+      .subscribe(
+        (res: HttpResponse<any>) => {
+          if (res.body.CODE === 200) {
+            this.dashboardData = res.body.RESULT;
+            this.getDataChiPhiTruocHoan(
+              res.body.RESULT.statisticNetCostResponse
+            );
+            this.getDataChiPhi(res.body.RESULT.statisticCostResponse);
+            this.getChartLineBangKeToan();
+          }
+        },
+        () => {},
+        () => {}
+      );
+  }
+  filterDate(event: any) {
+    this.dateRange.startDate = event.startDate;
+    this.dateRange.endDate = event.endDate;
+    this.getDataDashboard();
+  }
+  getDataChiPhiTruocHoan(entity: any) {
+    const _this = this;
+    const tongChiPhi =
+      entity.costPrice +
+      entity.mktCost +
+      entity.operatingCost +
+      entity.otherCost +
+      entity.shippingCost;
+    this.tongCPSauHoan = tongChiPhi;
+    if (tongChiPhi === 0) return;
+    const giaVon = entity.costPrice;
+    const mkt = entity.mktCost;
+    const vanHanh = entity.operatingCost;
+    const vanChuyen = entity.shippingCost;
+    const khac = entity.otherCost;
     const chartOption: any = {
       chart: {
         plotBackgroundColor: null,
@@ -40,7 +113,16 @@ export class Dashboard implements OnInit {
         itemMarginBottom: 10,
       },
       title: {
-        text: undefined,
+        text:
+          '<div class="text-center text-success"><span class="text-14px">Tổng chi phí sau hoàn ước tính</span> <br /><span class="bold text-20px">' +
+          this.plugins.formatNumber(this.tongCPSauHoan) +
+          ' đ</span></div>',
+        align: 'center',
+        style: {
+          color: '#006EB9',
+        },
+        verticalAlign: 'top',
+        useHTML: true,
       },
       credits: {
         enabled: false,
@@ -71,27 +153,27 @@ export class Dashboard implements OnInit {
           data: [
             {
               name: 'Chi phí giá vốn',
-              y: 100,
+              y: giaVon,
               color: '#50B332',
             },
             {
               name: 'Chi phí vận chuyển',
-              y: 60,
+              y: vanChuyen,
               color: '#DDDF00',
             },
             {
               name: 'Chi phí Marketing',
-              y: 91,
+              y: mkt,
               color: '#23CBE5',
             },
             {
               name: 'Chi phí vận hành',
-              y: 24,
+              y: vanHanh,
               color: '#64E571',
             },
             {
               name: 'Chi phí khác',
-              y: 10,
+              y: khac,
               color: '#FF9655',
             },
           ],
@@ -101,7 +183,37 @@ export class Dashboard implements OnInit {
     };
     Highcharts.chart('chartTongChiPhiTruocHoan', chartOption);
   }
-  getDataChiPhi() {
+  tinhChiPhiSauHoan(entity: any) {
+    const _this = this;
+    const tongChiPhi =
+      entity.costPrice +
+      entity.mktCost +
+      entity.operatingCost +
+      entity.otherCost +
+      entity.shippingCost;
+    this.tongCPSauHoan = tongChiPhi;
+    if (tongChiPhi === 0) return;
+    const giaVon = entity.costPrice;
+    const mkt = entity.mktCost;
+    const vanHanh = entity.operatingCost;
+    const vanChuyen = entity.shippingCost;
+    const khac = entity.otherCost;
+  }
+  getDataChiPhi(entity: any) {
+    const _this = this;
+    const tongChiPhi =
+      entity.costPrice +
+      entity.mktCost +
+      entity.operatingCost +
+      entity.otherCost +
+      entity.shippingCost;
+    this.tongCP = tongChiPhi;
+    if (tongChiPhi === 0) return;
+    const giaVon = entity.costPrice;
+    const mkt = entity.mktCost;
+    const vanHanh = entity.operatingCost;
+    const vanChuyen = entity.shippingCost;
+    const khac = entity.otherCost;
     const chartOption: any = {
       chart: {
         plotBackgroundColor: null,
@@ -113,7 +225,16 @@ export class Dashboard implements OnInit {
         itemMarginBottom: 10,
       },
       title: {
-        text: undefined,
+        text:
+          '<div class="text-center"><span class="text-14px">Tổng chi phí</span> <br /><span class="bold text-20px">' +
+          this.plugins.formatNumber(this.tongCP) +
+          ' đ</span></div>',
+        align: 'center',
+        style: {
+          color: '#006EB9',
+        },
+        verticalAlign: 'top',
+        useHTML: true,
       },
       credits: {
         enabled: false,
@@ -144,27 +265,27 @@ export class Dashboard implements OnInit {
           data: [
             {
               name: 'Chi phí giá vốn',
-              y: 100,
+              y: giaVon,
               color: '#50B332',
             },
             {
               name: 'Chi phí vận chuyển',
-              y: 60,
+              y: vanChuyen,
               color: '#DDDF00',
             },
             {
               name: 'Chi phí Marketing',
-              y: 91,
+              y: mkt,
               color: '#23CBE5',
             },
             {
               name: 'Chi phí vận hành',
-              y: 24,
+              y: vanHanh,
               color: '#64E571',
             },
             {
               name: 'Chi phí khác',
-              y: 10,
+              y: khac,
               color: '#FF9655',
             },
           ],
@@ -274,5 +395,8 @@ export class Dashboard implements OnInit {
       },
     };
     Highcharts.chart('bang-ke-toan', chartOption);
+  }
+  rounded(e: number) {
+    return e ? Math.round((e + Number.EPSILON) * 100) / 100 : 0;
   }
 }
