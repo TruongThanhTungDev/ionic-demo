@@ -89,7 +89,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       { ma: '/data', title: 'Order' },
       { ma: '/data-after-order', title: 'Đơn hàng' },
       { ma: '/utm-medium', title: 'Cấu hình UTM' },
-      { ma: '/statiscal-revenue', title: 'Thống kê doanh thu' },
+      { ma: '/statiscal-revenue', title: 'Thống kê doanh số' },
       { ma: '/statiscal-cost', title: 'Thống kê chi phí' },
       { ma: '/statiscal-money', title: 'Thống kê dòng tiền' },
       { ma: '/order-shipping', title: 'Thống kê đơn hàng' },

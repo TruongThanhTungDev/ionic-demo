@@ -37,132 +37,134 @@
     </div>
     <div>
       <div class="mb-3">
-      <div>
-        <ion-card class="m-0 mb-3">
-          <ion-card-content>
-            <div class="text-center text-success fw-bold">
-              <div class="text-14px">
-                Thống kê dòng tiền
-              </div>
-            </div>
-            <div  class="chart" id="chartDongTien" style="width:100%; height: 100%;"></div>
-          </ion-card-content>
-        </ion-card>
-        <ion-card class="m-0">
-          <ion-card-content>
-            <div class="text-center text-primary fw-bold">
-              <div class="text-14px">
-                Tổng chi phí
-              </div>
-              <div class="text-20px">
-                {{plugins.formatNumber(tongChiPhi)}}đ
-              </div>
-            </div>
-            <div class="chart" id="chartTongChiPhi" style="width:100%; height: 100%;"></div>
-          </ion-card-content>
-        </ion-card>
-        <ion-card class="m-0">
-          <ion-card-content>
-            <div class="text-center text-primary fw-bold">
-              <div class="text-14px">
-                Thống kê lợi nhuận
-              </div>             
-            </div>
-            <div class="chart" id="chartLoiNhuan" style="width:100%; height: 100%;"></div>
-            <div class="text-17px">
-                Tổng doanh thu: <br/>
-                <div class="fw-bold">
-                {{plugins.formatNumber(tongDoanhThu)}}đ
+        <div>
+          <ion-card class="m-0 mb-3">
+            <ion-card-content>
+              <div class="text-center text-success fw-bold">
+                <div class="text-14px">
+                  Thống kê dòng tiền
                 </div>
-             </div>
-            <div class="mb-3 bold">
-            Tổng chi phí: <br />
-            <span style="color: #7EB900;">{{plugins.formatNumber(tongChiPhi)}}đ ({{tongDoanhThu?rounded(tongChiPhi/tongDoanhThu*100):0}}%)</span>
-            <div class="progress mt-2">
-              <div class="progress-bar xanh" role="progressbar" aria-valuenow=""
-              aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width: tongDoanhThu?rounded(tongChiPhi/tongDoanhThu*100):0 + '%'}">
               </div>
-            </div>
-          </div>
-          <div class="mb-3 bold">
-            Lợi nhuận: <br />
-            <span style="color: #C85757;">{{plugins.formatNumber(tongLoiNhuan)}}đ ({{tongDoanhThu?rounded(100 - rounded(tongChiPhi/tongDoanhThu*100)):0}}%)</span>
-            <div class="progress mt-2">
-              <div class="progress-bar do" role="progressbar" aria-valuenow=""
-              aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width: tongDoanhThu?rounded(100 - rounded(tongChiPhi/tongDoanhThu*100)):0 + '%'}">
+              <div class="chart" id="chartDongTien" style="width:100%; height: 100%;"></div>
+            </ion-card-content>
+          </ion-card>
+          <ion-card class="m-0">
+            <ion-card-content>
+              <div class="text-center text-primary fw-bold">
+                <div class="text-14px">
+                  Tổng chi phí
+                </div>
+                <div class="text-20px">
+                  {{plugins.formatNumber(tongChiPhi)}}đ
+                </div>
               </div>
-            </div>
-          </div> 
-          </ion-card-content>
-        </ion-card>
+              <div class="chart" id="chartTongChiPhi" style="width:100%; height: 100%;"></div>
+            </ion-card-content>
+          </ion-card>
+          <ion-card class="m-0">
+            <ion-card-content>
+              <div class="text-center text-primary fw-bold">
+                <div class="text-14px">
+                  Thống kê lợi nhuận
+                </div>
+              </div>
+              <div class="chart" id="chartLoiNhuan" style="width:100%; height: 100%;"></div>
+              <div class="text-17px">
+                Tổng doanh thu: <br />
+                <div class="fw-bold">
+                  {{plugins.formatNumber(tongDoanhThu)}}đ
+                </div>
+              </div>
+              <div class="mb-3 bold">
+                Tổng chi phí: <br />
+                <span style="color: #7EB900;">{{plugins.formatNumber(tongChiPhi)}}đ
+                  ({{tongDoanhThu?rounded(tongChiPhi/tongDoanhThu*100):0}}%)</span>
+                <div class="progress mt-2">
+                  <div class="progress-bar xanh" role="progressbar" aria-valuenow="" aria-valuemin="0"
+                    aria-valuemax="100" [ngStyle]="{width: tongDoanhThu?rounded(tongChiPhi/tongDoanhThu*100):0 + '%'}">
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3 bold">
+                Lợi nhuận: <br />
+                <span style="color: #C85757;">{{plugins.formatNumber(tongLoiNhuan)}}đ ({{tongDoanhThu?rounded(100 -
+                  rounded(tongChiPhi/tongDoanhThu*100)):0}}%)</span>
+                <div class="progress mt-2">
+                  <div class="progress-bar do" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"
+                    [ngStyle]="{width: tongDoanhThu?rounded(100 - rounded(tongChiPhi/tongDoanhThu*100)):0 + '%'}">
+                  </div>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
       </div>
     </div>
-    </div>
     <ion-accordion-group *ngIf="listChart && listChart.length; else elseData">
-        <ion-accordion *ngFor="let item of listChart,index as i"  class="mb-2 rounded">
-          <ion-item slot="header">
-            <ion-icon class="ion-accordion-toggle-icon custom-icon" name="chevron-down-outline" slot="end">
-            </ion-icon>
-            <ion-label>
-              <div class="row align-items-center">
-                <div class="col-12 d-flex justify-content-between">
-                  <div>
-                    <div class="fw-bold">
-                      Thời gian
-                    </div>
-                    <ion-label text-wrap class="text-14px">
-                   {{item.dateCustoms}}
-                    </ion-label>
-                  </div>
-                  <div>
-                    <div class="fw-bold">
-                      Lợi nhuận
-                    </div>
-                    <p>
-                      {{plugins.formatNumber(item.profit)}}đ
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </ion-label>
-          </ion-item>
-          <div class="ion-padding" slot="content" style="background-color: #FFC3C3;">
-            <div class="row mb-3 text-12px">
-              <div class="fw-normal col-4" style="min-width: 33.33%;">
-                <div>Doanh thu</div>
-                <div class="fw-bold">{{plugins.formatNumber(item.revenue)}}đ</div>
-              </div>
-              <div class="fw-normal col-4" style="min-width: 33.33%;">
-                <div>Chi phí giá vốn</div>
-                <div class="fw-bold">{{plugins.formatNumber(item.costPrice)}}đ</div>
-              </div>
-              <div class="fw-normal col-4" style="min-width: 33.33%;">
+      <ion-accordion *ngFor="let item of listChart,index as i" class="mb-2 rounded">
+        <ion-item slot="header">
+          <ion-icon class="ion-accordion-toggle-icon custom-icon" name="chevron-down-outline" slot="end">
+          </ion-icon>
+          <ion-label>
+            <div class="row align-items-center">
+              <div class="col-12 d-flex justify-content-between">
                 <div>
-                  Chi phí vận hành
+                  <div class="fw-bold">
+                    Thời gian
+                  </div>
+                  <ion-label text-wrap class="text-14px">
+                    {{item.dateCustoms}}
+                  </ion-label>
                 </div>
-                <div class="fw-bold">{{plugins.formatNumber(item.operatingCost)}}đ</div>
-              </div> 
+                <div>
+                  <div class="fw-bold">
+                    Lợi nhuận
+                  </div>
+                  <p>
+                    {{plugins.formatNumber(item.profit)}}đ
+                  </p>
+                </div>
+              </div>
             </div>
-            <div class="row mb-3 text-12px">
-              <div class="fw-normal col-4" style="min-width: 33.33%;">
-                <div>Chi phí marketing</div>
-                <div class="fw-bold">{{plugins.formatNumber(item.mktCost)}}đ</div>
+          </ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content" style="background-color: #FFC3C3;">
+          <div class="row mb-3 text-12px">
+            <div class="fw-normal col-4" style="min-width: 33.33%;">
+              <div>Doanh thu</div>
+              <div class="fw-bold">{{plugins.formatNumber(item.revenue)}}đ</div>
+            </div>
+            <div class="fw-normal col-4" style="min-width: 33.33%;">
+              <div>Chi phí giá vốn</div>
+              <div class="fw-bold">{{plugins.formatNumber(item.costPrice)}}đ</div>
+            </div>
+            <div class="fw-normal col-4" style="min-width: 33.33%;">
+              <div>
+                Chi phí vận hành
               </div>
-              <div class="fw-normal col-4" style="min-width: 33.33%;">
-                <div>Chi phí vận chuyển</div>
-                <div class="fw-bold">{{plugins.formatNumber(item.shippingCost)}}đ</div>
-              </div>
-              <div class="fw-normal col-4" style="min-width: 33.33%;">
-                <div>
-                  Chi phí khác
-                </div>
-                <div class="fw-bold">{{plugins.formatNumber(item.otherCost)}}đ</div>
-              </div>
-              
+              <div class="fw-bold">{{plugins.formatNumber(item.operatingCost)}}đ</div>
             </div>
           </div>
-        </ion-accordion>
-      </ion-accordion-group>
+          <div class="row mb-3 text-12px">
+            <div class="fw-normal col-4" style="min-width: 33.33%;">
+              <div>Chi phí marketing</div>
+              <div class="fw-bold">{{plugins.formatNumber(item.mktCost)}}đ</div>
+            </div>
+            <div class="fw-normal col-4" style="min-width: 33.33%;">
+              <div>Chi phí vận chuyển</div>
+              <div class="fw-bold">{{plugins.formatNumber(item.shippingCost)}}đ</div>
+            </div>
+            <div class="fw-normal col-4" style="min-width: 33.33%;">
+              <div>
+                Chi phí khác
+              </div>
+              <div class="fw-bold">{{plugins.formatNumber(item.otherCost)}}đ</div>
+            </div>
+
+          </div>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
     <ng-template #elseData>
       <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
         <i class="fa-solid fa-chart-pie text-sub-content mb-3" style="font-size: 100px"></i>
@@ -180,7 +182,7 @@
             marketing</ion-label>
         </ion-segment-button>
         <ion-segment-button value="revenue" routerLink="/statiscal-revenue" style="font-size: 10px;">
-          <ion-label class="fw-bold">Thống kê doanh thu</ion-label>
+          <ion-label class="fw-bold">Thống kê doanh số</ion-label>
         </ion-segment-button>
         <ion-segment-button value="money" routerLink="/statiscal-money" style="font-size: 10px;background: #035287;">
           <ion-label class="fw-bold text-white">Thống kê dòng tiền</ion-label>
