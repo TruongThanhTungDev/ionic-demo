@@ -217,7 +217,7 @@ export const ROUTES = [
       },
       {
         path: '/statiscal-revenue',
-        title: 'Thống kê doanh thu',
+        title: 'Thống kê doanh số',
         icon: 'nc-basket',
         class: '',
         role: 'admin',
