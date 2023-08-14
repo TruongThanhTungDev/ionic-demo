@@ -1,74 +1,35 @@
 <ion-app>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-content class="ion-padding">
-    <div class="w-100 d-flex mb-2">
-      <div style="width: 30%;">
-        <select [(ngModel)]="typeShow" class="form-control text-13px" (change)="statistic()" *ngIf="optionChart==1">
-          <option value=1>Theo Ngày</option>
-          <option value=2>Theo Tháng</option>
-          <option value=3>Theo Năm</option>
-        </select>
-        <datepicker-component [dateRange]="dateRange" (filterDate)="filterDate($event)"
-          *ngIf="optionChart==2"></datepicker-component>
-      </div>
-      <div class="mx-2" *ngIf="typeShow == 2 && optionChart == 1" style="width: 30%;">
-        <input type="text" [(ngModel)]="year" class="form-control form-control-sm py-1 h-100 select-custom"
-          placeholder="Năm" (change)="statistic()">
-      </div>
-      <div class="mx-2" style="width: 30%;" *ngIf="typeShow == 1 && optionChart == 1">
-        <select [(ngModel)]="month" class="form-control text-13px" (change)="statistic()">
-          <option value=1>Tháng 1</option>
-          <option value=2>Tháng 2</option>
-          <option value=3>Tháng 3</option>
-          <option value=4>Tháng 4</option>
-          <option value=5>Tháng 5</option>
-          <option value=6>Tháng 6</option>
-          <option value=7>Tháng 7</option>
-          <option value=8>Tháng 8</option>
-          <option value=9>Tháng 9</option>
-          <option value=10>Tháng 10</option>
-          <option value=11>Tháng 11</option>
-          <option value=12>Tháng 12</option>
-        </select>
-      </div>
-      <div style="width: 30%; margin-left: 6px;">
-        <select [(ngModel)]="optionChart" class="form-control text-13px" (change)="statistic()">
-          <option value=1>Theo thời gian</option>
-          <option value=2>Theo utm</option>
-        </select>
-      </div>
+    <div>
+      <datepicker-component [dateRange]="dateRange" (filterDate)="filterDate($event)"></datepicker-component>
     </div>
     <div *ngIf="info.role !== 'admin'">
       <select [(ngModel)]="shopCode" class="form-control select-custom" (change)="changeTypeShow($event)">
-        <option *ngFor="let obj of shopList" [value]="obj.code">{{obj.code}}</option>
+        <option *ngFor="let obj of shopList" [value]="obj">{{obj.code}}</option>
       </select>
     </div>
     <div>
-      <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê theo trạng thái</h5>
-      <ion-card [hidden]="(optionChart != 1) || (listPieChart && !listPieChart.length)">
-        <ion-card-content>
-          <div class="chart" id="pie-chart" style="height: 400px;"></div>
-          <div class="fw-bold text-center" style="color: #187CC0">
-            Tổng: {{totalStatus}}
-          </div>
+      <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê doanh số</h5>
+      <ion-card class="mb-3">
+        <ion-card-content class="text-20px fw-bold">
+          Doanh số tổng: <span class="text-danger">{{plugins.formatNumber(tongDoanhSo)}}đ</span>
         </ion-card-content>
       </ion-card>
-      <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê Doanh thu</h5>
-      <ion-card [hidden]="valueChart && !valueChart.length">
+      <ion-card>
         <ion-card-content>
-          <div class="chart" id="chart" style="height: 400px;"></div>
-          <div class="fw-bold text-center" style="color: #187CC0">
-            Tổng: {{plugins.formatNumber(totalChart)}}
-          </div>
+          <div id="chart" class="w-100 h-100"></div>
         </ion-card-content>
       </ion-card>
     </div>
-    <div
-      *ngIf="((optionChart != 1) && (valueChart && !valueChart.length)) || (listPieChart && !listPieChart.length) && (valueChart && !valueChart.length)">
+    <!-- <div *ngIf="listData && !listData.length">
       <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
         <i class="fa-solid fa-chart-pie text-sub-content mb-3" style="font-size: 100px"></i>
         <h5 class="text-sub-content">Không có dữ liệu!</h5>
       </div>
-    </div>
+    </div> -->
     <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
       (didDismiss)="setOpen(false)"></ion-toast>
   </ion-content>
@@ -81,10 +42,13 @@
         </ion-segment-button>
         <ion-segment-button value="revenue" routerLink="/statiscal-revenue"
           style="font-size: 10px;;background: #035287;">
-          <ion-label class="fw-bold text-white">Thống kê doanh thu</ion-label>
+          <ion-label class="fw-bold text-white">Thống kê doanh số</ion-label>
         </ion-segment-button>
         <ion-segment-button value="cost" routerLink="/statiscal-cost" style="font-size: 10px;">
           <ion-label class="fw-bold">Thống kê chi phí</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="cost" routerLink="/statiscal-money" style="font-size: 10px;">
+          <ion-label class="fw-bold">Thống kê dòng tiền</ion-label>
         </ion-segment-button>
         <ion-segment-button value="statistic-performance-sale" routerLink="/statistic-performance-sale"
           style="font-size: 10px;">

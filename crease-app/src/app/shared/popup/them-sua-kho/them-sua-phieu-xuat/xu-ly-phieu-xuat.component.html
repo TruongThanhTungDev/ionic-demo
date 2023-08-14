@@ -68,13 +68,13 @@
                   <ng-container>{{ createAt ? createAt : "" }}</ng-container>
                 </div>
               </div>
-              <div class="row">
+              <div class="row" *ngIf="status == 3">
                 <div class="col-6 d-flex align-items-center" style="font-size: 10px">
                   <span class="fw-bold" style="font-size: 10px ;margin-right: 3px; ">
                     Xuất kho lúc:
                   </span>
                   <ng-container>{{
-                    estimatedReturnDate ? estimatedReturnDate : ""
+                    updateAt ? updateAt : ""
                     }}</ng-container>
                 </div>
               </div>
@@ -86,7 +86,7 @@
                   <ng-container>{{ note ? note : "" }}</ng-container>
                 </div>
               </div>
-              <thong-tin-phieu-xuat [data]="data" [createAt]="createAt" [estimatedReturnDate]="estimatedReturnDate"
+              <thong-tin-phieu-xuat [data]="data" [createAt]="createAt" [updateAt]="updateAt" [estimatedReturnDate]="estimatedReturnDate"
              [note]="note" [isModalOpen]="isShowPhieuXuat"
                 (handleOpenModal)="editPhieuXuat($event)"
                 (editValue)="handleEditPhieuXuat($event)"></thong-tin-phieu-xuat>
@@ -150,7 +150,7 @@
                       Tổng:
                       <ng-container>{{
                         item.price && item.totalQuantity
-                        ? plugins.formatNumber(item.totalPrice)
+                        ? plugins.formatNumber(item.totalPrice +(tranportFee !=null ? item.totalQuantity*tranportFee/tongSLSP :0)-(discount !=null ? item.totalQuantity*discount/tongSLSP :0))
                         : 0
                         }}đ</ng-container>
                     </div>
@@ -194,7 +194,7 @@
                             (change)="changeThanhTien(i)" class="form-control form-control-sm text-10px" />
                         </div>
                         <div *ngIf="!item.edit">
-                          {{ item ? plugins.formatNumber(item.price) : "" }}đ
+                          {{ item ? plugins.formatNumber(item.price +(tranportFee !=null ? tranportFee/tongSLSP :0)-(discount !=null ? discount/tongSLSP :0)) : "" }}đ
                         </div>
                       </div>
                     </div>

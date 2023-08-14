@@ -6,7 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { MENU_MKT, MENU_USER, ROUTES } from '../shared/utils/data';
+import { MENU_MKT, MENU_USER, ROUTES, WORK_DOMAIN } from '../shared/utils/data';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Location } from '@angular/common';
 import { Store, select } from '@ngrx/store';
@@ -89,8 +89,9 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       { ma: '/data', title: 'Order' },
       { ma: '/data-after-order', title: 'Đơn hàng' },
       { ma: '/utm-medium', title: 'Cấu hình UTM' },
-      { ma: '/statiscal-revenue', title: 'Thống kê doanh thu' },
+      { ma: '/statiscal-revenue', title: 'Thống kê doanh số' },
       { ma: '/statiscal-cost', title: 'Thống kê chi phí' },
+      { ma: '/statiscal-money', title: 'Thống kê dòng tiền' },
       { ma: '/order-shipping', title: 'Thống kê đơn hàng' },
       { ma: '/statistic-performance-sale', title: 'Thống kê hiệu suất sale' },
       { ma: '/kho/quan-ly-san-pham', title: 'Quản lý sản phẩm' },
@@ -290,5 +291,28 @@ export class LayoutComponent implements OnInit, AfterViewInit {
         console.error();
       }
     );
+  }
+  pushToLogWork(menu: any) {
+    if (this.info.role === 'admin') {
+      if (menu && menu.data && menu.data.code === 'work') {
+        window.open(
+          `${WORK_DOMAIN}/check-working?fullName=${this.info.fullName}&id=${this.info.id}&userName=${this.info.userName}&role=${this.info.role}&unitCode=LADIMARKET`,
+          '_blank'
+        );
+      }
+    } else {
+      if (menu && menu.path === '/work') {
+        window.open(
+          `${WORK_DOMAIN}/check-working?fullName=${this.info.fullName}&id=${this.info.id}&userName=${this.info.userName}&role=${this.info.role}&unitCode=LADIMARKET`,
+          '_blank'
+        );
+      }
+    }
+  }
+  toShop() {
+    if (!this.isAdmin) {
+      return;
+    }
+    this.router.navigate(['/shop']);
   }
 }

@@ -1,4 +1,484 @@
-<div>
-  Dashboard page
-  <button (click)="logout()">Logout</button>
-</div>
+<ion-app>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-content class="ion-padding">
+    <div class="d-flex mb-3">
+      <button class="btn btn-sm btn-primary fw-bold" (click)="refreshData()">
+        <i class="fa-solid fa-arrows-rotate"></i>
+        Làm mới
+      </button>
+      <datepicker-component [dateRange]="dateRange" (filterDate)="filterDate($event)"></datepicker-component>
+    </div>
+    <swiper class="mb-3" slidesPerView="auto" [spaceBetween]="30" [scrollbar]="{ draggable: true }"
+      [centeredSlides]="true" [loop]="true" [initialSlide]="0">
+      <ng-template swiperSlide class="swiper-slide_doanh-thu h-100 position-relative">
+        <i class="fa-solid fa-arrow-right text-white position-absolute" style="font-size: 20px; right: 1rem"
+          [routerLink]="'/statiscal-revenue'"></i>
+        <div>
+          <i class="fa-solid fa-credit-card" style="font-size: 40px;"></i>
+        </div>
+        <div class="text-12px">
+          Doanh thu
+        </div>
+        <div class="text-24px fw-bold">
+          {{dashboardData ? plugins.formatNumber(dashboardData.revenue) : 0}}đ
+        </div>
+        <div class="row text-12px">
+          <div class="col">
+            Ước tính doanh thu sau hoàn
+          </div>
+          <div class="col">
+            Doanh số
+          </div>
+          <div class="col">
+            GTTB Đơn hàng
+          </div>
+        </div>
+        <div class="row text-14px fw-bold">
+          <div class="col">
+            {{(dashboardData ?
+            plugins.formatNumber(dashboardData.netRevenue) : 0)}}đ
+          </div>
+          <div class="col">
+            {{(dashboardData ?
+            plugins.formatNumber(dashboardData.sales) : 0)}}đ
+          </div>
+          <div class="col">
+            {{(dashboardData ?
+            plugins.formatNumber(dashboardData.avgSaleOrder) : 0)}}đ
+          </div>
+        </div>
+      </ng-template>
+      <ng-template swiperSlide class="swiper-slide_chi-phi position-relative">
+        <i class="fa-solid fa-arrow-right text-white position-absolute" style="font-size: 20px; right: 1rem"
+          [routerLink]="'/statiscal-cost'"></i>
+        <div class="row mb-2">
+          <div class="col-2">
+            <i class="fa-solid fa-money-bill" style="font-size: 40px;"></i>
+          </div>
+          <div class="col-10">
+            <div class="mb-3">
+              <div>
+                Chi phí
+              </div>
+              <div class="d-flex align-items-center">
+                <div class="text-24px fw-bold">
+                  {{(dashboardData ?
+                  plugins.formatNumber(dashboardData.cost) : 0)}}đ
+                </div>
+                <div class="text-danger fw-bold text-24px bg-warning px-1 rounded" style="margin-left: 8px;">
+                  {{dashboardData ? (dashboardData.revenue != 0 ? rounded(dashboardData.cost/dashboardData.revenue *
+                  100)
+                  :
+                  100) : 0}}%
+                </div>
+              </div>
+            </div>
+            <div>
+              <div>
+                Chi phí sau hoàn ước tính
+              </div>
+              <div class="d-flex align-items-center">
+                <div class="text-24px fw-bold">
+                  {{dashboardData ?
+                  plugins.formatNumber(dashboardData.netCost): 0}}đ
+                </div>
+                <div class="text-danger fw-bold text-24px bg-warning px-1 rounded" style="margin-left: 8px;">
+                  {{dashboardData ? (dashboardData.revenue != 0 ?
+                  rounded(dashboardData.netCost/dashboardData.revenue*100) : 100) : 0}}%
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>>
+      </ng-template>
+      <ng-template swiperSlide class="swiper-slide_loi-nhuan position-relative">
+        <i class="fa-solid fa-arrow-right text-white position-absolute" style="font-size: 20px; right: 1rem"
+          [routerLink]="'/statiscal-revenue'"></i>
+        <div>
+          <i class="fa-solid fa-chart-line" style="font-size: 40px;"></i>
+        </div>
+        <div class="mb-2">
+          <div>
+            Lợi nhuận
+          </div>
+          <div class="d-flex align-items-center">
+            <div class="text-24px fw-bold">
+              {{dashboardData ? plugins.formatNumber(dashboardData.profit) : 0}} đ
+            </div>
+            <div class="text-danger fw-bold text-24px bg-warning px-1 rounded" style="margin-left: 8px;">
+              {{dashboardData ? (dashboardData.revenue != 0 ? rounded(dashboardData.profit/dashboardData.revenue*100) :
+              0) : 0}}%
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="row text-12px">
+            <div class="col">
+              Lợi nhuận ước tính sau hoàn
+            </div>
+            <div class="col">
+              Lợi nhuận TB đơn hàng
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="d-flex align-items-center">
+                <div class="text-14px fw-bold">
+                  {{dashboardData ?
+                  plugins.formatNumber(dashboardData.netProfit) : 0}}đ
+                </div>
+                <div class="text-danger fw-bold text-14px bg-warning px-1 rounded" style="margin-left: 8px;">
+                  {{dashboardData ? (dashboardData.revenue != 0 ?
+                  rounded(dashboardData.netProfit/dashboardData.revenue*100) : 0) : 0}}%
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div>
+                <div class="text-14px fw-bold">
+                  {{dashboardData ?
+                  plugins.formatNumber(dashboardData.avgProfitOrder) :
+                  0}}đ
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template swiperSlide class="swiper-slide_ti-le">
+        <div class="mb-4">
+          <i class="fa-solid fa-arrow-right-arrow-left" style="font-size: 40px;"></i>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <label class="text-12px">TLH(Tỉ lệ hoàn) ước tính</label>
+            <input type="text" [(ngModel)]="refundRate" placeholder="Nhập tỉ lệ hoàn(%)" class="input-ti-le w-100"
+              (keydown.enter)="getDataDashboard()">
+          </div>
+          <div class="col-6">
+            <label class="text-12px">TLH(Tỉ lệ hoàn) thực tế</label>
+            <div class="text-24px fw-bold">
+              {{dashboardData?dashboardData.conversionRate:0}}%
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template swiperSlide class="swiper-slide_so-luong">
+        <div class="row mb-3 mt-3">
+          <div class="col-6 d-flex align-items-center">
+            <div>
+              <i class=" fa-solid fa-user icon-so-luong" style="font-size: 30px;"></i>
+            </div>
+            <div style="margin-left: 8px;">
+              <div class="text-12px">
+                Số lượng khách hàng
+              </div>
+              <div class="text-20px fw-bold">
+                {{dashboardData ?
+                plugins.formatNumber(dashboardData.numberCustomer)
+                : 0}}
+              </div>
+            </div>
+          </div>
+          <div class="col-6 d-flex align-items-center">
+            <div>
+              <i class=" fa-solid fa-boxes icon-so-luong" style="font-size: 30px;"></i>
+            </div>
+            <div style="margin-left: 8px;">
+              <div class="text-12px">
+                Số lượng đơn hàng
+              </div>
+              <div class="text-20px fw-bold">
+                {{dashboardData ?
+                plugins.formatNumber(dashboardData.numberOrder) : 0}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="d-flex align-items-center justify-content-center">
+            <div>
+              <i class=" fa-solid fa-check icon-so-luong" style="font-size: 30px;"></i>
+            </div>
+            <div style="margin-left: 8px;">
+              <div class="text-12px">
+                Tỉ lệ chốt
+              </div>
+              <div class="text-20px fw-bold">
+                {{dashboardData ?
+                plugins.formatNumber(dashboardData.saleKpiStatisticResponse.sum.sumCloseRate) : 0}}%
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </swiper>
+    <div class="mb-3">
+      <div class="fw-bold text-primary mb-1">
+        Kho hàng
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <ion-card class="m-0 d-flex align-items-center" style="height: 80px;">
+            <ion-card-content class="d-flex align-items-center px-2 py-3">
+              <div style="margin-right: 6px;">
+                <i class="fa-solid fa-box p-2 bg-success rounded-circle text-white" style="font-size: 20px;"></i>
+              </div>
+              <div class="text-success">
+                <div class="text-9px">
+                  Hàng có thể bán
+                </div>
+                <div class="fw-bold text-16px">
+                  {{dashboardData ? plugins.formatNumber(dashboardData.availableProduct): 0}}
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+        <div class="col-6" style="padding-left: 0;">
+          <ion-card class="m-0 d-flex align-items-center" style="height: 80px;">
+            <ion-card-content class="d-flex align-items-center px-2 py-3">
+              <div style="margin-right: 6px;">
+                <i class="fa-solid fa-box p-2 bg-danger rounded-circle text-white" style="font-size: 20px;"></i>
+              </div>
+              <div class="text-danger">
+                <div class="text-9px">
+                  Giá trị hàng tồn kho có thể bán
+                </div>
+                <div class="fw-bold text-16px">
+                  {{dashboardData ? plugins.formatNumber(dashboardData.availableProductPrice) : 0}} đ
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="text-primary fw-bold mb-1">
+        Chi phí
+      </div>
+      <div>
+        <ion-card class="m-0 mb-3">
+          <ion-card-content>
+            <div id="chartTongChiPhiTruocHoan" style="width:100%; height: 100%;"></div>
+          </ion-card-content>
+        </ion-card>
+        <ion-card class="m-0">
+          <ion-card-content>
+            <div id="chartTongChiPhi" style="width:100%; height: 100%;"></div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+    <ion-card class="m-0 mb-3">
+      <ion-card-content>
+        <div class="text-14px text-primary text-center fw-bold mb-1">
+          Bảng kết toán
+        </div>
+        <div>
+          <div class="row mb-2">
+            <div class="col-4" style="padding-right: 0;">
+              <div class="text-12px border border-primary p-1" style="border-radius: 5px;"
+                [class]="listCheck[0] ? 'select-count text-white' : 'text-primary'" (click)="onChangeCheck(0)">
+                <div class="text-9px">
+                  Doanh thu
+                </div>
+                <div class="fw-bold">
+                  {{plugins.formatNumber(dashboardData?dashboardData.revenue:0)}}đ
+                </div>
+              </div>
+            </div>
+            <div class="col-4" style="padding-right: 0;">
+              <div class="text-12px border border-primary p-1" style="border-radius: 5px;"
+                [class]="listCheck[1] ? 'select-count text-white' : 'text-primary'" (click)="onChangeCheck(1)">
+                <div class="text-9px">
+                  Chi phí
+                </div>
+                <div class="fw-bold">
+                  {{plugins.formatNumber(dashboardData?dashboardData.cost:0)}}đ
+                </div>
+              </div>
+            </div>
+            <div class="col-4" style="padding-right: 0;">
+              <div class="text-12px border border-primary p-1" style="border-radius: 5px;"
+                [class]="listCheck[2] ? 'select-count text-white' : 'text-primary'" (click)="onChangeCheck(2)">
+                <div class="text-9px">
+                  Lợi nhuận
+                </div>
+                <div class="fw-bold">
+                  {{plugins.formatNumber(dashboardData?dashboardData.profit:0)}}đ
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-4" style="padding-right: 0;">
+              <div class="text-12px border border-primary p-1" style="border-radius: 5px;"
+                [class]="listCheck[3] ? 'select-count text-white' : 'text-primary'" (click)="onChangeCheck(3)">
+                <div class="text-9px">
+                  Đơn đối soát
+                </div>
+                <div class="fw-bold">
+                  {{plugins.formatNumber(dashboardData?dashboardData.totalRevenueOrder:0)}}
+                </div>
+              </div>
+            </div>
+            <div class="col-4" style="padding-right: 0;">
+              <div class="text-12px border border-primary p-1" style="border-radius: 5px;"
+                [class]="listCheck[4] ? 'select-count text-white' : 'text-primary'" (click)="onChangeCheck(4)">
+                <div class="text-9px">
+                  GTTB
+                </div>
+                <div class="fw-bold">
+                  {{dashboardData?(dashboardData.totalRevenueOrder?plugins.formatNumber(rounded(dashboardData.revenue/dashboardData.totalRevenueOrder)):0):0}}đ
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="chartBangKetToan" style="width:100%; height: 100%;"></div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="mx-0 mt-0 mb-3">
+      <ion-card-content class="position-relative">
+        <i class="fa-solid fa-arrow-right text-primary position-absolute" style="font-size: 20px; right: 1rem"
+          [routerLink]="'/utm-statistic'"></i>
+        <div class="mb-3">
+          <div class="text-14px text-primary text-center fw-bold mb-2">
+            Thống kê hiệu suất Marketing
+          </div>
+          <div class="row mb-1 text-9px text-primary">
+            <div class="col-3" style="padding-right: 0;">
+              Data
+            </div>
+            <div class="col-3" style="padding-right: 0;">
+              Đơn hàng chốt
+            </div>
+            <div class="col-3" style="padding-right: 0;">
+              TLC
+            </div>
+            <div class="col-3" style="padding-right: 0;">
+              Chi phí Ads/đơn hàng
+            </div>
+          </div>
+          <div class="row mb-3 text-12px fw-bold" style="color: #51B333;">
+            <div class="col-3" style="padding-right: 0;">
+              {{plugins.formatNumber(dashboardData?dashboardData.marketingPerformanceDto.sumData:0)}}
+            </div>
+            <div class="col-3" style="padding-right: 0;">
+              {{plugins.formatNumber(dashboardData?dashboardData.marketingPerformanceDto.sumOrder:0)}}
+            </div>
+            <div class="col-3" style="padding-right: 0;">
+              {{plugins.formatNumber(rounded(dashboardData?dashboardData.marketingPerformanceDto.tlc:0))}}%
+            </div>
+            <div class="col-3" style="padding-right: 0;">
+              {{plugins.formatNumber(dashboardData?dashboardData.marketingPerformanceDto.adsSumOrder:0)}}đ
+            </div>
+          </div>
+        </div>
+        <div class="row mb-1 text-9px text-primary">
+          <div class="col-4" style="padding-right: 0;">
+            Chi phí Ads/data
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            Chi phí Ads/doanh số
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            Doanh số
+          </div>
+        </div>
+        <div class="row mb-1 text-12px fw-bold" style="color: #51B333;">
+          <div class="col-4" style="padding-right: 0;">
+            {{plugins.formatNumber(dashboardData?dashboardData.marketingPerformanceDto.adsSumData:0)}}đ
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            {{plugins.formatNumber(rounded(dashboardData?dashboardData.marketingPerformanceDto.adsSumRevenue:0))}}%
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            {{plugins.formatNumber(dashboardData?dashboardData.marketingPerformanceDto.sumRevenue:0)}}đ
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="mx-0 mt-0 mb-3">
+      <ion-card-content class="position-relative">
+        <i class="fa-solid fa-arrow-right text-primary position-absolute" style="font-size: 20px; right: 1rem"
+          [routerLink]="'/statistic-performance-sale'"></i>
+        <div class="mb-3">
+          <div class="text-14px text-primary text-center fw-bold mb-2">
+            Thống kê hiệu suất Sale
+          </div>
+          <div class="row mb-1 text-9px text-primary">
+            <div class="col-4" style="padding-right: 0;">
+              Đơn giao
+            </div>
+            <div class="col-4" style="padding-right: 0;">
+              Đơn xử lý
+            </div>
+            <div class="col-4" style="padding-right: 0;">
+              TL đơn xử lý
+            </div>
+          </div>
+          <div class="row mb-3 text-12px fw-bold" style="color: #51B333;">
+            <div class="col-4" style="padding-right: 0;">
+              {{plugins.formatNumber(dashboardData?dashboardData.saleKpiStatisticResponse.sum.sumTotalOrderAssigned:0)}}
+            </div>
+            <div class="col-4" style="padding-right: 0;">
+              {{plugins.formatNumber(dashboardData?dashboardData.saleKpiStatisticResponse.sum.sumTotalOrderProcessed:0)}}
+            </div>
+            <div class="col-4" style="padding-right: 0;">
+              {{plugins.formatNumber(dashboardData?dashboardData.saleKpiStatisticResponse.sum.sumOrderProcessingRate:0)}}%
+            </div>
+          </div>
+        </div>
+        <div class="row mb-1 text-9px text-primary">
+          <div class="col-4" style="padding-right: 0;">
+            Đơn xử lý TC
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            TL đơn thành công
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            Doanh số
+          </div>
+        </div>
+        <div class="row mb-3 text-12px fw-bold" style="color: #51B333;">
+          <div class="col-4" style="padding-right: 0;">
+            {{plugins.formatNumber(dashboardData?dashboardData.saleKpiStatisticResponse.sum.sumTotalOrderSuccess:0)}}
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            {{plugins.formatNumber(dashboardData?dashboardData.saleKpiStatisticResponse.sum.sumOrderSuccessRate:0)}}%
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            {{plugins.formatNumber(dashboardData?dashboardData.saleKpiStatisticResponse.sum.sumSales:0)}}đ
+          </div>
+        </div>
+        <div class="row mb-1 text-9px text-primary">
+          <div class="col-4" style="padding-right: 0;">
+            GTTB đơn hàng
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            TLC
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            Doanh thu ước tính
+          </div>
+        </div>
+        <div class="row mb-1 text-12px fw-bold" style="color: #51B333;">
+          <div class="col-4" style="padding-right: 0;">
+            {{plugins.formatNumber(dashboardData?dashboardData.saleKpiStatisticResponse.sum.sumAverageOrderValue:0)}}đ
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            {{plugins.formatNumber(dashboardData?dashboardData.saleKpiStatisticResponse.sum.sumCloseRate:0)}}%
+          </div>
+          <div class="col-4" style="padding-right: 0;">
+            {{plugins.formatNumber(dashboardData?dashboardData.saleKpiStatisticResponse.sum.sumRevenue:0)}}đ
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+</ion-app>

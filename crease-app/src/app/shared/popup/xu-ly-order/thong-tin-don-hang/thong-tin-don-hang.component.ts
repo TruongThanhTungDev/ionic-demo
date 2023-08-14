@@ -179,10 +179,14 @@ export class ThongTinDonHangOrder implements OnInit {
   }
   getTotalMoney() {
     if (this.productOption && !this.productOption.length) return;
-    this.totalMoney = this.productOption.reduce(
-      (sum: any, item: any) => sum + item.price,
-      0
-    );
+    if (this.products && !this.productOption.length) {
+      this.totalMoney = 0;
+    } else {
+      this.totalMoney = this.productOption.reduce(
+        (sum: any, item: any) => sum + item.price,
+        0
+      );
+    }
   }
   setOpenToast(open: boolean) {
     this.isToastOpen = open;
@@ -215,13 +219,18 @@ export class ThongTinDonHangOrder implements OnInit {
       discount: this.discount,
       config: this.configInfo,
     };
+    this.products = this.productOption;
     this.editValue.emit(value);
     this.setOpen(false);
     this.getTotalMoney();
     this.getPrice();
   }
   getPrice() {
-    this.price = this.totalMoney - this.discount + this.deliveryFee;
+    if (this.products && !this.products.length) {
+      this.price = 0;
+    } else {
+      this.price = this.totalMoney - this.discount + this.deliveryFee;
+    }
   }
   public async isLoading() {
     const isLoading = await this.loading.create({

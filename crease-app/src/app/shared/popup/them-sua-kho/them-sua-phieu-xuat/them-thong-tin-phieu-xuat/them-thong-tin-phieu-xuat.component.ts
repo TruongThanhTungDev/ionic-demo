@@ -20,16 +20,19 @@ export class ThemThongTinPhieuXuatComponent implements OnInit {
   @Input() shopCode: any;
   @Input() isModalOpen: any;
   @Input() createAt: any;
+  @Input() updateAt: any;
   @Input() estimatedReturnDate= '';
   @Input() note: any;
   @Input() data: any;
   status: any;
   isToastOpen=false;
   messageToast: any;
-  estimatedReturnDateInfo:any
+  estimatedReturnDateInfo:any;
+  ftUpdateAt:any;
   ngOnInit(): void {
     this.createAt = moment(this.createAt, 'DD/MM/YYYY').format('YYYY-MM-DD');
-    this.estimatedReturnDateInfo = this.estimatedReturnDate ? moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
+    this.ftUpdateAt =this.updateAt ? moment(this.updateAt, 'DD/MM/YYYY').format('YYYY-MM-DD'):'';
+    // this.estimatedReturnDateInfo = this.estimatedReturnDate ? moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYY-MM-DD'): '';
     if (this.data) {
       this.status=this.data.status
     }
@@ -46,20 +49,25 @@ export class ThemThongTinPhieuXuatComponent implements OnInit {
   ) {}
 
   setOpen(open: boolean) {
-    this.isToastOpen = open;
     this.isModalOpen = open;
     this.handleOpenModal.emit(open);
     if (open) {
       this.createAt = this.createAt;
+      this.updateAt = this.ftUpdateAt ? moment(this.ftUpdateAt,
+        'YYYY-MM-DD'
+      ).format('DD/MM/YYYY'):"";
       this.estimatedReturnDateInfo = this.estimatedReturnDate;
       this.note= this.note;
     } 
   }
+  setToastOpen(open: boolean) { 
+    this.isToastOpen = open; 
+  }
   onInputDateBlur() {
-    if (moment(this.estimatedReturnDate, 'YYYY-MM-DD', true).isValid()) {
-      this.estimatedReturnDate = this.estimatedReturnDate;
+    if (moment(this.updateAt, 'YYYY-MM-DD', true).isValid()) {
+      this.updateAt = this.updateAt;
     } else {
-      this.estimatedReturnDate = '';
+      this.updateAt = '';
     }
   }
   validInfo() {
@@ -70,15 +78,21 @@ export class ThemThongTinPhieuXuatComponent implements OnInit {
     }
     return true;
   }
+
   saveInfo() {
     const value = {
       createAt: moment(this.createAt, 'YYYY-MM-DD').format('DD/MM/YYYY'),
+      updateAt: this.ftUpdateAt ? moment(this.ftUpdateAt,
+        'YYYY-MM-DD'
+      ).format('DD/MM/YYYY'):"",
       estimatedReturnDate: this.estimatedReturnDateInfo ? moment(this.estimatedReturnDateInfo,
         'YYYY-MM-DD'
       ).format('DD/MM/YYYY'):"",
       note: this.note,
       isOpen: false,
     };
+    console.log(this.ftUpdateAt);
+    console.log(value);
     this.editValue.emit(value);
     this.setOpen(false);
   }

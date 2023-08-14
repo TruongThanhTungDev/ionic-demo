@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { OPERATIONS } from './app.constant';
 import { createRequestOption } from './shared/utils/request';
 import { Observable, Subject } from 'rxjs';
+import { WORK_DOMAIN } from './shared/utils/data';
 
 @Injectable({ providedIn: 'root' })
 export class DanhMucService {
@@ -13,6 +14,8 @@ export class DanhMucService {
   public resourceAddress = 'https://api.mysupership.vn/v1/partner/areas';
   public resourceGHSV = 'https://api.ghsv.vn/v1';
 
+//   public resourceUrl = 'https://adsxanhtech-test.store';
+//   public workUrl = WORK_DOMAIN;
   // public resourceUrl = 'https://adsxanhtech-test.store';
   // public resourceUrl = "http://localhost:8080";
   public resourceUrl = 'https://adsxanh-market.com';

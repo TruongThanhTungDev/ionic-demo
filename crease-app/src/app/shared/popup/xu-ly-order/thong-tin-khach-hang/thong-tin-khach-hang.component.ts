@@ -16,6 +16,8 @@ export class ThongTinKhachHangOrder implements OnInit {
   nameInfo: any;
   phoneInfo: any;
   info: any;
+  isToastOpen = false;
+  messageToast: any;
   constructor(
     private modal: ModalController,
     private localStorage: LocalStorageService
@@ -67,7 +69,20 @@ export class ThongTinKhachHangOrder implements OnInit {
       this.phoneInfo = '';
     }
   }
+  setOpenToast(open: boolean) {
+    this.isToastOpen = open;
+  }
   saveInfo() {
+    if (!this.nameInfo) {
+      this.isToastOpen = true;
+      this.messageToast = 'Tên khách hàng không đuợc để trống!';
+      return;
+    }
+    if (!this.phoneInfo) {
+      this.isToastOpen = true;
+      this.messageToast = 'Số điện thoại không đuợc để trống!';
+      return;
+    }
     const value = {
       name: this.nameInfo,
       phone: this.phoneInfo,

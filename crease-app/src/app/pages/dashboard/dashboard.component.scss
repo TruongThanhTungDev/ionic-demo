@@ -1,0 +1,48 @@
+.swiper {
+  width: 100%;
+  height: 195px;
+}
+
+.swiper-slide {
+  color: white;
+  padding: 1rem;
+  border-radius: 20px;
+  &_doanh-thu {
+    background-color: #46c851;
+  }
+  &_chi-phi {
+    background-color: #babc08;
+  }
+  &_loi-nhuan {
+    background-color: #0292f4;
+  }
+  &_ti-le {
+    background-color: #f0841f;
+  }
+  &_so-luong {
+    background-color: #889944;
+  }
+}
+.input-ti-le {
+  background: transparent;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid;
+}
+.input-ti-le::placeholder {
+  font-size: 12px;
+  color: #ff9595 !important;
+}
+.icon-so-luong {
+  padding: 0.75rem;
+  background-color: #ecf7ff;
+  color: #889944;
+  border-radius: 50%;
+}
+.select-count {
+  color: #fff;
+  background: #006eb9;
+  label {
+    color: #fff;
+  }
+}

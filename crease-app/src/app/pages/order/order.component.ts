@@ -86,7 +86,9 @@ export class OrderComponent implements OnInit {
       }
     });
   }
-
+  get isCheckOut() {
+    return !this.isAdmin && !this.checkWorkActive;
+  }
   async loadData() {
     if (!this.shopCode) return;
     var date = JSON.parse(JSON.stringify(this.dateRange));
@@ -118,6 +120,7 @@ export class OrderComponent implements OnInit {
                 nhanVienId: item.account ? item.account.id : '',
               };
             });
+            this.listCheck = [...this.listCheck];
           } else {
             this.loading.dismiss();
             this.isToastOpen = true;
@@ -283,6 +286,14 @@ export class OrderComponent implements OnInit {
       endDate: moment().utc().format('YYYY-MM-DD'),
     };
     this.loadData();
+    this.listCheck = [];
+    this.store.dispatch({
+      type: 'CHANGE_HEADER',
+      payload: {
+        title: 'Hủy',
+        state: false,
+      },
+    });
     event.target.complete();
   }
   refreshData() {

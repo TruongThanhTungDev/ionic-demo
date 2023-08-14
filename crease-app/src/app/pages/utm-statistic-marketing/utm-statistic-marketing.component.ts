@@ -27,6 +27,7 @@ export class UtmStatisticComponent implements OnInit {
     startDate: moment().utc().format('YYYY-MM-DD'),
     endDate: moment().utc().format('YYYY-MM-DD'),
   };
+  totalDataMarketing = 0;
   activeSlide = 'active';
   inactiveSlide = 'inactive';
   isShowMvp = false;
@@ -84,6 +85,12 @@ export class UtmStatisticComponent implements OnInit {
                 ? b.totalData - a.totalData
                 : a.totalData - b.totalData;
             }
+          );
+          this.totalDataMarketing = this.listData.details.reduce(
+            (a: any, b: any) => {
+              return a + b.totalData;
+            },
+            0
           );
           this.loading.dismiss();
         },

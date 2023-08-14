@@ -22,7 +22,10 @@
       </div>
     </div>
     <div *ngIf="!isShowMvp" class="show-statistic">
-      <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê hiệu suất Marketing</h5>
+      <h5 class="fw-bold text-center mt-5" style="color: #187CC0">Thống kê hiệu suất Marketing</h5>
+      <div class="text-center mb-3 mt-1">
+        Tổng: {{totalDataMarketing}}
+      </div>
       <button class="btn btn-sm fw-bold btn-primary mb-1" (click)="sortData()">
         Sắp xếp
         <i *ngIf="isDesc" class="fa-solid fa-arrow-down-wide-short"></i>
@@ -215,10 +218,13 @@
             marketing</ion-label>
         </ion-segment-button>
         <ion-segment-button value="revenue" routerLink="/statiscal-revenue" style="font-size: 10px;">
-          <ion-label class="fw-bold">Thống kê doanh thu</ion-label>
+          <ion-label class="fw-bold">Thống kê doanh số</ion-label>
         </ion-segment-button>
         <ion-segment-button value="cost" routerLink="/statiscal-cost" style="font-size: 10px;">
           <ion-label class="fw-bold">Thống kê chi phí</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="cost" routerLink="/statiscal-money" style="font-size: 10px;">
+          <ion-label class="fw-bold">Thống kê dòng tiền</ion-label>
         </ion-segment-button>
         <ion-segment-button value="statistic-performance-sale" routerLink="/statistic-performance-sale"
           style="font-size: 10px;">

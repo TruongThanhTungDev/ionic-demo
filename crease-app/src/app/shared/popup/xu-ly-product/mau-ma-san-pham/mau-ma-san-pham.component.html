@@ -88,8 +88,16 @@
       </ion-header>
       <ion-content class="ion-padding text-primary">
         <div class="mb-2">
-          <label>Mã sản phẩm <span class="text-danger">*</span></label>
-          <input [(ngModel)]="productCode" type="text" class="form-control form-control-sm" disabled>
+          <label>Trạng thái<span class="text-danger">*</span></label>
+          <select  [(ngModel)]="productStatus"
+            class="form-select form-select-sm">
+            <option value="0">Ngừng hoạt động</option>
+             <option value="1">Hoạt động</option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label>Mã mẫu mã<span class="text-danger">*</span></label>
+          <input [(ngModel)]="productCode" type="text" class="form-control form-control-sm" [disabled]="typeModal === 'edit' && !isNewItem">
         </div>
         <div class="mb-2">
           <label>Thuộc tính mẫu <span class="text-danger">*</span></label>

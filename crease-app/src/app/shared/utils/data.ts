@@ -217,7 +217,7 @@ export const ROUTES = [
       },
       {
         path: '/statiscal-revenue',
-        title: 'Thống kê doanh thu',
+        title: 'Thống kê doanh số',
         icon: 'nc-basket',
         class: '',
         role: 'admin',
@@ -226,6 +226,14 @@ export const ROUTES = [
       {
         path: '/statiscal-cost',
         title: 'Thống kê chi phí',
+        icon: 'nc-basket',
+        class: '',
+        role: 'admin',
+        params: '',
+      },
+      {
+        path: '/statiscal-money',
+        title: 'Thống kê dòng tiền',
         icon: 'nc-basket',
         class: '',
         role: 'admin',
@@ -421,3 +429,5 @@ export const MENU_USER = [
     items: [],
   },
 ];
+
+export const WORK_DOMAIN = 'http://work.adsxanhtech-test.store';

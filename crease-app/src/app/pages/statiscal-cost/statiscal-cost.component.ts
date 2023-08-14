@@ -4,17 +4,15 @@ import * as moment from 'moment';
 import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'src/app/danhmuc.services';
 import * as Highcharts from 'highcharts';
-import * as HighchartsMore from 'highcharts/highcharts-more';
-import * as HighchartsExporting from 'highcharts/modules/exporting';
-import * as HighchartsExportData from 'highcharts/modules/export-data';
 import { LoadingController } from '@ionic/angular';
+import { Plugin } from 'src/app/plugins/plugins';
 @Component({
   selector: 'statiscal-cost',
   templateUrl: './statiscal-cost.component.html',
 })
 export class StatiscalCostComponent implements OnInit, AfterViewInit {
   DATA_URL = '/api/v1/data';
-  REQUEST_URL = '/api/v1/cost';
+  REQUEST_URL = '/api/v1/statistics-general/statistic-cost';
   SHOP_URL = '/api/v1/shop';
   isToastOpen = false;
   messageToast = '';
@@ -26,13 +24,16 @@ export class StatiscalCostComponent implements OnInit, AfterViewInit {
   info: any;
   shopCode = '';
   shopList: any;
-  listData: any;
-  dataList: any;
-  dateChart: any;
-  valueChart: any;
-  selectedItem: any;
   chartOptions: any;
-  isNoData = false;
+  listChart: any;
+  shop: any;
+  listCheck = [true, true, false, false, false];
+  tongChiPhi = 0;
+  chiPhiMKT = 0;
+  chiPhiVanHanh = 0;
+  chiPhiVanChuyen = 0;
+  chiPhiKhac = 0;
+  plugins = new Plugin();
   constructor(
     private dmService: DanhMucService,
     private localStorage: LocalStorageService,
@@ -45,8 +46,8 @@ export class StatiscalCostComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
     if (this.info.role === 'admin') {
-      this.shopCode = this.localStorage.retrieve('shop')
-        ? this.localStorage.retrieve('shop').code
+      this.shop = this.localStorage.retrieve('shop')
+        ? this.localStorage.retrieve('shop')
         : '';
       this.statistic();
     } else {
@@ -57,47 +58,232 @@ export class StatiscalCostComponent implements OnInit, AfterViewInit {
   public async loadData() {
     await this.isLoading();
     this.dmService
-      .getOption(
-        null,
-        this.REQUEST_URL,
-        '/getallcostbytimerange?startDate=' +
+      .get(
+        this.REQUEST_URL +
+          '?startDate=' +
           this.startDate +
           '&endDate=' +
           this.endDate +
-          '&shopCode=' +
-          this.shopCode
+          '&shop=' +
+          this.shop.id +
+          '&type=' +
+          this.typeShow
       )
       .subscribe(
         (res: HttpResponse<any>) => {
-          this.listData = res.body.RESULT;
-          this.dmService
-            .getOption(
-              null,
-              this.DATA_URL,
-              '/stc-cost-data?startDate=' +
-                this.startDate +
-                '&endDate=' +
-                this.endDate +
-                '&shopCode=' +
-                this.shopCode
-            )
-            .subscribe(
-              (res: HttpResponse<any>) => {
-                this.loading.dismiss();
-                this.dataList = res.body.RESULT;
-                this.loadDataChart();
-              },
-              () => {
-                this.dataList = [];
-                this.loading.dismiss();
-                console.error();
-              }
-            );
+          this.loading.dismiss();
+          if (res.body) {
+            if (res.body.CODE === 200) {
+              this.listChart = res.body.RESULT;
+              this.customsData(this.listChart);
+            } else {
+              this.isToastOpen = true;
+              this.messageToast = res.body.MESSAGE;
+            }
+          } else {
+            this.isToastOpen = true;
+            this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
+          }
         },
         () => {
+          this.loading.dismiss();
+          this.isToastOpen = true;
+          this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
           console.error();
         }
       );
+  }
+
+  customsData(list: any) {
+    this.tongChiPhi = 0;
+    this.chiPhiMKT = 0;
+    this.chiPhiVanHanh = 0;
+    this.chiPhiVanChuyen = 0;
+    this.chiPhiKhac = 0;
+    const listTongCP = [];
+    const listCPMKT = [];
+    const listCPVanHanh = [];
+    const listCPVanChuyen = [];
+    const listCPKhac = [];
+    const listSubTitle = [];
+    if (list.length > 0) {
+      for (let i = 0; i < list.length; i++) {
+        this.chiPhiMKT += list[i].mktCost ? list[i].mktCost : 0;
+        this.chiPhiVanHanh += list[i].operatingCost ? list[i].operatingCost : 0;
+        this.chiPhiVanChuyen += list[i].shippingCost ? list[i].shippingCost : 0;
+        this.chiPhiKhac += list[i].otherCost ? list[i].otherCost : 0;
+        this.tongChiPhi +=
+          (list[i].mktCost ? list[i].mktCost : 0) +
+          (list[i].operatingCost ? list[i].operatingCost : 0) +
+          (list[i].shippingCost ? list[i].shippingCost : 0) +
+          (list[i].otherCost ? list[i].otherCost : 0);
+        listTongCP.push(
+          (list[i].mktCost ? list[i].mktCost : 0) +
+            (list[i].operatingCost ? list[i].operatingCost : 0) +
+            (list[i].shippingCost ? list[i].shippingCost : 0) +
+            (list[i].otherCost ? list[i].otherCost : 0)
+        );
+        listCPMKT.push(list[i].mktCost ? list[i].mktCost : 0);
+        listCPVanHanh.push(list[i].operatingCost ? list[i].operatingCost : 0);
+        listCPVanChuyen.push(list[i].shippingCost ? list[i].shippingCost : 0);
+        listCPKhac.push(list[i].otherCost ? list[i].otherCost : 0);
+        listSubTitle.push(
+          list[i].date
+            ? this.typeShow != 1
+              ? list[i].date
+              : moment(list[i].date, 'YYYYMMDD').format('DD/MM')
+            : 'null'
+        );
+      }
+      this.chart(
+        listTongCP,
+        listCPMKT,
+        listCPVanHanh,
+        listCPVanChuyen,
+        listCPKhac,
+        listSubTitle
+      );
+    }
+  }
+
+  onChangeCheck(i: any): void {
+    this.listCheck[i] = !this.listCheck[i];
+    console.log(this.listCheck);
+    this.customsData(this.listChart);
+  }
+
+  statistic() {
+    if (this.typeShow == 1) {
+      let date = moment().format('YYYY') + '/' + this.month;
+      this.startDate = moment(date).startOf('month').format('YYYYMMDD');
+      this.endDate = moment(date).endOf('month').format('YYYYMMDD');
+    } else if (this.typeShow == 2) {
+      this.startDate = moment(this.year.toString())
+        .startOf('year')
+        .format('YYYYMMDD');
+      this.endDate = moment(this.year.toString())
+        .endOf('year')
+        .format('YYYYMMDD');
+    } else {
+      this.startDate = moment('2021').startOf('year').format('YYYYMMDD');
+      this.endDate = moment(this.year.toString())
+        .endOf('year')
+        .format('YYYYMMDD');
+    }
+    this.loadData();
+  }
+
+  chart(
+    listTongCP: any,
+    listCPMKT: any,
+    listCPVanHanh: any,
+    listCPVanChuyen: any,
+    listCPKhac: any,
+    listSubTitle: any
+  ) {
+    const _this = this;
+    this.chartOptions = {
+      chart: {
+        zoomType: 'xy',
+        style: {
+          fontFamily: 'Montserrat,Helvetica Neue,Arial,sans-serif',
+        },
+        scrollablePlotArea: {
+          minWidth: 1000, // Độ rộng tối thiểu của khu vực cuộn
+          scrollPositionX: 0, // Vị trí cuộn ban đầu (1 = cuộn đến cuối)
+        },
+      },
+      title: {
+        text: 'Thống kê chi phí',
+        align: 'center',
+        style: {
+          color: '#006EB9',
+          fontWeight: 'bold',
+        },
+      },
+
+      subtitle: {},
+
+      xAxis: {
+        categories: listSubTitle,
+        crosshair: true,
+        scrollbar: {
+          enabled: true,
+        },
+      },
+      yAxis: {
+        labels: {
+          formatter: function (this: any): any {
+            return _this.plugins.formatNumber(this.value) + 'đ';
+          },
+          style: {},
+        },
+        title: {
+          text: 'Số tiền',
+          style: {
+            fontWeight: 'bold',
+          },
+        },
+      },
+      series: [
+        {
+          name: 'Tổng chi phí',
+          data: _this.listCheck[0] ? listTongCP : [],
+          tooltip: {
+            valueSuffix: 'đ',
+          },
+          marker: {
+            symbol: 'dot',
+          },
+          color: '#0187D2',
+        },
+        {
+          name: 'Chi phí marketing',
+          data: _this.listCheck[1] ? listCPMKT : [],
+          tooltip: {
+            valueSuffix: 'đ',
+          },
+          marker: {
+            symbol: 'dot',
+          },
+          color: '#F60E1C',
+        },
+        {
+          name: 'Chi phí vận hành',
+          data: _this.listCheck[2] ? listCPVanHanh : [],
+          tooltip: {
+            valueSuffix: 'đ',
+          },
+          marker: {
+            symbol: 'dot',
+          },
+          color: '#09AA10',
+        },
+        {
+          name: 'Chi phí vận chuyển',
+          data: _this.listCheck[3] ? listCPVanChuyen : [],
+          tooltip: {
+            valueSuffix: 'đ',
+          },
+          marker: {
+            symbol: 'dot',
+          },
+          color: '#846E1F',
+        },
+        {
+          name: 'Chi phí khác',
+          data: _this.listCheck[4] ? listCPKhac : [],
+          tooltip: {
+            valueSuffix: 'đ',
+          },
+          marker: {
+            symbol: 'dot',
+          },
+          color: '#9C8B8C',
+        },
+      ],
+    };
+    Highcharts.chart('chart', this.chartOptions);
   }
   public loadShopList() {
     this.dmService
@@ -117,266 +303,6 @@ export class StatiscalCostComponent implements OnInit, AfterViewInit {
         }
       );
   }
-  public loadDataChart() {
-    this.dateChart = [];
-    this.valueChart = [];
-    if (this.typeShow == 1) {
-      let totalCost = 0.0;
-      let dayCostList = [];
-
-      for (let item of this.listData) {
-        if (item.fromDate == item.toDate) {
-          dayCostList.push(item);
-        } else {
-          totalCost = totalCost + item.totalCost;
-        }
-      }
-      let date = moment().format('YYYY') + '/' + this.month;
-      let numOfDay =
-        parseInt(moment(date).endOf('month').format('YYYYMMDD').slice(6)) -
-        parseInt(moment(date).startOf('month').format('YYYYMMDD').slice(6)) +
-        1;
-      for (let i = 0; i < numOfDay; i++) {
-        this.dateChart.push(this.formatDay(i + 1));
-        this.valueChart.push(totalCost / numOfDay);
-        for (let item of dayCostList) {
-          let sum = 0;
-          if (
-            this.dateChart[i] ==
-            item.fromDate.toString().slice(6) +
-              '/' +
-              item.fromDate.toString().slice(4, 6) +
-              '/' +
-              item.fromDate.toString().slice(0, 4)
-          ) {
-            this.valueChart[i] = this.valueChart[i] + item.totalCost;
-          }
-        }
-      }
-      for (let i = 0; i < this.dateChart.length; i++) {
-        for (let j = 0; j < this.dataList.length; j++) {
-          if (
-            this.dateChart[i] ==
-            this.dataList[j].date.toString().slice(6) +
-              '/' +
-              this.dataList[j].date.toString().slice(4, 6) +
-              '/' +
-              this.dataList[j].date.toString().slice(0, 4)
-          ) {
-            this.valueChart[i] +=
-              this.dataList[j].total +
-              this.dataList[j].cogs +
-              this.dataList[j].totalProductValue;
-          }
-        }
-      }
-      this.createChart();
-    } else if (this.typeShow == 2) {
-      let results = [
-        {
-          date: 'Tháng 01',
-          value: 0,
-        },
-        {
-          date: 'Tháng 02',
-          value: 0,
-        },
-        {
-          date: 'Tháng 03',
-          value: 0,
-        },
-        {
-          date: 'Tháng 04',
-          value: 0,
-        },
-        {
-          date: 'Tháng 05',
-          value: 0,
-        },
-        {
-          date: 'Tháng 06',
-          value: 0,
-        },
-        {
-          date: 'Tháng 07',
-          value: 0,
-        },
-        {
-          date: 'Tháng 08',
-          value: 0,
-        },
-        {
-          date: 'Tháng 09',
-          value: 0,
-        },
-        {
-          date: 'Tháng 10',
-          value: 0,
-        },
-        {
-          date: 'Tháng 11',
-          value: 0,
-        },
-        {
-          date: 'Tháng 12',
-          value: 0,
-        },
-      ];
-      for (let item of results) {
-        for (let i of this.listData) {
-          if (item.date == this.formatMonth(i.fromDate)) {
-            item.value = item.value + i.totalCost;
-          }
-        }
-      }
-      for (let item of results) {
-        this.dateChart.push(item.date);
-        this.valueChart.push(item.value);
-      }
-      for (let i = 0; i < this.dateChart.length; i++) {
-        for (let j = 0; j < this.dataList.length; j++) {
-          if (this.dateChart[i] == this.formatMonth(this.dataList[j].date)) {
-            this.valueChart[i] +=
-              this.dataList[j].total +
-              this.dataList[j].cogs +
-              this.dataList[j].totalProductValue;
-          }
-        }
-      }
-      this.createChart();
-    } else {
-      let temp = [];
-      for (let item of this.listData) {
-        temp.push(this.formatYear(item.fromDate));
-      }
-      let set = new Set(temp);
-      let mocks = [...set];
-      let results = [];
-      for (let item of mocks) {
-        let resultItem = {
-          date: item,
-          value: 0,
-        };
-        results.push(resultItem);
-      }
-
-      for (let item of results) {
-        for (let i of this.listData) {
-          if (item.date == this.formatYear(i.fromDate)) {
-            item.value = item.value + i.totalCost;
-          }
-        }
-      }
-      results.forEach((item: any) => {
-        this.dateChart.push(item.date);
-        this.valueChart.push(item.value);
-      });
-      for (let i = 0; i < this.dateChart.length; i++) {
-        for (let j = 0; j < this.dataList.length; j++) {
-          if (this.dateChart[i] == this.formatYear(this.dataList[j].date)) {
-            this.valueChart[i] +=
-              this.dataList[j].total +
-              this.dataList[j].cogs +
-              this.dataList[j].totalProductValue;
-          }
-        }
-      }
-      this.createChart();
-    }
-    // }
-  }
-  formatDay(day: any) {
-    let dateValue;
-    if (this.month < 10) {
-      if (day < 10) {
-        dateValue =
-          '0' + day + '/0' + this.month + '/' + moment().format('YYYY');
-      } else {
-        dateValue = day + '/0' + this.month + '/' + moment().format('YYYY');
-      }
-    } else {
-      if (day < 10) {
-        dateValue =
-          '0' + day + '/' + this.month + '/' + moment().format('YYYY');
-      } else {
-        dateValue = day + '/' + this.month + '/' + moment().format('YYYY');
-      }
-    }
-    return dateValue;
-  }
-  formatMonth(fromDate: any) {
-    let dateValue = 'Tháng ' + fromDate.toString().slice(4, 6);
-    return dateValue;
-  }
-  formatYear(fromDate: any) {
-    let dateValue = 'Năm ' + fromDate.toString().slice(0, 4);
-    return dateValue;
-  }
-
-  statistic() {
-    if (this.typeShow == 1) {
-      let date = moment().format('YYYY') + '/' + this.month;
-      this.startDate = moment(date).startOf('month').format('YYYYMMDD');
-      this.endDate = moment(date).endOf('month').format('YYYYMMDD');
-    } else if (this.typeShow == 2) {
-      this.startDate = moment(this.year.toString())
-        .startOf('year')
-        .format('YYYYMMDD');
-      this.endDate = moment(this.year.toString())
-        .endOf('year')
-        .format('YYYYMMDD');
-    } else {
-      this.startDate = moment('2021').startOf('year').format('YYYYDDMM');
-      this.endDate = moment().format('YYYYDDMM');
-    }
-    this.loadData();
-  }
-  formatDateChart(fromDate: any, toDate: any): string {
-    let dateValue =
-      fromDate.toString().slice(4, 6) +
-      '/' +
-      fromDate.toString().slice(0, 4) +
-      '-' +
-      toDate.toString().slice(4, 6) +
-      '/' +
-      toDate.toString().slice(0, 4);
-    return dateValue;
-  }
-  createChart(): void {
-    this.chartOptions = {
-      chart: {
-        type: 'column',
-        scrollablePlotArea: {
-          minWidth: 2000, // Độ rộng tối thiểu của khu vực cuộn
-          scrollPositionX: 0, // Vị trí cuộn ban đầu (1 = cuộn đến cuối)
-        },
-      },
-      credits: {
-        enabled: false,
-      },
-      title: {
-        text: undefined,
-      },
-      xAxis: {
-        categories: this.dateChart,
-        crosshair: true,
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: undefined,
-        },
-      },
-      series: [
-        {
-          name: 'Chi phí',
-          data: this.valueChart,
-        },
-      ],
-    };
-    this.chartOptions.series.setVisible;
-    Highcharts.chart('chart', this.chartOptions);
-  }
   public async isLoading() {
     const isLoading = await this.loading.create({
       spinner: 'circles',
@@ -385,5 +311,9 @@ export class StatiscalCostComponent implements OnInit, AfterViewInit {
       translucent: true,
     });
     return await isLoading.present();
+  }
+  handleRefresh(event: any) {
+    this.loadData();
+    event.target.complete();
   }
 }

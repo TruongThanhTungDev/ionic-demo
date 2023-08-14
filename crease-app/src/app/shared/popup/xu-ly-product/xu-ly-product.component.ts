@@ -84,6 +84,18 @@ export class XuLyProduct implements OnInit {
       this.listAddProperties.splice(index, 1);
       return;
     }
+    if (!prop.thuocTinh) {
+      this.isToastOpen = true;
+      this.messageToast = 'Vui lòng nhập thuộc tính';
+      return;
+    }
+    if (!prop.giaTri) {
+      this.isToastOpen = true;
+      this.messageToast = 'Vui lòng nhập giá trị';
+      return;
+    }
+    
+    
     this.listAddProperties[index].thuocTinh = prop.thuocTinh;
     this.listAddProperties[index].giaTri = prop.giaTri;
     if (this.listAddProperties[index].index >= 0) {
@@ -182,6 +194,7 @@ export class XuLyProduct implements OnInit {
       giaBan: this.data ? this.data.giaBan : null,
       giaNhap: this.data ? this.data.giaNhap : null,
       properties: JSON.stringify(properties),
+      
     };
     const subProductList: any[] = [];
     this.productModelProp.forEach((item: any) => {

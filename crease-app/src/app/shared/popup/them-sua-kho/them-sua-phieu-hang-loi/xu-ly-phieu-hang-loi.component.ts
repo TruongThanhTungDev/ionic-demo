@@ -34,6 +34,7 @@ export class XulyPhieuHangLoiComponent implements OnInit {
   id: any;
   creatorName: any;
   createAt: any;
+  updateAt:any;
   estimatedReturnDate: any;
   note: any;
   status: any;
@@ -67,6 +68,7 @@ export class XulyPhieuHangLoiComponent implements OnInit {
       this.id = this.data.id;
       this.creatorName = this.data.creatorName;
       this.createAt = this.data.createAt;
+      this.updateAt=moment(this.data.updateAt, 'YYYYMMDD').format('DD/MM/YYYY');
       this.estimatedReturnDate = this.data.estimatedReturnDate ? moment(this.data.estimatedReturnDate, 'YYYYMMDD').format('DD/MM/YYYY') :'';
       this.FtType = this.data.type;
       this.note = this.data.note;
@@ -135,6 +137,7 @@ export class XulyPhieuHangLoiComponent implements OnInit {
   handleEditPhieuHangLoi(value: any) {
     this.createAt = value.createAt;
     this.estimatedReturnDate = value.estimatedReturnDate;
+    this.updateAt = value.updateAt;
     this.FtType = value.FtType;
     this.note = value.note;
     this.isShowPhieuHangLoi = value.isOpen;
@@ -222,11 +225,18 @@ export class XulyPhieuHangLoiComponent implements OnInit {
       this.messageToast = 'Danh sách hàng lỗi không được để trống';
       return;
     }
-
+    if (!this.FtType) {
+      this.isToastOpen = true;
+      this.messageToast = 'Loại phiếu không được để trống';
+      return;
+    }
     const bol = {
       createAt: this.createAt
         ? moment(this.createAt, 'DD/MM/YYYY').format('YYYYMMDD')
         : null,
+      updateAt: this.updateAt
+        ? moment(this.updateAt, 'DD/MM/YYYY').format('YYYYMMDD')
+        : null, 
       creator: this.data
         ? this.data.creator
           ? this.data.creator
@@ -234,12 +244,13 @@ export class XulyPhieuHangLoiComponent implements OnInit {
         : this.info
         ? { id: this.info.id }
         : null,
+      
       estimatedReturnDate: this.estimatedReturnDate
         ? moment(this.estimatedReturnDate, 'DD/MM/YYYY').format('YYYYMMDD')
         : '',
       status: this.status,
       supplierInfo: this.nhaCungCap ? this.nhaCungCap : (this.data?.supplierInfo ?? null),
-      type: this.FtType,
+      type: this.FtType? this.FtType : 4,
       shop: this.data ? this.data.shop : this.shop,
       warehouse: this.khoId ? { id: this.khoId } : {id: this.data.warehouse.id},
       note: this.note,
@@ -324,6 +335,7 @@ export class XulyPhieuHangLoiComponent implements OnInit {
     this.tongTT = c;
   }
   create(entity: any) {
+   
     if (!this.data) {
       delete entity.boL.id;
       this.dmService.postOption(entity, this.REQUEST_URL, '').subscribe(
@@ -334,8 +346,8 @@ export class XulyPhieuHangLoiComponent implements OnInit {
             this.confirm();
           } else {
             this.isToastOpen = true;
-            this.messageToast = 'Tạo phiếu thất bại';
-            this.cancel();
+            this.messageToast = res.body.RESULT;
+            
           }
         },
         () => {
@@ -353,7 +365,7 @@ export class XulyPhieuHangLoiComponent implements OnInit {
             this.confirm();
           } else {
             this.isToastOpen = true;
-            this.messageToast = 'Cập nhật phiếu thất bại';
+            this.messageToast ='Cập nhật phiếu thất bại';
             this.cancel();
           }
         },
