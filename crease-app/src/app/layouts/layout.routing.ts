@@ -10,7 +10,7 @@ import { CostMarketingComponent } from '../pages/cost-marketing/cost.marketing.c
 import { CallLogsStatisticComponent } from '../pages/callLogs-statistic/callLogs-statistic.component';
 import { UtmStatisticComponent } from '../pages/utm-statistic-marketing/utm-statistic-marketing.component';
 import { CauhinhKhoComponent } from '../pages/kho/cau-hinh-kho/cau-hinh-kho.component';
-import { StatiscalRevenue } from '../pages/statiscal-revenue/statiscal-revenue.component';
+
 import { StatiscalCostComponent } from '../pages/statiscal-cost/statiscal-cost.component';
 import { OrderComponent } from '../pages/order/order.component';
 import { OrderStatisticComponent } from '../pages/statiscal-order/order-statistic.component';
@@ -21,7 +21,7 @@ import { UtmStatisticSaleComponent } from '../pages/utm-statistic-sale/utm-stati
 import { XuatHangComponent } from '../pages/kho/xuat-hang/xuat-hang.component';
 import { HangLoiComponent } from '../pages/kho/hang-loi/hang-loi.component';
 import { QuanLiSanPhamComponent } from '../pages/quan-li-san-pham/quan-li-san-pham.component';
-import { StatiscalMoneyComponent } from '../pages/statiscal-money/statiscal-money.component';
+import { StatiscalRevenueComponent } from '../pages/statiscal-revenue/statiscal-revenue.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -75,10 +75,6 @@ export const LayoutRoutes: Routes = [
     component: CauhinhKhoComponent,
   },
   {
-    path: 'statiscal-revenue',
-    component: StatiscalRevenue,
-  },
-  {
     path: 'statiscal-cost',
     component: StatiscalCostComponent,
   },
@@ -123,7 +119,7 @@ export const LayoutRoutes: Routes = [
     component: QuanLiSanPhamComponent,
   },
   {
-    path: 'statiscal-money',
-    component: StatiscalMoneyComponent,
+    path: 'statiscal-revenue',
+    component: StatiscalRevenueComponent,
   },
 ];

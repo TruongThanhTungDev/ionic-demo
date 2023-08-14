@@ -1,54 +1,191 @@
 <ion-app>
-  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
   <ion-content class="ion-padding">
+    <div class="d-flex w-100 justify-content-between align-items-center mb-3">
+      <div class="d-flex w-100">
+        <div class="w-40">
+          <select [(ngModel)]="typeShow" class="form-control form-control-sm select-custom" (change)="statistic()">
+            <option value=1>Trong tháng</option>
+            <option value=2>Trong năm</option>
+            <option value=3>Các năm</option>
+          </select>
+        </div>
+        <div class="w-30 mx-1">
+          <select *ngIf="typeShow == 1" [(ngModel)]="month" class="form-control form-control-sm select-custom"
+            (change)="statistic()">
+            <option value=1>Tháng 1</option>
+            <option value=2>Tháng 2</option>
+            <option value=3>Tháng 3</option>
+            <option value=4>Tháng 4</option>
+            <option value=5>Tháng 5</option>
+            <option value=6>Tháng 6</option>
+            <option value=7>Tháng 7</option>
+            <option value=8>Tháng 8</option>
+            <option value=9>Tháng 9</option>
+            <option value=10>Tháng 10</option>
+            <option value=11>Tháng 11</option>
+            <option value=12>Tháng 12</option>
+          </select>
+          <input *ngIf="typeShow == 2" type="text" class="form-control form-control-sm" [(ngModel)]="year"
+            placeholder="Năm" (change)="statistic()">
+        </div>
+      </div>
+      <div *ngIf="info.role!='admin'" class="w-30">
+        <select [(ngModel)]="shop" class="form-control select-custom pl-3 " (change)="statistic()">
+          <option *ngFor="let obj of shopList" [value]="obj.id">{{obj.id}}</option>
+        </select>
+      </div>
+    </div>
     <div>
-      <datepicker-component [dateRange]="dateRange" (filterDate)="filterDate($event)"></datepicker-component>
+      <div class="mb-3">
+        <div>
+          <ion-card class="m-0 mb-3">
+            <ion-card-content>
+              <div class="text-center text-success fw-bold">
+                <div class="text-14px">
+                  Thống kê dòng tiền
+                </div>
+              </div>
+              <div class="chart" id="chartDongTien" style="width:100%; height: 100%;"></div>
+            </ion-card-content>
+          </ion-card>
+          <ion-card class="m-0">
+            <ion-card-content>
+              <div class="text-center text-primary fw-bold">
+                <div class="text-14px">
+                  Tổng chi phí
+                </div>
+                <div class="text-20px">
+                  {{plugins.formatNumber(tongChiPhi)}}đ
+                </div>
+              </div>
+              <div class="chart" id="chartTongChiPhi" style="width:100%; height: 100%;"></div>
+            </ion-card-content>
+          </ion-card>
+          <ion-card class="m-0">
+            <ion-card-content>
+              <div class="text-center text-primary fw-bold">
+                <div class="text-14px">
+                  Thống kê lợi nhuận
+                </div>
+              </div>
+              <div class="chart" id="chartLoiNhuan" style="width:100%; height: 100%;"></div>
+              <div class="text-17px">
+                Tổng doanh thu: <br />
+                <div class="fw-bold">
+                  {{plugins.formatNumber(tongDoanhThu)}}đ
+                </div>
+              </div>
+              <div class="mb-3 bold">
+                Tổng chi phí: <br />
+                <span style="color: #7EB900;">{{plugins.formatNumber(tongChiPhi)}}đ
+                  ({{tongDoanhThu?rounded(tongChiPhi/tongDoanhThu*100):0}}%)</span>
+                <div class="progress mt-2">
+                  <div class="progress-bar xanh" role="progressbar" aria-valuenow="" aria-valuemin="0"
+                    aria-valuemax="100" [ngStyle]="{width: tongDoanhThu?rounded(tongChiPhi/tongDoanhThu*100):0 + '%'}">
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3 bold">
+                Lợi nhuận: <br />
+                <span style="color: #C85757;">{{plugins.formatNumber(tongLoiNhuan)}}đ ({{tongDoanhThu?rounded(100 -
+                  rounded(tongChiPhi/tongDoanhThu*100)):0}}%)</span>
+                <div class="progress mt-2">
+                  <div class="progress-bar do" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"
+                    [ngStyle]="{width: tongDoanhThu?rounded(100 - rounded(tongChiPhi/tongDoanhThu*100)):0 + '%'}">
+                  </div>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </div>
     </div>
-    <div *ngIf="info.role !== 'admin'">
-      <select [(ngModel)]="shopCode" class="form-control select-custom" (change)="changeTypeShow($event)">
-        <option *ngFor="let obj of shopList" [value]="obj">{{obj.code}}</option>
-      </select>
-    </div>
-    <div>
-      <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê doanh số</h5>
-      <ion-card class="mb-3">
-        <ion-card-content class="text-20px fw-bold">
-          Doanh số tổng: <span class="text-danger">{{plugins.formatNumber(tongDoanhSo)}}đ</span>
-        </ion-card-content>
-      </ion-card>
-      <ion-card>
-        <ion-card-content>
-          <div id="chart" class="w-100 h-100"></div>
-        </ion-card-content>
-      </ion-card>
-    </div>
-    <!-- <div *ngIf="listData && !listData.length">
+    <ion-accordion-group *ngIf="listChart && listChart.length; else elseData">
+      <ion-accordion *ngFor="let item of listChart,index as i" class="mb-2 rounded">
+        <ion-item slot="header">
+          <ion-icon class="ion-accordion-toggle-icon custom-icon" name="chevron-down-outline" slot="end">
+          </ion-icon>
+          <ion-label>
+            <div class="row align-items-center">
+              <div class="col-12 d-flex justify-content-between">
+                <div>
+                  <div class="fw-bold">
+                    Thời gian
+                  </div>
+                  <ion-label text-wrap class="text-14px">
+                    {{item.dateCustoms}}
+                  </ion-label>
+                </div>
+                <div>
+                  <div class="fw-bold">
+                    Lợi nhuận
+                  </div>
+                  <p>
+                    {{plugins.formatNumber(item.profit)}}đ
+                  </p>
+                </div>
+              </div>
+            </div>
+          </ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content" style="background-color: #FFC3C3;">
+          <div class="row mb-3 text-12px">
+            <div class="fw-normal col-4" style="min-width: 33.33%;">
+              <div>Doanh thu</div>
+              <div class="fw-bold">{{plugins.formatNumber(item.revenue)}}đ</div>
+            </div>
+            <div class="fw-normal col-4" style="min-width: 33.33%;">
+              <div>Chi phí giá vốn</div>
+              <div class="fw-bold">{{plugins.formatNumber(item.costPrice)}}đ</div>
+            </div>
+            <div class="fw-normal col-4" style="min-width: 33.33%;">
+              <div>
+                Chi phí vận hành
+              </div>
+              <div class="fw-bold">{{plugins.formatNumber(item.operatingCost)}}đ</div>
+            </div>
+          </div>
+          <div class="row mb-3 text-12px">
+            <div class="fw-normal col-4" style="min-width: 33.33%;">
+              <div>Chi phí marketing</div>
+              <div class="fw-bold">{{plugins.formatNumber(item.mktCost)}}đ</div>
+            </div>
+            <div class="fw-normal col-4" style="min-width: 33.33%;">
+              <div>Chi phí vận chuyển</div>
+              <div class="fw-bold">{{plugins.formatNumber(item.shippingCost)}}đ</div>
+            </div>
+            <div class="fw-normal col-4" style="min-width: 33.33%;">
+              <div>
+                Chi phí khác
+              </div>
+              <div class="fw-bold">{{plugins.formatNumber(item.otherCost)}}đ</div>
+            </div>
+
+          </div>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+    <ng-template #elseData>
       <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
         <i class="fa-solid fa-chart-pie text-sub-content mb-3" style="font-size: 100px"></i>
         <h5 class="text-sub-content">Không có dữ liệu!</h5>
       </div>
-    </div> -->
+    </ng-template>
     <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
       (didDismiss)="setOpen(false)"></ion-toast>
   </ion-content>
   <ion-footer [translucent]="true" *ngIf="info.role ==='admin'">
     <ion-toolbar mode="md" class="footer-container">
-      <ion-segment [scrollable]="true" color="dark" value="revenue">
+      <ion-segment [scrollable]="true" color="dark" value="cost">
         <ion-segment-button value="utm" routerLink="/utm-statistic" style="border: none;font-size: 10px">
           <ion-label text-wrap class="fw-bold">Thông kê hiệu suất
             marketing</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="revenue" routerLink="/statiscal-revenue"
-          style="font-size: 10px;;background: #035287;">
-          <ion-label class="fw-bold text-white">Thống kê doanh số</ion-label>
+        <ion-segment-button value="revenue" routerLink="/statiscal-revenue" style="font-size: 10px;background: #035287;">
+          <ion-label class="fw-bold text-white">Thống kê dòng tiền</ion-label>
         </ion-segment-button>
         <ion-segment-button value="cost" routerLink="/statiscal-cost" style="font-size: 10px;">
-          <ion-label class="fw-bold">Thống kê chi phí</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="cost" routerLink="/statiscal-money" style="font-size: 10px;">
-          <ion-label class="fw-bold">Thống kê dòng tiền</ion-label>
+          <ion-label class="fw-bold ">Thống kê chi phí</ion-label>
         </ion-segment-button>
         <ion-segment-button value="statistic-performance-sale" routerLink="/statistic-performance-sale"
           style="font-size: 10px;">

@@ -172,7 +172,28 @@ export class XuLyProduct implements OnInit {
   getValueInventory(value: any) {
     this.productModelProp = value;
   }
+  validInfo() {
+
+    if (!this.name) {
+      this.isToastOpen = true;
+      this.messageToast = 'Tên sản phẩm không được để trống';
+      return false;
+    }
+    if (!this.code) {
+      this.isToastOpen = true;
+      this.messageToast = 'Mã sản phẩm không được để trống';
+      return false;
+    }   
+    if (!this.warehouseId) {
+      this.isToastOpen = true;
+      this.messageToast = 'Kho không được để trống';
+      return false;
+    } 
+    return true;
+  
+  }
   saveInfo() {
+    this.validInfo()
     const properties = this.properties.filter(
       (item: any) => item.giaTri && item.thuocTinh
     );

@@ -1,0 +1,7 @@
+ion-item[slot="header"] {
+  --background: #ffffff;
+}
+
+ion-item::part(native) {
+  border-color: #fff;
+}
