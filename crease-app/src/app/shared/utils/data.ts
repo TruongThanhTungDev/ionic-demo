@@ -217,7 +217,7 @@ export const ROUTES = [
       },
       {
         path: '/statiscal-revenue',
-        title: 'Thống kê doanh số',
+        title: 'Thống kê dòng tiền',
         icon: 'nc-basket',
         class: '',
         role: 'admin',
@@ -226,14 +226,6 @@ export const ROUTES = [
       {
         path: '/statiscal-cost',
         title: 'Thống kê chi phí',
-        icon: 'nc-basket',
-        class: '',
-        role: 'admin',
-        params: '',
-      },
-      {
-        path: '/statiscal-money',
-        title: 'Thống kê dòng tiền',
         icon: 'nc-basket',
         class: '',
         role: 'admin',

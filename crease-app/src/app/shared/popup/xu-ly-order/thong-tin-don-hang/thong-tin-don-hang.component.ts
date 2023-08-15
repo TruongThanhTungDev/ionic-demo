@@ -147,16 +147,26 @@ export class ThongTinDonHangOrder implements OnInit {
     this.getCost();
   }
   onChangeProduct(event: any) {
-    this.selectedProduct = event;
+    console.log(this.selectedProduct)
+    this.selectedProduct=event
+    if(this.selectedProduct &&this.selectedProduct.availableQuantity <= 0)
+    {
+      this.isToastOpen = true;
+      this.messageToast = 'Sản phẩm không đủ số lượng để bán';
+      this.selectedProduct=null;
+      
+      return;
+    }
     const item = {
-      price: event.price,
+      price: event? event.price: 0,
       product: event,
       quantity: 1,
     };
+    console.log(this.productOption)
     this.productOption.push(item);
     setTimeout(() => {
       this.selectedProduct = null;
-    }, 200);
+    }, 100);
   }
   public getCost() {
     let entity = { code: 'CPVC' + this.shopCode };
@@ -178,6 +188,7 @@ export class ThongTinDonHangOrder implements OnInit {
       );
   }
   getTotalMoney() {
+    console.log(this.products)
     if (this.productOption && !this.productOption.length) return;
     if (this.products && !this.productOption.length) {
       this.totalMoney = 0;
@@ -213,6 +224,8 @@ export class ThongTinDonHangOrder implements OnInit {
     }
   }
   saveInfo() {
+    
+
     const value = {
       products: this.productOption,
       deliveryFee: this.deliveryFee,
