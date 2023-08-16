@@ -30,6 +30,7 @@ import { HangLoiComponent } from '../pages/kho/hang-loi/hang-loi.component';
 import { QuanLiSanPhamComponent } from '../pages/quan-li-san-pham/quan-li-san-pham.component';
 import { SwiperModule } from 'swiper/angular';
 import { StatiscalRevenueComponent } from '../pages/statiscal-revenue/statiscal-revenue.component';
+import { StatisticGenaral } from '../pages/statistics-genaral/statistics-genaral.component';
 
 @NgModule({
   imports: [
@@ -64,7 +65,8 @@ import { StatiscalRevenueComponent } from '../pages/statiscal-revenue/statiscal-
     XuatHangComponent,
     HangLoiComponent,
     QuanLiSanPhamComponent,
-    StatiscalRevenueComponent
+    StatiscalRevenueComponent,
+    StatisticGenaral,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
