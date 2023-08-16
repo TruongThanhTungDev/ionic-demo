@@ -22,6 +22,7 @@ import { XuatHangComponent } from '../pages/kho/xuat-hang/xuat-hang.component';
 import { HangLoiComponent } from '../pages/kho/hang-loi/hang-loi.component';
 import { QuanLiSanPhamComponent } from '../pages/quan-li-san-pham/quan-li-san-pham.component';
 import { StatiscalRevenueComponent } from '../pages/statiscal-revenue/statiscal-revenue.component';
+import { StatisticGenaral } from '../pages/statistics-genaral/statistics-genaral.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -121,5 +122,9 @@ export const LayoutRoutes: Routes = [
   {
     path: 'statiscal-revenue',
     component: StatiscalRevenueComponent,
+  },
+  {
+    path: 'statistics-genaral',
+    component: StatisticGenaral,
   },
 ];
