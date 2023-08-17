@@ -107,7 +107,7 @@
           </ion-icon>
           <ion-label>
             <div class="row align-items-center">
-              <div class="col-12 d-flex justify-content-between">
+              <div class="col-12 d-flex justify-content-between text-12px">
                 <div>
                   <div class="fw-bold">
                     Thời gian
@@ -129,7 +129,7 @@
           </ion-label>
         </ion-item>
         <div class="ion-padding" slot="content" style="background-color: #FFC3C3;">
-          <div class="row mb-3 text-12px">
+          <div class="row mb-3 text-10px">
             <div class="fw-normal col-4" style="min-width: 33.33%;">
               <div>Doanh thu</div>
               <div class="fw-bold">{{plugins.formatNumber(item.revenue)}}đ</div>
@@ -145,7 +145,7 @@
               <div class="fw-bold">{{plugins.formatNumber(item.operatingCost)}}đ</div>
             </div>
           </div>
-          <div class="row mb-3 text-12px">
+          <div class="row mb-3 text-10px">
             <div class="fw-normal col-4" style="min-width: 33.33%;">
               <div>Chi phí marketing</div>
               <div class="fw-bold">{{plugins.formatNumber(item.mktCost)}}đ</div>
@@ -180,6 +180,10 @@
         <ion-segment-button value="utm" routerLink="/utm-statistic" style="border: none;font-size: 10px">
           <ion-label text-wrap class="fw-bold">Thông kê hiệu suất
             marketing</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="genaral" routerLink="/statiscal-genaral"
+          style="font-size: 10px">
+          <ion-label class="fw-bold ">Thống kê doanh số</ion-label>
         </ion-segment-button>
         <ion-segment-button value="revenue" routerLink="/statiscal-revenue" style="font-size: 10px;background: #035287;">
           <ion-label class="fw-bold text-white">Thống kê dòng tiền</ion-label>
