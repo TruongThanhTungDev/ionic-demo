@@ -31,53 +31,83 @@
           <input *ngIf="typeShow == 2" type="text" class="form-control form-control-sm" [(ngModel)]="year"
             placeholder="Năm" (change)="statistic()">
         </div>
-        <div class="row p-1">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex mb-4">
-                <div class="div-count ml-4" [ngClass]="{ 'select-count': listCheck[0]}" (click)="onChangeCheck(0)">
-                  <label>Tổng chi phí</label> <br />
-                  <span class="bold">{{plugins.formatNumber(tongChiPhi)}}đ</span>
+      </div>
+    </div>
+    <div *ngIf="info.role!='admin'" class="w-30">
+      <select [(ngModel)]="shopCode" class="form-control select-custom pl-3 " (change)="statistic()">
+        <option *ngFor="let obj of shopList" [value]="obj.code">{{obj.code}}</option>
+      </select>
+    </div>
+    <div class="w-50">
+      <a class="btn btn-sm btn-success m-0 text-10px" data-toggle="collapse" role="button" aria-expanded="false"
+        aria-controls="chart" routerLink="/cost">
+        <i class="fa fa-mail-forward mr-1"></i> Bản ghi chi phí</a>
+    </div>
+
+    <ion-card class="mx-0">
+      <ion-card-content>
+        <div>
+          <div class="row mb-2">
+            <div class="col-4" style="padding-right: 0;">
+              <div class="text-12px border border-primary p-1" style="border-radius: 5px;"
+                [class]="listCheck[0] ? 'select-count text-white' : 'text-primary'" (click)="onChangeCheck(0)">
+                <div class="text-9px">
+                  Tổng chi phí
                 </div>
-                <div class="div-count ml-4" [ngClass]="{ 'select-count': listCheck[1]}" (click)="onChangeCheck(1)">
-                  <label>Chi phí marketing</label> <br />
-                  <span class="bold">{{plugins.formatNumber(chiPhiMKT)}}đ</span>
-                </div>
-                <div class="div-count ml-4" [ngClass]="{ 'select-count': listCheck[2]}" (click)="onChangeCheck(2)">
-                  <label>Chi phí vận hành</label> <br />
-                  <span class="bold">{{plugins.formatNumber(chiPhiVanHanh)}}đ</span>
-                </div>
-                <div class="div-count ml-4" [ngClass]="{ 'select-count': listCheck[3]}" (click)="onChangeCheck(3)">
-                  <label>Chi phí vận chuyển</label> <br />
-                  <span class="bold">{{plugins.formatNumber(chiPhiVanChuyen)}}đ</span>
-                </div>
-                <div class="div-count ml-4" [ngClass]="{ 'select-count': listCheck[4]}" (click)="onChangeCheck(4)">
-                  <label>Chi phí khác</label> <br />
-                  <span class="bold">{{plugins.formatNumber(chiPhiKhac)}}đ</span>
+                <div class="fw-bold text-nowrap overflow-x-auto">
+                  {{plugins.formatNumber(tongChiPhi)}}đ
                 </div>
               </div>
-              <div class="chart" id="chart"></div>
+            </div>
+            <div class="col-4" style="padding-right: 0;">
+              <div class="text-12px border border-primary p-1" style="border-radius: 5px;"
+                [class]="listCheck[1] ? 'select-count text-white' : 'text-primary'" (click)="onChangeCheck(1)">
+                <div class="text-9px">
+                  Chi phí marketing
+                </div>
+                <div class="fw-bold text-nowrap overflow-x-auto">
+                  {{plugins.formatNumber(chiPhiMKT)}}đ
+                </div>
+              </div>
+            </div>
+            <div class="col-4" style="padding-right: 0;">
+              <div class="text-12px border border-primary p-1" style="border-radius: 5px;"
+                [class]="listCheck[2] ? 'select-count text-white' : 'text-primary'" (click)="onChangeCheck(2)">
+                <div class="text-9px">
+                  Chi phí vận hành
+                </div>
+                <div class="fw-bold text-nowrap overflow-x-auto">
+                  {{plugins.formatNumber(chiPhiVanHanh)}}đ
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-4" style="padding-right: 0;">
+              <div class="text-12px border border-primary p-1" style="border-radius: 5px;"
+                [class]="listCheck[3] ? 'select-count text-white' : 'text-primary'" (click)="onChangeCheck(3)">
+                <div class="text-9px">
+                  Chi phí vận chuyển
+                </div>
+                <div class="fw-bold text-nowrap overflow-x-auto">
+                  {{plugins.formatNumber(chiPhiVanChuyen)}}đ
+                </div>
+              </div>
+            </div>
+            <div class="col-4" style="padding-right: 0;">
+              <div class="text-12px border border-primary p-1" style="border-radius: 5px;"
+                [class]="listCheck[4] ? 'select-count text-white' : 'text-primary'" (click)="onChangeCheck(4)">
+                <div class="text-9px">
+                  Chi phí khác
+                </div>
+                <div class="fw-bold text-nowrap overflow-x-auto">
+                  {{plugins.formatNumber(chiPhiKhac)}}đ
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>   
-      </div>
-      <div *ngIf="info.role!='admin'" class="w-30">
-        <select [(ngModel)]="shopCode" class="form-control select-custom pl-3 " (change)="statistic()">
-          <option *ngFor="let obj of shopList" [value]="obj.code">{{obj.code}}</option>
-        </select>
-      </div>
-      <div class="w-50">
-        <a class="btn btn-sm btn-success m-0 text-10px" data-toggle="collapse" role="button" aria-expanded="false"
-          aria-controls="chart" routerLink="/cost">
-          <i class="fa fa-mail-forward mr-1"></i> Bản ghi chi phí</a>
-      </div>
-    
-    <ion-card>
-      <ion-card-content>     
-      <div id="chart"></div>
+        <div id="chart"></div>
       </ion-card-content>
     </ion-card>
     <ng-template #elseDiv>
@@ -95,14 +125,13 @@
         <ion-segment-button value="utm" routerLink="/utm-statistic" style="border: none;font-size: 10px">
           <ion-label text-wrap class="fw-bold">Thông kê hiệu suất
             marketing</ion-label>
-        </ion-segment-button>  
+        </ion-segment-button>
         <ion-segment-button value="revenue" routerLink="/statiscal-revenue" style="font-size: 10px;">
           <ion-label class="fw-bold">Thống kê dòng tiền</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="genaral" routerLink="/statistics-genaral"
-          style="font-size: 10px">
+        <ion-segment-button value="genaral" routerLink="/statistics-genaral" style="font-size: 10px">
           <ion-label class="fw-bold ">Thống kê doanh số</ion-label>
-        </ion-segment-button>             
+        </ion-segment-button>
         <ion-segment-button value="cost" routerLink="/statiscal-cost" style="font-size: 10px;background: #035287;">
           <ion-label class="fw-bold text-white">Thống kê chi phí</ion-label>
         </ion-segment-button>
