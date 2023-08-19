@@ -54,7 +54,6 @@ import { ThongTinSanPhamComponent } from './shared/popup/xu-ly-product/thong-tin
 import { MauMaSanPhamComponent } from './shared/popup/xu-ly-product/mau-ma-san-pham/mau-ma-san-pham';
 import { DanhMucProductComponent } from './shared/popup/danh-muc-san-pham/danh-muc-san-pham.component';
 import { SwiperModule } from 'swiper/angular';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
 @NgModule({
   declarations: [
     OnlyNumberDirective,
@@ -116,7 +115,6 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     BrowserAnimationsModule,
     HighchartsChartModule,
     SwiperModule,
-    TooltipModule.forRoot(),
   ],
   providers: [
     {
