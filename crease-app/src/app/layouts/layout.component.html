@@ -53,8 +53,8 @@
   </ion-menu>
   <div class="ion-page" id="main-content">
     <ion-header class="py-3 px-4 text-white d-flex header-container justify-content-between w-100 align-items-center">
-      <div *ngIf="!isChange; else elseButton">
-        <ion-menu-toggle class="bg-content" style="padding: 8px 10px; border-radius: 50%;">
+      <div class="d-flex align-items-center" *ngIf="!isChange; else elseButton">
+        <ion-menu-toggle class="bg-content d-block" style="padding: 7px 10px; border-radius: 50%;">
           <i class="fa-solid fa-bars text-primary" style="font-size: 20px;"></i>
         </ion-menu-toggle>
         <ion-label class="fw-bold" style="margin-left: 6px; font-size: 14px;">{{titleHeader}}</ion-label>
