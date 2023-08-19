@@ -36,7 +36,7 @@
           </div>
         </div>
         <div class="row text-14px fw-bold">
-          <div class="col" id="click-trigger">
+          <div class="col">
             {{(dashboardData ?
             plugins.formatNumber(dashboardData.netRevenue) : 0)}}đ
           </div>
@@ -63,11 +63,11 @@
                 Chi phí
               </div>
               <div class="d-flex align-items-center">
-                <div class="text-20px fw-bold">
+                <div class="text-24px fw-bold">
                   {{(dashboardData ?
                   plugins.formatNumber(dashboardData.cost) : 0)}}đ
                 </div>
-                <div class="text-danger fw-bold text-16px bg-warning px-1 rounded" style="margin-left: 8px;">
+                <div class="text-danger fw-bold text-24px bg-warning px-1 rounded" style="margin-left: 8px;">
                   {{dashboardData ? (dashboardData.revenue != 0 ? rounded(dashboardData.cost/dashboardData.revenue *
                   100)
                   :
@@ -80,18 +80,18 @@
                 Chi phí sau hoàn ước tính
               </div>
               <div class="d-flex align-items-center">
-                <div class="text-20px fw-bold">
+                <div class="text-24px fw-bold">
                   {{dashboardData ?
                   plugins.formatNumber(dashboardData.netCost): 0}}đ
                 </div>
-                <div class="text-danger fw-bold text-16px bg-warning px-1 rounded" style="margin-left: 8px;">
+                <div class="text-danger fw-bold text-24px bg-warning px-1 rounded" style="margin-left: 8px;">
                   {{dashboardData ? (dashboardData.revenue != 0 ?
                   rounded(dashboardData.netCost/dashboardData.revenue*100) : 100) : 0}}%
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </div>>
       </ng-template>
       <ng-template swiperSlide class="swiper-slide_loi-nhuan position-relative">
         <i class="fa-solid fa-arrow-right text-white position-absolute" style="font-size: 20px; right: 1rem"
@@ -222,7 +222,7 @@
       <div class="row">
         <div class="col-6">
           <ion-card class="m-0 d-flex align-items-center" style="height: 80px;">
-            <ion-card-content class="d-flex align-items-center px-2 py-3 overflow-x-auto">
+            <ion-card-content class="d-flex align-items-center px-2 py-3">
               <div style="margin-right: 6px;">
                 <i class="fa-solid fa-box p-2 bg-success rounded-circle text-white" style="font-size: 20px;"></i>
               </div>
@@ -230,7 +230,7 @@
                 <div class="text-9px">
                   Hàng có thể bán
                 </div>
-                <div class="fw-bold text-16px text-nowrap">
+                <div class="fw-bold text-16px">
                   {{dashboardData ? plugins.formatNumber(dashboardData.availableProduct): 0}}
                 </div>
               </div>
@@ -239,7 +239,7 @@
         </div>
         <div class="col-6" style="padding-left: 0;">
           <ion-card class="m-0 d-flex align-items-center" style="height: 80px;">
-            <ion-card-content class="d-flex align-items-center px-2 py-3 overflow-x-auto">
+            <ion-card-content class="d-flex align-items-center px-2 py-3">
               <div style="margin-right: 6px;">
                 <i class="fa-solid fa-box p-2 bg-danger rounded-circle text-white" style="font-size: 20px;"></i>
               </div>
@@ -247,7 +247,7 @@
                 <div class="text-9px">
                   Giá trị hàng tồn kho có thể bán
                 </div>
-                <div class="fw-bold text-16px text-nowrap">
+                <div class="fw-bold text-16px">
                   {{dashboardData ? plugins.formatNumber(dashboardData.availableProductPrice) : 0}} đ
                 </div>
               </div>
@@ -286,7 +286,7 @@
                 <div class="text-9px">
                   Doanh thu
                 </div>
-                <div class="fw-bold text-nowrap overflow-x-auto">
+                <div class="fw-bold">
                   {{plugins.formatNumber(dashboardData?dashboardData.revenue:0)}}đ
                 </div>
               </div>
@@ -297,7 +297,7 @@
                 <div class="text-9px">
                   Chi phí
                 </div>
-                <div class="fw-bold text-nowrap overflow-x-auto">
+                <div class="fw-bold">
                   {{plugins.formatNumber(dashboardData?dashboardData.cost:0)}}đ
                 </div>
               </div>
@@ -308,7 +308,7 @@
                 <div class="text-9px">
                   Lợi nhuận
                 </div>
-                <div class="fw-bold text-nowrap overflow-x-auto">
+                <div class="fw-bold">
                   {{plugins.formatNumber(dashboardData?dashboardData.profit:0)}}đ
                 </div>
               </div>
@@ -321,7 +321,7 @@
                 <div class="text-9px">
                   Đơn đối soát
                 </div>
-                <div class="fw-bold text-nowrap overflow-x-auto">
+                <div class="fw-bold">
                   {{plugins.formatNumber(dashboardData?dashboardData.totalRevenueOrder:0)}}
                 </div>
               </div>
@@ -332,7 +332,7 @@
                 <div class="text-9px">
                   GTTB
                 </div>
-                <div class="fw-bold text-nowrap overflow-x-auto">
+                <div class="fw-bold">
                   {{dashboardData?(dashboardData.totalRevenueOrder?plugins.formatNumber(rounded(dashboardData.revenue/dashboardData.totalRevenueOrder)):0):0}}đ
                 </div>
               </div>
@@ -343,7 +343,7 @@
       </ion-card-content>
     </ion-card>
     <ion-card class="mx-0 mt-0 mb-3">
-      <ion-card-content class="position-relative overflow-x-auto">
+      <ion-card-content class="position-relative">
         <i class="fa-solid fa-arrow-right text-primary position-absolute" style="font-size: 20px; right: 1rem"
           [routerLink]="'/utm-statistic'"></i>
         <div class="mb-3">
@@ -365,16 +365,16 @@
             </div>
           </div>
           <div class="row mb-3 text-12px fw-bold" style="color: #51B333;">
-            <div class="col-3 text-nowrap" style="padding-right: 0;">
+            <div class="col-3" style="padding-right: 0;">
               {{plugins.formatNumber(dashboardData?dashboardData.marketingPerformanceDto.sumData:0)}}
             </div>
-            <div class="col-3 text-nowrap" style="padding-right: 0;">
+            <div class="col-3" style="padding-right: 0;">
               {{plugins.formatNumber(dashboardData?dashboardData.marketingPerformanceDto.sumOrder:0)}}
             </div>
-            <div class="col-3 text-nowrap" style="padding-right: 0;">
+            <div class="col-3" style="padding-right: 0;">
               {{plugins.formatNumber(rounded(dashboardData?dashboardData.marketingPerformanceDto.tlc:0))}}%
             </div>
-            <div class="col-3 text-nowrap" style="padding-right: 0;">
+            <div class="col-3" style="padding-right: 0;">
               {{plugins.formatNumber(dashboardData?dashboardData.marketingPerformanceDto.adsSumOrder:0)}}đ
             </div>
           </div>
@@ -391,20 +391,20 @@
           </div>
         </div>
         <div class="row mb-1 text-12px fw-bold" style="color: #51B333;">
-          <div class="col-4 text-nowrap" style="padding-right: 0;">
+          <div class="col-4" style="padding-right: 0;">
             {{plugins.formatNumber(dashboardData?dashboardData.marketingPerformanceDto.adsSumData:0)}}đ
           </div>
-          <div class="col-4 text-nowrap" style="padding-right: 0;">
+          <div class="col-4" style="padding-right: 0;">
             {{plugins.formatNumber(rounded(dashboardData?dashboardData.marketingPerformanceDto.adsSumRevenue:0))}}%
           </div>
-          <div class="col-4 text-nowrap" style="padding-right: 0;">
+          <div class="col-4" style="padding-right: 0;">
             {{plugins.formatNumber(dashboardData?dashboardData.marketingPerformanceDto.sumRevenue:0)}}đ
           </div>
         </div>
       </ion-card-content>
     </ion-card>
     <ion-card class="mx-0 mt-0 mb-3">
-      <ion-card-content class="position-relative overflow-x-auto">
+      <ion-card-content class="position-relative">
         <i class="fa-solid fa-arrow-right text-primary position-absolute" style="font-size: 20px; right: 1rem"
           [routerLink]="'/statistic-performance-sale'"></i>
         <div class="mb-3">
@@ -423,13 +423,13 @@
             </div>
           </div>
           <div class="row mb-3 text-12px fw-bold" style="color: #51B333;">
-            <div class="col-4 text-nowrap" style="padding-right: 0;">
+            <div class="col-4" style="padding-right: 0;">
               {{plugins.formatNumber(dashboardData?dashboardData.saleKpiStatisticResponse.sum.sumTotalOrderAssigned:0)}}
             </div>
-            <div class="col-4 text-nowrap" style="padding-right: 0;">
+            <div class="col-4" style="padding-right: 0;">
               {{plugins.formatNumber(dashboardData?dashboardData.saleKpiStatisticResponse.sum.sumTotalOrderProcessed:0)}}
             </div>
-            <div class="col-4 text-nowrap" style="padding-right: 0;">
+            <div class="col-4" style="padding-right: 0;">
               {{plugins.formatNumber(dashboardData?dashboardData.saleKpiStatisticResponse.sum.sumOrderProcessingRate:0)}}%
             </div>
           </div>
@@ -446,18 +446,18 @@
           </div>
         </div>
         <div class="row mb-3 text-12px fw-bold" style="color: #51B333;">
-          <div class="col-4 text-nowrap" style="padding-right: 0;">
+          <div class="col-4" style="padding-right: 0;">
             {{plugins.formatNumber(dashboardData?dashboardData.saleKpiStatisticResponse.sum.sumTotalOrderSuccess:0)}}
           </div>
-          <div class="col-4 text-nowrap" style="padding-right: 0;">
+          <div class="col-4" style="padding-right: 0;">
             {{plugins.formatNumber(dashboardData?dashboardData.saleKpiStatisticResponse.sum.sumOrderSuccessRate:0)}}%
           </div>
-          <div class="col-4 text-nowrap" style="padding-right: 0;">
+          <div class="col-4" style="padding-right: 0;">
             {{plugins.formatNumber(dashboardData?dashboardData.saleKpiStatisticResponse.sum.sumSales:0)}}đ
           </div>
         </div>
         <div class="row mb-1 text-9px text-primary">
-          <div class="col-4 text-nowrap" style="padding-right: 0;">
+          <div class="col-4" style="padding-right: 0;">
             GTTB đơn hàng
           </div>
           <div class="col-4" style="padding-right: 0;">
