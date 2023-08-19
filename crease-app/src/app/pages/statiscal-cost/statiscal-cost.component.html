@@ -31,6 +31,38 @@
           <input *ngIf="typeShow == 2" type="text" class="form-control form-control-sm" [(ngModel)]="year"
             placeholder="Năm" (change)="statistic()">
         </div>
+        <div class="row p-1">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex mb-4">
+                <div class="div-count ml-4" [ngClass]="{ 'select-count': listCheck[0]}" (click)="onChangeCheck(0)">
+                  <label>Tổng chi phí</label> <br />
+                  <span class="bold">{{plugins.formatNumber(tongChiPhi)}}đ</span>
+                </div>
+                <div class="div-count ml-4" [ngClass]="{ 'select-count': listCheck[1]}" (click)="onChangeCheck(1)">
+                  <label>Chi phí marketing</label> <br />
+                  <span class="bold">{{plugins.formatNumber(chiPhiMKT)}}đ</span>
+                </div>
+                <div class="div-count ml-4" [ngClass]="{ 'select-count': listCheck[2]}" (click)="onChangeCheck(2)">
+                  <label>Chi phí vận hành</label> <br />
+                  <span class="bold">{{plugins.formatNumber(chiPhiVanHanh)}}đ</span>
+                </div>
+                <div class="div-count ml-4" [ngClass]="{ 'select-count': listCheck[3]}" (click)="onChangeCheck(3)">
+                  <label>Chi phí vận chuyển</label> <br />
+                  <span class="bold">{{plugins.formatNumber(chiPhiVanChuyen)}}đ</span>
+                </div>
+                <div class="div-count ml-4" [ngClass]="{ 'select-count': listCheck[4]}" (click)="onChangeCheck(4)">
+                  <label>Chi phí khác</label> <br />
+                  <span class="bold">{{plugins.formatNumber(chiPhiKhac)}}đ</span>
+                </div>
+              </div>
+              <div class="chart" id="chart"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>   
       </div>
       <div *ngIf="info.role!='admin'" class="w-30">
         <select [(ngModel)]="shopCode" class="form-control select-custom pl-3 " (change)="statistic()">
@@ -42,10 +74,10 @@
           aria-controls="chart" routerLink="/cost">
           <i class="fa fa-mail-forward mr-1"></i> Bản ghi chi phí</a>
       </div>
-    </div>
+    
     <ion-card>
-      <ion-card-content>
-        <div id="chart"></div>
+      <ion-card-content>     
+      <div id="chart"></div>
       </ion-card-content>
     </ion-card>
     <ng-template #elseDiv>
@@ -64,13 +96,13 @@
           <ion-label text-wrap class="fw-bold">Thông kê hiệu suất
             marketing</ion-label>
         </ion-segment-button>  
-        <ion-segment-button value="genaral" routerLink="/statiscal-genaral"
-          style="font-size: 10px">
-          <ion-label class="fw-bold ">Thống kê doanh số</ion-label>
-        </ion-segment-button>      
         <ion-segment-button value="revenue" routerLink="/statiscal-revenue" style="font-size: 10px;">
           <ion-label class="fw-bold">Thống kê dòng tiền</ion-label>
         </ion-segment-button>
+        <ion-segment-button value="genaral" routerLink="/statistics-genaral"
+          style="font-size: 10px">
+          <ion-label class="fw-bold ">Thống kê doanh số</ion-label>
+        </ion-segment-button>             
         <ion-segment-button value="cost" routerLink="/statiscal-cost" style="font-size: 10px;background: #035287;">
           <ion-label class="fw-bold text-white">Thống kê chi phí</ion-label>
         </ion-segment-button>
