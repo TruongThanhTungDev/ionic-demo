@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ViewEncapsulation,
-  ElementRef,
-  Renderer2,
-} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Plugin } from 'src/app/plugins/plugins';
 // import Swiper core and required modules
@@ -47,9 +41,7 @@ export class Dashboard implements OnInit {
     private router: Router,
     private localStorage: LocalStorageService,
     private dmService: DanhMucService,
-    private loading: LoadingController,
-    private renderer: Renderer2,
-    private el: ElementRef
+    private loading: LoadingController
   ) {
     this.info = this.localStorage.retrieve('authenticationToken');
     this.shop = this.localStorage.retrieve('shop')
