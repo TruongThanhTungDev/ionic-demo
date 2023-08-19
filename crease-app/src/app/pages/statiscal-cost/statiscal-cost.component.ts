@@ -8,6 +8,7 @@ import { LoadingController } from '@ionic/angular';
 import { Plugin } from 'src/app/plugins/plugins';
 @Component({
   selector: 'statiscal-cost',
+  styleUrls: ['./statiscal-cost.component.scss'],
   templateUrl: './statiscal-cost.component.html',
 })
 export class StatiscalCostComponent implements OnInit, AfterViewInit {
@@ -214,7 +215,7 @@ export class StatiscalCostComponent implements OnInit, AfterViewInit {
       yAxis: {
         labels: {
           formatter: function (this: any): any {
-            return _this.plugins.formatNumber(this.value) + 'đ';
+            return _this.plugins.formatNumber(this.value/1000000)+ 'M' ;
           },
           style: {},
         },
