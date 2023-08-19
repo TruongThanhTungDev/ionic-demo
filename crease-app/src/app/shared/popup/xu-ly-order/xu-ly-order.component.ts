@@ -198,7 +198,7 @@ export class XuLyOrderComponent implements OnInit {
       this.street = this.data.street;
       if (this.data.dataInfo) {
         this.ward = this.data.dataInfo.ward;
-        this.province = this.data.dataInfo.province;
+        this.province = this.data.dataInfo.state;
         this.district = this.data.dataInfo.district;
       }
       if (this.data.productIds && this.data.productIds.length) {
@@ -269,17 +269,23 @@ export class XuLyOrderComponent implements OnInit {
     this.getPrice();
   }
   getTotalMoney() {
-    if (this.listProduct && !this.listProduct.length) return;
+    if (this.listProduct && !this.listProduct.length) {
+      this.totalMoney = 0;
+      return;
+    } else {
     this.totalMoney = this.listProduct.reduce(
       (sum: any, item: any) => sum + item.price,
       0
     );
+    }
   }
   getPrice() {
     this.price = this.totalMoney - this.discount + this.deliveryFee;
   }
   async saveInfo(status: any) {
-    if (!this.valid) return;
+    if (!this.valid) {
+      return;
+    }
     if (
       status === 7 ||
       status === 6 ||
@@ -298,7 +304,7 @@ export class XuLyOrderComponent implements OnInit {
       ...this.data.dataInfo,
       ward: this.ward,
       district: this.district,
-      province: this.province,
+      state: this.province,
       street: this.street,
     };
     if (status === 6) {
@@ -438,7 +444,7 @@ export class XuLyOrderComponent implements OnInit {
           discount: this.discount,
           ward: this.ward,
           district: this.district,
-          province: this.province,
+          state: this.province,
         },
       ],
     };

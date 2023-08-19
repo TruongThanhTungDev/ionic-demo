@@ -25,7 +25,9 @@
         <i class="fa fa-refresh"></i>
         Làm mới
       </button>
-      <datepicker-component [dateRange]="dateRange" (filterDate)="filterDate($event)"></datepicker-component>
+      <div *ngIf="!isCheckOut">
+        <datepicker-component [dateRange]="dateRange" (filterDate)="filterDate($event)" ></datepicker-component>
+      </div>     
     </div>
     <div>
       <div class="position-relative"
@@ -98,7 +100,7 @@
     </ion-toolbar>
   </ion-footer>
   <div class="dropdown position-absolute" style="bottom: 4rem; right: 1rem;">
-    <button id="open-filter" class="btn btn-primary rounded-pill shadow" type="button" (click)="openModalFilter(true)">
+    <button id="open-filter" class="btn btn-primary rounded-pill shadow" type="button" (click)="openModalFilter(true)" [disabled]="isCheckOut">
       <i class="fa-solid fa-filter"></i>
       Lọc
     </button>

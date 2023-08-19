@@ -1,0 +1,77 @@
+<ion-app>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-content class="ion-padding">
+    <div>
+      <datepicker-component [dateRange]="dateRange" (filterDate)="filterDate($event)"></datepicker-component>
+    </div>
+    <div *ngIf="info.role !== 'admin'">
+      <select [(ngModel)]="shopCode" class="form-control select-custom" (change)="changeTypeShow($event)">
+        <option *ngFor="let obj of shopList" [value]="obj">{{obj.code}}</option>
+      </select>
+    </div>
+    <div>
+      <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê doanh số</h5>
+      <ion-card class="mb-3">
+        <ion-card-content class="text-20px fw-bold">
+          Doanh số tổng: <span class="text-danger">{{plugins.formatNumber(tongDoanhSo)}}đ</span>
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-content>
+          <div id="chart" class="w-100 h-100"></div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    <!-- <div *ngIf="listData && !listData.length">
+      <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <i class="fa-solid fa-chart-pie text-sub-content mb-3" style="font-size: 100px"></i>
+        <h5 class="text-sub-content">Không có dữ liệu!</h5>
+      </div>
+    </div> -->
+    <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
+      (didDismiss)="setOpen(false)"></ion-toast>
+  </ion-content>
+  <ion-footer [translucent]="true" *ngIf="info.role ==='admin'">
+    <ion-toolbar mode="md" class="footer-container">
+      <ion-segment [scrollable]="true" color="dark" value="genaral">
+        <ion-segment-button value="utm" routerLink="/utm-statistic"
+          style="border: none;font-size: 10px ">
+          <ion-label text-wrap class="fw-bold ">Thông kê hiệu suất
+            marketing</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="revenue" routerLink="/statiscal-revenue" style="font-size: 10px;">
+          <ion-label class="fw-bold">Thống kê dòng tiền</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="genaral" routerLink="/statistics-genaral"
+          style="font-size: 10px;background: #035287">
+          <ion-label class="fw-bold text-white">Thống kê doanh số</ion-label>
+        </ion-segment-button>
+        
+        <ion-segment-button value="cost" routerLink="/statiscal-cost" style="font-size: 10px;">
+          <ion-label class="fw-bold">Thống kê chi phí</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="statistic-performance-sale" routerLink="/statistic-performance-sale"
+          style="font-size: 10px;">
+          <ion-label class="fw-bold">Thống kê hiệu suất sale</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="statistic-order" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Thống kê đơn hàng</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="statistic-product" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Thống kê sản phẩm</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="statistic-shipping" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Thống kê vận chuyển</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="calllogs" routerLink="/calllogs" style="font-size:10px">
+          <ion-label class="fw-bold">Thống kê cuộc gọi</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="total-cost" routerLink="/notF" style="font-size:10px">
+          <ion-label class="fw-bold">Tài chính tổng hơp</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  </ion-footer>
+</ion-app>
