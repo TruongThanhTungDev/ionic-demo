@@ -341,7 +341,13 @@ export class Dashboard implements OnInit {
           style: {
             fontFamily: 'Montserrat,Helvetica Neue,Arial,sans-serif',
           },
+          scrollablePlotArea: {
+            minWidth: 1000, // Độ rộng tối thiểu của khu vực cuộn
+            scrollPositionX: 0, // Vị trí cuộn ban đầu (1 = cuộn đến cuối)
+          },
         },
+       
+       
         title: {
           text: 'Bảng kết toán',
           align: 'center',
@@ -363,7 +369,7 @@ export class Dashboard implements OnInit {
         yAxis: {
           labels: {
             formatter: function (this: any): any {
-              return _this.plugins.formatNumber(this.value) + 'đ';
+              return _this.plugins.formatNumber(this.value/1000000) + 'M';
             },
           },
           title: {
