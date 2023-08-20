@@ -156,6 +156,7 @@ export class StatisticGenaral implements OnInit {
           fontWeight: 'bold',
         },
       },
+      
       subtitle: {
         text: '',
         align: 'left',
@@ -190,7 +191,7 @@ export class StatisticGenaral implements OnInit {
           // Primary yAxis
           labels: {
             formatter: function (this: any): any {
-              return _this.plugins.formatNumber(this.value) + 'đ';
+              return _this.plugins.formatNumber(this.value/1000000) + 'M';
             },
           },
           title: {
@@ -204,6 +205,12 @@ export class StatisticGenaral implements OnInit {
       tooltip: {
         shared: true,
       },
+      plotOptions: {
+        column: {
+            /* Here is the setting to limit the maximum column width. */
+            maxPointWidth: 20
+        }
+     },
       series: [
         {
           name: 'Doanh số',
