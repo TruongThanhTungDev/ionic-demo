@@ -150,7 +150,7 @@ chartDongTien(listTongDT:any,listChiPhi:any,listLoiNhuan:any,listSubTitle:any) {
       plotShadow: false,
       type: 'column',
       scrollablePlotArea: {
-        minWidth: 2000, // Độ rộng tối thiểu của khu vực cuộn
+        minWidth: 1000, // Độ rộng tối thiểu của khu vực cuộn
         scrollPositionX: 0, // Vị trí cuộn ban đầu (1 = cuộn đến cuối)
       },
     },
