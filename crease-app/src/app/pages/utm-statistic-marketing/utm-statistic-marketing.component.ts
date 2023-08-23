@@ -28,6 +28,9 @@ export class UtmStatisticComponent implements OnInit {
     endDate: moment().utc().format('YYYY-MM-DD'),
   };
   totalDataMarketing = 0;
+  totalCost = 0;
+  totalRevenue = 0;
+  totalOrder = 0;
   activeSlide = 'active';
   inactiveSlide = 'inactive';
   isShowMvp = false;
@@ -92,6 +95,15 @@ export class UtmStatisticComponent implements OnInit {
             },
             0
           );
+          this.totalRevenue = this.listData.details.reduce((a: any, b: any) => {
+            return a + b.revenue;
+          }, 0);
+          this.totalOrder = this.listData.details.reduce((a: any, b: any) => {
+            return a + b.totalOrder;
+          }, 0);
+          this.totalCost = this.listData.details.reduce((a: any, b: any) => {
+            return a + (b.adsRevenue + b.adsTotalOrder + b.adsTotalData);
+          }, 0);
           this.loading.dismiss();
         },
         () => {
