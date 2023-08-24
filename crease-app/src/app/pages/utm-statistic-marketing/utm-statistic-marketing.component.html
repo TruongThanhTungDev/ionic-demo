@@ -24,20 +24,20 @@
     <div *ngIf="!isShowMvp" class="show-statistic">
       <h5 class="fw-bold text-center mt-5" style="color: #187CC0">Thống kê hiệu suất Marketing</h5>
       <div class="text-center mb-1 mt-1">
-        Tổng: {{totalDataMarketing}}
+        Tổng: {{plugins.formatNumber(totalDataMarketing)}}
       </div>
       <div class="text-12px mb-3 d-flex align-items-center justify-content-between">
         <div class="text-center">
           <div>Tổng số đơn</div>
-          <div>{{totalOrder}}</div>
+          <div>{{plugins.formatNumber(totalOrder)}}</div>
         </div>
         <div class="text-center">
           <div>Tổng doanh số</div>
-          <div>{{totalRevenue}}</div>
+          <div>{{plugins.formatNumber(totalRevenue)}}</div>
         </div>
         <div class="text-center">
           <div>Tổng chi phí</div>
-          <div>{{totalCost}}</div>
+          <div>{{plugins.formatNumber(totalCost)}}</div>
         </div>
       </div>
       <button class="btn btn-sm fw-bold btn-primary mb-1" (click)="sortData()">
