@@ -408,5 +408,16 @@ setOpen(open: boolean) {
 public formatNumber(number: any) {
   return Number(number) ? Number(number).toLocaleString("vi-VN") : 0;
 }
+refreshData() {
+  this.dateRange = {
+    startDate: moment().utc().subtract(6, 'days').format('YYYY-MM-DD'),
+    endDate: moment().utc().format('YYYY-MM-DD'),
+  };
+  this.statistic();
+}
+handleRefresh(event: any) {
+  this.statistic();
+  event.target.complete();
+}
 
 }
