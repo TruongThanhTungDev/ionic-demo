@@ -31,6 +31,12 @@
           <input *ngIf="typeShow == 2" type="text" class="form-control form-control-sm" [(ngModel)]="year"
             placeholder="Năm" (change)="statistic()">
         </div>
+        <div class="w-30 mx-1">
+           <button class="btn btn-sm btn-primary fw-bold" (click)="refreshData()">
+              <i class="fa-solid fa-arrows-rotate"></i>
+               Làm mới
+           </button>
+        </div>
       </div>
     </div>
     <div>

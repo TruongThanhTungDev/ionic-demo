@@ -48,7 +48,7 @@ export class StatiscalRevenueComponent implements OnInit{
   };
   ngOnInit(): void {
     if(this.info.role === 'admin'){
-      this.shop = this.localStorage.retrieve("shop")?this.localStorage.retrieve("shop"):'';
+      this.shop = this.localStorage.retrieve("shop") ? this.localStorage.retrieve("shop"):'';
       this.statistic();
   }
   }
@@ -72,7 +72,7 @@ export class StatiscalRevenueComponent implements OnInit{
         this.endDate = moment(this.year.toString()).endOf('year').format("YYYYMMDD");
     }
     this.loadData()
-    console.log(this.listChart)
+    
 }
 
 public async loadData(){
@@ -97,7 +97,6 @@ public async loadData(){
           console.error();
         }
       );
-      console.log(this.listChart) 
 }
 customsData(list: any) {
   this.tongChiPhi=0;
