@@ -2,160 +2,180 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+
   <ion-content class="ion-padding">
-    <div class="col-7 ">
-      <div class="form-group form-outline">
-          <ng-select [clearable]=true [(ngModel)]="taiKhoan" [items]="listTK" bindLabel="name" id="taiKhoan" style="width:35%"
-              (change)="loadData()" placeholder="Chọn tài khoản">
-          </ng-select>
+    <div class="col-12 d-flex">
+      <div class="col-6 d-flex">
+        <select [(ngModel)]="taiKhoan" class="form-select" (change)="loadData()" placeholder="Chọn tài khoản">
+          <option *ngFor="let item of listTK" [value]="item.name">{{item.name}}</option>
+        </select>
+      </div>
+      <div class="col-6">
+        <datepicker-component [dateRange]="dateRange" (filterDate)="filterDate($event)"></datepicker-component>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-6 d-flex">
+        <div class="p-2 d-flex w-100 " style="background: #CCB178;color: white;align-items: center;">
+          <div class="w-30">
+            <i class="fa fa-boxes" style="font-size: 20px;"></i>
+          </div>
+          <div class="w-70">
+            <span style="font-size: 13px;">Tổng đơn nhận</span> <br />
+            <span class="bold" style="font-size: 13px;">{{plugins.formatNumber(listData?listData.totalData:0)}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 ">
+        <div class="p-2 d-flex w-100" style="background: #5EA8E7;color: white;align-items: center">
+          <div class="w-30">
+            <i class="fa fa-sitemap" style="font-size: 20px;"></i>
+          </div>
+          <div class="w-70">
+            <span style="font-size: 13px;">Đang xử lý</span> <br />
+            <span class="bold"
+              style="font-size: 13px;">{{plugins.formatNumber(listData?listData.totalProcessData:0)}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-6 d-flex">
+        <div class="p-2 d-flex w-100" style="background: #46B7A9;color: white;align-items: center">
+          <div class="w-30">
+            <i class="fa fa-star" style="font-size: 20px;"></i>
+          </div>
+          <div class="w-70">
+            <span style="font-size: 13px;">Đơn đã giao</span> <br />
+            <span class="bold"
+              style="font-size: 13px;">{{plugins.formatNumber(listData?listData.totalDelivered:0)}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 d-flex">
+        <div class="p-2 d-flex w-100" style="background: #FBC040;color: white;align-items: center">
+          <div class="w-30">
+            <i class="fa fa-wallet" style="font-size: 20px;"></i>
+          </div>
+          <div class="w-70">
+            <span style="font-size: 13px;">Đợi đối soát</span> <br />
+            <span class="bold"
+              style="font-size: 13px;">{{plugins.formatNumber(listData?listData.priceWaitFinancedData:0)}}đ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-6 d-flex">
+        <div class="p-1 d-flex w-100 " style="background: #f7f3eb;color: white;align-items: center;">
+          <div class="w-30">
+            <i class="fa fa-bus p-1" style="font-size: 20px;background: #CBE4D5;color: #5F7161;"></i>
+          </div>
+          <div class="w-70">
+            <span style="font-size: 10px;color: #0f0f0f;">Đang chuyển kho giao</span> <br />
+            <span class="bold"
+              style="font-size: 13px;color: #0f0f0f;">{{plugins.formatNumber(dangChuyenKhoGiao)}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 d-flex">
+        <div class="p-1 d-flex w-100 " style="background: #f7f3eb;color: white;align-items: center;">
+          <div class="w-30">
+            <i class="fa fa-truck p-1" style="font-size: 20px;background: #C4D6A0;color: #7F8C64;"></i>
+          </div>
+          <div class="w-70">
+            <span style="font-size: 10px;color: #0f0f0f;">Đang giao hàng</span> <br />
+            <span class="bold" style="font-size: 13px;color: #0f0f0f;">{{plugins.formatNumber(dangGiaoHang)}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-6 d-flex">
+        <div class="p-1 d-flex w-100 " style="background: #f7f3eb;color: white;align-items: center;">
+          <div class="w-30">
+            <i class="fa fa-clock-o p-1" style="font-size: 20px;background: #EE91AC;color: #fff;"></i>
+          </div>
+          <div class="w-70">
+            <span style="font-size: 10px;color: #0f0f0f;">Hoãn giao hàng</span> <br />
+            <span class="bold" style="font-size: 13px;color: #0f0f0f;">{{plugins.formatNumber(hoanGiaoHang)}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 d-flex">
+        <div class="p-1 d-flex w-100 " style="background: #f7f3eb;color: white;align-items: center;">
+          <div class="w-30">
+            <i class="fa fa-check-circle p-1" style="font-size: 20px;background: #47AC4F;color: #fff;"></i>
+          </div>
+          <div class="w-70">
+            <span style="font-size: 10px;color: #0f0f0f;">Đã giao hàng</span> <br />
+            <span class="bold" style="font-size: 13px;color: #0f0f0f;">{{plugins.formatNumber(daGiaoHang)}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-6 d-flex">
+        <div class="p-1 d-flex w-100 " style="background: #f7f3eb;color: white;align-items: center;">
+          <div class="w-30">
+            <i class="fa fa-credit-card p-1" style="font-size: 20px;background: #F8C046;color: #fff;"></i>
+          </div>
+          <div class="w-70">
+            <span style="font-size: 10px;color: #0f0f0f;">Đã đối soát giao hàng</span> <br />
+            <span class="bold" style="font-size: 13px;color: #0f0f0f;">{{plugins.formatNumber(daDoiSoat)}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 d-flex">
+        <div class="p-1 d-flex w-100 " style="background: #f7f3eb;color: white;align-items: center;">
+          <div class="w-30">
+            <i class="fa fa-check-circle p-1" style="font-size: 20px;background: #CCB278;color: #fff;"></i>
+          </div>
+          <div class="w-70">
+            <span style="font-size: 10px;color: #0f0f0f;">Xác nhận hoàn</span> <br />
+            <span class="bold" style="font-size: 13px;color: #0f0f0f;">{{plugins.formatNumber(xacNhanHoan)}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-6 d-flex">
+        <div class="p-1 d-flex w-100 " style="background: #f7f3eb;color: white;align-items: center;">
+          <div class="w-30">
+            <i class="fa fa-clock-o p-1" style="font-size: 20px;background: #CACCDB;color: #fff;"></i>
+          </div>
+          <div class="w-70">
+            <span style="font-size: 10px;color: #0f0f0f;">Hoãn trả hàng</span> <br />
+            <span class="bold" style="font-size: 13px;color: #0f0f0f;">{{plugins.formatNumber(hoanTraHang)}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 d-flex">
+        <div class="p-1 d-flex w-100 " style="background: #f7f3eb;color: white;align-items: center;">
+          <div class="w-30">
+            <i class="fa fa-bus p-1" style="font-size: 20px;background: #7FBDAD;color: #33675A;"></i>
+          </div>
+          <div class="w-70">
+            <span style="font-size: 10px;color: #0f0f0f;">Đang chuyển kho trả</span> <br />
+            <span class="bold" style="font-size: 13px;color: #0f0f0f;">{{plugins.formatNumber(dangChuyenKhoTra)}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-6 d-flex">
+        <div class="p-1 d-flex w-100 " style="background: #f3eee3;color: white;align-items: center;">
+          <div class="w-30">
+            <i class="fa fa-exchange p-1" style="font-size: 20px;background: #44B9A7;color: #fff;"></i>
+          </div>
+          <div class="w-70">
+            <span style="font-size: 10px;color: #0f0f0f;">Đã trả hàng toàn bộ</span> <br />
+            <span class="bold" style="font-size: 13px;color: #0f0f0f;">{{plugins.formatNumber(daTraHangToanBo)}}</span>
+          </div>
+        </div>
       </div>
     </div>
     <div>
-      <datepicker-component [dateRange]="dateRange" (filterDate)="filterDate($event)"></datepicker-component>
-    </div>
-    <div class="row d-flex justify-content-center">
-        <div class="col-6 d-flex">
-            <div class="p-3 d-flex" style="min-height: 100px;background: #CCB178;color: white;align-items: center">
-                <div class="w-30">
-                    <i class="fa fa-boxes" style="font-size: 20px;"></i>
-                </div>
-                <div class="w-70">
-                    <span style="font-size: 18px;">Tổng đơn nhận</span> <br />
-                    <span class="bold" style="font-size: 24px;">{{plugins.formatNumber(listData?listData.totalData:0)}}</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 ">
-            <div class="p-3 d-flex" style="min-height: 100px;background: #5EA8E7;color: white;align-items: center">
-                <div class="w-30">
-                    <i class="fa fa-sitemap" style="font-size: 50px;"></i>
-                </div>
-                <div class="w-70">
-                    <span style="font-size: 18px;">Đang xử lý</span> <br />
-                    <span class="bold" style="font-size: 24px;">{{plugins.formatNumber(listData?listData.totalProcessData:0)}}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-         <div class="col-12 col-md-6 col-xl-3">
-            <div class="p-3 d-flex" style="min-height: 100px;background: #46B7A9;color: white;align-items: center">
-                <div class="w-30">
-                    <i class="fa fa-star" style="font-size: 50px;"></i>
-                </div>
-                <div class="w-70">
-                    <span style="font-size: 18px;">Đơn đã giao</span> <br />
-                    <span class="bold" style="font-size: 24px;">{{plugins.formatNumber(listData?listData.totalDelivered:0)}}</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-xl-3">
-            <div class="p-3 d-flex" style="min-height: 100px;background: #FBC040;color: white;align-items: center">
-                <div class="w-30">
-                    <i class="fa fa-wallet" style="font-size: 50px;"></i>
-                </div>
-                <div class="w-70">
-                    <span style="font-size: 18px;">Đợi đối soát</span> <br />
-                    <span class="bold" style="font-size: 24px;">{{plugins.formatNumber(listData?listData.priceWaitFinancedData:0)}}đ</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-       <div class="col-12">
-         <div class="col-6 d-flex">
-            <div class="w-30">
-                <i class="fa fa-bus p-3" style="font-size: 24px;background: #CBE4D5;color: #5F7161;"></i>
-            </div>
-            <div class="w-70">
-                <span style="font-size: 13px;">Đang chuyển kho giao</span> <br />
-                <label class="bold mt-2 mb-0" style="font-size: 14px;">{{plugins.formatNumber(dangChuyenKhoGiao)}}</label>
-            </div>
-         </div>
-         <div class="col-6 d-flex">
-            <div class="w-30">
-                <i class="fa fa-truck p-3" style="font-size: 24px;background: #C4D6A0;color: #7F8C64;"></i>
-            </div>
-            <div class="w-70">
-                <span style="font-size: 13px;">Đang giao hàng</span> <br />
-                <label class="bold mt-2 mb-0" style="font-size: 14px;">{{plugins.formatNumber(dangGiaoHang)}}</label>
-            </div>
-         </div>
-       </div>
-       <div class="col-12">
-         <div class="col-6 d-flex">
-            <div class="w-30">
-                <i class="	fa fa-clock-o p-3" style="font-size: 24px;background: #EE91AC;color: #fff;"></i>
-            </div>
-            <div class="w-70">
-                <span style="font-size: 13px;">Hoãn giao hàng</span> <br />
-                <label class="bold mt-2 mb-0" style="font-size: 14px;">{{plugins.formatNumber(hoanGiaoHang)}}</label>
-            </div>
-         </div>
-         <div class="col-6 d-flex">
-            <div class="w-30">
-                <i class="fa fa-check-circle p-3" style="font-size: 24px;background: #47AC4F;color: #fff;"></i>
-            </div>
-            <div class="w-70">
-                <span style="font-size: 13px;">Đã giao hàng</span> <br />
-                <label class="bold mt-2 mb-0" style="font-size: 14px;">{{plugins.formatNumber(daGiaoHang)}}</label>
-            </div>
-         </div>
-       </div>
-       <div class="col-12">
-         <div class="col-6 d-flex">
-          <div class="w-30">
-              <i class="fa fa-credit-card p-3" style="font-size: 24px;background: #F8C046;color: #fff;"></i>
-          </div>
-          <div class="w-70">
-              <span style="font-size: 13px;">Đã đối soát giao hàng</span> <br />
-              <label class="bold mt-2 mb-0" style="font-size: 14px;">{{plugins.formatNumber(daDoiSoat)}}</label>
-          </div>
-         </div>
-         <div class="col-6 d-flex">
-            <div class="w-30">
-                <i class="fa fa-check-circle p-3" style="font-size: 24px;background: #CCB278;color: #fff;"></i>
-            </div>
-            <div class="w-70">
-                <span style="font-size: 13px;">Xác nhận hoàn</span> <br />
-                <label class="bold mt-2 mb-0" style="font-size: 14px;">{{plugins.formatNumber(xacNhanHoan)}}</label>
-            </div>
-         </div>
-       </div>
-       <div class="col-12">
-         <div class="col-6 d-flex">
-          <div class="w-30">
-              <i class="fa fa-clock-o p-3" style="font-size: 24px;background: #CACCDB;color: #fff;"></i>
-          </div>
-          <div class="w-70">
-              <span style="font-size: 13px;">Hoãn trả hàng</span> <br />
-              <label class="bold mt-2 mb-0" style="font-size: 14px;">{{plugins.formatNumber(hoanTraHang)}}</label>
-          </div>
-         </div>
-         <div class="col-6 d-flex">
-            <div class="w-30">
-                <i class="	fa fa-bus p-3" style="font-size: 24px;background: #7FBDAD;color: #33675A;"></i>
-            </div>
-            <div class="w-70">
-                <span style="font-size: 13px;">Đang chuyển kho trả</span> <br />
-                <label class="bold mt-2 mb-0" style="font-size: 14px;">{{plugins.formatNumber(dangChuyenKhoTra)}}</label>
-            </div>
-         </div>
-       </div>
-       <div class="col-12">
-         <div class="col-6 d-flex">
-          <div class="w-30">
-              <i class="fa fa-exchange p-3" style="font-size: 24px;background: #44B9A7;color: #fff;"></i>
-          </div>
-          <div class="w-70">
-              <span style="font-size: 13px;">Đã trả hàng toàn bộ</span> <br />
-              <label class="bold mt-2 mb-0" style="font-size: 14px;">{{plugins.formatNumber(daTraHangToanBo)}}</label>
-          </div>
-         </div>
-       </div>
-    </div>  
-    <div>
-      <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Thống kê tình trạng đơn hàng</h5>
       <ion-card>
         <ion-card-content>
           <div id="chartTinhTrangDonHang" class="chart"></div>
@@ -163,7 +183,6 @@
       </ion-card>
     </div>
     <div>
-      <h5 class="fw-bold text-center mt-5 mb-3" style="color: #187CC0">Xu hướng lên đơn</h5>
       <ion-card>
         <ion-card-content>
           <div id="chartXuHuongLenDon" class="chart"></div>
@@ -175,20 +194,17 @@
   </ion-content>
   <ion-footer [translucent]="true" *ngIf="info.role ==='admin'">
     <ion-toolbar mode="md" class="footer-container">
-      <ion-segment [scrollable]="true" color="dark" value="genaral">
-        <ion-segment-button value="utm" routerLink="/utm-statistic"
-          style="border: none;font-size: 10px ">
+      <ion-segment [scrollable]="true" color="dark" value="order-shipping">
+        <ion-segment-button value="utm" routerLink="/utm-statistic" style="border: none;font-size: 10px ">
           <ion-label text-wrap class="fw-bold ">Thông kê hiệu suất
             marketing</ion-label>
         </ion-segment-button>
         <ion-segment-button value="revenue" routerLink="/statiscal-revenue" style="font-size: 10px;">
           <ion-label class="fw-bold">Thống kê dòng tiền</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="genaral" routerLink="/statistics-genaral"
-          style="font-size: 10px;background: #035287">
-          <ion-label class="fw-bold text-white">Thống kê doanh số</ion-label>
+        <ion-segment-button value="genaral" routerLink="/statistics-genaral" style="font-size: 10px">
+          <ion-label class="fw-bold ">Thống kê doanh số</ion-label>
         </ion-segment-button>
-        
         <ion-segment-button value="cost" routerLink="/statiscal-cost" style="font-size: 10px;">
           <ion-label class="fw-bold">Thống kê chi phí</ion-label>
         </ion-segment-button>
@@ -196,8 +212,9 @@
           style="font-size: 10px;">
           <ion-label class="fw-bold">Thống kê hiệu suất sale</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="statistic-order" routerLink="/notF" style="font-size:10px">
-          <ion-label class="fw-bold">Thống kê đơn hàng</ion-label>
+        <ion-segment-button value="statistic-order" routerLink="/order-shipping"
+          style="font-size:10px ;background: #035287">
+          <ion-label class="fw-bold text-white">Thống kê đơn hàng</ion-label>
         </ion-segment-button>
         <ion-segment-button value="statistic-product" routerLink="/notF" style="font-size:10px">
           <ion-label class="fw-bold">Thống kê sản phẩm</ion-label>

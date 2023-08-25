@@ -17,7 +17,7 @@ export class StatisticOrderComponent implements OnInit {
   chartOptions: any;
 
   listData: any = [];
-  listTK = [];
+  listTK: any[] = [];
   taiKhoan: any;
   dateChart = [];
   valueChart = [];
@@ -62,32 +62,31 @@ export class StatisticOrderComponent implements OnInit {
       this.shop = this.localStorage.retrieve('shop')
         ? this.localStorage.retrieve('shop')
         : '';
-      this.getTaiKhoan();
     }
   }
-  ngOnInit(): void {}
-  async getTaiKhoan() {
+  ngOnInit(): void {
+    this.getTaiKhoan();
+    console.log(this.listTK);
+  }
+  getTaiKhoan(): void {
     const params = {
       sort: ['id', 'asc'],
       page: 0,
       size: 10000,
       filter: 'id>0',
     };
-    await this.isLoading();
+
     this.dmService.query(params, this.REQUEST_URL_TK).subscribe(
       (res: HttpResponse<any>) => {
         if (res.status === 200) {
-          this.loading.dismiss();
           this.listTK = res.body.RESULT.content;
         } else {
-          this.loading.dismiss();
           this.isToastOpen = true;
           this.messageToast = 'Không có dữ liệu, vui lòng thử lại';
         }
       },
 
       () => {
-        this.loading.dismiss();
         this.isToastOpen = true;
         this.messageToast = 'Có lỗi xảy ra, vui lòng thử lại';
         console.error();
@@ -106,8 +105,9 @@ export class StatisticOrderComponent implements OnInit {
   async loadData() {
     await this.isLoading();
     var date = JSON.parse(JSON.stringify(this.dateRange));
-    let startDate = moment(date.startDate).format('YYYYMMDD') + '000000';
-    let endDate = moment(date.endDate).format('YYYYMMDD') + '235959';
+    date.endDate = date.endDate.replace('23:59:59', '00:00:00');
+    this.startDate = moment(date.startDate).format('YYYYMMDD');
+    this.endDate = moment(date.endDate).format('YYYYMMDD');
     const entity = {
       accountShippingId: this.taiKhoan ? this.taiKhoan.id : null,
       endDate: this.endDate,
@@ -294,11 +294,11 @@ export class StatisticOrderComponent implements OnInit {
       },
       title: {
         text: 'Xu hướng lên đơn',
-                align: 'center',
-                style: {
-                    color: '#006EB9',
-                    fontWeight: 'bold'
-                }
+        align: 'center',
+        style: {
+          color: '#006EB9',
+          fontWeight: 'bold',
+        },
       },
       xAxis: {
         categories: date,
@@ -307,8 +307,8 @@ export class StatisticOrderComponent implements OnInit {
           enabled: true,
         },
         title: {
-          enabled:false
-      }
+          enabled: false,
+        },
       },
       yAxis: {
         labels: {
@@ -317,9 +317,7 @@ export class StatisticOrderComponent implements OnInit {
           // },
         },
         title: {
-          title: {
-            enabled:false
-        }
+          enabled: false,
         },
       },
 
@@ -346,18 +344,19 @@ export class StatisticOrderComponent implements OnInit {
           },
         },
       },
-      series: [{
-        name: 'Đơn hàng',
-        data: value,
-        tooltip: {
-            valueSuffix: ''
+      series: [
+        {
+          name: 'Đơn hàng',
+          data: value,
+          tooltip: {
+            valueSuffix: '',
+          },
+          color: '#006EB9',
+          dataLabels: {
+            enabled: true,
+          },
         },
-        color: '#006EB9',
-        dataLabels:{
-            enabled:true
-        }
-    
-     }],
+      ],
     };
     Highcharts.chart('chartXuHuongLenDon', chartOption);
   }
@@ -375,9 +374,9 @@ export class StatisticOrderComponent implements OnInit {
   }
   setOpen(open: boolean) {
     this.isToastOpen = open;
-  } 
+  }
   public formatNumber(number: any) {
-    return Number(number) ? Number(number).toLocaleString("vi-VN") : 0;
+    return Number(number) ? Number(number).toLocaleString('vi-VN') : 0;
   }
   refreshData() {
     this.dateRange = {
