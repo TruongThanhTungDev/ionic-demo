@@ -1,6 +1,9 @@
 <ion-app>
-  <ion-content class="ion-padding">
-    <div class="d-flex w-100 justify-content-between align-items-center mb-3">
+ <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-content class="ion-padding">   
+    <div class="d-flex w-150 justify-content-between align-items-center mb-3">
       <div class="d-flex w-100">
         <div class="w-40">
           <select [(ngModel)]="typeShow" class="form-control form-control-sm select-custom" (change)="statistic()">
@@ -28,11 +31,6 @@
           <input *ngIf="typeShow == 2" type="text" class="form-control form-control-sm" [(ngModel)]="year"
             placeholder="Năm" (change)="statistic()">
         </div>
-      </div>
-      <div *ngIf="info.role!='admin'" class="w-30">
-        <select [(ngModel)]="shop" class="form-control select-custom pl-3 " (change)="statistic()">
-          <option *ngFor="let obj of shopList" [value]="obj.id">{{obj.id}}</option>
-        </select>
       </div>
     </div>
     <div>
