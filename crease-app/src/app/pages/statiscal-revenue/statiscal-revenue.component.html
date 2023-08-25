@@ -7,26 +7,26 @@
       <div class="d-flex w-100">
         <div class="w-40">
           <select [(ngModel)]="typeShow" class="form-control form-control-sm select-custom" (change)="statistic()">
-            <option value=1>Trong tháng</option>
-            <option value=2>Trong năm</option>
-            <option value=3>Các năm</option>
+            <option [value]=1>Trong tháng</option>
+            <option [value]=2>Trong năm</option>
+            <option [value]=3>Các năm</option>
           </select>
         </div>
         <div class="w-30 mx-1">
           <select *ngIf="typeShow == 1" [(ngModel)]="month" class="form-control form-control-sm select-custom"
             (change)="statistic()">
-            <option value=1>Tháng 1</option>
-            <option value=2>Tháng 2</option>
-            <option value=3>Tháng 3</option>
-            <option value=4>Tháng 4</option>
-            <option value=5>Tháng 5</option>
-            <option value=6>Tháng 6</option>
-            <option value=7>Tháng 7</option>
-            <option value=8>Tháng 8</option>
-            <option value=9>Tháng 9</option>
-            <option value=10>Tháng 10</option>
-            <option value=11>Tháng 11</option>
-            <option value=12>Tháng 12</option>
+            <option [value]=1>Tháng 1</option>
+            <option [value]=2>Tháng 2</option>
+            <option [value]=3>Tháng 3</option>
+            <option [value]=4>Tháng 4</option>
+            <option [value]=5>Tháng 5</option>
+            <option [value]=6>Tháng 6</option>
+            <option [value]=7>Tháng 7</option>
+            <option [value]=8>Tháng 8</option>
+            <option [value]=9>Tháng 9</option>
+            <option [value]=10>Tháng 10</option>
+            <option [value]=11>Tháng 11</option>
+            <option [value]=12>Tháng 12</option>
           </select>
           <input *ngIf="typeShow == 2" type="text" class="form-control form-control-sm" [(ngModel)]="year"
             placeholder="Năm" (change)="statistic()">
