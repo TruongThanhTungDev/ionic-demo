@@ -23,6 +23,7 @@ import { HangLoiComponent } from '../pages/kho/hang-loi/hang-loi.component';
 import { QuanLiSanPhamComponent } from '../pages/quan-li-san-pham/quan-li-san-pham.component';
 import { StatiscalRevenueComponent } from '../pages/statiscal-revenue/statiscal-revenue.component';
 import { StatisticGenaral } from '../pages/statistics-genaral/statistics-genaral.component';
+import { StatisticOrderComponent } from '../pages/statistic-order/statistic-order.component';
 
 export const LayoutRoutes: Routes = [
   {
@@ -85,7 +86,7 @@ export const LayoutRoutes: Routes = [
   },
   {
     path: 'order-shipping',
-    component: OrderStatisticComponent,
+    component: StatisticOrderComponent,
   },
   {
     path: 'kho/lich-su-nhap-xuat',
