@@ -25,8 +25,10 @@ export class HeadersInterceptor implements HttpInterceptor {
         setHeaders: {
           Authorization: header,
           'Accept-Language': 'vi',
+          'Content-Type' : 'application/json'
         },
       });
+      
     }
 
     return next.handle(request);
