@@ -104,7 +104,7 @@
         </div>
       </div>
     </div>
-    <ion-accordion-group *ngIf="listChart && listChart.length; else elseData">
+    <ion-accordion-group *ngIf="listChart && listChart.length;">
       <ion-accordion *ngFor="let item of listChart,index as i" class="mb-2 rounded">
         <ion-item slot="header">
           <ion-icon class="ion-accordion-toggle-icon custom-icon" name="chevron-down-outline" slot="end">
@@ -169,12 +169,12 @@
         </div>
       </ion-accordion>
     </ion-accordion-group>
-    <ng-template #elseData>
+    <!-- <ng-template #elseData>
       <div class="text-center position-absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
         <i class="fa-solid fa-chart-pie text-sub-content mb-3" style="font-size: 100px"></i>
         <h5 class="text-sub-content">Không có dữ liệu!</h5>
       </div>
-    </ng-template>
+    </ng-template> -->
     <ion-toast [isOpen]="isToastOpen" [message]="messageToast" [duration]="3000"
       (didDismiss)="setOpen(false)"></ion-toast>
   </ion-content>
